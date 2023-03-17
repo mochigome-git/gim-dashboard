@@ -1,0 +1,71 @@
+{
+  "name": "inkjet-dashboard-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/material": "^5.10.16",
+    "@mui/x-data-grid": "^5.17.14",
+    "@mui/x-data-grid-generator": "^5.17.14",
+    "@supabase/auth-helpers-react": "^0.3.1",
+    "@supabase/auth-ui-react": "^0.2.6",
+    "@supabase/realtime-js": "^2.1.0",
+    "@supabase/supabase-js": "^2.8.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "^5.0.2",
+    "chart.js": "^4.0.1",
+    "chroma-js": "^2.4.2",
+    "datatables.net": "^1.13.2",
+    "dotenv": "^16.0.3",
+    "fusioncharts": "^3.19.0",
+    "highcharts": "^10.3.2",
+    "highcharts-react-official": "^3.1.0",
+    "igniteui-react-charts": "^18.1.1",
+    "jquery": "^3.6.3",
+    "moment": "^2.29.4",
+    "mui-datatables": "^4.3.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.0.1",
+    "react-dom": "^18.2.0",
+    "react-fusioncharts": "^4.0.0",
+    "react-github-btn": "^1.4.0",
+    "react-helmet": "^6.1.0",
+    "react-highcharts": "^16.1.0",
+    "react-jsx-highstock": "^5.0.0",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
+    "react-table": "^7.8.0",
+    "stylis-plugin-rtl": "2.0.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

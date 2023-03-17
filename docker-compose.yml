@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./reactApp:/opt/inkjet-dashboard-app/reactApp # ローカルをコンテナ内にマウント
+    command: sh -c "npm start"
+    ports:
+      - "3001:3001"
+    stdin_open: true 
+    restart: always

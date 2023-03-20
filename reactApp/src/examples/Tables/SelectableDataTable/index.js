@@ -130,8 +130,9 @@ function SelectableDataTable({
   const [selected, setSelected] = React.useState([]);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0 /*, hiddenColumns: ["created_at","insertdate"]*/ } },
+    { columns, data, initialState: { pageIndex: currentPageIndex /*, hiddenColumns: ["created_at","insertdate"]*/ } },
     useGlobalFilter,
     useSortBy,
     usePagination
@@ -208,6 +209,10 @@ function SelectableDataTable({
 
   // Setting the entries starting point
   const entriesStart = pageIndex === 0 ? pageIndex + 1 : pageIndex * pageSize + 1;
+
+  useEffect(() => {
+    setCurrentPageIndex(pageIndex);
+  }, [pageIndex]);
 
   // Setting the entries ending point
   let entriesEnd;

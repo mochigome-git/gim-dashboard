@@ -18,7 +18,7 @@ export const DailyContext = createContext()
     nk2_index: [],
     nk2_detail: [],
     nk2_multipledetail: [],
-    detailsData: null,
+    detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
     multipledetailsData: null,
   });
 
@@ -31,6 +31,7 @@ export const DailyContext = createContext()
     };
 
   const setDetailsData = (detailsData) => {
+    localStorage.setItem('detailsData', JSON.stringify(detailsData));
     setState(prevState => ({
       ...prevState,
       detailsData: detailsData,
@@ -154,6 +155,7 @@ useEffect(() => {
   fetchMachineTData("machinetdaily");
   fetchMachineTData("machinetdailybyhours");
   fetchNk2Index("get_nk2_index");
+  fetchNk2Details("get_nk2_details")
   
   const recordsSubscription = supabase
       .channel('public:records')

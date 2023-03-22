@@ -24,7 +24,8 @@ import { DailyContext } from "../../lib/realtime"
 import Nk2IndexTableData from "./data/nk2indexTableData"
 
 // Generate CSV
-import generateNK2CSV from './generateNK2CSV';
+import generateNK2CSV from './csv/generateNK2CSV';
+import generateNK2CSV_5min from './csv/generateNK2CSV_5min';
 
 function reducer(state, action) {
   //console.log("reducer action", action.type);
@@ -43,8 +44,12 @@ function reducer(state, action) {
       return { ...state, tabValue: action.payload };
     case 'SET_NK2_DETAIL':
       return { ...state, nk2Detail: action.payload };
+    case 'SET_NK2_DETAIL_5MIN':
+      return { ...state, nk2Detail_5min: action.payload};
     case 'SET_NK2_MULTIPLE_DETAIL':
       return { ...state, nk2multipleDetail: action.payload };
+    case 'SET_NK2_MULTIPLE_DETAIL_5MIN':
+      return { ...state, nk2multipleDetail_5min: action.payload };    
     case 'SET_DOWNLOAD_TRIGGER':
       return { ...state, downloadTrigger: action.payload };
     case 'SET_DOWNLOAD_MULTIPLE_TRIGGER':
@@ -55,6 +60,12 @@ function reducer(state, action) {
       return { ...state, iHSeq1: action.payload };
     case 'SET_IH_SEQ_2':
       return { ...state, iHSeq2: action.payload };
+    case 'SET_C_LOT_NO':
+      return { ...state, cLOTNo: action.payload };
+    case 'SET_C_LOT_NO_1':
+      return { ...state, cLOTNo1: action.payload };
+    case 'SET_C_LOT_NO_2':
+      return { ...state, cLOTNo2: action.payload };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -76,8 +87,11 @@ function Coating() {
     iHSeq: null,
     iHSeq1: null,
     iHSeq2: null,
+    cLOTNo: null,
+    cLOTNo1: null,
+    cLOTNo2: null,
   });
-  const { setDetailsData, nk2_detail, setMultipleDetailsData, nk2_multipledetail } = useContext(DailyContext);
+  const { setDetailsData, nk2_detail, nk2_detail_5min, nk2_multipledetail_5min, setMultipleDetailsData, nk2_multipledetail } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
     if (type === "NK2Details") {
@@ -92,10 +106,12 @@ function Coating() {
     dispatch({ type: 'SET_IS_DATATABLE_VISIBLE', payload: type === "NK3" ? false : true });
   };
 
-  const onDownloadCSV = async (createdAt, iHSeq) => {
+  const onDownloadCSV = async (createdAt, iHSeq, cLOTNo) => {
     const date = createdAt;
     const seq = iHSeq;
+    const lot = cLOTNo;
     dispatch({ type: 'SET_IH_SEQ', payload: seq });
+    dispatch({ type: 'SET_C_LOT_NO', payload: lot });
     setDetailsData({ date: date, seq: seq });
     await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -113,8 +129,12 @@ function Coating() {
     const date = downloadData[0].createdAt;
     const seq1 = downloadData[i].iHSeq;
     const seq2 = downloadData[0].iHSeq;
+    const lot1 = downloadData[i].cLOTNo;
+    const lot2 = downloadData[0].cLOTNo;
     dispatch({ type: 'SET_IH_SEQ_1', payload: seq1 });
     dispatch({ type: 'SET_IH_SEQ_2', payload: seq2 });
+    dispatch({ type: 'SET_C_LOT_NO_1', payload: lot1 });
+    dispatch({ type: 'SET_C_LOT_NO_2', payload: lot2 });
     setMultipleDetailsData({ date: date, seq1: seq1, seq2: seq2 })
     await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -152,19 +172,29 @@ function Coating() {
     if (nk2_detail) {
       dispatch({ type: 'SET_NK2_DETAIL', payload: nk2_detail });
     }
+
+    if(nk2_detail_5min){
+      dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: nk2_detail_5min })
+    }
   
     if (nk2_multipledetail) {
       dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL', payload: nk2_multipledetail });
     }
+
+    if (nk2_multipledetail_5min) {
+      dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL_5MIN', payload: nk2_multipledetail_5min });
+    }
   
-    if (state.downloadTrigger && state.nk2Detail !== null) {
-      const folderName = "nk2_roll_no:" + state.iHSeq;
-      const data = state.nk2Detail;
-      const csvContent = "data:text/csv;charset=utf-8," + generateNK2CSV(data, state.everyFiveMinutes);
+    if (state.downloadTrigger && (state.nk2Detail !== null || state.nk2Detail_5min !== null)) {
+      const folderName = `nk2_roll_no:${state.cLOTNo}`;
+      const data = state.everyFiveMinutes ? state.nk2Detail_5min : state.nk2Detail;
+      const csvContent = `data:text/csv;charset=utf-8,${
+        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+      }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", folderName + ".csv");
+      link.setAttribute("download", `${folderName}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -173,15 +203,18 @@ function Coating() {
         dispatch({ type: 'SET_SUCCESS', payload: false });
         dispatch({ type: 'SET_LOADING', payload: false });
         dispatch({ type: 'SET_NK2_DETAIL', payload: null });
+        dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_TRIGGER', payload: false });
       }, 3000);
-    }
+    }      
   
-    if (state.downloadMultipleTrigger && state.nk2multipleDetail !== null) {
+    if (state.downloadMultipleTrigger && (state.nk2multipleDetail !== null || state.nk2multipleDetail_5min !== null)) {
       const noSelected = state.multipleSelection;
-      const data = state.nk2multipleDetail;
-      const folderName = "nk2_roll_no:" + state.iHSeq1 + "~" + state.iHSeq2 + "(" + noSelected + ")" ;
-      const csvContent = "data:text/csv;charset=utf-8," + generateNK2CSV(data, state.everyFiveMinutes);
+      const data = state.everyFiveMinutes ? state.nk2multipleDetail_5min : state.nk2multipleDetail;
+      const folderName = `nk2_roll_no:${state.cLOTNo1}~${state.cLOTNo2}(${noSelected}lot)` ;
+      const csvContent = `data:text/csv;charset=utf-8,${
+        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+      }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -194,10 +227,11 @@ function Coating() {
         dispatch({ type: 'SET_SUCCESS', payload: false });
         dispatch({ type: 'SET_LOADING', payload: false });
         dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL', payload: null });
+        dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: false });
       }, 3000);
     }
-  }, [nk2_detail, nk2_multipledetail, state.downloadTrigger, state.nk2Detail, state.downloadMultipleTrigger, state.nk2multipleDetail]);
+  }, [nk2_detail, nk2_detail_5min, nk2_multipledetail, nk2_multipledetail_5min, state.downloadTrigger, state.nk2Detail, state.downloadMultipleTrigger, state.nk2multipleDetail]);
 
   return (
     <DashboardLayout>

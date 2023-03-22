@@ -17,7 +17,9 @@ export const DailyContext = createContext()
     machine_tRecordsbyhour: [],
     nk2_index: [],
     nk2_detail: [],
+    nk2_detail_5min: [],
     nk2_multipledetail: [],
+    nk2_multipledetail_5min: [],
     detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
     multipledetailsData: null,
   });
@@ -97,9 +99,12 @@ export const DailyContext = createContext()
       const { data: data7, error: error7 } = await supabase.rpc("get_nk2_details", {
         seq: seq, date_at: date,
       });
-      if (error7) { throw error7; }
+      const { data: data9, error: error9 } = await supabase.rpc("get_nk2_details_5min", {
+        seq: seq, date_at: date,
+      });
+      if (error7 || error9 ) { throw error7 || error9; }
   
-      setState(prevState => ({ ...prevState, nk2_detail: data7 }));
+      setState(prevState => ({ ...prevState, nk2_detail: data7, nk2_detail_5min: data9 }));
   
     } catch (error) {
       alert(error.message);
@@ -118,9 +123,12 @@ export const DailyContext = createContext()
       const { data: data8, error: error8 } = await supabase.rpc("get_nk2_multipledetails",{
         seq1: seq1, seq2: seq2, date_at: date,
       });
-      if (error8) { throw error8; }
+      const { data: data10, error: error10 } = await supabase.rpc("get_nk2_multipledetails_5min",{
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      if (error8 || error10) { throw error8 || error10; }
 
-      setState(prevState => ({ ...prevState, nk2_multipledetail: data8 }));
+      setState(prevState => ({ ...prevState, nk2_multipledetail: data8, nk2_multipledetail_5min: data10, }));
   
     } catch (error) {
       alert(error.message);
@@ -164,7 +172,7 @@ useEffect(() => {
         fetchCodingData("daily");
         Go();
         setState(prevState => ({ ...prevState, isUpdate: moment.now() }));
-        console.log('Change received!', /*payload*/);
+        //console.log('Change received!', /*payload*/);
       })
       .subscribe();
     
@@ -174,7 +182,7 @@ useEffect(() => {
         fetchMachineTData("machine_t");
         fetchMachineTData("machinetdaily");
         fetchMachineTData("machinetdailybyhours");
-        console.log('Change received!', /*payload*/);
+        //console.log('Change received!', /*payload*/);
       })
       .subscribe();
 
@@ -182,7 +190,7 @@ useEffect(() => {
       .channel('public:nk2_log_data')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
         fetchNk2Index("get_nk2_index");
-        console.log('Nk2 Index Change received!', /*payload*/);
+        //console.log('Nk2 Index Change received!', /*payload*/);
       })
       .subscribe();
 
@@ -209,8 +217,10 @@ return (
       nk2_index: state.nk2_index,
       setDetailsData,
       ...state.nk2_detail && { nk2_detail: state.nk2_detail, },
+      ...state.nk2_detail_5min && { nk2_detail_5min: state.nk2_detail_5min,},
       setMultipleDetailsData,
       ...state.nk2_multipledetail && { nk2_multipledetail: state.nk2_multipledetail, },
+      ...state.nk2_multipledetail_5min && { nk2_multipledetail_5min: state.nk2_multipledetail_5min,},
     }}>
       {children}
     </DailyContext.Provider>

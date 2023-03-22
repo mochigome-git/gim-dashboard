@@ -1,8 +1,8 @@
 import moment from 'moment';
 
-export default function generateNK2CSV(data, everyFiveMinutes) {
+export default function generateNK2CSV(data, everyFiveMinutes=false) {
     // Set CSV header
-    const CSV_HEADER = [["id", "ID"],["created_at", "Date"],["i_h_seq", "roll no"],
+    const CSV_HEADER = [["id", "ID"],["created_at", "Date"],["i_h_seq", "roll no"],["c_lot_no", "roll no"],
     /**["m24", "1D1Z Heating1"],["m25", "1D1Z Heating2"],["m26", "1D2Z Heating1"],["m27", "1D2Z Heating2"],["m28", "2D1Z Heating1"],
     ["m29", "2D1Z Heating2"],["m30", "2D2Z Heating1"],["m31", "2D2Z Heating2"],["m32", "3D1Z Heating1"],["m33", "3D1Z Heating2"],
     ["m34", "3D2Z Heating1"],["m35", "3D2Z Heating2"],["m104", "Ink Fountain"],["m105", "Ink Barrie"],["m106", "4D1Z Heating1"],

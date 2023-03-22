@@ -15,7 +15,8 @@ export default function Nk2IndexTableData() {
     columns: [
       { Header: "date", accessor: "date", align: "left", Cell : ({ row }) => row.original.created_at.substr(0, 10)},
       { Header: "time", accessor: "time", align: "left", Cell : ({ row }) => row.original.created_at.substr(11, 11).substr(0,8)},
-      { Header: "roll no.", accessor: "i_h_seq", align: "left" },
+      { Header: "roll no.", accessor: "c_lot_no", align: "left" },
+      { Header: "roll seq.", accessor: "i_h_seq", align: "left" },
       { Header: "total length", accessor: "d650", align: "left" },
       { Header: "widing length", accessor: "d676", align: "left" },
     ],

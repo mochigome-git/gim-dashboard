@@ -237,7 +237,8 @@ function SelectableDataTable({
       selectedRows.forEach((row) => {
         const createdAt = row.original.created_at.substr(0, 10);
         const iHSeq = row.original.i_h_seq;
-        downloadData.push({ createdAt, iHSeq });
+        const cLOTNo = row.original.c_lot_no;
+        downloadData.push({ createdAt, iHSeq, cLOTNo });
       });
   
       onMultipleDownloadCSV(downloadData);
@@ -245,7 +246,8 @@ function SelectableDataTable({
       const row = selectedRows[0];
       const createdAt = row.original.created_at.substr(0, 10);
       const iHSeq = row.original.i_h_seq;
-      onDownloadCSV(createdAt, iHSeq);
+      const cLOTNo = row.original.c_lot_no;
+      onDownloadCSV(createdAt, iHSeq, cLOTNo);
     }
   };  
 

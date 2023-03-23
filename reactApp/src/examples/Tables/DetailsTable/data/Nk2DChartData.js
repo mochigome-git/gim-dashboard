@@ -1,36 +1,45 @@
-import { useEffect, useState } from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function Nk2DChartData() {
   const [dataPoints, setDataPoints] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
   const { nk2_detail } = useContext(DailyContext);
+
+  const processData = async () => {
+    if (nk2_detail && nk2_detail.length > 0) {
+      const newDataPoints = [];
+      const fields = ["d608", "d609", "d610", "d611", "d612", "d613", "d614"];
+      for (let i = 0; i < sortedData.length; i++) {
+        const datapoint = {};
+        for (let j = 0; j < fields.length; j++) {
+          const field = fields[j];
+          const yValue = sortedData[i][field] ? Number(sortedData[i][field]) / 10 : newDataPoints[newDataPoints.length - 1]?.[field]?.y;
+          datapoint[field] = {
+            x: Math.floor(new Date(sortedData[i].created_at).getTime()),
+            y: yValue,
+          };
+        }
+        newDataPoints.push(datapoint);
+      }
+      setDataPoints(newDataPoints);
+    }
+  };
 
   useEffect(() => {
     if (nk2_detail && nk2_detail.length > 0) {
-      const sortedData = nk2_detail.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-      const theRecords = new Promise((resolve) => {
-        resolve(sortedData);
-      });
-      theRecords.then((data) => {
-        const newDataPoints = [];
-        const fields = ["d608", "d609", "d610", "d611", "d612", "d613", "d614", ]; 
-        for (let i = 0; i < data.length; i++) {
-          const datapoint = {};
-          for (let j = 0; j < fields.length; j++) {
-            const field = fields[j];
-            const yValue = data[i][field] ? Number(data[i][field]) / 10 : newDataPoints[newDataPoints.length - 1]?.[field]?.y;
-            datapoint[field] = {
-              x: Math.floor(new Date(data[i].created_at).getTime()),
-              y: yValue,
-            };
-          }
-          newDataPoints.push(datapoint);
-        }
-        setDataPoints(newDataPoints);
-      });
+      const newSortedData = [...nk2_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
+        setSortedData(newSortedData);
+      }
     }
-  }, [nk2_detail]);
+  }, [nk2_detail, sortedData]);
+
+  useEffect(() => {
+    if (sortedData.length > 0) {
+      processData();
+    }
+  }, [sortedData]);
 
   return {
     ddata: {
@@ -63,7 +72,7 @@ export default function Nk2DChartData() {
           name: "Winding",
           data: dataPoints.map((d) => d.d614),
         },
-        ],
-      },
-    };
+      ],
+    },
   };
+}

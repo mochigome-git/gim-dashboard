@@ -130,9 +130,11 @@ function SelectableDataTable({
   const [selected, setSelected] = React.useState([]);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const storedPageIndex = window.localStorage.getItem('currentPageIndex');
+  const initialPageIndex = storedPageIndex ? parseInt(storedPageIndex, 10) : 0;
+  const [currentPageIndex, setCurrentPageIndex] = useState(initialPageIndex); 
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: currentPageIndex /*, hiddenColumns: ["created_at","insertdate"]*/ } },
+    { columns, data, initialState: { pageIndex: currentPageIndex, /*, hiddenColumns: ["created_at","insertdate"]*/ } },
     useGlobalFilter,
     useSortBy,
     usePagination
@@ -210,8 +212,20 @@ function SelectableDataTable({
   // Setting the entries starting point
   const entriesStart = pageIndex === 0 ? pageIndex + 1 : pageIndex * pageSize + 1;
 
+  // Setting to stay on current index page
   useEffect(() => {
     setCurrentPageIndex(pageIndex);
+  }, [pageIndex]);
+
+  // Store current index page to browser
+  useEffect(() => {
+    const storedPageIndex = window.localStorage.getItem('currentPageIndex');
+    setCurrentPageIndex(storedPageIndex ? parseInt(storedPageIndex, 10) : 0);
+  }, []);
+  
+  // Go back to last index page 
+  useEffect(() => {
+    window.localStorage.setItem('currentPageIndex', pageIndex);
   }, [pageIndex]);
 
   // Setting the entries ending point
@@ -304,7 +318,7 @@ function SelectableDataTable({
   const handleCellMouseLeave = (event) => {
     event.currentTarget.style.backgroundColor = "inherit";
   };
-  
+
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
       <EnhancedTableToolbar 

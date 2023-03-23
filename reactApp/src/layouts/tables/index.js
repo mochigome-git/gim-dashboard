@@ -205,7 +205,7 @@ function Coating() {
         dispatch({ type: 'SET_NK2_DETAIL', payload: null });
         dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_TRIGGER', payload: false });
-      }, 3000);
+      }, 900);
     }      
   
     if (state.downloadMultipleTrigger && (state.nk2multipleDetail !== null || state.nk2multipleDetail_5min !== null)) {
@@ -229,7 +229,7 @@ function Coating() {
         dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL', payload: null });
         dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: false });
-      }, 3000);
+      }, 900);
     }
   }, [nk2_detail, nk2_detail_5min, nk2_multipledetail, nk2_multipledetail_5min, state.downloadTrigger, state.nk2Detail, state.downloadMultipleTrigger, state.nk2multipleDetail]);
 
@@ -273,6 +273,7 @@ function Coating() {
                     isSorted={false}
                     entriesPerPage={false}
                     showTotalEntries={true}
+                    canSearch={false}
                     noEndBorder
                     onDetailsTabClick={onDetailsTabClick}
                     onDownloadCSV={onDownloadCSV}
@@ -283,12 +284,13 @@ function Coating() {
                     everyFiveMinutes={state.everyFiveMinutes}
                     handleFiveMinutesChange={handleFiveMinutesChange}
                     handleSelectionChange={handleSelectionChange}
-                    onMultipleDownloadCSV={onMultipleDownloadCSV}
+                    onMultipleDownloadCSV={onMultipleDownloadCSV}                  
                   />
                 </MDBox>
               )}
               {state.tabValue === 2 && <DetailsTable/>}
             </Card>
+            
           </Grid>
         </Grid>
       </MDBox>

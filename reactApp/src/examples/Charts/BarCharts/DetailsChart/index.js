@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import React from "react"
 
 // porp-types is a library for typechecking of props
@@ -27,11 +27,22 @@ function createChartOptions(datasets) {
 
 function DetailsGaugeChart({ color, title, description, date, percentage, datasets }) {
   const [controller, dispatch] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets), [datasets])(controller);
+  const { option, containerprops } = useMemo(() => createChartOptions(datasets)(controller), [datasets, controller]);
 
-  Highcharts.setOptions({
-		accessibility:{enabled: false},time: {timezoneOffset: -8 * 60},lang:{rangeSelectorZoom:''}
-	  });
+  const setOptions = useCallback(() => {
+    Highcharts.setOptions({
+      accessibility: { enabled: false },
+      time: { timezoneOffset: -8 * 60 },
+      lang: { rangeSelectorZoom: '' }
+    });
+  }, []);
+  
+  React.useEffect(() => {
+    setOptions();
+  }, [setOptions, datasets, controller]);
+  
+
+  console.log(1)
 
   return (
     <Card sx={{ mt:-3, height: "100%" }}>

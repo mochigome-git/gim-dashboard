@@ -187,7 +187,7 @@ useEffect(() => {
       .subscribe();
 
   const nk2indexSubscription = supabase
-      .channel('public:nk2_log_data')
+      .channel('public:nk2_log_data_storage')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
         fetchNk2Index("get_nk2_index");
         //console.log('Nk2 Index Change received!', /*payload*/);

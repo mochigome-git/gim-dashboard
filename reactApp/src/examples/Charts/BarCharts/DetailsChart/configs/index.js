@@ -17,7 +17,6 @@ function configs(datasets, ownerState) {
     turboThreshold: 15000,
   }));
 
-
   return {
     option: {
 		title: {

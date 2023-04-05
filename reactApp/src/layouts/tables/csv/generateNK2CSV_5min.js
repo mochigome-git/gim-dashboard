@@ -2,14 +2,14 @@ import moment from 'moment';
 
 export default function generateNK2CSV_5min(data, everyFiveMinutes=false) {
     // Set CSV header
-    const CSV_HEADER = [["id", "ID"],["created_at", "Date"],["i_h_seq", "roll seq"],["c_lot_no", "roll no"],
-    ["m24", "1D1Z Heating1"],["m25", "1D1Z Heating2"],["m26", "1D2Z Heating1"],["m27", "1D2Z Heating2"],["m28", "2D1Z Heating1"],
+    const CSV_HEADER = [["uuid", "ID"],["created_at", "Date"],["i_h_seq", "roll seq"],["c_lot_no", "roll no"],
+    /**["m24", "1D1Z Heating1"],["m25", "1D1Z Heating2"],["m26", "1D2Z Heating1"],["m27", "1D2Z Heating2"],["m28", "2D1Z Heating1"],
     ["m29", "2D1Z Heating2"],["m30", "2D2Z Heating1"],["m31", "2D2Z Heating2"],["m32", "3D1Z Heating1"],["m33", "3D1Z Heating2"],
     ["m34", "3D2Z Heating1"],["m35", "3D2Z Heating2"],["m104", "Ink Fountain"],["m105", "Ink Barrie"],["m106", "4D1Z Heating1"],
     ["m107", "4D1Z Heating2"],["m108", "4D2Z Heating1"],["m109", "4D2Z Heating2"],["m110", "4D3Z Heating1"],["m111", "4D3z Heating2"],
     ["l20", "1U Scaraper"],["l21", "2U Scraper"],["l22", "3U Scraper"],["l23", "4U Scraper"],["l41", "Unwinding D-roll Direction"],["l42", "Out-Feed D-roll Direction"],
     ["l43", "1u D-roll Direction"],["l44", "2u D-roll Direction"],["l45", "3u D-roll Direction"],["l46", "4u D-roll Direction"],["l47", "Winding D-roll Direction"],
-    ["l90", "1U Oven"],["l91", "2U Oven"],["l92", "3U Oven"],["l93", "4U Oven"],
+    ["l90", "1U Oven"],["l91", "2U Oven"],["l92", "3U Oven"],["l93", "4U Oven"],**/
     ["d0", "Unwinding D-roll min"],["d1", "Unwinding D-roll max"],["d2", "Out-Feed D-roll min"],["d3", "Out-Feed D-roll max"],
     ["d4", "1u D-roll min"],["d5", "1u D-roll max"],["d6", "2u D-roll min"],["d7", "2u D-roll max"],["d8", "3u D-roll min"],["d9", "3u D-roll max"],
     ["d10", "4u D-roll min"],["d11", "4u D-roll max"],["d12", "Winding D-roll min"],["d13", "Winding D-roll max"],["d14", "1D1Z SV"],["d15", "1D2Z SV"],["d16", "2D1Z SV"],

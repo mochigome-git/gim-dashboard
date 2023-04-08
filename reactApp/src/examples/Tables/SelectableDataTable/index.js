@@ -32,7 +32,7 @@ import SelectableDataTableBodyCell from "../../../examples/Tables/SelectableData
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../context";
 
-import "/opt/inkjet-dashboard-app/reactApp/src/examples/Tables/SelectableDataTable/.css";
+import "/opt/gim-dashboard/reactApp/src/examples/Tables/SelectableDataTable/.css";
 
 function EnhancedTableToolbar(props) {
   const [controller] = useMaterialUIController();

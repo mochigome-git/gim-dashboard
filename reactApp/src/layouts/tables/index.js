@@ -273,7 +273,7 @@ function Coating() {
                     isSorted={false}
                     entriesPerPage={false}
                     showTotalEntries={true}
-                    canSearch={false}
+                    canSearch={true}
                     noEndBorder
                     onDetailsTabClick={onDetailsTabClick}
                     onDownloadCSV={onDownloadCSV}

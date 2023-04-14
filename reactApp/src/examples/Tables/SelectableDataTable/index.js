@@ -321,16 +321,6 @@ function SelectableDataTable({
 
   return (
     <TableContainer sx={{ boxShadow: "none" }}>
-      <EnhancedTableToolbar 
-        numSelected={selected.length} 
-        onDownload={handleDownload}
-        setLoading={setLoading}
-        setSuccess={setSuccess}
-        loading={loading}
-        success={success}
-        everyFiveMinutes={everyFiveMinutes}
-        handleFiveMinutesChange={handleFiveMinutesChange}
-        />
       {entriesPerPage || canSearch ? (
         <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
           {entriesPerPage && (
@@ -367,6 +357,16 @@ function SelectableDataTable({
           )}
         </MDBox>
       ) : null}
+      <EnhancedTableToolbar 
+        numSelected={selected.length} 
+        onDownload={handleDownload}
+        setLoading={setLoading}
+        setSuccess={setSuccess}
+        loading={loading}
+        success={success}
+        everyFiveMinutes={everyFiveMinutes}
+        handleFiveMinutesChange={handleFiveMinutesChange}
+        />
       <Table {...getTableProps()}>
         <MDBox component="thead">
           {headerGroups.map((headerGroup) => (

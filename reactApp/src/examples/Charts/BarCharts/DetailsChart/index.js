@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect } from "react";
 import React from "react"
 
 // porp-types is a library for typechecking of props
@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
+
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -26,6 +27,7 @@ function createChartOptions(datasets) {
 }
 
 function DetailsGaugeChart({ color, title, description, date, percentage, datasets }) {
+  const cacheBuster = useMemo(() => Date.now(), []);
   const [controller, dispatch] = useMaterialUIController();
   const { option, containerprops } = useMemo(() => createChartOptions(datasets)(controller), [datasets, controller]);
 
@@ -40,9 +42,6 @@ function DetailsGaugeChart({ color, title, description, date, percentage, datase
   React.useEffect(() => {
     setOptions();
   }, [setOptions, datasets, controller]);
-  
-
-  console.log(1)
 
   return (
     <Card sx={{ mt:-3, height: "100%" }}>
@@ -92,7 +91,9 @@ function DetailsGaugeChart({ color, title, description, date, percentage, datase
           <HighchartsReact					
            containerProps={containerprops}
 				   highcharts={Highcharts} 
-				   options={option}/>
+				   options={option}
+           key={cacheBuster}
+           />
           </MDBox>
       </MDBox>
     </Card>

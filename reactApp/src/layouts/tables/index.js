@@ -14,6 +14,7 @@ import MDTypography from "../../components/MDTypography";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 import SelectableDataTable from "../../examples/Tables/SelectableDataTable";
+import SelectableDataTable_nk3 from "../../examples/Tables/SelectableDataTable_nk3";
 import CoatingHome from "../../examples/Tables/IndexTable";
 import DetailsTable from "../../examples/Tables/DetailsTable/index";
 
@@ -22,6 +23,7 @@ import { DailyContext } from "../../lib/realtime"
 
 // Data
 import Nk2IndexTableData from "./data/nk2indexTableData"
+import Nk3IndexTableData from "./data/nk3indexTableData"
 
 // Generate CSV
 import generateNK2CSV from './csv/generateNK2CSV';
@@ -49,11 +51,23 @@ function reducer(state, action) {
     case 'SET_NK2_MULTIPLE_DETAIL':
       return { ...state, nk2multipleDetail: action.payload };
     case 'SET_NK2_MULTIPLE_DETAIL_5MIN':
-      return { ...state, nk2multipleDetail_5min: action.payload };    
+      return { ...state, nk2multipleDetail_5min: action.payload };
+    case 'SET_NK3_DETAIL':
+      return { ...state, nk3Detail: action.payload };
+    case 'SET_NK3_DETAIL_5MIN':
+      return { ...state, nk3Detail_5min: action.payload};
+    case 'SET_NK3_MULTIPLE_DETAIL':
+      return { ...state, nk3multipleDetail: action.payload };
+    case 'SET_NK3_MULTIPLE_DETAIL_5MIN':
+      return { ...state, nk3multipleDetail_5min: action.payload };   
     case 'SET_DOWNLOAD_TRIGGER':
       return { ...state, downloadTrigger: action.payload };
     case 'SET_DOWNLOAD_MULTIPLE_TRIGGER':
       return { ...state, downloadMultipleTrigger: action.payload };
+      case 'SET_DOWNLOAD_TRIGGER_NK3':
+        return { ...state, downloadTrigger_NK3: action.payload };
+      case 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3':
+        return { ...state, downloadMultipleTrigger_NK3: action.payload };
     case 'SET_IH_SEQ':
       return { ...state, iHSeq: action.payload };
     case 'SET_IH_SEQ_1':
@@ -72,7 +86,8 @@ function reducer(state, action) {
 }
 
 function Coating() {
-  const { columns, rows } = Nk2IndexTableData();
+  const { columns: nk2Columns, rows: nk2Rows } = Nk2IndexTableData();
+  const { columns: nk3Columns, rows: nk3Rows } = Nk3IndexTableData();
   const [state, dispatch] = useReducer(reducer, {
     tabValue: 0,
     isDataTableVisible: false,
@@ -82,8 +97,12 @@ function Coating() {
     multipleSelection: false,
     nk2Detail: null,
     nk2multipleDetail: null,
+    nk3Detail: null,
+    nk3multipleDetail: null,
     downloadTrigger: false,
     downloadMultipleTrigger: false,
+    downloadTrigger_NK3: false,
+    downloadMultipleTrigger_NK3: false,
     iHSeq: null,
     iHSeq1: null,
     iHSeq2: null,
@@ -91,10 +110,24 @@ function Coating() {
     cLOTNo1: null,
     cLOTNo2: null,
   });
-  const { setDetailsData, nk2_detail, nk2_detail_5min, nk2_multipledetail_5min, setMultipleDetailsData, nk2_multipledetail } = useContext(DailyContext);
+  const { setDetailsData,
+          setMultipleDetailsData,  
+          nk2_detail, 
+          nk2_detail_5min, 
+          nk2_multipledetail_5min, 
+          nk2_multipledetail,
+          nk3_detail, 
+          nk3_detail_5min, 
+          nk3_multipledetail_5min, 
+          nk3_multipledetail    
+        } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
     if (type === "NK2Details") {
+      dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
+      setDetailsData({ date: date, seq: seq });
+    }
+    if (type === "NK3Details") {
       dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
       setDetailsData({ date: date, seq: seq });
     }
@@ -124,6 +157,22 @@ function Coating() {
     dispatch({ type: 'SET_DOWNLOAD_TRIGGER', payload: true });
   };
 
+  const onDownloadCSV_NK3 = async (createdAt, iHSeq) => {
+    const date = createdAt;
+    const seq = iHSeq;
+    dispatch({ type: 'SET_IH_SEQ', payload: seq });
+    setDetailsData({ date: date, seq: seq });
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    setTimeout(() => {
+      dispatch({ type: 'SET_LOADING', payload: true });
+    }, 0);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    dispatch({ type: 'SET_DOWNLOAD_TRIGGER_NK3', payload: true });
+  };
+
   const onMultipleDownloadCSV = async (downloadData) => {
     const i = downloadData.length - 1;
     const date = downloadData[0].createdAt;
@@ -147,17 +196,34 @@ function Coating() {
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: true });
   };
 
+  const onMultipleDownloadCSV_NK3 = async (downloadData) => {
+    const i = downloadData.length - 1;
+    const date = downloadData[0].createdAt;
+    const seq1 = downloadData[i].iHSeq;
+    const seq2 = downloadData[0].iHSeq;
+    dispatch({ type: 'SET_IH_SEQ_1', payload: seq1 });
+    dispatch({ type: 'SET_IH_SEQ_2', payload: seq2 });
+    setMultipleDetailsData({ date: date, seq1: seq1, seq2: seq2 })
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    setTimeout(() => {
+      dispatch({ type: 'SET_LOADING', payload: true });
+    }, 0);
+  
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: true });
+  };
+
   const handleFiveMinutesChange = (event) => {
     dispatch({ type: 'SET_EVERY_FIVE_MINUTES', payload: event.target.checked });
 
   };
 
-
   const handleSelectionChange = (selected) => {
     dispatch({ type: 'SET_MULTIPLE_SELECTION', payload: selected.length });
   };
    
-    
   const handleSetTabValue = (event, newValue) => {
     dispatch({ type: 'SET_TAB_VALUE', payload: newValue });
     //setIsDataTableVisible(newValue === 1 ? false : true);
@@ -233,6 +299,71 @@ function Coating() {
     }
   }, [nk2_detail, nk2_detail_5min, nk2_multipledetail, nk2_multipledetail_5min, state.downloadTrigger, state.nk2Detail, state.downloadMultipleTrigger, state.nk2multipleDetail]);
 
+  useEffect(() => {
+    if (nk3_detail) {
+      dispatch({ type: 'SET_NK3_DETAIL', payload: nk3_detail });
+    }
+
+    if(nk3_detail_5min){
+      dispatch({ type: 'SET_NK3_DETAIL_5MIN', payload: nk3_detail_5min })
+    }
+  
+    if (nk3_multipledetail) {
+      dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL', payload: nk3_multipledetail });
+    }
+
+    if (nk3_multipledetail_5min) {
+      dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL_5MIN', payload: nk3_multipledetail_5min });
+    }
+  
+    if (state.downloadTrigger_NK3 && (state.nk3Detail !== null || state.nk3Detail_5min !== null)) {
+      const folderName = `nk3_roll_no:${state.iHSeq}`;
+      const data = state.everyFiveMinutes ? state.nk3Detail_5min : state.nk3Detail;
+      const csvContent = `data:text/csv;charset=utf-8,${
+        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+      }`;
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `${folderName}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      dispatch({ type: 'SET_SUCCESS', payload: true });
+      setTimeout(() => {
+        dispatch({ type: 'SET_SUCCESS', payload: false });
+        dispatch({ type: 'SET_LOADING', payload: false });
+        dispatch({ type: 'SET_NK3_DETAIL', payload: null });
+        dispatch({ type: 'SET_NK3_DETAIL_5MIN', payload: null });
+        dispatch({ type: 'SET_DOWNLOAD_TRIGGER_NK3', payload: false });
+      }, 900);
+    }      
+  
+    if (state.downloadMultipleTrigger_NK3 && (state.nk3multipleDetail !== null || state.nk3multipleDetail_5min !== null)) {
+      const noSelected = state.multipleSelection;
+      const data = state.everyFiveMinutes ? state.nk3multipleDetail_5min : state.nk3multipleDetail;
+      const folderName = `nk3_roll_no:${state.iHSeq1}~${state.iHSeq2}(${noSelected}lot)` ;
+      const csvContent = `data:text/csv;charset=utf-8,${
+        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+      }`;
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", folderName + ".csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      dispatch({ type: 'SET_SUCCESS', payload: true });
+      setTimeout(() => {
+        dispatch({ type: 'SET_SUCCESS', payload: false });
+        dispatch({ type: 'SET_LOADING', payload: false });
+        dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL', payload: null });
+        dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL_5MIN', payload: null });
+        dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: false });
+      }, 900);
+    }
+  }, [nk3_detail, nk3_detail_5min, nk3_multipledetail, nk3_multipledetail_5min, state.downloadTrigger_NK3, state.nk3Detail, state.downloadMultipleTrigger_NK3, state.nk3multipleDetail]);
+
   return (
     <DashboardLayout>
       <DashboardNavbar/>
@@ -269,7 +400,7 @@ function Coating() {
               {state.tabValue === 1 && state.isDataTableVisible && ( 
                 <MDBox pt={0}>
                   <SelectableDataTable
-                    table={{ columns, rows }}
+                    table={{ columns:nk2Columns, rows:nk2Rows }}
                     isSorted={false}
                     entriesPerPage={false}
                     showTotalEntries={true}
@@ -285,6 +416,28 @@ function Coating() {
                     handleFiveMinutesChange={handleFiveMinutesChange}
                     handleSelectionChange={handleSelectionChange}
                     onMultipleDownloadCSV={onMultipleDownloadCSV}                  
+                  />
+                </MDBox>
+              )}
+              {state.tabValue === 1 && !state.isDataTableVisible && ( 
+                <MDBox pt={0}>
+                  <SelectableDataTable_nk3
+                    table={{ columns:nk3Columns, rows:nk3Rows }}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                    canSearch={true}
+                    noEndBorder
+                    onDetailsTabClick={onDetailsTabClick}
+                    onDownloadCSV_NK3={onDownloadCSV_NK3}
+                    setLoading={() => dispatch({ type: 'SET_LOADING' })}
+                    setSuccess={() => dispatch({ type: 'SET_SUCCESS' })}
+                    loading={state.loading}
+                    success={state.success}
+                    everyFiveMinutes={state.everyFiveMinutes}
+                    handleFiveMinutesChange={handleFiveMinutesChange}
+                    handleSelectionChange={handleSelectionChange}
+                    onMultipleDownloadCSV_NK3={onMultipleDownloadCSV_NK3}            
                   />
                 </MDBox>
               )}

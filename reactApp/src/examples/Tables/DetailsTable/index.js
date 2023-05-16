@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -10,6 +10,7 @@ import TimelapseIcon from '@mui/icons-material/Timelapse';
 import Rotate90DegreesCwOutlinedIcon from '@mui/icons-material/Rotate90DegreesCwOutlined';
 import AutoModeOutlinedIcon from '@mui/icons-material/AutoModeOutlined';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
+import { Skeleton } from '@mui/material';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../components/MDBox";
@@ -26,12 +27,14 @@ import Nk2DChartData from "./data/Nk2DChartData";
 import Nk2DTensionData from "./data/Nk2DTensionData";
 
 function DetailsTable() {
+  // Data loading and state management
   const { tempdata } = Nk2TempChartData();
   const { ddata } = Nk2DChartData();
   const { data } = ParameterCardData();
   const { tensiondata } = Nk2DTensionData();
   const [ timeDifference, setTimeDifference ] = useState("");
   const [ downtime, setDowntime ] = useState("");
+  const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     // Filter the winding data array
@@ -48,6 +51,9 @@ function DetailsTable() {
 
     const downtimeString = `${minutes}m ${seconds}s`;
     setDowntime(downtimeString);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [ddata]);
 
   useEffect(() => {
@@ -60,8 +66,80 @@ function DetailsTable() {
       setTimeDifference(`${minutes}m ${seconds}s`);
     };
     calculateTimeDifference();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [data]);
 
+  if (loading) {
+    return (
+      <CoatingDashboardLayout>
+        <MDBox py={3}>
+          <Grid container spacing={{ md: 2}} rowSpacing={{md: 0 }} >
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+            </MDBox>
+          </Grid>
+        </Grid>
+        <MDBox mt={0.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+              </MDBox>
+            </Grid>
+          </Grid>
+        </MDBox>
+      </MDBox>
+    </CoatingDashboardLayout>
+    );
+  }
 
   return (
     <CoatingDashboardLayout>

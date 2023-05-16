@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function Nk2TempChartData() {
-  const { nk2_detail } = useContext(DailyContext);
+  const { nk2_detail, nk3_detail } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
@@ -12,7 +12,13 @@ export default function Nk2TempChartData() {
         setSortedData(newSortedData);
       }
     }
-  }, [nk2_detail, sortedData]);
+    if (nk3_detail && nk3_detail.length > 0) {
+      const newSortedData = [...nk3_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
+        setSortedData(newSortedData);
+      }
+    }
+  }, [nk2_detail, nk3_detail, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

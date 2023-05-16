@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useEffect, useState} from "react";
 import moment from 'moment';
 //import { DetailsTabContext } from "../layouts/tables/index";
 
@@ -22,6 +22,11 @@ export const DailyContext = createContext()
     nk2_multipledetail_5min: [],
     detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
     multipledetailsData: null,
+    nk3_index: [],
+    nk3_detail: [],
+    nk3_detail_5min: [],
+    nk3_multipledetail: [],
+    nk3_multipledetail_5min: [],
   });
 
   const setAgoIsLoaded = (value) => {
@@ -134,11 +139,72 @@ export const DailyContext = createContext()
       alert(error.message);
     }
   };
+
+  const fetchNk3Index = async () => {
+    try{
+      const { data: data11, error: error11 } = await supabase.rpc('get_nk3_index');
+      if (error11) { throw error11; }
+
+      setState(prevState => ({ ...prevState, nk3_index: data11 }));
+
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  const fetchNk3Details = async () => {
+    const { detailsData } = state;
+    const { date, seq } = detailsData || {};
   
+    if (!date || !seq) {
+      return; // do nothing if date and seq are not provided
+    }
+  
+    try {
+      const { data: data12, error: error12 } = await supabase.rpc("get_nk3_details", {
+        seq: seq, date_at: date,
+      });
+      const { data: data13, error: error13 } = await supabase.rpc("get_nk3_details_5min", {
+        seq: seq, date_at: date,
+      });
+      if (error12 || error13 ) { throw error12 || error13; }
+  
+      setState(prevState => ({ ...prevState, nk3_detail: data12, nk3_detail_5min: data13 }));
+  
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  
+  const fetchNK3MultipleDetails = async () => {
+    const { multipledetailsData } = state;
+    const { date, seq1, seq2 } = multipledetailsData || {};
+
+    if (!date || !seq1 || !seq2 ){
+      return;
+    }
+
+    try{
+      const { data: data14, error: error14 } = await supabase.rpc("get_nk3_multipledetails",{
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      const { data: data15, error: error15 } = await supabase.rpc("get_nk3_multipledetails_5min",{
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      if (error14 || error15) { throw error14 || error15; }
+
+      setState(prevState => ({ ...prevState, nk3_multipledetail: data14, nk3_multipledetail_5min: data15, }));
+  
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
  //call fetchNk2Details() whenever the detailsData state variable changes 
 useEffect(() => {
   const fetchDetails = async () => {
     await fetchNk2Details();
+    await fetchNk3Details();
   };
 
   if (state.detailsData) {
@@ -149,6 +215,7 @@ useEffect(() => {
 useEffect(() => {
   const fetchmultipleDetails = async () => {
     await fetchNK2MultipleDetails();
+    await fetchNK3MultipleDetails();
   };
 
   if (state.multipledetailsData) {
@@ -164,6 +231,8 @@ useEffect(() => {
   fetchMachineTData("machinetdailybyhours");
   fetchNk2Index("get_nk2_index");
   fetchNk2Details("get_nk2_details")
+  fetchNk3Index("get_nk3_index");
+  fetchNk3Details("get_nk3_details")
   
   const recordsSubscription = supabase
       .channel('public:records')
@@ -194,11 +263,20 @@ useEffect(() => {
       })
       .subscribe();
 
+  const nk3indexSubscription = supabase
+  .channel('public:nk3_log_data_storage')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
+    fetchNk2Index("get_nk3_index");
+    //console.log('Nk3 Index Change received!', /*payload*/);
+  })
+  .subscribe();
+
   return () => {
       supabase.removeChannel(state.subscription);
       recordsSubscription.unsubscribe();
       machineTSubscription.unsubscribe();
       nk2indexSubscription.unsubscribe();
+      nk3indexSubscription.unsubscribe();
   };
 }, []);
 
@@ -208,7 +286,6 @@ return (
       records2: state.records2,
       isUpdate: state.isUpdate,
       agoisLoaded: state.agoisLoaded,
-      Go: Go,
       CodingLatestData: state.codingLatestData,
       machine_t: state.machine_t,
       machine_tRecords: state.machine_tRecords,
@@ -221,6 +298,11 @@ return (
       setMultipleDetailsData,
       ...state.nk2_multipledetail && { nk2_multipledetail: state.nk2_multipledetail, },
       ...state.nk2_multipledetail_5min && { nk2_multipledetail_5min: state.nk2_multipledetail_5min,},
+      nk3_index: state.nk3_index,
+      ...state.nk3_detail && { nk3_detail: state.nk3_detail, },
+      ...state.nk3_detail_5min && { nk3_detail_5min: state.nk3_detail_5min,},
+      ...state.nk3_multipledetail && { nk3_multipledetail: state.nk3_multipledetail, },
+      ...state.nk3_multipledetail_5min && { nk3_multipledetail_5min: state.nk3_multipledetail_5min,},
     }}>
       {children}
     </DailyContext.Provider>

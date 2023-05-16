@@ -30,8 +30,8 @@ import MDInput from "../../../components/MDInput";
 import MDPagination from "../../../components/MDPagination";
 
 // Material Dashboard 2 React example components
-import SelectableDataTableHeadCell from "../../../examples/Tables/SelectableDataTable/SelectableDataTableHeadCell";
-import SelectableDataTableBodyCell from "../../../examples/Tables/SelectableDataTable/SelectableDataTableBodyCell";
+import SelectableDataTableHeadCell from "../SelectableDataTable/SelectableDataTableHeadCell";
+import SelectableDataTableBodyCell from "../SelectableDataTable/SelectableDataTableBodyCell";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../context";
@@ -42,10 +42,7 @@ function EnhancedTableToolbar(props) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const { numSelected, onDownload, setLoading, setSuccess, success, loading, everyFiveMinutes, handleFiveMinutesChange } = props;
-  const getTooltipTitle = () => {
-    return everyFiveMinutes ? '5min on' : '5min off';
-  };
- 
+
   return (
     <Toolbar
       sx={{
@@ -76,12 +73,8 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title={getTooltipTitle()}>
-          <Switch
-            checked={everyFiveMinutes}
-            onChange={handleFiveMinutesChange}
-            color= "default"
-          />
+        <Tooltip title="5min">
+         <Switch checked={everyFiveMinutes} onChange={handleFiveMinutesChange} color={darkMode ? "white" : "dark"}/>
         </Tooltip>
       ) : (        
         <IconButton/>
@@ -113,7 +106,7 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-function SelectableDataTable({
+function SelectableDataTable_nk3({
   entriesPerPage,
   canSearch,
   showTotalEntries,
@@ -122,7 +115,7 @@ function SelectableDataTable({
   isSorted,
   noEndBorder,
   onDetailsTabClick,
-  onDownloadCSV,
+  onDownloadCSV_NK3,
   setSuccess,
   setLoading,
   loading,
@@ -130,33 +123,33 @@ function SelectableDataTable({
   everyFiveMinutes,
   handleFiveMinutesChange,
   handleSelectionChange,
-  onMultipleDownloadCSV,
+  onMultipleDownloadCSV_NK3,
 }) {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ["5", "10", "15", "20", "25"];
-    const [startdate, setStartDate] = React.useState(null);
-    const [enddate, setEndDate] = React.useState(null);
-    const columns = useMemo(() => table.columns, [table]);
-    const data = useMemo(() => {
-      if (startdate && enddate) {
-        // Filter the data based on the selected date range
-        return table.rows.filter((row) => {
-          if (row && row.created_at) {
-            const rowDate = dayjs(row.created_at);
-            return (
-              rowDate.isSame(startdate, 'day') || rowDate.isAfter(startdate, 'day')
-            ) && (
-              rowDate.isSame(enddate, 'day') || rowDate.isBefore(enddate, 'day')
-            );
-          }
-          return true;
-        });
-      }
-      // Return the unfiltered data if startdate or enddate is not set
-      return table.rows;
-    }, [table.rows, startdate, enddate]);
+  const [startdate, setStartDate] = React.useState(null);
+  const [enddate, setEndDate] = React.useState(null);
+  const columns = useMemo(() => table.columns, [table]);
+  const data = useMemo(() => {
+    if (startdate && enddate) {
+      // Filter the data based on the selected date range
+      return table.rows.filter((row) => {
+        if (row && row.created_at) {
+          const rowDate = dayjs(row.created_at);
+          return (
+            rowDate.isSame(startdate, 'day') || rowDate.isAfter(startdate, 'day')
+          ) && (
+            rowDate.isSame(enddate, 'day') || rowDate.isBefore(enddate, 'day')
+          );
+        }
+        return true;
+      });
+    }
+    // Return the unfiltered data if startdate or enddate is not set
+    return table.rows;
+  }, [table.rows, startdate, enddate]);
   const [selected, setSelected] = React.useState([]);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
@@ -281,17 +274,15 @@ function SelectableDataTable({
       selectedRows.forEach((row) => {
         const createdAt = row.original.created_at.substr(0, 10);
         const iHSeq = row.original.i_h_seq;
-        const cLOTNo = row.original.c_lot_no;
-        downloadData.push({ createdAt, iHSeq, cLOTNo });
+        downloadData.push({ createdAt, iHSeq});
       });
   
-      onMultipleDownloadCSV(downloadData);
+      onMultipleDownloadCSV_NK3(downloadData);
     } else {
       const row = selectedRows[0];
       const createdAt = row.original.created_at.substr(0, 10);
       const iHSeq = row.original.i_h_seq;
-      const cLOTNo = row.original.c_lot_no;
-      onDownloadCSV(createdAt, iHSeq, cLOTNo);
+      onDownloadCSV_NK3(createdAt, iHSeq);
     }
   };  
 
@@ -306,7 +297,7 @@ function SelectableDataTable({
     if (event.detail === 2) {
       const date = row.original.created_at.substr(0, 10);
       const seq = row.original.i_h_seq;
-      handleDetailsTabClick("NK2Details", date, seq)
+      handleDetailsTabClick("NK3Details", date, seq)
     } else {
 
     if (selectedIndex === -1) {
@@ -546,7 +537,7 @@ function SelectableDataTable({
 }
 
 // Setting default values for the props of DataTable
-SelectableDataTable.defaultProps = {
+SelectableDataTable_nk3.defaultProps = {
   entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
@@ -561,7 +552,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 // Typechecking props for the DataTable
-SelectableDataTable.propTypes = {
+SelectableDataTable_nk3.propTypes = {
   entriesPerPage: PropTypes.oneOfType([
     PropTypes.shape({
       defaultValue: PropTypes.number,
@@ -589,4 +580,4 @@ SelectableDataTable.propTypes = {
   noEndBorder: PropTypes.bool,
 };
 
-export default SelectableDataTable;
+export default SelectableDataTable_nk3;

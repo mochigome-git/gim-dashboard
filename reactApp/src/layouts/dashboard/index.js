@@ -84,7 +84,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="dark"
                 icon={<WeekendIcon/>}
-                title="Bookings"
+                title="Sample1"
                 count={281}
                 percentage={{
                   color: "success",
@@ -98,7 +98,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon={<LeaderboardIcon/>}
-                title="Today's Users"
+                title="Sample2"
                 count="2,300"
                 percentage={{
                   color: "success",
@@ -113,7 +113,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon={<StoreIcon/>}
-                title="Revenue"
+                title="Sample3"
                 count="34k"
                 percentage={{
                   color: "success",
@@ -128,7 +128,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon={<PersonAddIcon/>}
-                title="Followers"
+                title="Sample4"
                 count="+91"
                 percentage={{
                   color: "success",

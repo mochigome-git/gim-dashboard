@@ -61,14 +61,14 @@ const routes = [
     route: "/billing",
     component: <Billing />,
   },*/
-  {
+  /*{
     type: "collapse",
     name: "Notifications",
     key: "notifications",
     icon: <NotificationsIcon fontSize="small"/>,
     route: "/notifications",
     component: <Notifications />,
-  },
+  },*/
   /*{
     type: "collapse",
     name: "Profile",

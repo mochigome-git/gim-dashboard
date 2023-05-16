@@ -34,10 +34,6 @@ function CoatingHome({ onNk2TabClick }) {
         <MDTypography variant="h6" fontWeight="medium">
          &nbsp;&nbsp;<strong>Coating Machines</strong>
         </MDTypography>
-        <MDButton variant="gradient" color="dark">
-          <AddIcon sx={{ fontWeight: "bold" }}>add</AddIcon>
-          &nbsp;add new
-        </MDButton>
       </MDBox>
       <MDBox p={2} marginBottom= {50}>
         <Grid container spacing={2} >

@@ -257,16 +257,16 @@ useEffect(() => {
 
   const nk2indexSubscription = supabase
       .channel('public:nk2_log_data_storage')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'nk2_log_data_storage' }, payload => {
         fetchNk2Index("get_nk2_index");
-        //console.log('Nk2 Index Change received!', /*payload*/);
+        //console.log('Nk2 Index Change received!', payload);
       })
       .subscribe();
 
   const nk3indexSubscription = supabase
   .channel('public:nk3_log_data_storage')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
-    fetchNk2Index("get_nk3_index");
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'nk3_log_data_storage' }, payload => {
+    fetchNk3Index("get_nk3_index");
     //console.log('Nk3 Index Change received!', /*payload*/);
   })
   .subscribe();

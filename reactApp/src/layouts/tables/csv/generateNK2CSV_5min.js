@@ -75,6 +75,13 @@ export default function generateNK2CSV_5min(data, everyFiveMinutes=false) {
       }
       const header = generateCSVHeader(); // Add header and first row
       csvData.unshift(header);
+
+      // Add header at the second row
+      const secondHeaderRow = CSV_HEADER.map((header) => {
+      return header[0];
+    }).join(",");
+      csvData.splice(1, 0, secondHeaderRow);
+
       return csvData.join("\n");
     }
   

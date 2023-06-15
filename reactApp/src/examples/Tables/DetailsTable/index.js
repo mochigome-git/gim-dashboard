@@ -25,6 +25,7 @@ import ParameterCardData from "./data/ParameterCardData";
 import Nk2TempChartData from "./data/Nk2TempChartData";
 import Nk2DChartData from "./data/Nk2DChartData";
 import Nk2DTensionData from "./data/Nk2DTensionData";
+import NK24UFibreSensor from "./data/NK24UFibreSensor"
 
 function DetailsTable() {
   // Data loading and state management
@@ -35,6 +36,7 @@ function DetailsTable() {
   const [ timeDifference, setTimeDifference ] = useState("");
   const [ downtime, setDowntime ] = useState("");
   const [ loading, setLoading ] = useState(true);
+  const { fourusensorfibredata } = NK24UFibreSensor();
 
   useEffect(() => {
     // Filter the winding data array
@@ -119,6 +121,11 @@ function DetailsTable() {
         </Grid>
         <MDBox mt={0.5}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+              </MDBox>
+            </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
                 <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
@@ -233,7 +240,7 @@ function DetailsTable() {
               {ddata.datasets.some((dataset) => dataset.data.length > 0) && (
                 <DetailsChart
                   color="transparent"
-                  title="段差ロール"
+                  title="段差ロール D-roll"
                   description="" 
                   date=""
                   datasets={ddata}
@@ -251,7 +258,7 @@ function DetailsTable() {
               {tempdata.datasets.some((dataset) => dataset.data.length > 0) && (
                 <DetailsChart
                   color="transparent"
-                  title="ダクト温度"
+                  title="ダクト温度 Temperature"
                   description="" 
                   date=""
                   datasets={tempdata}
@@ -269,10 +276,28 @@ function DetailsTable() {
               {tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
                 <DetailsChart
                   color="transparent"
-                  title="テンション"
+                  title="テンション Tension"
                   description="" 
                   date=""
                   datasets={tensiondata}
+                  percentage={{
+                    color: "info",
+                    amount: "",
+                    label: "",
+                  }}
+                />
+              )}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+              {fourusensorfibredata.datasets.some((dataset) => dataset.data.length > 0) && (
+                <DetailsChart
+                  color="transparent"
+                  title="濃度 Density"
+                  description="" 
+                  date=""
+                  datasets={fourusensorfibredata}
                   percentage={{
                     color: "info",
                     amount: "",

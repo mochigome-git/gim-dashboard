@@ -18,6 +18,7 @@ export const DailyContext = createContext()
     nk2_index: [],
     nk2_detail: [],
     nk2_detail_5min: [],
+    nk2_4u_fibre_sensor: [],
     nk2_multipledetail: [],
     nk2_multipledetail_5min: [],
     detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
@@ -107,10 +108,18 @@ export const DailyContext = createContext()
       const { data: data9, error: error9 } = await supabase.rpc("get_nk2_details_5min", {
         seq: seq, date_at: date,
       });
-      if (error7 || error9 ) { throw error7 || error9; }
+      const { data: data16, error: error16 } = await supabase.rpc("get_nk2_4u_fibre_sensor", {
+        seq: seq, date_at: date,
+      });
+      if (error7 || error9 || error16 ) { throw error7 || error9 || error16; }
   
-      setState(prevState => ({ ...prevState, nk2_detail: data7, nk2_detail_5min: data9 }));
-  
+      setState(prevState => ({ 
+        ...prevState, 
+        nk2_detail: data7, 
+        nk2_detail_5min: data9, 
+        nk2_4u_fibre_sensor: data16, 
+      }));
+
     } catch (error) {
       alert(error.message);
     }
@@ -224,15 +233,16 @@ useEffect(() => {
 }, [state.multipledetailsData]);
 
 useEffect(() => {
-  fetchCodingData("records")
-  fetchCodingData("daily")
+  fetchCodingData("records");
+  fetchCodingData("daily");
   fetchMachineTData("machine_t");
   fetchMachineTData("machinetdaily");
   fetchMachineTData("machinetdailybyhours");
   fetchNk2Index("get_nk2_index");
-  fetchNk2Details("get_nk2_details")
+  fetchNk2Details("get_nk2_details");
+  fetchNk2Details("get_nk2_4u_fibre_sensor");
   fetchNk3Index("get_nk3_index");
-  fetchNk3Details("get_nk3_details")
+  fetchNk3Details("get_nk3_details");
   
   const recordsSubscription = supabase
       .channel('public:records')
@@ -295,6 +305,7 @@ return (
       setDetailsData,
       ...state.nk2_detail && { nk2_detail: state.nk2_detail, },
       ...state.nk2_detail_5min && { nk2_detail_5min: state.nk2_detail_5min,},
+      ...state.nk2_4u_fibre_sensor && { nk2_4u_fibre_sensor: state.nk2_4u_fibre_sensor, },
       setMultipleDetailsData,
       ...state.nk2_multipledetail && { nk2_multipledetail: state.nk2_multipledetail, },
       ...state.nk2_multipledetail_5min && { nk2_multipledetail_5min: state.nk2_multipledetail_5min,},

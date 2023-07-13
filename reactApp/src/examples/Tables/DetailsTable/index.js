@@ -25,7 +25,8 @@ import ParameterCardData from "./data/ParameterCardData";
 import Nk2TempChartData from "./data/Nk2TempChartData";
 import Nk2DChartData from "./data/Nk2DChartData";
 import Nk2DTensionData from "./data/Nk2DTensionData";
-import NK24UFibreSensor from "./data/NK24UFibreSensor"
+import NK24UFibreSensor from "./data/NK24UFibreSensor";
+import NK2MAINPressureSensor from "./data/NK2MAINPressureSensor";
 
 function DetailsTable() {
   // Data loading and state management
@@ -37,6 +38,7 @@ function DetailsTable() {
   const [ downtime, setDowntime ] = useState("");
   const [ loading, setLoading ] = useState(true);
   const { fourusensorfibredata } = NK24UFibreSensor();
+  const { nk2pressuresensordata } = NK2MAINPressureSensor();
 
   useEffect(() => {
     // Filter the winding data array
@@ -121,6 +123,11 @@ function DetailsTable() {
         </Grid>
         <MDBox mt={0.5}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+              </MDBox>
+            </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
                 <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
@@ -298,6 +305,24 @@ function DetailsTable() {
                   description="" 
                   date=""
                   datasets={fourusensorfibredata}
+                  percentage={{
+                    color: "info",
+                    amount: "",
+                    label: "",
+                  }}
+                />
+              )}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+              {nk2pressuresensordata.datasets.some((dataset) => dataset.data.length > 0) && (
+                <DetailsChart
+                  color="transparent"
+                  title="空気圧 Air pressure"
+                  description="" 
+                  date=""
+                  datasets={nk2pressuresensordata}
                   percentage={{
                     color: "info",
                     amount: "",

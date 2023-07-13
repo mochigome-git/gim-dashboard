@@ -19,6 +19,7 @@ export const DailyContext = createContext()
     nk2_detail: [],
     nk2_detail_5min: [],
     nk2_4u_fibre_sensor: [],
+    nk2_main_pressure_sensor: [],
     nk2_multipledetail: [],
     nk2_multipledetail_5min: [],
     detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
@@ -111,13 +112,17 @@ export const DailyContext = createContext()
       const { data: data16, error: error16 } = await supabase.rpc("get_nk2_4u_fibre_sensor", {
         seq: seq, date_at: date,
       });
-      if (error7 || error9 || error16 ) { throw error7 || error9 || error16; }
+      const { data: data17, error: error17 } = await supabase.rpc("get_nk2_main_pressure_sensor", {
+        seq: seq, date_at: date,
+      });
+      if (error7 || error9 || error16 || error17) { throw error7 || error9 || error16 || error17; }
   
       setState(prevState => ({ 
         ...prevState, 
         nk2_detail: data7, 
         nk2_detail_5min: data9, 
-        nk2_4u_fibre_sensor: data16, 
+        nk2_4u_fibre_sensor: data16,
+        nk2_main_pressure_sensor: data17, 
       }));
 
     } catch (error) {
@@ -233,62 +238,52 @@ useEffect(() => {
 }, [state.multipledetailsData]);
 
 useEffect(() => {
-  fetchCodingData("records");
-  fetchCodingData("daily");
-  fetchMachineTData("machine_t");
-  fetchMachineTData("machinetdaily");
-  fetchMachineTData("machinetdailybyhours");
-  fetchNk2Index("get_nk2_index");
-  fetchNk2Details("get_nk2_details");
-  fetchNk2Details("get_nk2_4u_fibre_sensor");
-  fetchNk3Index("get_nk3_index");
-  fetchNk3Details("get_nk3_details");
-  
+  fetchCodingData();
+  fetchMachineTData();
+  fetchNk2Index();
+  fetchNk2Details();
+  fetchNk3Index();
+  fetchNk3Details();
+
   const recordsSubscription = supabase
-      .channel('public:records')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
-        fetchCodingData("records");
-        fetchCodingData("daily");
-        Go();
-        setState(prevState => ({ ...prevState, isUpdate: moment.now() }));
-        //console.log('Change received!', /*payload*/);
-      })
-      .subscribe();
-    
+    .channel('public:records')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
+      fetchCodingData();
+      Go();
+      setState(prevState => ({ ...prevState, isUpdate: moment.now() }));
+    })
+    .subscribe();
+
   const machineTSubscription = supabase
-      .channel('public:machine_t')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'machine_t' }, payload => {
-        fetchMachineTData("machine_t");
-        fetchMachineTData("machinetdaily");
-        fetchMachineTData("machinetdailybyhours");
-        //console.log('Change received!', /*payload*/);
-      })
-      .subscribe();
+    .channel('public:machine_t')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'machine_t' }, payload => {
+      fetchMachineTData();
+    })
+    .subscribe();
 
   const nk2indexSubscription = supabase
-      .channel('public:nk2_log_data_storage')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'nk2_log_data_storage' }, payload => {
-        fetchNk2Index("get_nk2_index");
-        //console.log('Nk2 Index Change received!', payload);
-      })
-      .subscribe();
+    .channel('public:nk2_log_data_storage')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'nk2_log_data_storage' }, payload => {
+      fetchNk2Index();
+    })
+    .subscribe();
 
   const nk3indexSubscription = supabase
-  .channel('public:nk3_log_data_storage')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'nk3_log_data_storage' }, payload => {
-    fetchNk3Index("get_nk3_index");
-    //console.log('Nk3 Index Change received!', /*payload*/);
-  })
-  .subscribe();
+    .channel('public:nk3_log_data_storage')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'nk3_log_data_storage' }, payload => {
+      fetchNk3Index();
+    })
+    .subscribe();
 
   return () => {
-      supabase.removeChannel(state.subscription);
-      recordsSubscription.unsubscribe();
-      machineTSubscription.unsubscribe();
-      nk2indexSubscription.unsubscribe();
-      nk3indexSubscription.unsubscribe();
+    supabase.removeChannel(state.subscription);
+    recordsSubscription.unsubscribe();
+    machineTSubscription.unsubscribe();
+    nk2indexSubscription.unsubscribe();
+    nk3indexSubscription.unsubscribe();
   };
 }, []);
+
 
 return (
     <DailyContext.Provider value={{
@@ -306,6 +301,7 @@ return (
       ...state.nk2_detail && { nk2_detail: state.nk2_detail, },
       ...state.nk2_detail_5min && { nk2_detail_5min: state.nk2_detail_5min,},
       ...state.nk2_4u_fibre_sensor && { nk2_4u_fibre_sensor: state.nk2_4u_fibre_sensor, },
+      ...state.nk2_main_pressure_sensor && { nk2_main_pressure_sensor: state.nk2_main_pressure_sensor, },
       setMultipleDetailsData,
       ...state.nk2_multipledetail && { nk2_multipledetail: state.nk2_multipledetail, },
       ...state.nk2_multipledetail_5min && { nk2_multipledetail_5min: state.nk2_multipledetail_5min,},

@@ -1,28 +1,23 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
-export default function Nk2TempChartData() {
-  const { nk2_detail } = useContext(DailyContext);
+export default function Nk3TensionDChartData() {
+  const { nk3_detail } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (nk2_detail && nk2_detail.length > 0 ) {
-        const newSortedData = [...nk2_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-        if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
-          setSortedData(newSortedData);
-        }
+    if (nk3_detail && nk3_detail.length > 0 || nk3_detail.length == 0) {
+      const newSortedData = [...nk3_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
+        setSortedData(newSortedData);
       }
-    };
-  
-    fetchData();
-  }, [nk2_detail, sortedData]);
-  
+    }
+  }, [ nk3_detail, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {
       try {
-        const fields = ["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816" ]; 
+        const fields = ["d534", "d536", "d538", "d540", "d542", "d544", "d546"];
         const newDataPoints = [];
 
         for (let i = 0; i < sortedData.length; i++) {
@@ -68,47 +63,38 @@ export default function Nk2TempChartData() {
   }, [sortedData, processData]);
   
 
-
   return {
-    tempdata: {
+    NK3tensiondata: {
       datasets: [
         {
-          name: "1D1Z",
-          data: dataPoints.map((d) => d.d800),
+          name: "Unwinding",
+          data: dataPoints.map((d) => d.d534),
         },
         {
-          name: "1D2Z",
-          data: dataPoints.map((d) => d.d802),
+          name: "Out-feed",
+          data: dataPoints.map((d) => d.d536),
         },
         {
-          name: "2D1Z",
-          data: dataPoints.map((d) => d.d804),
+          name: "1u G",
+          data: dataPoints.map((d) => d.d538),
         },
         {
-          name: "2D2Z",
-          data: dataPoints.map((d) => d.d806),
+          name: "2u G-r",
+          data: dataPoints.map((d) => d.d540),
         },
         {
-          name: "3D1Z",
-          data: dataPoints.map((d) => d.d808),
+          name: "3u G-r",
+          data: dataPoints.map((d) => d.d542),
         },
         {
-          name: "3D2Z",
-          data: dataPoints.map((d) => d.d810),
+          name: "4u G-r",
+          data: dataPoints.map((d) => d.d544),
         },
         {
-          name: "4D1Z",
-          data: dataPoints.map((d) => d.d812),
+          name: "Winding",
+          data: dataPoints.map((d) => d.d546),
         },
-        {
-          name: "4D2Z",
-          data: dataPoints.map((d) => d.d814),
-        },
-        {
-          name: "4D3Z",
-          data: dataPoints.map((d) => d.d816),
-        },
-        ],
-      },
-    };
+      ],
+    },
   };
+};

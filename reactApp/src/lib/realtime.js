@@ -19,7 +19,13 @@ export const DailyContext = createContext()
     nk2_detail: [],
     nk2_detail_5min: [],
     nk2_4u_fibre_sensor: [],
+    nk2_4u_fibre_sensor_5min: [],
+    nk2_4u_fibre_sensor_multiple: [],
+    nk2_4u_fibre_sensor_multiple_5min: [],
     nk2_main_pressure_sensor: [],
+    nk2_main_pressure_sensor_5min: [],
+    nk2_main_pressure_sensor_multiple: [],
+    nk2_main_pressure_sensor_multiple_5min: [],
     nk2_multipledetail: [],
     nk2_multipledetail_5min: [],
     detailsData: JSON.parse(localStorage.getItem('detailsData')) || null,
@@ -84,10 +90,10 @@ export const DailyContext = createContext()
 
   const fetchNk2Index = async () => {
     try{
-      const { data: data6, error: error6 } = await supabase.rpc('get_nk2_index');
-      if (error6) { throw error6; }
+      const { data: data1, error: error1 } = await supabase.rpc('get_nk2_index');
+      if (error1) { throw error1; }
 
-      setState(prevState => ({ ...prevState, nk2_index: data6 }));
+      setState(prevState => ({ ...prevState, nk2_index: data1 }));
 
     } catch (error) {
       alert(error.message)
@@ -103,26 +109,35 @@ export const DailyContext = createContext()
     }
   
     try {
-      const { data: data7, error: error7 } = await supabase.rpc("get_nk2_details", {
+      const { data: data1, error: error1 } = await supabase.rpc("get_nk2_details", {
         seq: seq, date_at: date,
       });
-      const { data: data9, error: error9 } = await supabase.rpc("get_nk2_details_5min", {
+      const { data: data2, error: error2 } = await supabase.rpc("get_nk2_details_5min", {
         seq: seq, date_at: date,
       });
-      const { data: data16, error: error16 } = await supabase.rpc("get_nk2_4u_fibre_sensor", {
+      const { data: data3, error: error3 } = await supabase.rpc("get_nk2_4u_fibre_sensor", {
         seq: seq, date_at: date,
       });
-      const { data: data17, error: error17 } = await supabase.rpc("get_nk2_main_pressure_sensor", {
+      const { data: data4, error: error4 } = await supabase.rpc("get_nk2_4u_fibre_sensor_5min", {
         seq: seq, date_at: date,
       });
-      if (error7 || error9 || error16 || error17) { throw error7 || error9 || error16 || error17; }
+      const { data: data5, error: error5 } = await supabase.rpc("get_nk2_main_pressure_sensor", {
+        seq: seq, date_at: date,
+      });
+      const { data: data6, error: error6 } = await supabase.rpc("get_nk2_main_pressure_sensor_5min", {
+        seq: seq, date_at: date,
+      });
+      if (error1 || error2 || error3 || error4 || error5 || error6)
+      { throw error1 || error2 || error3 || error4 || error5 || error6; }
   
       setState(prevState => ({ 
         ...prevState, 
-        nk2_detail: data7, 
-        nk2_detail_5min: data9, 
-        nk2_4u_fibre_sensor: data16,
-        nk2_main_pressure_sensor: data17, 
+        nk2_detail: data1, 
+        nk2_detail_5min: data2, 
+        nk2_4u_fibre_sensor: data3,
+        nk2_4u_fibre_sensor_5min: data4,
+        nk2_main_pressure_sensor: data5, 
+        nk2_main_pressure_sensor_5min: data6, 
       }));
 
     } catch (error) {
@@ -139,15 +154,36 @@ export const DailyContext = createContext()
     }
 
     try{
-      const { data: data8, error: error8 } = await supabase.rpc("get_nk2_multipledetails",{
+      const { data: data1, error: error1 } = await supabase.rpc("get_nk2_multipledetails",{
         seq1: seq1, seq2: seq2, date_at: date,
       });
-      const { data: data10, error: error10 } = await supabase.rpc("get_nk2_multipledetails_5min",{
+      const { data: data2, error: error2 } = await supabase.rpc("get_nk2_multipledetails_5min",{
         seq1: seq1, seq2: seq2, date_at: date,
       });
-      if (error8 || error10) { throw error8 || error10; }
+      const { data: data3, error: error3 } = await supabase.rpc("get_nk2_4u_fibre_sensor_multiple", {
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      const { data: data4, error: error4 } = await supabase.rpc("get_nk2_4u_fibre_sensor_multiple_5min", {
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      const { data: data5, error: error5 } = await supabase.rpc("get_nk2_main_pressure_sensor_multiple", {
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      const { data: data6, error: error6 } = await supabase.rpc("get_nk2_main_pressure_sensor_multiple_5min", {
+        seq1: seq1, seq2: seq2, date_at: date,
+      });
+      if (error1 || error2 || error3 || error4 || error5 || error6)
+      { throw error1 || error2 || error3 || error4 || error5 || error6; }
 
-      setState(prevState => ({ ...prevState, nk2_multipledetail: data8, nk2_multipledetail_5min: data10, }));
+      setState(prevState => ({ 
+        ...prevState, 
+        nk2_multipledetail: data1, 
+        nk2_multipledetail_5min: data2, 
+        nk2_4u_fibre_sensor_multiple: data3,
+        nk2_4u_fibre_sensor_multiple_5min: data4,
+        nk2_main_pressure_sensor_multiple: data5, 
+        nk2_main_pressure_sensor_multiple_5min: data6, 
+      }));
   
     } catch (error) {
       alert(error.message);
@@ -301,7 +337,13 @@ return (
       ...state.nk2_detail && { nk2_detail: state.nk2_detail, },
       ...state.nk2_detail_5min && { nk2_detail_5min: state.nk2_detail_5min,},
       ...state.nk2_4u_fibre_sensor && { nk2_4u_fibre_sensor: state.nk2_4u_fibre_sensor, },
+      ...state.nk2_4u_fibre_sensor_5min && { nk2_4u_fibre_sensor_5min: state.nk2_4u_fibre_sensor_5min, },
+      ...state.nk2_4u_fibre_sensor_multiple && { nk2_4u_fibre_sensor_multiple: state.nk2_4u_fibre_sensor_multiple, },
+      ...state.nk2_4u_fibre_sensor_multiple_5min && { nk2_4u_fibre_sensor_multiple_5min: state.nk2_4u_fibre_sensor_multiple_5min, },
       ...state.nk2_main_pressure_sensor && { nk2_main_pressure_sensor: state.nk2_main_pressure_sensor, },
+      ...state.nk2_main_pressure_sensor_5min && { nk2_main_pressure_sensor_5min: state.nk2_main_pressure_sensor_5min, },
+      ...state.nk2_main_pressure_sensor_multiple && { nk2_main_pressure_sensor_multiple: state.nk2_main_pressure_sensor_multiple, },
+      ...state.nk2_main_pressure_sensor_multiple_5min && { nk2_main_pressure_sensor_multiple_5min: state.nk2_main_pressure_sensor_multiple_5min, },
       setMultipleDetailsData,
       ...state.nk2_multipledetail && { nk2_multipledetail: state.nk2_multipledetail, },
       ...state.nk2_multipledetail_5min && { nk2_multipledetail_5min: state.nk2_multipledetail_5min,},

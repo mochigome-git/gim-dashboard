@@ -44,6 +44,7 @@ function reducer(state, action) {
       return { ...state, isDataTableVisible: action.payload };
     case 'SET_TAB_VALUE':
       return { ...state, tabValue: action.payload };
+    // NK2
     case 'SET_NK2_DETAIL':
       return { ...state, nk2Detail: action.payload };
     case 'SET_NK2_DETAIL_5MIN':
@@ -52,6 +53,23 @@ function reducer(state, action) {
       return { ...state, nk2multipleDetail: action.payload };
     case 'SET_NK2_MULTIPLE_DETAIL_5MIN':
       return { ...state, nk2multipleDetail_5min: action.payload };
+    case 'SET_NK2_4U_FIBRE_SENSOR':
+      return { ...state, nk24ufibreSensor: action.payload};
+    case 'SET_NK2_4U_FIBRE_SENSOR_5MIN':
+      return { ...state, nk24ufibreSensor5min: action.payload};
+    case 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE':
+      return { ...state, nk24ufibreSensormultiple: action.payload};
+    case 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE_5MIN':
+      return { ...state, nk24ufibreSensormultiple5min: action.payload};
+    case 'SET_NK2_MAIN_PRESSURE_SENSOR':
+      return { ...state, nk2mainpressureSensor: action.payload};
+    case 'SET_NK2_MAIN_PRESSURE_SENSOR_5MIN':
+      return { ...state, nk2mainpressureSensor5min: action.payload};
+    case 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE':
+      return { ...state, nk2mainpressureSensormultiple: action.payload};
+    case 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE_5MIN':
+      return { ...state, nk2mainpressureSensormultiple5min: action.payload};
+    // NK3
     case 'SET_NK3_DETAIL':
       return { ...state, nk3Detail: action.payload };
     case 'SET_NK3_DETAIL_5MIN':
@@ -59,15 +77,16 @@ function reducer(state, action) {
     case 'SET_NK3_MULTIPLE_DETAIL':
       return { ...state, nk3multipleDetail: action.payload };
     case 'SET_NK3_MULTIPLE_DETAIL_5MIN':
-      return { ...state, nk3multipleDetail_5min: action.payload };   
+      return { ...state, nk3multipleDetail_5min: action.payload };
+    // Trigger   
     case 'SET_DOWNLOAD_TRIGGER':
       return { ...state, downloadTrigger: action.payload };
     case 'SET_DOWNLOAD_MULTIPLE_TRIGGER':
       return { ...state, downloadMultipleTrigger: action.payload };
-      case 'SET_DOWNLOAD_TRIGGER_NK3':
-        return { ...state, downloadTrigger_NK3: action.payload };
-      case 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3':
-        return { ...state, downloadMultipleTrigger_NK3: action.payload };
+    case 'SET_DOWNLOAD_TRIGGER_NK3':
+      return { ...state, downloadTrigger_NK3: action.payload };
+    case 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3':
+      return { ...state, downloadMultipleTrigger_NK3: action.payload };
     case 'SET_IH_SEQ':
       return { ...state, iHSeq: action.payload };
     case 'SET_IH_SEQ_1':
@@ -97,6 +116,14 @@ function Coating() {
     multipleSelection: false,
     nk2Detail: null,
     nk2multipleDetail: null,
+    nk24ufibreSensor: null,
+    nk24ufibreSensor5min: null,
+    nk24ufibreSensormultiple: null,
+    nk24ufibreSensormultiple5min: null,
+    nk2mainpressureSensor: null,
+    nk2mainpressureSensor5min: null,
+    nk2mainpressureSensormultiple: null,
+    nk2mainpressureSensormultiple5min: null,
     nk3Detail: null,
     nk3multipleDetail: null,
     downloadTrigger: false,
@@ -116,6 +143,14 @@ function Coating() {
           nk2_detail_5min, 
           nk2_multipledetail_5min, 
           nk2_multipledetail,
+          nk2_4u_fibre_sensor,
+          nk2_4u_fibre_sensor_5min,
+          nk2_4u_fibre_sensor_multiple,
+          nk2_4u_fibre_sensor_multiple_5min,
+          nk2_main_pressure_sensor,
+          nk2_main_pressure_sensor_5min,
+          nk2_main_pressure_sensor_multiple,
+          nk2_main_pressure_sensor_multiple_5min,
           nk3_detail, 
           nk3_detail_5min, 
           nk3_multipledetail_5min, 
@@ -239,7 +274,7 @@ function Coating() {
       dispatch({ type: 'SET_NK2_DETAIL', payload: nk2_detail });
     }
 
-    if(nk2_detail_5min){
+    if (nk2_detail_5min){
       dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: nk2_detail_5min })
     }
   
@@ -250,12 +285,56 @@ function Coating() {
     if (nk2_multipledetail_5min) {
       dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL_5MIN', payload: nk2_multipledetail_5min });
     }
-  
-    if (state.downloadTrigger && (state.nk2Detail !== null || state.nk2Detail_5min !== null)) {
+
+    if (nk2_4u_fibre_sensor) {
+      dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR', payload: nk2_4u_fibre_sensor });
+    }
+
+    if (nk2_4u_fibre_sensor_5min) {
+      dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_5MIN', payload: nk2_4u_fibre_sensor_5min });
+    }
+
+    if (nk2_4u_fibre_sensor_multiple) {
+      dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE', payload: nk2_4u_fibre_sensor_multiple });
+    }
+
+    if (nk2_4u_fibre_sensor_multiple_5min) {
+      dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE_5MIN', payload: nk2_4u_fibre_sensor_multiple_5min });
+    }
+
+    if (nk2_main_pressure_sensor) {
+      dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR', payload: nk2_main_pressure_sensor });
+    }
+
+    if (nk2_main_pressure_sensor_5min) {
+      dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_5MIN', payload: nk2_main_pressure_sensor_5min });
+    }
+
+    if (nk2_main_pressure_sensor_multiple) {
+      dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE', payload: nk2_main_pressure_sensor_multiple });
+    }
+
+    if (nk2_main_pressure_sensor_multiple_5min) {
+      dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE_5MIN', payload: nk2_main_pressure_sensor_multiple_5min });
+    }
+
+    if (state.downloadTrigger 
+      && (state.nk2Detail !== null 
+      || state.nk2Detail_5min !== null
+      || state.state.nk24ufibreSensor !== null
+      || state.nk24ufibreSensor5min !== null
+      || state.nk2mainpressureSensor !== null
+      || state.nk2mainpressureSensor5min !== null
+      )) {
       const folderName = `nk2_roll_no:${state.cLOTNo}`;
       const data = state.everyFiveMinutes ? state.nk2Detail_5min : state.nk2Detail;
+      const sheet2Data = state.everyFiveMinutes ? state.nk24ufibreSensor5min : state.nk24ufibreSensor;
+      console.log(sheet2Data)
+      const sheet3Data = state.everyFiveMinutes ? state.nk2mainpressureSensor5min : state.nk2mainpressureSensor;
       const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+        state.everyFiveMinutes 
+        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data) 
+        : generateNK2CSV(data, sheet2Data, sheet3Data)
       }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
@@ -270,16 +349,31 @@ function Coating() {
         dispatch({ type: 'SET_LOADING', payload: false });
         dispatch({ type: 'SET_NK2_DETAIL', payload: null });
         dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: null });
+        dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR', payload: null });
+        dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_5MIN', payload: null });
+        dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR', payload: null });
+        dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_TRIGGER', payload: false });
       }, 900);
-    }      
+    }    
   
-    if (state.downloadMultipleTrigger && (state.nk2multipleDetail !== null || state.nk2multipleDetail_5min !== null)) {
+    if (state.downloadMultipleTrigger 
+      && (state.nk2multipleDetail !== null 
+        || state.nk2multipleDetail_5min !== null
+        || state.nk24ufibreSensormultiple5min !== null
+        || state.nk24ufibreSensormultiple !== null
+        || state.nk2mainpressureSensormultiple5min !== null
+        || state.nk2mainpressureSensormultiple !== null        
+      )) {
       const noSelected = state.multipleSelection;
       const data = state.everyFiveMinutes ? state.nk2multipleDetail_5min : state.nk2multipleDetail;
-      const folderName = `nk2_roll_no:${state.cLOTNo1}~${state.cLOTNo2}(${noSelected}lot)` ;
+      const sheet2Data = state.everyFiveMinutes ? state.nk24ufibreSensormultiple5min : state.nk24ufibreSensormultiple;
+      const sheet3Data = state.everyFiveMinutes ? state.nk2mainpressureSensormultiple5min : state.nk2mainpressureSensormultiple;
+      const folderName = `nk2_roll_no:${state.cLOTNo1}~${state.cLOTNo2}(${noSelected}lot)`;
       const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+        state.everyFiveMinutes 
+        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data) 
+        : generateNK2CSV(data, sheet2Data, sheet3Data)
       }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
@@ -294,10 +388,41 @@ function Coating() {
         dispatch({ type: 'SET_LOADING', payload: false });
         dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL', payload: null });
         dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL_5MIN', payload: null });
+        dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE', payload: null });
+        dispatch({ type: 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE_5MIN', payload: null });
+        dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE', payload: null });
+        dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: false });
       }, 900);
     }
-  }, [nk2_detail, nk2_detail_5min, nk2_multipledetail, nk2_multipledetail_5min, state.downloadTrigger, state.nk2Detail, state.downloadMultipleTrigger, state.nk2multipleDetail]);
+  }, [
+    nk2_detail, 
+    nk2_detail_5min, 
+    nk2_multipledetail, 
+    nk2_multipledetail_5min, 
+    nk2_4u_fibre_sensor, 
+    nk2_4u_fibre_sensor_5min,
+    nk2_4u_fibre_sensor_multiple,
+    nk2_4u_fibre_sensor_multiple_5min,
+    nk2_main_pressure_sensor, 
+    nk2_main_pressure_sensor_5min,
+    nk2_main_pressure_sensor_multiple,
+    nk2_main_pressure_sensor_multiple_5min,
+    state.downloadTrigger, 
+    state.downloadMultipleTrigger,
+    state.nk2Detail, 
+    state.nk2Detail_5min, 
+    state.everyFiveMinutes, 
+    state.cLOTNo,
+    state.nk24ufibreSensor,
+    state.nk24ufibreSensor5min,
+    state.nk2mainpressureSensor,
+    state.nk2mainpressureSensor5min,
+    state.nk24ufibreSensormultiple,
+    state.nk24ufibreSensormultiple5min,
+    state.nk2mainpressureSensormultiple,
+    state.nk2mainpressureSensormultiple5min
+  ]);
 
   useEffect(() => {
     if (nk3_detail) {

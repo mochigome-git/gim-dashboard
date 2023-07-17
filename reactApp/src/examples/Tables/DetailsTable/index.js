@@ -23,43 +23,71 @@ import DetailsChart from "../../../examples/Charts/BarCharts/DetailsChart";
 // Data
 import ParameterCardData from "./data/ParameterCardData";
 import Nk2TempChartData from "./data/Nk2TempChartData";
+import Nk3TempChartData from "./data/Nk3TempChartData"
 import Nk2DChartData from "./data/Nk2DChartData";
+import Nk3DChartData from "./data/Nk3DChartData";
 import Nk2DTensionData from "./data/Nk2DTensionData";
+import Nk3DTensionData from "./data/Nk3DTensionData"
 import NK24UFibreSensor from "./data/NK24UFibreSensor";
 import NK2MAINPressureSensor from "./data/NK2MAINPressureSensor";
 
 function DetailsTable() {
-  // Data loading and state management
-  const { tempdata } = Nk2TempChartData();
-  const { ddata } = Nk2DChartData();
+  // State management
+  const [timeDifference, setTimeDifference] = useState("");
+  const [downtime, setDowntime] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // common Data loading
   const { data } = ParameterCardData();
+
+  // nk2 Data loading
+  const { tempdata } = Nk2TempChartData(); 
+  const { ddata } = Nk2DChartData();
   const { tensiondata } = Nk2DTensionData();
-  const [ timeDifference, setTimeDifference ] = useState("");
-  const [ downtime, setDowntime ] = useState("");
-  const [ loading, setLoading ] = useState(true);
   const { fourusensorfibredata } = NK24UFibreSensor();
   const { nk2pressuresensordata } = NK2MAINPressureSensor();
 
+  // nk3 Data loading
+  const { NK3tempdata } = Nk3TempChartData();
+  const { NK3tensiondata } = Nk3DTensionData();
+  const { NK3ddata } = Nk3DChartData();
+
   useEffect(() => {
-    // Filter the winding data array
-    const filteredData = ddata.datasets[6].data.filter((d) => d.y > 190);
-    // Ignore the calculation if the filtered data array is empty
+    let dataToUse = ddata;
+  
+    if (ddata && ddata.datasets[6].data.length === 0) {
+      if (NK3ddata && NK3ddata.datasets[6].data.length === 0) {
+        return; // Return if both ddata and NK3ddata have no data
+      } else {
+        dataToUse = NK3ddata; // Use NK3ddata if ddata has no data
+      }
+    }
+  
+    const filteredData = dataToUse.datasets[6].data.filter((d) => d.y > 190);
+  
     if (filteredData.length === 0) {
       return;
     }
+  
     const start = filteredData[0].x;
     const end = filteredData[filteredData.length - 1].x;
     const diff = end - start;
-    const minutes = Math.floor(diff / 60000); // 60000 milliseconds in a minute
+    const minutes = Math.floor(diff / 60000);
     const seconds = Math.floor((diff % 60000) / 1000);
-
     const downtimeString = `${minutes}m ${seconds}s`;
+  
     setDowntime(downtimeString);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [ddata]);
-
+  
+    // Cleanup function to reset downtime when unmounting
+    return () => {
+      setDowntime("");
+    };
+  }, [ddata, NK3ddata]);
+  
+  // useEffect hook to calculate time difference
   useEffect(() => {
     const calculateTimeDifference = () => {
       const startDate = new Date(`1970-01-01T${data.time.start}Z`);
@@ -67,13 +95,21 @@ function DetailsTable() {
       const timeDiffInMs = endDate.getTime() - startDate.getTime();
       const minutes = Math.floor(timeDiffInMs / 1000 / 60);
       const seconds = Math.round((timeDiffInMs / 1000) % 60);
-      setTimeDifference(`${minutes}m ${seconds}s`);
+      const timeDifference = minutes === 0 && seconds === 0 ? "0m 0s" : `${minutes}m ${seconds}s`;
+      setTimeDifference(timeDifference);
     };
+  
     calculateTimeDifference();
     setTimeout(() => {
       setLoading(false);
     }, 1000);
+  
+    // Cleanup function to reset time difference when unmounting
+    return () => {
+      setTimeDifference("");
+    };
   }, [data]);
+  
 
   if (loading) {
     return (
@@ -244,7 +280,7 @@ function DetailsTable() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {ddata.datasets.some((dataset) => dataset.data.length > 0) && (
+              {ddata.datasets.some((dataset) => dataset.data.length > 0) ? (
                 <DetailsChart
                   color="transparent"
                   title="段差ロール D-roll"
@@ -257,30 +293,60 @@ function DetailsTable() {
                     label: "",
                   }}
                 />
-              )}
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-              {tempdata.datasets.some((dataset) => dataset.data.length > 0) && (
-                <DetailsChart
+              ) : (
+                NK3ddata.datasets.some((dataset) => dataset.data.length > 0) && (
+                  <DetailsChart
                   color="transparent"
-                  title="ダクト温度 Temperature"
+                  title="段差ロール D-roll"
                   description="" 
                   date=""
-                  datasets={tempdata}
+                  datasets={NK3ddata}
                   percentage={{
                     color: "info",
                     amount: "",
                     label: "",
                   }}
                 />
-              )}
+              )
+            )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
+                {tempdata.datasets.some((dataset) => dataset.data.length > 0) ? (
+                  <DetailsChart
+                    color="transparent"
+                    title="ダクト温度 Temperature"
+                    description=""
+                    date=""
+                    datasets={tempdata}
+                    percentage={{
+                      color: "info",
+                      amount: "",
+                      label: "",
+                    }}
+                  />
+                ) : (
+                  NK3tempdata.datasets.some((dataset) => dataset.data.length > 0) && (
+                    <DetailsChart
+                      color="transparent"
+                      title="ダクト温度 Temperature"
+                      description=""
+                      date=""
+                      datasets={NK3tempdata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )
+                )}
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <MDBox mb={3}>
+              {tensiondata.datasets.some((dataset) => dataset.data.length > 0) ? (
                 <DetailsChart
                   color="transparent"
                   title="テンション Tension"
@@ -293,6 +359,21 @@ function DetailsTable() {
                     label: "",
                   }}
                 />
+              ) : (
+                NK3tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
+                  <DetailsChart
+                    color="transparent"
+                    title="テンション Tension"
+                    description="" 
+                    date=""
+                    datasets={NK3tensiondata}
+                    percentage={{
+                      color: "info",
+                      amount: "",
+                      label: "",
+                    }}
+                  />
+                )
               )}
               </MDBox>
             </Grid>

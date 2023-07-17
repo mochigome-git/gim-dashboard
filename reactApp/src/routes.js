@@ -24,7 +24,7 @@
 import Dashboard from "./layouts/dashboard";
 import Coating from "./layouts/tables/index";
 //import Billing from "./layouts/billing";
-import Notifications from "./layouts/notifications";
+//import Notifications from "./layouts/notifications";
 //import Profile from "./layouts/profile";
 //import SignIn from "./layouts/authentication/sign-in";
 
@@ -32,7 +32,7 @@ import Notifications from "./layouts/notifications";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BackupTableIcon from '@mui/icons-material/BackupTable';
 //import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+//import NotificationsIcon from '@mui/icons-material/Notifications';
 //import PersonIcon from '@mui/icons-material/Person';
 //import LoginIcon from '@mui/icons-material/Login';
 

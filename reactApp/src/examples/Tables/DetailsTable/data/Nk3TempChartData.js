@@ -1,14 +1,14 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
-export default function Nk2TempChartData() {
-  const { nk2_detail } = useContext(DailyContext);
+export default function Nk3TempChartData() {
+  const { nk3_detail } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (nk2_detail && nk2_detail.length > 0 ) {
-        const newSortedData = [...nk2_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      if (nk3_detail && nk3_detail.length > 0 || nk3_detail.length == 0) {
+        const newSortedData = [...nk3_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
         if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
           setSortedData(newSortedData);
         }
@@ -16,7 +16,7 @@ export default function Nk2TempChartData() {
     };
   
     fetchData();
-  }, [nk2_detail, sortedData]);
+  }, [nk3_detail, sortedData]);
   
 
   const processData = useMemo(() => {
@@ -70,7 +70,7 @@ export default function Nk2TempChartData() {
 
 
   return {
-    tempdata: {
+    NK3tempdata: {
       datasets: [
         {
           name: "1D1Z",

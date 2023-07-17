@@ -28,6 +28,7 @@
     "highcharts": "^10.3.2",
     "highcharts-react-official": "^3.1.0",
     "igniteui-react-charts": "^18.1.1",
+    "install": "^0.13.0",
     "jquery": "^3.6.3",
     "material-ui-search-bar": "^1.0.0",
     "moment": "^2.29.4",
@@ -44,7 +45,8 @@
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
     "stylis-plugin-rtl": "2.0.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

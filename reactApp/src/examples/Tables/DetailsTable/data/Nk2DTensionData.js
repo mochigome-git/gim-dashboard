@@ -6,13 +6,13 @@ export default function Nk2TensionDChartData() {
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    if (nk2_detail && nk2_detail.length > 0) {
+    if (nk2_detail && nk2_detail.length > 0 ) {
       const newSortedData = [...nk2_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
       }
     }
-    if (nk3_detail && nk3_detail.length > 0) {
+    if (nk3_detail && nk3_detail.length > 0 ) {
       const newSortedData = [...nk3_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
@@ -49,14 +49,25 @@ export default function Nk2TensionDChartData() {
   const [dataPoints, setDataPoints] = useState([]);
 
   useEffect(() => {
-    if (sortedData.length > 0) {
+    if (sortedData.length > 0 || sortedData.length == 0) {
       const processDataPromise = processData();
       const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000));
+      let isMounted = true; // Add a flag to track component mount state
       Promise.race([processDataPromise, timeoutPromise])
-        .then((newDataPoints) => setDataPoints(newDataPoints))
+        .then((newDataPoints) => {
+          if (isMounted) {
+            setDataPoints(newDataPoints);
+          }
+        })
         .catch((error) => console.error(error));
+  
+      // Cleanup function to be called when the component unmounts
+      return () => {
+        isMounted = false;
+      };
     }
   }, [sortedData, processData]);
+  
 
   return {
     tensiondata: {

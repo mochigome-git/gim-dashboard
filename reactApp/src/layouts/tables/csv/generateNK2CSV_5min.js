@@ -1,6 +1,5 @@
-import moment from 'moment';
 
-export default function generateNK2CSV_5min(data, everyFiveMinutes=false) {
+export default function generateNK2CSV_5min(data, sheet2Data, sheet3Data) {
     // Set CSV header
     const CSV_HEADER = [["uuid", "ID"],["created_at", "Date"],["i_h_seq", "roll seq"],["c_lot_no", "roll no"],
     /**["m24", "1D1Z Heating1"],["m25", "1D1Z Heating2"],["m26", "1D2Z Heating1"],["m27", "1D2Z Heating2"],["m28", "2D1Z Heating1"],
@@ -27,96 +26,122 @@ export default function generateNK2CSV_5min(data, everyFiveMinutes=false) {
     ["d392", "Current speed"],["d534", "Unwinding"],["d536", "Out-feed"],["d538", "1u G"],["d540", "2u G-r"],["d542", "3u G"],["d544", "4u G-r"],
     ["d546", "Winding"],["d774", "B Tension"],["d776", "B Taper"],["d778", "B tension output"],["d676", "Winding meter"],["d650", "Total meter"]];
                                   
-    const sortData = (data) => {
-      if (!data) {
-        return [];
-      }
-      return data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    const CSV_HEADER_SHEET2 = [
+      ["id", "ID"],
+      ["created_at", "Date"],
+      ["i_h_seq", "roll seq"],
+      ["c_lot_no", "roll no"],
+      ["sensor1", "4U Fibre Sensor 1"],
+      ["sensor2", "4U Fibre Sensor 2"],
+      ["sensor3", "4U Fibre Sensor 3"]
+    ];
+
+    const CSV_HEADER_SHEET3 = [
+      ["id", "ID"],
+      ["created_at", "Date"],
+      ["i_h_seq", "roll seq"],
+      ["c_lot_no", "roll no"],
+      ["mpa", "Pressure(MPa)"]
+    ];
+
+   // Sort data by date
+   const sortData = (data) => {
+    if (!data) {
+      return [];
     }
-  
-    const fillNullValues = (sortedData) => {
-      for (let i = 0; i < sortedData.length; i++) {
-        const currentRow = sortedData[i];
-        const prevRow = i > 0 ? sortedData[i-1] : null;
-        CSV_HEADER.forEach((header) => {
-          if (currentRow[header[0]] === null) {
-            if (prevRow !== null && prevRow[header[0]] !== null) {
-              currentRow[header[0]] = prevRow[header[0]];
-            } else {
-              for (let j = i + 1; j < sortedData.length; j++) {
-                const nextRow = sortedData[j];
-                if (nextRow[header[0]] !== null) {
-                  currentRow[header[0]] = nextRow[header[0]];
-                  break;
-                }
+    return data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+  };
+
+  // Fill null values with previous or next non-null values
+  const fillNullValues = (sortedData) => {
+    for (let i = 0; i < sortedData.length; i++) {
+      const currentRow = sortedData[i];
+      const prevRow = i > 0 ? sortedData[i - 1] : null;
+      CSV_HEADER.forEach((header) => {
+        if (currentRow[header[0]] === null) {
+          if (prevRow !== null && prevRow[header[0]] !== null) {
+            currentRow[header[0]] = prevRow[header[0]];
+          } else {
+            for (let j = i + 1; j < sortedData.length; j++) {
+              const nextRow = sortedData[j];
+              if (nextRow[header[0]] !== null) {
+                currentRow[header[0]] = nextRow[header[0]];
+                break;
               }
             }
           }
-        });
-      }
-      return sortedData;
+        }
+      });
     }
-  
-    const generateCSVHeader = () => {
-      const headerRow = CSV_HEADER.map((header) => {
-        return header[1];
-      }).join(",");
-      return `${headerRow}`;
+    return sortedData;
+  };
+
+  // Generate CSV header row
+  const generateCSVHeader = () => {
+    const headerRow = CSV_HEADER.map((header) => header[1]).join(",");
+    return `${headerRow}`;
+  };
+
+  // Generate CSV data for all sheets
+  const generateCSVData = (sortedData, sheet2Data, sheet3Data) => {
+    const csvData = [];
+
+    // First Sheet
+    for (let i = 0; i < sortedData.length; i++) {
+      const newRow = [];
+      CSV_HEADER.forEach((header, j) => {
+        newRow[j] = sortedData[i][header[0]];
+      });
+      csvData.push(newRow.join(","));
     }
-  
-    const generateCSVData = (sortedData) => {
-      const csvData = []; // Remove header from CSV data
-      for (let i = 0; i < sortedData.length; i++) {
+
+    // Second Sheet (sheet2Data)
+    if (sheet2Data && sheet2Data.length > 0) {
+      csvData.push(""); // Empty row between sheets
+      csvData.push(CSV_HEADER_SHEET2.map(header => header[1]).join(","));
+
+      for (let i = 0; i < sheet2Data.length; i++) {
         const newRow = [];
-        CSV_HEADER.forEach((header, j) => {
-          newRow[j] = sortedData[i][header[0]];
+        const rowData = sheet2Data[i];
+        CSV_HEADER_SHEET2.forEach(header => {
+          newRow.push(rowData[header[0]]);
         });
         csvData.push(newRow.join(","));
       }
-      const header = generateCSVHeader(); // Add header and first row
-      csvData.unshift(header);
-
-      // Add header at the second row
-      const secondHeaderRow = CSV_HEADER.map((header) => {
-      return header[0];
-    }).join(",");
-      csvData.splice(1, 0, secondHeaderRow);
-
-      return csvData.join("\n");
     }
-  
-    let sortedData = sortData(data);
-  
-    if (sortedData.length > 0 && everyFiveMinutes) {
-      const start = moment(sortedData[0].created_at);
-      const end = moment(sortedData[sortedData.length - 1].created_at);
-      const fiveMinutes = moment.duration(5, 'minutes');
-    
-      const fiveMinutesData = [];
-    
-      for (let time = start; time < end; time = time.add(fiveMinutes)) {
-        const nearestRow = sortedData.reduce((prev, curr) => {
-          const prevTime = moment(prev.created_at);
-          const currTime = moment(curr.created_at);
-          const prevDiff = Math.abs(time.diff(prevTime));
-          const currDiff = Math.abs(time.diff(currTime));
-          return currDiff < prevDiff ? curr : prev;
+
+    // Third Sheet (sheet3Data)
+    if (sheet3Data && sheet3Data.length > 0) {
+      csvData.push(""); // Empty row between sheets
+      csvData.push(CSV_HEADER_SHEET3.map(header => header[1]).join(","));
+
+      for (let i = 0; i < sheet3Data.length; i++) {
+        const newRow = [];
+        const rowData = sheet3Data[i];
+        CSV_HEADER_SHEET3.forEach(header => {
+          newRow.push(rowData[header[0]]);
         });
-    
-        if (nearestRow.d540 <= 0) {
-          fiveMinutesData.push(nearestRow);
-        }
+        csvData.push(newRow.join(","));
       }
-    
-      sortedData = fiveMinutesData;
     }
-    
-    sortedData = fillNullValues(sortedData);
-    const csvData = generateCSVData(sortedData);
 
-    // データを空の配列に再代入
-    sortedData = [];
-    
-  
-    return csvData;
-    } 
+    const header = generateCSVHeader(); // Add header row
+    csvData.unshift(header);
+
+    return csvData.join("\n");
+  };
+
+  // Sort data
+  let sortedData = sortData(data);
+
+  // Fill null values
+  sortedData = fillNullValues(sortedData);
+
+  // Generate CSV data
+  const csvData = generateCSVData(sortedData, sheet2Data, sheet3Data);
+
+  // データを空の配列に再代入
+  sortedData = [];
+
+  return csvData;
+}

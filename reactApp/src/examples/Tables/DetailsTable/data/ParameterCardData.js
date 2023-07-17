@@ -7,7 +7,7 @@ export default function ParameterCardData (){
     useEffect(() => {
         let filteredData;
 
-            if (nk2_detail) {
+            if (nk2_detail && nk2_detail.length > 0 || nk2_detail.length == 0) {
                 filteredData = nk2_detail.filter(item => item.d676 !== undefined && item.d650 !== undefined);
                 if (nk2_detail && filteredData.length > 0) {
                 const lastItem = filteredData[filteredData.length - 1];
@@ -33,9 +33,9 @@ export default function ParameterCardData (){
                 }
             }
 
-          if (nk3_detail) {
+          if (nk3_detail && nk3_detail.length > 0 || nk3_detail.length == 0) {
             filteredData = nk3_detail.filter(item => item.d676 !== undefined && item.d650 !== undefined);
-            if (nk3_detail && filteredData.length > 0) {
+            if (nk3_detail && filteredData.length > 0 ) {
             const lastItem = filteredData[filteredData.length - 1];
                 setData({
                     rollnumber: lastItem.i_h_seq,

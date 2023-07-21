@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "./lib/supabase";
 import Home from "./Home";
 import Login from "./layouts/authentication/login"
@@ -32,6 +32,7 @@ const App = () => {
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
   const Timenow = new Date(Date.now()).toLocaleString();
+  const lastActivityRef = useRef(Date.now());
 
 
   useEffect(() => {
@@ -46,21 +47,21 @@ const App = () => {
 
   useEffect(() => {
     let interval;
-  
+
     const checkLastActivity = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        const signIn = new Date(user.last_sign_in_at).toLocaleDateString(); 
-        const today = new Date().toLocaleDateString(); 
+        const signIn = new Date(user.last_sign_in_at).toLocaleDateString();
+        const today = new Date().toLocaleDateString();
 
-        if (signIn !== today){
+        if (signIn !== today) {
           logoutUser();
         } else if (signIn === today) {
-          const lastActivity = parseInt(localStorage.getItem("lastActivity"), 10) || 0;
           const now = Date.now();
-          const diff = now - lastActivity;
+          const diff = now - lastActivityRef.current;
+          console.log(lastActivityRef.current, diff);
 
-          if (diff > 30 * 60 * 1000) { 
+          if (diff > 30 * 60 * 1000) { //30 Minute x 60 Second x 1000 millisecond
             logoutUser();
           } else {
             localStorage.setItem("lastActivity", now.toString());
@@ -70,15 +71,15 @@ const App = () => {
         console.error(error);
       }
     };
-  
+
     const startInterval = () => {
-      interval = setInterval(checkLastActivity, 30 * 60 * 1000); 
+      interval = setInterval(checkLastActivity, 30 * 60 * 1000);
     };
-  
+
     const stopInterval = () => {
       clearInterval(interval);
     };
-  
+
     const logoutUser = async () => {
       try {
         await supabase.auth.signOut();
@@ -92,18 +93,13 @@ const App = () => {
         console.error(error);
       }
     };
-  
-    const handleActivity = () => {
-      const now = Date.now();
-      localStorage.setItem("lastActivity", now.toString());
-    };
-  
+
     startInterval();
-  
+
     // Add global event listeners for user activity
     document.addEventListener("mousemove", handleActivity);
     document.addEventListener("keydown", handleActivity);
-  
+
     return () => {
       stopInterval();
       // Remove the global event listeners when the component unmounts
@@ -111,6 +107,11 @@ const App = () => {
       document.removeEventListener("keydown", handleActivity);
     };
   }, []);
+
+  // Handle activity function to update the ref
+  const handleActivity = () => {
+    lastActivityRef.current = Date.now();
+  };
   
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>

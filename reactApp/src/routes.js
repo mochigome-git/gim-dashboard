@@ -23,10 +23,11 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "./layouts/dashboard";
 import Coating from "./layouts/tables/index";
+import Resetpassword from "./layouts/authentication/reset-password/cover/index"
 //import Billing from "./layouts/billing";
 //import Notifications from "./layouts/notifications";
 //import Profile from "./layouts/profile";
-//import SignIn from "./layouts/authentication/sign-in";
+import SignIn from "./layouts/authentication/sign-in"
 
 // @mui icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -34,7 +35,7 @@ import BackupTableIcon from '@mui/icons-material/BackupTable';
 //import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 //import PersonIcon from '@mui/icons-material/Person';
-//import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from '@mui/icons-material/Login'; 
 
 const routes = [
   {
@@ -52,6 +53,14 @@ const routes = [
     icon: <BackupTableIcon fontSize="small"/>,
     route: "/coating",
     component: <Coating />,
+  },
+  {
+    type: "",
+    name: "Reset",
+    key: "reset",
+    icon: <LoginIcon fontSize="small"/>,
+    route: "/authentication/reset-password",
+    component: <Resetpassword />,
   },
   /*{
     type: "collapse",

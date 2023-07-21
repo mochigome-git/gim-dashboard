@@ -112,6 +112,7 @@ function DefaultNavbar({ transparent, light, action }) {
           </MDTypography>
         </MDBox>
         <MDBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
+          {/*  
           <DefaultNavbarLink icon={<DonutLargeIcon/>} name="dashboard" route="/dashboard" light={light} />
           <DefaultNavbarLink icon={<PersonIcon/>} name="profile" route="/profile" light={light} />
           <DefaultNavbarLink
@@ -126,6 +127,7 @@ function DefaultNavbar({ transparent, light, action }) {
             route="/authentication/sign-in"
             light={light}
           />
+          */}
         </MDBox>
         <MDBox
           display={{ xs: "inline-block", lg: "none" }}

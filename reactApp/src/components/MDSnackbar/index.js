@@ -19,9 +19,11 @@ import PropTypes from "prop-types";
 // @mui material ..
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 import Icon from "@mui/material/Icon";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 // Material Dashboard 2 React ..
 import MDBox from "../MDBox";
@@ -33,7 +35,7 @@ import MDSnackbarIconRoot from "../MDSnackbar/MDSnackbarIconRoot";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../context";
 
-function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...rest }) {
+function MDSnackbar({ color, icon, title, dateTime, content, content2, close, bgWhite, ...rest }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -60,13 +62,13 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
       TransitionComponent={Fade}
       autoHideDuration={5000}
       anchorOrigin={{
-        vertical: "bottom",
+        vertical: "top",
         horizontal: "right",
       }}
       {...rest}
       action={
         <IconButton size="small" aria-label="close" color="inherit" onClick={close}>
-          <Icon fontSize="small">close</Icon>
+          <CloseIcon fontSize="small">close</CloseIcon>
         </IconButton>
       }
     >
@@ -92,7 +94,7 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
         >
           <MDBox display="flex" alignItems="center" lineHeight={0}>
             <MDSnackbarIconRoot fontSize="small" ownerState={{ color, bgWhite }}>
-              {icon}
+             <NotificationsActiveIcon color={titleColor}/>
             </MDSnackbarIconRoot>
             <MDTypography
               variant="button"
@@ -107,7 +109,7 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
             <MDTypography variant="caption" color={dateTimeColor}>
               {dateTime}
             </MDTypography>
-            <Icon
+            <CloseIcon
               sx={{
                 color: ({ palette: { dark, white } }) =>
                   (bgWhite && !darkMode) || color === "light" ? dark.main : white.main,
@@ -119,7 +121,7 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
               onClick={close}
             >
               close
-            </Icon>
+            </CloseIcon>
           </MDBox>
         </MDBox>
         <Divider sx={{ margin: 0 }} light={dividerColor} />
@@ -139,6 +141,8 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
           }}
         >
           {content}
+          <div/>
+            {content2}
         </MDBox>
       </MDBox>
     </Snackbar>
@@ -167,6 +171,7 @@ MDSnackbar.propTypes = {
   title: PropTypes.string.isRequired,
   dateTime: PropTypes.string.isRequired,
   content: PropTypes.node.isRequired,
+  content2: PropTypes.node.isRequired,
   close: PropTypes.func.isRequired,
   bgWhite: PropTypes.bool,
 };

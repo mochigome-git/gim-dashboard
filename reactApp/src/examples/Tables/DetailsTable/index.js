@@ -54,7 +54,7 @@ function DetailsTable() {
 
   useEffect(() => {
     let dataToUse = ddata;
-  
+
     if (ddata && ddata.datasets[6].data.length === 0) {
       if (NK3ddata && NK3ddata.datasets[6].data.length === 0) {
         return; // Return if both ddata and NK3ddata have no data
@@ -86,28 +86,24 @@ function DetailsTable() {
       setDowntime("");
     };
   }, [ddata, NK3ddata]);
+
+  const calculateTimeDifference = () => {
+    const startDate = new Date(`1970-01-01T${data.time.start}Z`);
+    const endDate = new Date(`1970-01-01T${data.time.end}Z`);
+    const timeDiffInMs = endDate.getTime() - startDate.getTime();
+    const minutes = Math.floor(timeDiffInMs / 1000 / 60);
+    const seconds = Math.round((timeDiffInMs / 1000) % 60);
+    const timeDifference = minutes === 0 && seconds === 0 ? "0m 0s" : `${minutes}m ${seconds}s`;
+    setTimeDifference(timeDifference);
+  };
   
-  // useEffect hook to calculate time difference
   useEffect(() => {
-    const calculateTimeDifference = () => {
-      const startDate = new Date(`1970-01-01T${data.time.start}Z`);
-      const endDate = new Date(`1970-01-01T${data.time.end}Z`);
-      const timeDiffInMs = endDate.getTime() - startDate.getTime();
-      const minutes = Math.floor(timeDiffInMs / 1000 / 60);
-      const seconds = Math.round((timeDiffInMs / 1000) % 60);
-      const timeDifference = minutes === 0 && seconds === 0 ? "0m 0s" : `${minutes}m ${seconds}s`;
-      setTimeDifference(timeDifference);
-    };
-  
-    calculateTimeDifference();
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  
-    // Cleanup function to reset time difference when unmounting
-    return () => {
-      setTimeDifference("");
-    };
+    if (data.time.start && data.time.end) {
+      calculateTimeDifference();
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   }, [data]);
   
 
@@ -211,7 +207,7 @@ function DetailsTable() {
                 color="transparent"
                 icon={<Rotate90DegreesCwOutlinedIcon/>}
                 title= "Winding meter"
-                count= {`${data.windingmeter}m`}
+                count= {data.windingmeter ? `${data.windingmeter}m` : "NA"}
               />
             </MDBox>
           </Grid>
@@ -221,7 +217,7 @@ function DetailsTable() {
                 color="transparent"
                 icon={<AutoModeOutlinedIcon/>}
                 title= "Total meter"
-                count= {`${data.totalmeter}m`}
+                count= {data.totalmeter? `${data.totalmeter}m` : "NA"}
               />
             </MDBox>
           </Grid>
@@ -231,7 +227,7 @@ function DetailsTable() {
                 color="transparent"
                 icon={<StopCircleIcon/>}
                 title= "Downtime"
-                count= {downtime}
+                count= {downtime? downtime: "NA"}
               />
             </MDBox>
           </Grid>
@@ -271,7 +267,7 @@ function DetailsTable() {
                 color="transparent"
                 icon={<TimelapseIcon/>}
                 title= "Duration"
-                count= {timeDifference}
+                count= {timeDifference? timeDifference: "NA"}
               />
             </MDBox>
           </Grid>

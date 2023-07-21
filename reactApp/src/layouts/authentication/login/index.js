@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -53,12 +39,12 @@ function Login() {
             </Grid>
           </MDTypography>
         </MDBox>
-
         <MDBox pt={0} pb={3} px={3}>
             <MDBox display="flex" alignItems="center" ml={-1}>
             </MDBox>
             <Auth
               supabaseClient={supabase}
+              redirectTo="http://192.168.0.6:3001/authentication/reset-password"
               //highlight-start
               appearance={{ theme: ThemeSupa, style:{anchor:{color: 'grey' }}}}
               theme="dark"

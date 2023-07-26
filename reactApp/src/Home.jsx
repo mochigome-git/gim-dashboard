@@ -114,7 +114,8 @@ const Home = () => {
         <>
           <Sidenav
             color={sidenavColor}
-            brandName="Dashboard"
+            brand={"true"}
+            brandName="GIM Dashboard"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}

@@ -8,6 +8,11 @@ const colors = {
     focus: "#7b809a",
   },
 
+  text2: {
+    main: "#7b809a",
+    focus: "#7b809a",
+  },
+
   transparent: {
     main: "transparent",
   },
@@ -63,6 +68,10 @@ const colors = {
     focus: "#2c3c58",
   },
 
+  sidebar: {
+    main: "#6366f1",
+  },
+
   grey: {
     100: "#f8f9fa",
     200: "#f0f2f5",
@@ -114,6 +123,11 @@ const colors = {
     dark: {
       main: "#42424a",
       state: "#191919",
+    },
+
+    lighttransparent: {
+      main: "rgba(255, 255, 255, 0.04)",
+      state: "rgba(255, 255, 255, 0.04)",
     },
   },
 

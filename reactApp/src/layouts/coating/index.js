@@ -15,7 +15,7 @@ import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 import SelectableDataTable from "../../examples/Tables/SelectableDataTable";
 import SelectableDataTable_nk3 from "../../examples/Tables/SelectableDataTable_nk3";
-import CoatingHome from "../../examples/Tables/IndexTable";
+import CoatingHome from "../../examples/Tables/IndexTable/CoatingHome";
 import DetailsTable from "../../examples/Tables/DetailsTable/index";
 
 // Realtime context library
@@ -137,25 +137,26 @@ function Coating() {
     cLOTNo1: null,
     cLOTNo2: null,
   });
-  const { setDetailsData,
-          setMultipleDetailsData,  
-          nk2_detail, 
-          nk2_detail_5min, 
-          nk2_multipledetail_5min, 
-          nk2_multipledetail,
-          nk2_4u_fibre_sensor,
-          nk2_4u_fibre_sensor_5min,
-          nk2_4u_fibre_sensor_multiple,
-          nk2_4u_fibre_sensor_multiple_5min,
-          nk2_main_pressure_sensor,
-          nk2_main_pressure_sensor_5min,
-          nk2_main_pressure_sensor_multiple,
-          nk2_main_pressure_sensor_multiple_5min,
-          nk3_detail, 
-          nk3_detail_5min, 
-          nk3_multipledetail_5min, 
-          nk3_multipledetail    
-        } = useContext(DailyContext);
+  const { 
+    setDetailsData,
+    setMultipleDetailsData,  
+    nk2_detail, 
+    nk2_detail_5min, 
+    nk2_multipledetail_5min, 
+    nk2_multipledetail,
+    nk2_4u_fibre_sensor,
+    nk2_4u_fibre_sensor_5min,
+    nk2_4u_fibre_sensor_multiple,
+    nk2_4u_fibre_sensor_multiple_5min,
+    nk2_main_pressure_sensor,
+    nk2_main_pressure_sensor_5min,
+    nk2_main_pressure_sensor_multiple,
+    nk2_main_pressure_sensor_multiple_5min,
+    nk3_detail, 
+    nk3_detail_5min, 
+    nk3_multipledetail_5min, 
+    nk3_multipledetail    
+  } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
     if (type === "NK2Details") {

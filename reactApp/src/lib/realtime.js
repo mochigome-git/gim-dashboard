@@ -35,6 +35,9 @@ export const DailyContext = createContext()
     nk3_detail_5min: [],
     nk3_multipledetail: [],
     nk3_multipledetail_5min: [],
+    ij_latest_weight_no1: [],
+    ij_latest_detail_no1: [],
+    ij_index_no1: [],
   });
 
   const setAgoIsLoaded = (value) => {
@@ -60,7 +63,6 @@ export const DailyContext = createContext()
     }));
   };
 
-
   const fetchCodingData = async () => {
     try {
       const { data: data1, error: error1 } = await supabase.rpc('daily')
@@ -76,12 +78,12 @@ export const DailyContext = createContext()
    
   const fetchMachineTData = async () => {
     try {
-      const { data: data3, error: error3 } = await supabase.from("machine_t").select("*").order("date_time", { ascending: false });
-      const { data: data4, error: error4 } = await supabase.rpc('machinetdaily');
-      const { data: data5, error: error5 } = await supabase.rpc('machinetdailybyhours');
-      if (error3 || error4 || error5) { throw error3 || error4 || error5; }
+      const { data: data1, error: error1 } = await supabase.from("machine_t").select("*").order("date_time", { ascending: false });
+      const { data: data2, error: error2 } = await supabase.rpc('machinetdaily');
+      const { data: data3, error: error3 } = await supabase.rpc('machinetdailybyhours');
+      if (error1 || error2 || error3) { throw error1 || error2 || error3; }
 
-      setState(prevState => ({ ...prevState, machine_t: data3, machine_tRecords: data4, machine_tLatestData: data4[0].total, machine_tRecordsbyhour: data5 }));
+      setState(prevState => ({ ...prevState, machine_t: data1, machine_tRecords: data2, machine_tLatestData: data3[0].total, machine_tRecordsbyhour: data3 }));
       
     } catch (error) {
       alert(error.message);
@@ -192,10 +194,10 @@ export const DailyContext = createContext()
 
   const fetchNk3Index = async () => {
     try{
-      const { data: data11, error: error11 } = await supabase.rpc('get_nk3_index');
-      if (error11) { throw error11; }
+      const { data: data1, error: error1 } = await supabase.rpc('get_nk3_index');
+      if (error1) { throw error1; }
 
-      setState(prevState => ({ ...prevState, nk3_index: data11 }));
+      setState(prevState => ({ ...prevState, nk3_index: data1 }));
 
     } catch (error) {
       alert(error.message)
@@ -207,19 +209,19 @@ export const DailyContext = createContext()
     const { date, seq } = detailsData || {};
   
     if (!date || !seq) {
-      return; // do nothing if date and seq are not provided
+      return; 
     }
   
     try {
-      const { data: data12, error: error12 } = await supabase.rpc("get_nk3_details", {
+      const { data: data1, error: error1 } = await supabase.rpc("get_nk3_details", {
         seq: seq, date_at: date,
       });
-      const { data: data13, error: error13 } = await supabase.rpc("get_nk3_details_5min", {
+      const { data: data2, error: error2 } = await supabase.rpc("get_nk3_details_5min", {
         seq: seq, date_at: date,
       });
-      if (error12 || error13 ) { throw error12 || error13; }
+      if (error1 || error2 ) { throw error1 || error2; }
   
-      setState(prevState => ({ ...prevState, nk3_detail: data12, nk3_detail_5min: data13 }));
+      setState(prevState => ({ ...prevState, nk3_detail: data1, nk3_detail_5min: data2 }));
   
     } catch (error) {
       alert(error.message);
@@ -250,75 +252,133 @@ export const DailyContext = createContext()
     }
   };
 
- //call fetchNk2Details() whenever the detailsData state variable changes 
-useEffect(() => {
-  const fetchDetails = async () => {
-    await fetchNk2Details();
-    await fetchNk3Details();
-  };
-
-  if (state.detailsData) {
-    fetchDetails();
+  const fetchIJWeightRecord = async () => {
+    try {
+      const { data: data1, error: error1 } = await supabase.rpc('get_inkjet_weighing_latest_record')
+      const { data: data2, error: error2 } = await supabase.rpc('get_ij_index')
+      if (error1 || error2 ) { throw error1 || error2; }
+      setState(prevState => ({ 
+        ...prevState, 
+        ij_latest_weight_no1: data1,
+        ij_index_no1: data2
+       })
+      );
+    } catch (error) {
+      alert(error.message);
+    }
   }
-}, [state.detailsData]);
 
-useEffect(() => {
-  const fetchmultipleDetails = async () => {
-    await fetchNK2MultipleDetails();
-    await fetchNK3MultipleDetails();
+  const fetchIJWeightDetail = async () => {
+    const data = state.ij_latest_weight_no1[0]?.job.toString()
+
+    if (!data ){
+      return;
+    }
+
+    try {
+        const { data: data1, error: error1 } = await supabase.rpc("get_inkjet_weighing_pick_job", {
+          job: data
+        });
+        if (error1) {throw error1 ;}
+        setState(prevState => ({
+          ...prevState,
+          ij_latest_detail_no1: data1,
+        }));
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
-  if (state.multipledetailsData) {
-    fetchmultipleDetails();
-  }
-}, [state.multipledetailsData]);
+  //injket/weight
+  useEffect(() => {
+    const fetchDetails = async () => {
+      await fetchIJWeightDetail();
+    };
 
-useEffect(() => {
-  fetchCodingData();
-  fetchMachineTData();
-  fetchNk2Index();
-  fetchNk2Details();
-  fetchNk3Index();
-  fetchNk3Details();
+    if (state.ij_latest_weight_no1){
+      fetchDetails();
+    }
+  }, [state.ij_latest_weight_no1])
 
-  const recordsSubscription = supabase
-    .channel('public:records')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
-      fetchCodingData();
-      Go();
-      setState(prevState => ({ ...prevState, isUpdate: moment.now() }));
+  //coating.detail
+  useEffect(() => {
+    const fetchDetails = async () => {
+      await fetchNk2Details();
+      await fetchNk3Details();
+    };
+
+    if (state.detailsData) {
+      fetchDetails();
+    }
+  }, [state.detailsData]);
+
+  //coating/multiple.detail
+  useEffect(() => {
+    const fetchmultipleDetails = async () => {
+      await fetchNK2MultipleDetails();
+      await fetchNK3MultipleDetails();
+    };
+
+    if (state.multipledetailsData) {
+      fetchmultipleDetails();
+    }
+  }, [state.multipledetailsData]);
+
+  useEffect(() => {
+    fetchCodingData();
+    fetchMachineTData();
+    fetchNk2Index();
+    fetchNk2Details();
+    fetchNk3Index();
+    fetchNk3Details();
+    fetchIJWeightRecord();
+
+    const recordsSubscription = supabase
+      .channel('public:records')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'records' }, payload => {
+        fetchCodingData();
+        Go();
+        setState(prevState => ({ ...prevState, isUpdate: moment.now() }));
+      })
+      .subscribe();
+
+    const machineTSubscription = supabase
+      .channel('public:machine_t')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'machine_t' }, payload => {
+        fetchMachineTData();
+      })
+      .subscribe();
+
+    const nk2indexSubscription = supabase
+      .channel('public:nk2_log_data_storage')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'nk2_log_data_storage' }, payload => {
+        fetchNk2Index();
+      })
+      .subscribe();
+
+    const nk3indexSubscription = supabase
+      .channel('public:nk3_log_data_storage')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'nk3_log_data_storage' }, payload => {
+        fetchNk3Index();
+      })
+      .subscribe();
+
+    const weightrecordsSubscription = supabase
+    .channel('public:ij_pkg_weight_records')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ij_pkg_weight_records' }, payload => {
+      fetchIJWeightRecord();
     })
     .subscribe();
 
-  const machineTSubscription = supabase
-    .channel('public:machine_t')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'machine_t' }, payload => {
-      fetchMachineTData();
-    })
-    .subscribe();
-
-  const nk2indexSubscription = supabase
-    .channel('public:nk2_log_data_storage')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'nk2_log_data_storage' }, payload => {
-      fetchNk2Index();
-    })
-    .subscribe();
-
-  const nk3indexSubscription = supabase
-    .channel('public:nk3_log_data_storage')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'nk3_log_data_storage' }, payload => {
-      fetchNk3Index();
-    })
-    .subscribe();
-
-  return () => {
-    supabase.removeChannel(state.subscription);
-    recordsSubscription.unsubscribe();
-    machineTSubscription.unsubscribe();
-    nk2indexSubscription.unsubscribe();
-    nk3indexSubscription.unsubscribe();
-  };
-}, []);
+    return () => {
+      supabase.removeChannel(state.subscription);
+      recordsSubscription.unsubscribe();
+      machineTSubscription.unsubscribe();
+      nk2indexSubscription.unsubscribe();
+      nk3indexSubscription.unsubscribe();
+      weightrecordsSubscription.unsubscribe();
+    };
+  }, []);
 
 
 return (
@@ -352,6 +412,9 @@ return (
       ...state.nk3_detail_5min && { nk3_detail_5min: state.nk3_detail_5min,},
       ...state.nk3_multipledetail && { nk3_multipledetail: state.nk3_multipledetail, },
       ...state.nk3_multipledetail_5min && { nk3_multipledetail_5min: state.nk3_multipledetail_5min,},
+      ij_latest_weight_no1: state.ij_latest_weight_no1,
+      ij_latest_detail_no1: state.ij_latest_detail_no1,
+      ij_index_no1: state.ij_index_no1,
     }}>
       {children}
     </DailyContext.Provider>

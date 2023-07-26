@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
 import MDBoxRoot from "./MDBoxRoot";
 
 const MDBox = forwardRef(
-  ({ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, ...rest }, ref) => (
+  ({ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, borderColor, ...rest }, ref) => (
     <MDBoxRoot
       {...rest}
       ref={ref}
-      ownerState={{ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow }}
+      ownerState={{ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, borderColor, }}
     />
   )
 );
@@ -26,6 +26,7 @@ MDBox.defaultProps = {
   borderRadius: "none",
   shadow: "none",
   coloredShadow: "none",
+  borderColor: "dark",
 };
 
 // Typechecking props for the MDBox
@@ -48,6 +49,7 @@ MDBox.propTypes = {
     "none",
     "transparent"
   ]),
+  borderColor: PropTypes.string,
 };
 
 export default MDBox;

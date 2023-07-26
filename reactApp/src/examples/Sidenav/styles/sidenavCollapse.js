@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+  
 function collapseItem(theme, ownerState) {
   const { palette, transitions, breakpoints, boxShadows, borders, functions } = theme;
   const { active, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = ownerState;
@@ -31,6 +18,10 @@ function collapseItem(theme, ownerState) {
         : white.main,
     display: "flex",
     alignItems: "center",
+    justifyContent: 'flex-start',
+    pl: '16px',
+    pr: '16px',
+    textAlign: 'left',
     width: "100%",
     padding: `${pxToRem(8)} ${pxToRem(10)}`,
     margin: `${pxToRem(1.5)} ${pxToRem(16)}`,
@@ -88,6 +79,9 @@ function collapseIconBox(theme, ownerState) {
 
     "& svg, svg g": {
       color: transparentSidenav || whiteSidenav ? dark.main : white.main,
+      ...(active && {
+        color: theme.palette.sidebar.main,
+       }),
     },
   };
 }
@@ -96,11 +90,12 @@ const collapseIcon = ({ palette: { white, gradients } }, { active }) => ({
   color: active ? white.main : gradients.dark.state,
 });
 
+
 function collapseText(theme, ownerState) {
   const { typography, transitions, breakpoints, functions } = theme;
   const { miniSidenav, transparentSidenav, active } = ownerState;
 
-  const { size, fontWeightRegular, fontWeightLight } = typography;
+  const { size, fontWeightBold, /*fontWeightRegular, fontWeightLight*/ } = typography;
   const { pxToRem } = functions;
 
   return {
@@ -117,9 +112,13 @@ function collapseText(theme, ownerState) {
     },
 
     "& span": {
-      fontWeight: active ? fontWeightRegular : fontWeightLight,
+      fontWeight: active ? fontWeightBold : fontWeightBold,
       fontSize: size.sm,
       lineHeight: 0,
+      color: theme.palette.text.main,
+      ...(active && {
+      color: theme.palette.white.main,
+     }),
     },
   };
 }

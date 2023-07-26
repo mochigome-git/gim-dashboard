@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -8,31 +9,32 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 // Material Dashboard 2 React components
-import MDBox from "../../../components/MDBox";
-import MDTypography from "../../../components/MDTypography";
-import MDButton from "../../../components/MDButton";
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
+//import MDButton from "../../../components/MDButton";
 
 // Icons
-import LooksTwoIcon from '@mui/icons-material/LooksTwo';
-import AddIcon from '@mui/icons-material/Add';
-import Looks3Icon from '@mui/icons-material/Looks3';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import TerminalIcon from '@mui/icons-material/Terminal';
 
 // Material Dashboard 2 React context
-import { useMaterialUIController } from "../../../context";
+import { useMaterialUIController } from "../../../../context";
 
-function CoatingHome({ onNk2TabClick }) {
+function InkjetHome({ }) {
+  const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
-  const handleNk2TabClick = (type) => {
-    onNk2TabClick(type);
+  const handlePackagingWeighingTabClick = () => {
+    navigate("/inkjet/weighing");
   };
   
   return (
     <Card id="home">
       <MDBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
         <MDTypography variant="h6" fontWeight="medium">
-         &nbsp;&nbsp;<strong>Coating Machines</strong>
+         &nbsp;&nbsp;<strong>Inkjet Section</strong>
         </MDTypography>
       </MDBox>
       <MDBox p={2} marginBottom= {50}>
@@ -57,15 +59,15 @@ function CoatingHome({ onNk2TabClick }) {
                       }}
                       >
                         <Tab
-                        label={<strong>NK2</strong>}
+                        label={<strong>Weighing</strong>}
                         sx={{
                             paddingLeft: 3,
                             paddingRight: 3,
                             justifyContent: "flex-start",
                             padding: 3
                           }}
-                        icon={<LooksTwoIcon fontSize="large"/>}
-                        onClick={() => handleNk2TabClick("NK2")}
+                        icon={<Inventory2Icon fontSize="large"/>}
+                        onClick={handlePackagingWeighingTabClick}
                         />
                     </Tabs>
                 </AppBar>
@@ -93,15 +95,49 @@ function CoatingHome({ onNk2TabClick }) {
                       }}
                       >
                         <Tab
-                        label={<strong>NK3</strong>}
+                        label={<strong>Filling</strong>}
                         sx={{
                             paddingLeft: 3,
                             paddingRight: 3,
                             justifyContent: "flex-start",
                             padding: 3
                           }}
-                        icon={<Looks3Icon fontSize="large"/>}
-                        onClick={() => handleNk2TabClick("NK3")}
+                        icon={<LocalGasStationIcon fontSize="large"/>}
+                        />
+                    </Tabs>
+                </AppBar>
+                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              </MDBox>
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={60}>
+            <MDBox
+              borderRadius="lg"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                    <Tabs 
+                      value={0} 
+                      display="flex"
+                      sx={{
+                        border: ({ borders: { borderWidth, borderColor } }) =>
+                          `${borderWidth[1]} solid ${borderColor}`,
+                        flexGrow: 1,
+                        flexShrink: 1,
+                        padding: 0,
+                      }}
+                      >
+                        <Tab
+                        label={<strong>Coding</strong>}
+                        sx={{
+                            paddingLeft: 3,
+                            paddingRight: 3,
+                            justifyContent: "flex-start",
+                            padding: 3
+                          }}
+                        icon={<TerminalIcon fontSize="large"/>}
                         />
                     </Tabs>
                 </AppBar>
@@ -115,4 +151,4 @@ function CoatingHome({ onNk2TabClick }) {
   );
 }
 
-export default CoatingHome;
+export default InkjetHome;

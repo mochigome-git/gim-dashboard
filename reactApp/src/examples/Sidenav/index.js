@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useEffect } from "react";
 
@@ -26,10 +12,12 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import CloseIcon from '@mui/icons-material/Close';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
+import MDButton from "../../components/MDButton";
 
 // Material Dashboard 2 React example components
 import SidenavCollapse from "./SidenavCollapse";
@@ -48,7 +36,7 @@ import {
 
 // Supabase
 import { supabase } from "../../lib/supabase";
-import { Button } from "@mui/material";
+//import { Button } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
@@ -91,6 +79,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location, transparentSidenav ,whiteSidenav]);
 
+
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
     let returnValue;
@@ -113,7 +102,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </Link>
       ) : (
         <NavLink key={key} to={route}>
-          <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
+          <SidenavCollapse name={name} icon={icon} active={key === collapseName.split('/')[0]} />
         </NavLink>
       );
     } else if (type === "title") {
@@ -169,13 +158,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDTypography>
         </MDBox>
         <MDBox component={NavLink} to="/" display="flex" alignItems="center">
-          {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
+            {brand && <MDBox component={AppRegistrationIcon} width="1.75rem" color={textColor}/>}
           <MDBox
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
             <MDTypography component="h6" variant="button" fontWeight="medium" color={textColor}>
-              {brandName}
+             {brandName}
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -189,11 +178,25 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <List>{renderRoutes}
       </List>
       <List>
-        <Button startIcon={<LogoutIcon/>} sx={{ margin: 3, border: "2px #47d48e solid"
-    }}  style={{color: "#47d48e"}}
-        color="primary" variant="outlined" onClick={() => { signOut() }}>
+        <MDButton
+          startIcon={<LogoutIcon />}
+          sx={{
+            margin: 3,
+            border: "2px solid", 
+            borderColor: (theme) => theme.palette.success.main, 
+            color: (theme) => theme.palette.success.main, 
+            "&:hover": {
+              color: (theme) => theme.palette.primary.main,
+            },
+          }}
+          color="primary"
+          variant="outlined"
+          onClick={() => {
+            signOut();
+          }}
+        >
           Logout
-        </Button>
+      </MDButton>
       </List>
     </SidenavRoot>
   );
@@ -201,13 +204,23 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
 // Setting default values for the props of Sidenav
 Sidenav.defaultProps = {
-  color: "info",
+  color: "primary",
   brand: "",
 };
 
 // Typechecking props for the Sidenav
 Sidenav.propTypes = {
-  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  color: PropTypes.oneOf([
+    "primary", 
+    "secondary", 
+    "info", 
+    "success", 
+    "warning", 
+    "error", 
+    "dark", 
+    "transparent", 
+    "lighttransparent",
+    "nocolor"]),
   brand: PropTypes.string,
   brandName: PropTypes.string.isRequired,
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,

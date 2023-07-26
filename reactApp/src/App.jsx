@@ -59,7 +59,6 @@ const App = () => {
         } else if (signIn === today) {
           const now = Date.now();
           const diff = now - lastActivityRef.current;
-          console.log(lastActivityRef.current, diff);
 
           if (diff > 30 * 60 * 1000) { //30 Minute x 60 Second x 1000 millisecond
             logoutUser();

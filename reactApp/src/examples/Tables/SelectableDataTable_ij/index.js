@@ -8,20 +8,14 @@ import PropTypes from "prop-types";
 import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-table";
 
 // @mui material components
-import { darken, alpha } from '@mui/material/styles';
-import { Table, TableBody, TableContainer, TableRow, Autocomplete, Checkbox, TableCell, Switch } from "@mui/material";
-import { Typography, Toolbar, IconButton, Tooltip } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { Table, TableBody, TableContainer, TableRow, Autocomplete, Checkbox, TableCell } from "@mui/material";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CircularProgress from '@mui/material/CircularProgress';
-import CheckIcon from '@mui/icons-material/Check';
-import SaveIcon from '@mui/icons-material/Save';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../components/MDBox";
@@ -30,13 +24,13 @@ import MDInput from "../../../components/MDInput";
 import MDPagination from "../../../components/MDPagination";
 
 // Material Dashboard 2 React example components
-import SelectableDataTableHeadCell from "../../../examples/Tables/SelectableDataTable/SelectableDataTableHeadCell";
-import SelectableDataTableBodyCell from "../../../examples/Tables/SelectableDataTable/SelectableDataTableBodyCell";
+import SelectableDataTableHeadCell from "../../../examples/Tables/SelectableDataTable_ij/SelectableDataTableHeadCell";
+import SelectableDataTableBodyCell from "../../../examples/Tables/SelectableDataTable_ij/SelectableDataTableBodyCell";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../context";
 
-import "/opt/gim-dashboard/reactApp/src/examples/Tables/SelectableDataTable/.css";
+//import "/opt/gim-dashboard/reactApp/src/examples/Tables/SelectableDataTable_ij/.css";
 
 function SelectableDataTable({
   entriesPerPage,
@@ -46,10 +40,6 @@ function SelectableDataTable({
   pagination,
   isSorted,
   noEndBorder,
-  onDetailsTabClick,
-  onDownloadCSV,
-  handleSelectionChange,
-  onMultipleDownloadCSV,
 }) {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
@@ -106,6 +96,22 @@ function SelectableDataTable({
     setGlobalFilter,
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
+
+  const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    '&.Mui-checked': {
+      color: "info",
+    },
+  }));
+  
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+      primary: {
+        main: '#007bff', 
+      },
+    },
+  });
 
   // Set the default value for the entries per page when component mounts
   useEffect(() => setPageSize(defaultValue || 10), [defaultValue,setPageSize]);
@@ -188,35 +194,6 @@ function SelectableDataTable({
     entriesEnd = pageSize * (pageIndex + 1);
   }
 
-  const handleDownload = () => {
-    if (selected.length === 0) {
-      return;
-    }
-  
-    const selectedRows = rows.filter((r) => selected.includes(r.id));
-    const downloadData = [];
-  
-    if (selectedRows.length > 1) {
-      selectedRows.forEach((row) => {
-        const createdAt = row.original.created_at.substr(0, 10);
-        const iHSeq = row.original.i_h_seq;
-        const cLOTNo = row.original.c_lot_no;
-        downloadData.push({ createdAt, iHSeq, cLOTNo });
-      });
-  
-      onMultipleDownloadCSV(downloadData);
-    } else {
-      const row = selectedRows[0];
-      const createdAt = row.original.created_at.substr(0, 10);
-      const iHSeq = row.original.i_h_seq;
-      const cLOTNo = row.original.c_lot_no;
-      onDownloadCSV(createdAt, iHSeq, cLOTNo);
-    }
-  };  
-
-  const handleDetailsTabClick = (type, date, seq) => {
-    onDetailsTabClick(type, date, seq);
-  };
 
   const handleClick = (event, row) => {
     const selectedIndex = selected.indexOf(row.id);
@@ -225,7 +202,6 @@ function SelectableDataTable({
     if (event.detail === 2) {
       const date = row.original.created_at.substr(0, 10);
       const seq = row.original.i_h_seq;
-      handleDetailsTabClick("NK2Details", date, seq)
     } else {
 
     if (selectedIndex === -1) {
@@ -246,7 +222,6 @@ function SelectableDataTable({
     }
   
     setSelected(newSelected);
-    handleSelectionChange(newSelected);
    }
   };
   
@@ -254,7 +229,6 @@ function SelectableDataTable({
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
-      handleSelectionChange(newSelected);
     } else {
       setSelected([]);
     }
@@ -272,20 +246,50 @@ function SelectableDataTable({
     <TableContainer sx={{ boxShadow: "none" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <MDBox display="flex" alignItems="center">
-          <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1}}>
+          <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1}} >
             <DatePicker
-              label="Start Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  Start Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={startdate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                borderRadius: `7px`, 
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
             <DatePicker
-              label="End Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  End Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={enddate}
               onChange={(newValue) => setEndDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                borderRadius: `7px`, 
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
           </MDBox>
           {entriesPerPage || canSearch ? (
@@ -319,6 +323,16 @@ function SelectableDataTable({
                       setSearch(search);
                       onSearchChange(currentTarget.value);
                     }}
+                    sx={{
+                      border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                      borderRadius: `7px`, 
+                      '& .MuiSvgIcon-root' : {color: (theme) => 
+                        darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                      },
+                      '& input::placeholder': {color: (theme) => 
+                        darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                      },
+                    }}
                   />
                 </MDBox>
               )}
@@ -330,20 +344,30 @@ function SelectableDataTable({
         <MDBox component="thead">
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
-              <TableCell padding="checkbox">
-                <Checkbox
+              <ThemeProvider theme={theme}>
+              <TableCell padding="checkbox"
+                sx={(theme) => ({
+                  borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                })}
+                >
+                <CustomCheckbox
                   indeterminate={selected.length > 0 && selected.length < rows.length}
                   checked={rows.length > 0 && selected.length === rows.length}
                   onChange={handleSelectAllClick}
                   inputProps={{ 'aria-label': 'select all rows' }}
                 />
-              </TableCell>
+                </TableCell>
+                </ThemeProvider>
               {headerGroup.headers.map((column) => (
                 <SelectableDataTableHeadCell
                   {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
                   width={column.width ? column.width : "auto"}
                   align={column.align ? column.align : "left"}
                   sorted={setSortedValue(column)}
+                  fontColor={ (theme) =>  darkMode 
+                    ? theme.palette.white.main 
+                    : theme.palette.dark.main
+                    }
                 >
                   {column.render("Header")}
                 </SelectableDataTableHeadCell>
@@ -366,7 +390,7 @@ function SelectableDataTable({
               onMouseLeave={(event) => {
                 if (!isItemSelected) {handleCellMouseLeave(event)}
               }}
-              role="checkbox"
+              role="customcheckbox"
               aria-checked={isItemSelected}
               tabIndex={-1}
               key={row.id}
@@ -379,21 +403,19 @@ function SelectableDataTable({
                   : "inherit",
               }}
               {...row.getRowProps()}>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    color="primary"
+                <ThemeProvider theme={theme}>
+                <TableCell padding="checkbox"
+                  sx={(theme) => ({
+                    borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                  })}
+                  >
+                  <CustomCheckbox
                     checked={isItemSelected}
                     onChange={(event) => handleClick(event, row)}
                     inputProps={{ 'aria-labelledby': labelId }}
-                    style={{
-                      "&.MuiSvgIcon-root":{
-                        "&:hover": {
-                          backgroundColor: darkMode ? "red" : "#f0f0f0", // Black or light gray
-                        },
-                      }
-                    }}
                   />
                 </TableCell>
+                </ThemeProvider>
                 {row.cells.map((cell) => (
                   <SelectableDataTableBodyCell
                     component="th"
@@ -404,6 +426,10 @@ function SelectableDataTable({
                     align={cell.column.align ? cell.column.align : "left"}
                     isSelected={isItemSelected}
                     {...cell.getCellProps()}
+                    fontColor={ (theme) =>  darkMode 
+                    ? theme.palette.white.main 
+                    : theme.palette.dark.main
+                    }
                   >
                     {cell.render("Cell")}
                   </SelectableDataTableBodyCell>

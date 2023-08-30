@@ -39,7 +39,7 @@ export default function Data() {
       return shortForm ? `${shortForm}-` : `${fullMonth}`;
     });
   
-    return formattedDate.replace(/[-,]/g, ' ');
+    return formattedDate.replace(/[-,_]/g, ' ');
   };
 
   useEffect(() => {

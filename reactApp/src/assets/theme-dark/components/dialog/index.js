@@ -16,20 +16,24 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React base styles
 import borders from "../../base/borders";
 import boxShadows from "../../base/boxShadows";
+import colors from "../../base/colors";
 
 const { borderRadius } = borders;
 const { xxl } = boxShadows;
+const { background } = colors;
 
 const dialog = {
   styleOverrides: {
     paper: {
       borderRadius: borderRadius.lg,
       boxShadow: xxl,
+      backgroundColor: background.card,
     },
 
     paperFullScreen: {
       borderRadius: 0,
     },
+    
   },
 };
 

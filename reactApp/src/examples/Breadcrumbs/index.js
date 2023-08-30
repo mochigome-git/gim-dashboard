@@ -22,6 +22,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import { Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
 import Icon from "@mui/material/Icon";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -38,6 +39,7 @@ function Breadcrumbs({ icon, title, route, light }) {
             color: ({ palette: { white, grey } }) => (light ? white.main : grey[600]),
           },
         }}
+        separator={<NavigateNextIcon fontSize="small" />}
       >
         <Link to="/">
           <MDTypography
@@ -75,15 +77,29 @@ function Breadcrumbs({ icon, title, route, light }) {
           {title.replace("-", " ")}
         </MDTypography>
       </MuiBreadcrumbs>
-      <MDTypography
-        fontWeight="bold"
-        textTransform="capitalize"
-        variant="h6"
-        color={light ? "white" : "dark"}
-        noWrap
-      >
+      { title.replace("-", " ") === "dashboard" ? 
+        <MDTypography
+          fontWeight="bold"
+          textTransform="capitalize"
+          variant="h8"
+          color={light ? "white" : "dark"}
+          noWrap
+        >
         {title.replace("-", " ")}
       </MDTypography>
+      : (
+      <MDBox mt={2.3} >
+        <MDTypography
+          fontWeight="bold"
+          textTransform="capitalize"
+          variant="h8"
+          color={light ? "white" : "dark"}
+          noWrap
+        >
+          {title.replace("-", " ")}
+        </MDTypography>
+      </MDBox>
+      )}
     </MDBox>
   );
 }

@@ -16,12 +16,14 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React Base Styles
 import typography from "../../base/typography";
 import borders from "../../base/borders";
+import colors from "../../base/colors";
 
 // Material Dashboard 2 React Helper Functions
 import pxToRem from "../../functions/pxToRem";
 
 const { fontWeightBold, size } = typography;
 const { borderRadius } = borders;
+const { black } = colors;
 
 const root = {
   display: "inline-flex",
@@ -41,7 +43,8 @@ const root = {
 
   "&:disabled": {
     pointerEvent: "none",
-    opacity: 0.65,
+    color: black.main,
+    opacity: 0.55,
   },
 
   "& .material-icons": {

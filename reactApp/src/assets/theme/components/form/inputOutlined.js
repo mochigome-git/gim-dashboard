@@ -21,7 +21,7 @@ import typography from "../../base/typography";
 // Material Dashboard 2 React helper functions
 import pxToRem from "../../functions/pxToRem";
 
-const { inputBorderColor, info, grey, transparent } = colors;
+const { inputBorderColor, info, grey, transparent, dark } = colors;
 const { borderRadius } = borders;
 const { size } = typography;
 
@@ -31,6 +31,20 @@ const inputOutlined = {
       backgroundColor: transparent.main,
       fontSize: size.sm,
       borderRadius: borderRadius.md,
+
+      "& input::placeholder": {
+        color: dark.main,
+        opacity: 0.7,
+      },
+
+      "& .MuiSvgIcon-root": {
+        color: dark.main,
+        opacity: 0.7,
+      },
+
+      '& input:-webkit-autofill': {
+        WebkitTextFillColor: dark.main, 
+      },
 
       "&:hover .MuiOutlinedInput-notchedOutline": {
         borderColor: inputBorderColor,

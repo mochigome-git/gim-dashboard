@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import React, { useState, useEffect, useMemo} from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -121,7 +121,6 @@ const Home = () => {
             onMouseLeave={handleOnMouseLeave}
           />
           <Configurator />
-          {configsButton}
         </>
       )}
       {layout === "vr" && <Configurator />}
@@ -133,4 +132,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default React.memo(Home);

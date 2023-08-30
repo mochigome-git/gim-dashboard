@@ -83,6 +83,7 @@ import dialogTitle from "./components/dialog/dialogTitle";
 import dialogContent from "./components/dialog/dialogContent";
 import dialogContentText from "./components/dialog/dialogContentText";
 import dialogActions from "./components/dialog/dialogActions";
+import formControl from "./components/form/formControl"
 
 export default createTheme({
   breakpoints: { ...breakpoints },
@@ -140,6 +141,7 @@ export default createTheme({
     MuiStepIcon: { ...stepIcon },
     MuiSelect: { ...select },
     MuiFormControlLabel: { ...formControlLabel },
+    MuiformControl: { ...formControl },
     MuiFormLabel: { ...formLabel },
     MuiCheckbox: { ...checkbox },
     MuiRadio: { ...radio },

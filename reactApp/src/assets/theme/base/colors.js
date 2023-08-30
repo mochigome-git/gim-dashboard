@@ -17,6 +17,15 @@ const colors = {
     main: "transparent",
   },
 
+  highlight: {
+    main: "#1eb180",
+    focus: "#1eb180",
+  },
+
+  card2: {
+    main: "#f4f6f8"
+  },
+
   white: {
     main: "#ffffff",
     focus: "#ffffff",
@@ -45,7 +54,7 @@ const colors = {
 
   success: {
     main: "#4CAF50",
-    focus: "#67bb6a",
+    focus: "#0f8a14",
   },
 
   warning: {
@@ -55,17 +64,17 @@ const colors = {
 
   error: {
     main: "#F44335",
-    focus: "#f65f53",
+    focus: "#750d05",
   },
 
   light: {
-    main: "#f0f2f5",
-    focus: "#f0f2f5",
+    main: "#939fad",
+    focus: "#3f506b",
   },
 
   dark: {
     main: "#344767",
-    focus: "#2c3c58",
+    focus: "#07204a",
   },
 
   sidebar: {
@@ -246,7 +255,7 @@ const colors = {
     dark: "#404040",
   },
 
-  inputBorderColor: "#d2d6da",
+  inputBorderColor: "#344767",
 
   tabs: {
     indicator: { boxShadow: "#ddd" },

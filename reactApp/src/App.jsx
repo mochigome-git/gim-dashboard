@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "./lib/supabase";
 import Home from "./Home";
 import Login from "./layouts/authentication/login"
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -118,7 +119,9 @@ const App = () => {
       {showLogoutNotification && (
         <MDSnackbar
         color="error"
-        icon="warning"
+        icon={<NotificationsActiveIcon/>}
+        icon2={<NotificationsActiveIcon/>}
+        inlineColor="transparent"
         title="Session Timeout:"
         content="Inactive for more than 30 minutes."
         content2="You have been logged out."

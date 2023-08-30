@@ -1,0 +1,25 @@
+.MuiPickersLayout-root,
+.MuiDayCalendar-weekDayLabel,
+.MuiDayCalendar-header,
+.MuiPickersDay-root,
+.MuiPickersDay-today,
+.MuiPickersFadeTransitionGroup-root,
+.MuiIconButton-root,
+.MuiOutlinedInput-root,
+.MuiInputLabel-root,
+.MuiPickersCalendarHeader-switchViewButton,
+.MuiPickersCalendarHeader-switchViewIcon,
+.MuiPickersArrowSwitcher-root,
+.MuiPickersArrowSwitcher-button,
+.MuiPickersCalendarHeader-root {
+  color: rgb(206, 206, 206)!important;
+}
+
+.MuiPickersDay-root:disabled,
+.MuiIconButton-root:disabled {
+  color: #6d6d6d8f !important;
+}
+
+.MuiDateCalendar-root {
+  background-color: rgb(18, 18, 18)!important;
+}

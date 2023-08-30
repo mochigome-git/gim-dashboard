@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 // Material Dashboard 2 React Base Styles
 import colors from "../../base/colors";
@@ -22,7 +8,7 @@ import typography from "../../base/typography";
 import pxToRem from "../../functions/pxToRem";
 import rgba from "../../functions/rgba";
 
-const { inputBorderColor, info, grey, transparent, white } = colors;
+const { inputBorderColor, info, grey, transparent, white, background } = colors;
 const { borderRadius } = borders;
 const { size } = typography;
 
@@ -33,8 +19,17 @@ const inputOutlined = {
       fontSize: size.sm,
       borderRadius: borderRadius.md,
 
+      '& input:-webkit-autofill': {
+        WebkitBoxShadow: `0 0 0 1000px ${background.card} inset`, 
+        WebkitTextFillColor: white.main,
+      },
+
       "&:hover .MuiOutlinedInput-notchedOutline": {
         borderColor: rgba(inputBorderColor, 0.6),
+      },
+
+      "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: grey[500],
       },
 
       "&.Mui-focused": {

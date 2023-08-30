@@ -12,7 +12,7 @@ import MDTypography from "../../../../components/MDTypography";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../../context";
 
-function InkjetDetailCards({ 
+function PoDetailCards({ 
     color, 
     title, 
     title2, 
@@ -170,7 +170,7 @@ function InkjetDetailCards({
 }  
 
 // Setting default values for the props of CoatingDetailCards
-InkjetDetailCards.defaultProps = {
+PoDetailCards.defaultProps = {
   color: "transparent",
   percentage: {
     color: "transparent",
@@ -180,7 +180,7 @@ InkjetDetailCards.defaultProps = {
 };
 
 // Typechecking props for the CoatingDetailCards
-InkjetDetailCards.propTypes = {
+PoDetailCards.propTypes = {
   color: PropTypes.oneOf([
     "transparent",
     "primary",
@@ -201,4 +201,4 @@ InkjetDetailCards.propTypes = {
   icon: PropTypes.node.isRequired,
 };
 
-export default InkjetDetailCards;
+export default PoDetailCards;

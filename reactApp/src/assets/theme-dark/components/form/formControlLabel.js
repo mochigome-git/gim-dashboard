@@ -20,7 +20,7 @@ import typography from "../../base/typography";
 // Material Dashboard 2 React helper functions
 import pxToRem from "../../functions/pxToRem";
 
-const { white } = colors;
+const { white, error } = colors;
 const { size, fontWeightBold } = typography;
 
 const formControlLabel = {
@@ -41,7 +41,11 @@ const formControlLabel = {
       marginLeft: pxToRem(4),
 
       "&.Mui-disabled": {
-        color: white.main,
+        color: error.main,
+      },
+
+      "&:has(> input:-webkit-autofill)": {
+        backgroundColor: error.main,
       },
     },
   },

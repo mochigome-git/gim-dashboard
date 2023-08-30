@@ -21,7 +21,7 @@ import borders from "../../base/borders";
 // Material Dashboard 2 React Helper Functions
 import rgba from "../../functions/rgba";
 
-const { info, inputBorderColor, dark, grey, white } = colors;
+const { info, inputBorderColor, dark, grey, white, error } = colors;
 const { size } = typography;
 const { borderWidth } = borders;
 
@@ -30,6 +30,10 @@ const input = {
     root: {
       fontSize: size.sm,
       color: dark.main,
+
+      '& input:-webkit-autofill': {
+        WebkitBoxShadow: `0 0 0 1000px ${info.main} inset`, 
+      },
 
       "&:hover:not(.Mui-disabled):before": {
         borderBottom: `${borderWidth[1]} solid ${rgba(inputBorderColor, 0.6)}`,

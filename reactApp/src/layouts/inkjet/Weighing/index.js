@@ -41,9 +41,6 @@ function Tables() {
                 coloredShadow="none"
                 width="100%"
               >
-                <MDTypography variant="h5" color="dark">
-                  Inkjet Table
-                </MDTypography>
               </MDBox>
               <Card>
                 <MDBox pt={3}>

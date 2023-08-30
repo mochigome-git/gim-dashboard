@@ -346,18 +346,44 @@ function SelectableDataTable_nk3({
         <MDBox display="flex" alignItems="center">
           <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1}}>
             <DatePicker
-              label="Start Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  Start Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={startdate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
             <DatePicker
-              label="End Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  End Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={enddate}
               onChange={(newValue) => setEndDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
           </MDBox>
           {entriesPerPage || canSearch ? (

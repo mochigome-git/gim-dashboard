@@ -1,18 +1,4 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
+import React from "react";
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -20,10 +6,8 @@ import PropTypes from "prop-types";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import Icon from "@mui/material/Icon";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 // Material Dashboard 2 React ..
 import MDBox from "../MDBox";
@@ -35,7 +19,7 @@ import MDSnackbarIconRoot from "../MDSnackbar/MDSnackbarIconRoot";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../context";
 
-function MDSnackbar({ color, icon, title, dateTime, content, content2, close, bgWhite, ...rest }) {
+function MDSnackbar({ color, inlineColor, icon, icon2, title, dateTime, content, content2, close, bgWhite, ...rest }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -93,8 +77,25 @@ function MDSnackbar({ color, icon, title, dateTime, content, content2, close, bg
           p={1.5}
         >
           <MDBox display="flex" alignItems="center" lineHeight={0}>
-            <MDSnackbarIconRoot fontSize="small" ownerState={{ color, bgWhite }}>
-             <NotificationsActiveIcon color={titleColor}/>
+            <MDSnackbarIconRoot fontSize="small" ownerState={{ color, bgWhite }}>           
+            <MDBox
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "20px"
+              }}
+            >
+              <MDBox style={{ position: "absolute" }}>
+              {React.cloneElement(icon2, { color: inlineColor} )}
+              </MDBox>
+              {icon === "disable" ? null : (
+              <>
+              {React.cloneElement(icon, { color: titleColor} )}
+              </>
+              )}
+            </MDBox>
             </MDSnackbarIconRoot>
             <MDTypography
               variant="button"
@@ -106,9 +107,11 @@ function MDSnackbar({ color, icon, title, dateTime, content, content2, close, bg
             </MDTypography>
           </MDBox>
           <MDBox display="flex" alignItems="center" lineHeight={0}>
+          {dateTime === "disable" ? null : (
             <MDTypography variant="caption" color={dateTimeColor}>
               {dateTime}
             </MDTypography>
+            )}
             <CloseIcon
               sx={{
                 color: ({ palette: { dark, white } }) =>
@@ -124,26 +127,30 @@ function MDSnackbar({ color, icon, title, dateTime, content, content2, close, bg
             </CloseIcon>
           </MDBox>
         </MDBox>
+        {content === "disable" ? null : (
         <Divider sx={{ margin: 0 }} light={dividerColor} />
-        <MDBox
-          p={1.5}
-          sx={{
-            fontSize: ({ typography: { size } }) => size.sm,
-            color: ({ palette: { white, text } }) => {
-              let colorValue = bgWhite || color === "light" ? text.main : white.main;
+        )}
+        {content === "disable" ? null : (
+          <MDBox
+            p={1.5}
+            sx={{
+              fontSize: ({ typography: { size } }) => size.sm,
+              color: ({ palette: { white, text } }) => {
+                let colorValue = bgWhite || color === "light" ? text.main : white.main;
 
-              if (darkMode) {
-                colorValue = color === "light" ? "inherit" : white.main;
-              }
+                if (darkMode) {
+                  colorValue = color === "light" ? "inherit" : white.main;
+                }
 
-              return colorValue;
-            },
-          }}
-        >
-          {content}
-          <div/>
-            {content2}
-        </MDBox>
+                return colorValue;
+              },
+            }}
+          >
+            {content}
+            <div />
+            {content2 === "disable" ?  null : content2}
+          </MDBox>
+        )}
       </MDBox>
     </Snackbar>
   );

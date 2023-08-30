@@ -78,6 +78,8 @@ MDTypography.propTypes = {
     "text2",
     "white",
     "sidebar",
+    "highlight",
+    "#FFFFFF",
   ]),
   fontWeight: PropTypes.oneOf([false, "light", "regular", "medium", "bold"]),
   textTransform: PropTypes.oneOf(["none", "capitalize", "uppercase", "lowercase"]),

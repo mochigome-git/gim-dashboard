@@ -33,7 +33,7 @@ export default function IndexData() {
       return shortForm ? `${shortForm}-` : `${fullMonth}`;
     });
   
-    return formattedDate.replace(/[-,]/g, ' ');
+    return formattedDate.replace(/[-,_]/g, ' ');
   };
 
   useEffect(() => {

@@ -38,7 +38,7 @@ const divider = {
 
     vertical: {
       backgroundColor: transparent.main,
-      backgroundImage: `linear-gradient(to bottom, ${rgba(dark.main, 0)}, ${rgba(
+      backgroundImage: `(${rgba(dark.main, 0)}, ${rgba(
         dark.main,
         0.4
       )}, ${rgba(dark.main, 0)}) !important`,

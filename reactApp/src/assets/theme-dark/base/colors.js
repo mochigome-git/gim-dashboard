@@ -2,9 +2,9 @@
 
 const colors = {
   background: {
-    default: "#181818",
-    sidenav: "#252525",
-    card: "#252525",
+    default: "#161c24",
+    sidenav: "#161c24",
+    card: "#212b36",
   },
 
   text: {
@@ -17,13 +17,18 @@ const colors = {
     focus: "#ffffff6b",
   },
 
+  highlight: {
+    main: "#1eb180",
+    focus: "#1eb180",
+  },
+
   transparent: {
     main: "transparent",
   },
 
   white: {
     main: "#ffffffbe",
-    focus: "#ffffffdc",
+    focus: "#ffffff",
   },
 
   black: {
@@ -49,17 +54,17 @@ const colors = {
 
   success: {
     main: "#4CAF50",
-    focus: "#67bb6a",
+    focus: "#02962c",
   },
 
   warning: {
     main: "#fb8c00",
-    focus: "#fc9d26",
+    focus: "#018507",
   },
 
   error: {
-    main: "#B00020",
-    focus: "#f65f53",
+    main: "#ff5630",
+    focus: "#B00020",
   },
 
   light: {
@@ -68,7 +73,12 @@ const colors = {
   },
 
   dark: {
-    main: "#344767",
+    main: "#2f3944",
+    focus: "#2c3c58",
+  },
+
+  card2: {
+    main: "#2f3944",
     focus: "#2c3c58",
   },
 
@@ -105,8 +115,8 @@ const colors = {
     },
 
     success: {
-      main: "#03DAC6",
-      state: "#03DAC6",
+      main: "#a3fa73",
+      state: "#73fa79",
     },
 
     warning: {
@@ -137,7 +147,7 @@ const colors = {
     lighttransparent: {
       main: "rgba(255, 255, 255, 0.04)",
       state: "rgba(255, 255, 255, 0.04)",
-    }
+    },
   },
 
   socialMediaColors: {
@@ -256,6 +266,8 @@ const colors = {
   },
 
   inputBorderColor: "#d2d6da",
+
+  dashedBorder: "#8b98a5",
 
   tabs: {
     indicator: { boxShadow: "#ddd" },

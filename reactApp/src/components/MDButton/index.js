@@ -33,7 +33,7 @@ const MDButton = forwardRef(
       <MDButtonRoot
         {...rest}
         ref={ref}
-        color="primary"
+        color={color}
         variant={variant === "gradient" ? "contained" : variant}
         size={size}
         ownerState={{ color, variant, size, circular, iconOnly, darkMode }}
@@ -67,6 +67,8 @@ MDButton.propTypes = {
     "error",
     "light",
     "dark",
+    "black",
+    "transparent",
   ]),
   circular: PropTypes.bool,
   iconOnly: PropTypes.bool,

@@ -63,6 +63,7 @@ export default styled(Box)(({ theme, ownerState }) => {
     "dark",
     "text",
     "text2",
+    "card2",
     "grey-100",
     "grey-200",
     "grey-300",

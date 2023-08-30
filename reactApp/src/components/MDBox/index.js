@@ -47,7 +47,8 @@ MDBox.propTypes = {
     "light",
     "dark",
     "none",
-    "transparent"
+    "transparent",
+    "white",
   ]),
   borderColor: PropTypes.string,
 };

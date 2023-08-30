@@ -41,6 +41,14 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorError.main,
     },
+
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: colorError.main,
+    },
+  
+    "& .MuiFormHelperText-root": {
+      color: colorError.main, 
+    },
   });
 
   // styles for the input with success={true}
@@ -63,7 +71,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   });
 
   return {
-    backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
+    backgroundColor: disabled ? transparent.main : transparent.main,
     pointerEvents: disabled ? "none" : "auto",
     ...(error && errorStyles()),
     ...(success && successStyles()),

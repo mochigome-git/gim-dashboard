@@ -89,7 +89,13 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <Tooltip title="Donwload CSV">
-           <IconButton sx={{...(success && {bgcolor: green[500],'&:hover': {bgcolor: green[700],},}),}} onClick={() => {onDownload(); setLoading(); setSuccess();}}>
+           <IconButton sx={{...(success 
+            && {bgcolor: green[500],'&:hover': {bgcolor: green[700],},}),}} 
+            onClick={() => {
+              onDownload(); 
+              setLoading(); 
+              setSuccess();
+              }}>
            {success ? (
               <CheckIcon color={darkMode ? 'white' : 'dark'} />
             ) : loading ? (
@@ -355,18 +361,44 @@ function SelectableDataTable({
         <MDBox display="flex" alignItems="center">
           <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1}}>
             <DatePicker
-              label="Start Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  Start Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={startdate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
             <DatePicker
-              label="End Date"
+              label={
+                <MDBox
+                  sx={{
+                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                  }}
+                >
+                  End Date
+                </MDBox>
+              }
               maxDate={dayjs()}
               value={enddate}
               onChange={(newValue) => setEndDate(newValue)}
-              sx={{ mr: 2}}
+              sx={{ 
+                mr: 2,
+                '& .MuiSvgIcon-root' : {color: (theme) => 
+                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                },
+              }}
             />
           </MDBox>
           {entriesPerPage || canSearch ? (

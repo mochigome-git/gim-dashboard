@@ -262,8 +262,6 @@ function SelectableDataTable({
               onChange={(newValue) => setStartDate(newValue)}
               sx={{ 
                 mr: 2,
-                border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
-                borderRadius: `7px`, 
                 '& .MuiSvgIcon-root' : {color: (theme) => 
                   darkMode ? theme.palette.white.main : theme.palette.dark.main,
                 },
@@ -284,8 +282,6 @@ function SelectableDataTable({
               onChange={(newValue) => setEndDate(newValue)}
               sx={{ 
                 mr: 2,
-                border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
-                borderRadius: `7px`, 
                 '& .MuiSvgIcon-root' : {color: (theme) => 
                   darkMode ? theme.palette.white.main : theme.palette.dark.main,
                 },

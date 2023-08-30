@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 // Material Dashboard 2 React base styles
 import colors from "../base/colors";
@@ -20,32 +7,29 @@ import colors from "../base/colors";
 import rgba from "../functions/rgba";
 import pxToRem from "../functions/pxToRem";
 
-const { dark, transparent, white } = colors;
+const { dark, transparent, white, dashedBorder  } = colors;
 
 const divider = {
   styleOverrides: {
     root: {
       backgroundColor: transparent.main,
-      backgroundImage: `linear-gradient(to right, ${rgba(dark.main, 0)}, ${white.main}, ${rgba(
+      backgroundImage: `linear-gradient( ${white.main}, ${rgba(
         dark.main,
         0
       )}) !important`,
       height: pxToRem(1),
       margin: `${pxToRem(16)} 0`,
-      borderBottom: "none",
+      borderBottom: `2px solid ${white.main}`,  //`1px solid ${dark.main}` : 'none',
       opacity: 0.25,
     },
 
     vertical: {
       backgroundColor: transparent.main,
-      backgroundImage: `linear-gradient(to bottom, ${rgba(dark.main, 0)}, ${white.main}, ${rgba(
-        dark.main,
-        0
-      )}) !important`,
-      width: pxToRem(1),
+      backgroundImage: white.main,
+      width: pxToRem(2),
       height: "100%",
       margin: `0 ${pxToRem(16)}`,
-      borderRight: "none",
+      borderRight: `2px solid ${white.main}`,
     },
 
     light: {

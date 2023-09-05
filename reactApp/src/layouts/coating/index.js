@@ -48,32 +48,32 @@ function reducer(state, action) {
     case 'SET_NK2_DETAIL':
       return { ...state, nk2Detail: action.payload };
     case 'SET_NK2_DETAIL_5MIN':
-      return { ...state, nk2Detail_5min: action.payload};
+      return { ...state, nk2Detail_5min: action.payload };
     case 'SET_NK2_MULTIPLE_DETAIL':
       return { ...state, nk2multipleDetail: action.payload };
     case 'SET_NK2_MULTIPLE_DETAIL_5MIN':
       return { ...state, nk2multipleDetail_5min: action.payload };
     case 'SET_NK2_4U_FIBRE_SENSOR':
-      return { ...state, nk24ufibreSensor: action.payload};
+      return { ...state, nk24ufibreSensor: action.payload };
     case 'SET_NK2_4U_FIBRE_SENSOR_5MIN':
-      return { ...state, nk24ufibreSensor5min: action.payload};
+      return { ...state, nk24ufibreSensor5min: action.payload };
     case 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE':
-      return { ...state, nk24ufibreSensormultiple: action.payload};
+      return { ...state, nk24ufibreSensormultiple: action.payload };
     case 'SET_NK2_4U_FIBRE_SENSOR_MULTIPLE_5MIN':
-      return { ...state, nk24ufibreSensormultiple5min: action.payload};
+      return { ...state, nk24ufibreSensormultiple5min: action.payload };
     case 'SET_NK2_MAIN_PRESSURE_SENSOR':
-      return { ...state, nk2mainpressureSensor: action.payload};
+      return { ...state, nk2mainpressureSensor: action.payload };
     case 'SET_NK2_MAIN_PRESSURE_SENSOR_5MIN':
-      return { ...state, nk2mainpressureSensor5min: action.payload};
+      return { ...state, nk2mainpressureSensor5min: action.payload };
     case 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE':
-      return { ...state, nk2mainpressureSensormultiple: action.payload};
+      return { ...state, nk2mainpressureSensormultiple: action.payload };
     case 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE_5MIN':
-      return { ...state, nk2mainpressureSensormultiple5min: action.payload};
+      return { ...state, nk2mainpressureSensormultiple5min: action.payload };
     // NK3
     case 'SET_NK3_DETAIL':
       return { ...state, nk3Detail: action.payload };
     case 'SET_NK3_DETAIL_5MIN':
-      return { ...state, nk3Detail_5min: action.payload};
+      return { ...state, nk3Detail_5min: action.payload };
     case 'SET_NK3_MULTIPLE_DETAIL':
       return { ...state, nk3multipleDetail: action.payload };
     case 'SET_NK3_MULTIPLE_DETAIL_5MIN':
@@ -137,12 +137,12 @@ function Coating() {
     cLOTNo1: null,
     cLOTNo2: null,
   });
-  const { 
+  const {
     setDetailsData,
-    setMultipleDetailsData,  
-    nk2_detail, 
-    nk2_detail_5min, 
-    nk2_multipledetail_5min, 
+    setMultipleDetailsData,
+    nk2_detail,
+    nk2_detail_5min,
+    nk2_multipledetail_5min,
     nk2_multipledetail,
     nk2_4u_fibre_sensor,
     nk2_4u_fibre_sensor_5min,
@@ -152,10 +152,10 @@ function Coating() {
     nk2_main_pressure_sensor_5min,
     nk2_main_pressure_sensor_multiple,
     nk2_main_pressure_sensor_multiple_5min,
-    nk3_detail, 
-    nk3_detail_5min, 
-    nk3_multipledetail_5min, 
-    nk3_multipledetail    
+    nk3_detail,
+    nk3_detail_5min,
+    nk3_multipledetail_5min,
+    nk3_multipledetail
   } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
@@ -226,7 +226,7 @@ function Coating() {
     setTimeout(() => {
       dispatch({ type: 'SET_LOADING', payload: true });
     }, 0);
-  
+
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: true });
@@ -245,7 +245,7 @@ function Coating() {
     setTimeout(() => {
       dispatch({ type: 'SET_LOADING', payload: true });
     }, 0);
-  
+
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: true });
@@ -259,7 +259,7 @@ function Coating() {
   const handleSelectionChange = (selected) => {
     dispatch({ type: 'SET_MULTIPLE_SELECTION', payload: selected.length });
   };
-   
+
   const handleSetTabValue = (event, newValue) => {
     dispatch({ type: 'SET_TAB_VALUE', payload: newValue });
     //setIsDataTableVisible(newValue === 1 ? false : true);
@@ -275,10 +275,10 @@ function Coating() {
       dispatch({ type: 'SET_NK2_DETAIL', payload: nk2_detail });
     }
 
-    if (nk2_detail_5min){
+    if (nk2_detail_5min) {
       dispatch({ type: 'SET_NK2_DETAIL_5MIN', payload: nk2_detail_5min })
     }
-  
+
     if (nk2_multipledetail) {
       dispatch({ type: 'SET_NK2_MULTIPLE_DETAIL', payload: nk2_multipledetail });
     }
@@ -319,24 +319,23 @@ function Coating() {
       dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_MULTIPLE_5MIN', payload: nk2_main_pressure_sensor_multiple_5min });
     }
 
-    if (state.downloadTrigger 
-      && (state.nk2Detail !== null 
-      || state.nk2Detail_5min !== null
-      || state.state.nk24ufibreSensor !== null
-      || state.nk24ufibreSensor5min !== null
-      || state.nk2mainpressureSensor !== null
-      || state.nk2mainpressureSensor5min !== null
+    if (state.downloadTrigger
+      && (state.nk2Detail !== null
+        || state.nk2Detail_5min !== null
+        || state.state.nk24ufibreSensor !== null
+        || state.nk24ufibreSensor5min !== null
+        || state.nk2mainpressureSensor !== null
+        || state.nk2mainpressureSensor5min !== null
       )) {
       const folderName = `nk2_roll_no:${state.cLOTNo}`;
       const data = state.everyFiveMinutes ? state.nk2Detail_5min : state.nk2Detail;
       const sheet2Data = state.everyFiveMinutes ? state.nk24ufibreSensor5min : state.nk24ufibreSensor;
       console.log(sheet2Data)
       const sheet3Data = state.everyFiveMinutes ? state.nk2mainpressureSensor5min : state.nk2mainpressureSensor;
-      const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes 
-        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data) 
+      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes
+        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data)
         : generateNK2CSV(data, sheet2Data, sheet3Data)
-      }`;
+        }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -356,26 +355,25 @@ function Coating() {
         dispatch({ type: 'SET_NK2_MAIN_PRESSURE_SENSOR_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_TRIGGER', payload: false });
       }, 900);
-    }    
-  
-    if (state.downloadMultipleTrigger 
-      && (state.nk2multipleDetail !== null 
+    }
+
+    if (state.downloadMultipleTrigger
+      && (state.nk2multipleDetail !== null
         || state.nk2multipleDetail_5min !== null
         || state.nk24ufibreSensormultiple5min !== null
         || state.nk24ufibreSensormultiple !== null
         || state.nk2mainpressureSensormultiple5min !== null
-        || state.nk2mainpressureSensormultiple !== null        
+        || state.nk2mainpressureSensormultiple !== null
       )) {
       const noSelected = state.multipleSelection;
       const data = state.everyFiveMinutes ? state.nk2multipleDetail_5min : state.nk2multipleDetail;
       const sheet2Data = state.everyFiveMinutes ? state.nk24ufibreSensormultiple5min : state.nk24ufibreSensormultiple;
       const sheet3Data = state.everyFiveMinutes ? state.nk2mainpressureSensormultiple5min : state.nk2mainpressureSensormultiple;
       const folderName = `nk2_roll_no:${state.cLOTNo1}~${state.cLOTNo2}(${noSelected}lot)`;
-      const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes 
-        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data) 
+      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes
+        ? generateNK2CSV_5min(data, sheet2Data, sheet3Data)
         : generateNK2CSV(data, sheet2Data, sheet3Data)
-      }`;
+        }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -397,23 +395,23 @@ function Coating() {
       }, 900);
     }
   }, [
-    nk2_detail, 
-    nk2_detail_5min, 
-    nk2_multipledetail, 
-    nk2_multipledetail_5min, 
-    nk2_4u_fibre_sensor, 
+    nk2_detail,
+    nk2_detail_5min,
+    nk2_multipledetail,
+    nk2_multipledetail_5min,
+    nk2_4u_fibre_sensor,
     nk2_4u_fibre_sensor_5min,
     nk2_4u_fibre_sensor_multiple,
     nk2_4u_fibre_sensor_multiple_5min,
-    nk2_main_pressure_sensor, 
+    nk2_main_pressure_sensor,
     nk2_main_pressure_sensor_5min,
     nk2_main_pressure_sensor_multiple,
     nk2_main_pressure_sensor_multiple_5min,
-    state.downloadTrigger, 
+    state.downloadTrigger,
     state.downloadMultipleTrigger,
-    state.nk2Detail, 
-    state.nk2Detail_5min, 
-    state.everyFiveMinutes, 
+    state.nk2Detail,
+    state.nk2Detail_5min,
+    state.everyFiveMinutes,
     state.cLOTNo,
     state.nk24ufibreSensor,
     state.nk24ufibreSensor5min,
@@ -430,10 +428,10 @@ function Coating() {
       dispatch({ type: 'SET_NK3_DETAIL', payload: nk3_detail });
     }
 
-    if(nk3_detail_5min){
+    if (nk3_detail_5min) {
       dispatch({ type: 'SET_NK3_DETAIL_5MIN', payload: nk3_detail_5min })
     }
-  
+
     if (nk3_multipledetail) {
       dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL', payload: nk3_multipledetail });
     }
@@ -441,13 +439,12 @@ function Coating() {
     if (nk3_multipledetail_5min) {
       dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL_5MIN', payload: nk3_multipledetail_5min });
     }
-  
+
     if (state.downloadTrigger_NK3 && (state.nk3Detail !== null || state.nk3Detail_5min !== null)) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
       const data = state.everyFiveMinutes ? state.nk3Detail_5min : state.nk3Detail;
-      const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
-      }`;
+      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+        }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -463,15 +460,14 @@ function Coating() {
         dispatch({ type: 'SET_NK3_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_TRIGGER_NK3', payload: false });
       }, 900);
-    }      
-  
+    }
+
     if (state.downloadMultipleTrigger_NK3 && (state.nk3multipleDetail !== null || state.nk3multipleDetail_5min !== null)) {
       const noSelected = state.multipleSelection;
       const data = state.everyFiveMinutes ? state.nk3multipleDetail_5min : state.nk3multipleDetail;
-      const folderName = `nk3_roll_no:${state.iHSeq1}~${state.iHSeq2}(${noSelected}lot)` ;
-      const csvContent = `data:text/csv;charset=utf-8,${
-        state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
-      }`;
+      const folderName = `nk3_roll_no:${state.iHSeq1}~${state.iHSeq2}(${noSelected}lot)`;
+      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
+        }`;
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -492,7 +488,7 @@ function Coating() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -513,20 +509,20 @@ function Coating() {
                   Coating Table
                 </MDTypography>
                 <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
-                    <AppBar position="static">
+                  <AppBar position="static">
                     <Tabs value={state.tabValue} onChange={handleSetTabValue}>
-                        <Tab label="Home" icon={<HomeIcon fontSize="small"/>}/>
-                        <Tab label="Index" icon={<StickyNote2Icon fontSize="small"/>}/>
-                        <Tab label="Detials" icon={<SettingsIcon fontSize="small"/>}/>
+                      <Tab label="Home" icon={<HomeIcon fontSize="small" />} />
+                      <Tab label="Index" icon={<StickyNote2Icon fontSize="small" />} />
+                      <Tab label="Detials" icon={<SettingsIcon fontSize="small" />} />
                     </Tabs>
-                    </AppBar>
+                  </AppBar>
                 </Grid>
               </MDBox>
-              {state.tabValue === 0 && <CoatingHome onNk2TabClick={onNk2TabClick}/>}
-              {state.tabValue === 1 && state.isDataTableVisible && ( 
+              {state.tabValue === 0 && <CoatingHome onNk2TabClick={onNk2TabClick} />}
+              {state.tabValue === 1 && state.isDataTableVisible && (
                 <MDBox pt={0}>
                   <SelectableDataTable
-                    table={{ columns:nk2Columns, rows:nk2Rows }}
+                    table={{ columns: nk2Columns, rows: nk2Rows }}
                     isSorted={false}
                     entriesPerPage={false}
                     showTotalEntries={true}
@@ -541,14 +537,14 @@ function Coating() {
                     everyFiveMinutes={state.everyFiveMinutes}
                     handleFiveMinutesChange={handleFiveMinutesChange}
                     handleSelectionChange={handleSelectionChange}
-                    onMultipleDownloadCSV={onMultipleDownloadCSV}                  
+                    onMultipleDownloadCSV={onMultipleDownloadCSV}
                   />
                 </MDBox>
               )}
-              {state.tabValue === 1 && !state.isDataTableVisible && ( 
+              {state.tabValue === 1 && !state.isDataTableVisible && (
                 <MDBox pt={0}>
                   <SelectableDataTable_nk3
-                    table={{ columns:nk3Columns, rows:nk3Rows }}
+                    table={{ columns: nk3Columns, rows: nk3Rows }}
                     isSorted={false}
                     entriesPerPage={false}
                     showTotalEntries={true}
@@ -563,13 +559,13 @@ function Coating() {
                     everyFiveMinutes={state.everyFiveMinutes}
                     handleFiveMinutesChange={handleFiveMinutesChange}
                     handleSelectionChange={handleSelectionChange}
-                    onMultipleDownloadCSV_NK3={onMultipleDownloadCSV_NK3}            
+                    onMultipleDownloadCSV_NK3={onMultipleDownloadCSV_NK3}
                   />
                 </MDBox>
               )}
-              {state.tabValue === 2 && <DetailsTable/>}
+              {state.tabValue === 2 && <DetailsTable />}
             </Card>
-            
+
           </Grid>
         </Grid>
       </MDBox>

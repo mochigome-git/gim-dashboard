@@ -177,7 +177,6 @@ export async function updateDraftPO(
     setLoading(false);
     setComplete(true);
   } catch (error) {
-    alert(error.message);
     dispatch({ type: "SET_ERRORS_EXIST", payload: true });
     dispatch({
       type: "SET_ERRORS",

@@ -6,6 +6,8 @@ import React, {
   useMemo,
 } from "react";
 import html2pdf from "html2pdf.js";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // @mui material components
 import {
@@ -214,13 +216,13 @@ function PurchaseOrder() {
     }
   };
 
-  function generatePDF() {
+  async function generatePDF() {
     const data = state?.poView;
     const element = document.getElementById("pdf-container");
 
-    if (element) {
+    try {
       element.classList.remove("hidden");
-      const opt = {
+      const pdfOptions = {
         margin: 0,
         filename: `${data[0].lot_number}_purchase_order.pdf`,
         image: { type: "jpeg", quality: 0.98 },
@@ -231,14 +233,41 @@ function PurchaseOrder() {
           orientation: "portrait",
         },
       };
-
-      html2pdf().from(element).set(opt).save();
-
-      setTimeout(() => {
-        element.classList.add("hidden");
-      }, 50);
+      await html2pdf().from(element).set(pdfOptions).save();
+      element.classList.add("hidden");
+    } catch (error) {
+      console.error("An error occurred while generating the PDF:", error);
     }
   }
+
+  const pdfRef = useRef();
+
+  const downloadPDF = () => {
+    const data = state?.poView;
+    const element = document.getElementById("pdf-container");
+    element.classList.remove("hidden");
+    const input = pdfRef.current;
+
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+
+      // Calculate the positioning to center the image on the page
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 0;
+
+      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`${data[0].lot_number}_purchase_order.pdf`);
+      element.classList.add("hidden");
+    });
+  };
+
 
   return (
     <AddressBookLayout>
@@ -511,7 +540,7 @@ function PurchaseOrder() {
                                 circular={true}
                                 iconOnly={true}
                                 color={darkMode ? "white" : "dark"}
-                                //onClick={handleClickOpen}
+                                onClick={downloadPDF}
                               >
                                 <PrintIcon />
                               </MDButton>
@@ -745,7 +774,7 @@ function PurchaseOrder() {
                           to={state?.poVendorTo}
                           from={state?.poVendorFrom}
                         />
-                        <MDBox id="pdf-container" className="hidden">
+                        <MDBox id="pdf-container" className="hidden" ref={pdfRef}>
                           {/* <PDFpo data={state?.poView} to={state?.poVendorTo} from={state?.poVendorFrom}/> */}
                           <Headerpo
                             id="header-content"

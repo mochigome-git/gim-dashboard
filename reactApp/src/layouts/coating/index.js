@@ -17,6 +17,7 @@ import SelectableDataTable from "../../examples/Tables/SelectableDataTable";
 import SelectableDataTable_nk3 from "../../examples/Tables/SelectableDataTable_nk3";
 import CoatingHome from "../../examples/Tables/IndexTable/CoatingHome";
 import DetailsTable from "../../examples/Tables/DetailsTable/index";
+import RealtimeTable from "../../examples/Tables/RealtimeTable/index";
 
 // Realtime context library
 import { DailyContext } from "../../lib/realtime"
@@ -44,6 +45,8 @@ function reducer(state, action) {
       return { ...state, isDataTableVisible: action.payload };
     case 'SET_TAB_VALUE':
       return { ...state, tabValue: action.payload };
+    case 'SET_TYPE':
+      return { ...state, type: action.payload }
     // NK2
     case 'SET_NK2_DETAIL':
       return { ...state, nk2Detail: action.payload };
@@ -136,6 +139,7 @@ function Coating() {
     cLOTNo: null,
     cLOTNo1: null,
     cLOTNo2: null,
+    type: null,
   });
   const {
     setDetailsData,
@@ -155,17 +159,23 @@ function Coating() {
     nk3_detail,
     nk3_detail_5min,
     nk3_multipledetail_5min,
-    nk3_multipledetail
+    nk3_multipledetail,
   } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
     if (type === "NK2Details") {
       dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
+      dispatch({ type: 'SET_TYPE', payload: null })
       setDetailsData({ date: date, seq: seq });
     }
     if (type === "NK3Details") {
       dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
+      dispatch({ type: 'SET_TYPE', payload: null })
       setDetailsData({ date: date, seq: seq });
+    }
+    if (type === "REALTIME") {
+      dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
+      dispatch({ type: 'SET_TYPE', payload: 'REALTIME' })
     }
   };
 
@@ -518,7 +528,7 @@ function Coating() {
                   </AppBar>
                 </Grid>
               </MDBox>
-              {state.tabValue === 0 && <CoatingHome onNk2TabClick={onNk2TabClick} />}
+              {state.tabValue === 0 && <CoatingHome onNk2TabClick={onNk2TabClick} onDetailsTabClick={onDetailsTabClick} />}
               {state.tabValue === 1 && state.isDataTableVisible && (
                 <MDBox pt={0}>
                   <SelectableDataTable
@@ -563,7 +573,8 @@ function Coating() {
                   />
                 </MDBox>
               )}
-              {state.tabValue === 2 && <DetailsTable />}
+              {state.type !== "REALTIME" && state.tabValue === 2 && <DetailsTable />}
+              {state.type === "REALTIME" && state.tabValue === 2 && <RealtimeTable />}
             </Card>
 
           </Grid>

@@ -41,7 +41,7 @@ function DetailsTable() {
   const { data } = ParameterCardData();
 
   // nk2 Data loading
-  const { tempdata } = Nk2TempChartData(); 
+  const { tempdata } = Nk2TempChartData();
   const { ddata } = Nk2DChartData();
   const { tensiondata } = Nk2DTensionData();
   const { fourusensorfibredata } = NK24UFibreSensor();
@@ -62,25 +62,25 @@ function DetailsTable() {
         dataToUse = NK3ddata; // Use NK3ddata if ddata has no data
       }
     }
-  
+
     const filteredData = dataToUse.datasets[6].data.filter((d) => d.y > 190);
-  
+
     if (filteredData.length === 0) {
       return;
     }
-  
+
     const start = filteredData[0].x;
     const end = filteredData[filteredData.length - 1].x;
     const diff = end - start;
     const minutes = Math.floor(diff / 60000);
     const seconds = Math.floor((diff % 60000) / 1000);
     const downtimeString = `${minutes}m ${seconds}s`;
-  
+
     setDowntime(downtimeString);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  
+
     // Cleanup function to reset downtime when unmounting
     return () => {
       setDowntime("");
@@ -96,7 +96,7 @@ function DetailsTable() {
     const timeDifference = minutes === 0 && seconds === 0 ? "0m 0s" : `${minutes}m ${seconds}s`;
     setTimeDifference(timeDifference);
   };
-  
+
   useEffect(() => {
     if (data.time.start && data.time.end) {
       calculateTimeDifference();
@@ -105,13 +105,13 @@ function DetailsTable() {
       }, 1000);
     }
   }, [data]);
-  
+
 
   if (loading) {
     return (
       <CoatingDashboardLayout>
         <MDBox py={3}>
-          <Grid container spacing={{ md: 2}} rowSpacing={{md: 0 }} >
+          <Grid container spacing={{ md: 2 }} rowSpacing={{ md: 0 }} >
             <Grid item xs={12} md={6} lg={3}>
               <MDBox mb={1.5}>
                 <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
@@ -128,76 +128,76 @@ function DetailsTable() {
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
+              <MDBox mb={1.5}>
                 <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
-            </MDBox>
-          </Grid>
-        </Grid>
-        <MDBox mt={0.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+            <Grid item xs={12} md={6} lg={3}>
+              <MDBox mb={1.5}>
+                <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
               </MDBox>
             </Grid>
           </Grid>
+          <MDBox mt={0.5}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
+            </Grid>
+          </MDBox>
         </MDBox>
-      </MDBox>
-    </CoatingDashboardLayout>
+      </CoatingDashboardLayout>
     );
   }
 
   return (
     <CoatingDashboardLayout>
       <MDBox py={3}>
-        <Grid container spacing={{ md: 2}} rowSpacing={{md: 1 }}>
+        <Grid container spacing={{ md: 2 }} rowSpacing={{ md: 1 }}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<QrCodeScannerIcon/>}
-                title= "Roll Number"
-                count= {data.rollnumber}
+                icon={<QrCodeScannerIcon />}
+                title="Roll Number"
+                count={data.rollnumber}
               />
             </MDBox>
           </Grid>
@@ -205,9 +205,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<Rotate90DegreesCwOutlinedIcon/>}
-                title= "Winding meter"
-                count= {data.windingmeter ? `${data.windingmeter}m` : "NA"}
+                icon={<Rotate90DegreesCwOutlinedIcon />}
+                title="Winding meter"
+                count={data.windingmeter ? `${data.windingmeter}m` : "NA"}
               />
             </MDBox>
           </Grid>
@@ -215,9 +215,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<AutoModeOutlinedIcon/>}
-                title= "Total meter"
-                count= {data.totalmeter? `${data.totalmeter}m` : "NA"}
+                icon={<AutoModeOutlinedIcon />}
+                title="Total meter"
+                count={data.totalmeter ? `${data.totalmeter}m` : "NA"}
               />
             </MDBox>
           </Grid>
@@ -225,9 +225,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<StopCircleIcon/>}
-                title= "Downtime"
-                count= {downtime? downtime: "NA"}
+                icon={<StopCircleIcon />}
+                title="Downtime"
+                count={downtime ? downtime : "NA"}
               />
             </MDBox>
           </Grid>
@@ -235,9 +235,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<ScheduleIcon/>}
-                title= "Coat Date"
-                count= {data.date.start}
+                icon={<ScheduleIcon />}
+                title="Coat Date"
+                count={data.date.start}
               />
             </MDBox>
           </Grid>
@@ -245,9 +245,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<UpdateIcon/>}
-                title= "Time Start"
-                count= {data.time.start}
+                icon={<UpdateIcon />}
+                title="Time Start"
+                count={data.time.start}
               />
             </MDBox>
           </Grid>
@@ -255,9 +255,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<HistoryIcon/>}
-                title= "Time End"
-                count= {data.time.end}
+                icon={<HistoryIcon />}
+                title="Time End"
+                count={data.time.end}
               />
             </MDBox>
           </Grid>
@@ -265,9 +265,9 @@ function DetailsTable() {
             <MDBox mb={1.5}>
               <CoatingDetailCards
                 color="transparent"
-                icon={<TimelapseIcon/>}
-                title= "Duration"
-                count= {timeDifference? timeDifference: "NA"}
+                icon={<TimelapseIcon />}
+                title="Duration"
+                count={timeDifference ? timeDifference : "NA"}
               />
             </MDBox>
           </Grid>
@@ -276,35 +276,35 @@ function DetailsTable() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {ddata.datasets.some((dataset) => dataset.data.length > 0) ? (
-                <DetailsChart
-                  color="transparent"
-                  title="段差ロール D-roll"
-                  description="" 
-                  date=""
-                  datasets={ddata}
-                  percentage={{
-                    color: "info",
-                    amount: "",
-                    label: "",
-                  }}
-                />
-              ) : (
-                NK3ddata.datasets.some((dataset) => dataset.data.length > 0) && (
+                {ddata.datasets.some((dataset) => dataset.data.length > 0) ? (
                   <DetailsChart
-                  color="transparent"
-                  title="段差ロール D-roll"
-                  description="" 
-                  date=""
-                  datasets={NK3ddata}
-                  percentage={{
-                    color: "info",
-                    amount: "",
-                    label: "",
-                  }}
-                />
-              )
-            )}
+                    color="transparent"
+                    title="段差ロール D-roll"
+                    description=""
+                    date=""
+                    datasets={ddata}
+                    percentage={{
+                      color: "info",
+                      amount: "",
+                      label: "",
+                    }}
+                  />
+                ) : (
+                  NK3ddata.datasets.some((dataset) => dataset.data.length > 0) && (
+                    <DetailsChart
+                      color="transparent"
+                      title="段差ロール D-roll"
+                      description=""
+                      date=""
+                      datasets={NK3ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
@@ -342,71 +342,71 @@ function DetailsTable() {
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {tensiondata.datasets.some((dataset) => dataset.data.length > 0) ? (
-                <DetailsChart
-                  color="transparent"
-                  title="テンション Tension"
-                  description="" 
-                  date=""
-                  datasets={tensiondata}
-                  percentage={{
-                    color: "info",
-                    amount: "",
-                    label: "",
-                  }}
-                />
-              ) : (
-                NK3tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
+                {tensiondata.datasets.some((dataset) => dataset.data.length > 0) ? (
                   <DetailsChart
                     color="transparent"
                     title="テンション Tension"
-                    description="" 
+                    description=""
                     date=""
-                    datasets={NK3tensiondata}
+                    datasets={tensiondata}
                     percentage={{
                       color: "info",
                       amount: "",
                       label: "",
                     }}
                   />
-                )
-              )}
+                ) : (
+                  NK3tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
+                    <DetailsChart
+                      color="transparent"
+                      title="テンション Tension"
+                      description=""
+                      date=""
+                      datasets={NK3tensiondata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {fourusensorfibredata.datasets.some((dataset) => dataset.data.length > 0) && (
-                <DetailsChart
-                  color="transparent"
-                  title="濃度 Density"
-                  description="" 
-                  date=""
-                  datasets={fourusensorfibredata}
-                  percentage={{
-                    color: "info",
-                    amount: "",
-                    label: "",
-                  }}
-                />
-              )}
+                {fourusensorfibredata.datasets.some((dataset) => dataset.data.length > 0) && (
+                  <DetailsChart
+                    color="transparent"
+                    title="濃度 Density"
+                    description=""
+                    date=""
+                    datasets={fourusensorfibredata}
+                    percentage={{
+                      color: "info",
+                      amount: "",
+                      label: "",
+                    }}
+                  />
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-              {nk2pressuresensordata.datasets.some((dataset) => dataset.data.length > 0) && (
-                <DetailsChart
-                  color="transparent"
-                  title="空気圧 Air pressure"
-                  description="" 
-                  date=""
-                  datasets={nk2pressuresensordata}
-                  percentage={{
-                    color: "info",
-                    amount: "",
-                    label: "",
-                  }}
-                />
-              )}
+                {nk2pressuresensordata.datasets.some((dataset) => dataset.data.length > 0) && (
+                  <DetailsChart
+                    color="transparent"
+                    title="空気圧 Air pressure"
+                    description=""
+                    date=""
+                    datasets={nk2pressuresensordata}
+                    percentage={{
+                      color: "info",
+                      amount: "",
+                      label: "",
+                    }}
+                  />
+                )}
               </MDBox>
             </Grid>
           </Grid>

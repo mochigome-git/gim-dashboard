@@ -6379,6 +6379,11 @@ globby@^11.0.4, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+goober@^2.1.10:
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/goober/-/goober-2.1.13.tgz#e3c06d5578486212a76c9eba860cbc3232ff6d7c"
+  integrity sha512-jFj3BQeleOoy7t93E9rZ2de+ScC4lQICLwiAQmKMg9F6roKGaLSHoCDYKkWlSafg138jejvq/mTdvmnwDQgqoQ==
+
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz"
@@ -6582,17 +6587,9 @@ html2canvas@1.0.0-alpha.12:
   dependencies:
     css-line-break "1.0.1"
 
-html2canvas@^1.0.0-alpha.12, html2canvas@^1.0.0-rc.5:
+html2canvas@^1.0.0-alpha.12, html2canvas@^1.0.0-rc.5, html2canvas@^1.4.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/html2canvas/-/html2canvas-1.4.1.tgz"
-  integrity sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==
-  dependencies:
-    css-line-break "^2.1.0"
-    text-segmentation "^1.0.3"
-
-html2canvas@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/html2canvas/-/html2canvas-1.4.1.tgz#7cef1888311b5011d507794a066041b14669a543"
   integrity sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==
   dependencies:
     css-line-break "^2.1.0"
@@ -10180,6 +10177,13 @@ react-countdown-circle-timer@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-3.2.1.tgz#5d3a3560e1b5b501356e733e76d269506611a0ab"
   integrity sha512-yBAy/9ILXOiFbLBM+3jS72TW5LeRcH8wkRC9NNqMpUkCXkGjSnaeRbJMsR9lsYF0oVXjSDbJaRbCuVMT+9HnKA==
+
+react-cssfx-loading@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-cssfx-loading/-/react-cssfx-loading-2.1.0.tgz#f689d7c766cab3d12f0967237978d5fd8d30d3fc"
+  integrity sha512-0SnS6HpaeLSaTxNuND6sAKTQmoKgjwFb9G2ltyEMmA5ARNN6TRQfiJ8PfaYM9RwVEOhDxIzGI7whb2zeI1VRxw==
+  dependencies:
+    goober "^2.1.10"
 
 react-dev-utils@^12.0.1:
   version "12.0.1"

@@ -16,9 +16,6 @@ import DetailsChart from "../../Charts/BarCharts/DetailsChart";
 
 // Data
 import ParameterCardData from "./data/ParameterCardData";
-import Nk3TempChartData from "./data/Nk3TempChartData"
-import Nk3DChartData from "./data/Nk3DChartData";
-import Nk3DTensionData from "./data/Nk3DTensionData"
 
 import ChartData from "./data/ChartData";
 

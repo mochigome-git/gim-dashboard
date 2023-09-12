@@ -2,27 +2,27 @@ import Highcharts from "highcharts/highstock";
 
 function configs(datasets, ownerState) {
 
-  const darkMode = ownerState?.darkMode ?? true;
-  const color = darkMode ? "#ffffff6c" : "#000";
-  const series = datasets.datasets.slice(0, 9).map((dataset, index) => ({
-    name: dataset.name,
-    type: 'line',
-    data: dataset.data,
-    color: ['#BB86FC', '#fc86e8', '#86d1fc', '#86fca9', '#cdfc86', '#fcfa86', '#86fcf8', '#76ff54', '#547fff'][index],
-    tooltip: {
-      valueDecimals: 2,
-      valueSuffix: '℃',
-      shared: true,
-    },
-    turboThreshold: 15000,
-  }));
+	const darkMode = ownerState?.darkMode ?? true;
+	const color = darkMode ? "#ffffff6c" : "#000";
+	const series = datasets.datasets.slice(0, 9).map((dataset, index) => ({
+		name: dataset.name,
+		type: 'line',
+		data: dataset.data,
+		color: ['#BB86FC', '#fc86e8', '#86d1fc', '#86fca9', '#cdfc86', '#fcfa86', '#86fcf8', '#76ff54', '#547fff'][index],
+		tooltip: {
+			valueDecimals: 2,
+			valueSuffix: '℃',
+			shared: true,
+		},
+		turboThreshold: 15000,
+	}));
 
-  return {
-    option: {
-		title: {
-			text: ''
+	return {
+		option: {
+			title: {
+				text: ''
 			},
-      responsive: false,
+			responsive: false,
 			credits: {
 				enabled: false
 			},
@@ -38,17 +38,17 @@ function configs(datasets, ownerState) {
 			navigation: {
 				buttonOptions: {
 					enabled: true
-				},		
+				},
 			},
 			rangeSelector: {
 				dropdown: 'always',
 				verticalAlign: 'bottom',
-				buttonSpacing : 0.5,
+				buttonSpacing: 0.5,
 				buttonTheme: { // styles for the buttons
 					fill: 'none',
 					stroke: 'none',
 					'stroke-width': 0,
-					width : 18,
+					width: 18,
 					r: 8,
 					style: {
 						color: '#ffffff',
@@ -83,15 +83,15 @@ function configs(datasets, ownerState) {
 					fontWeight: 'bold',
 					fontSize: '8.5',
 				},
-			selected: 6,
-				enabled:true
+				selected: 6,
+				enabled: true
 			},
 			navigator: {
-					enabled: false
+				enabled: true
 			},
 			scrollbar: {
-					enabled: false
-			},  
+				enabled: false
+			},
 			yAxis: [{
 				labels: {
 					align: 'right',
@@ -99,8 +99,8 @@ function configs(datasets, ownerState) {
 					y: 0,
 					//format: '{value}℃',
 					style: {
-						color: color, 
-					 }
+						color: color,
+					}
 				},
 				lineWidth: 0.5,
 				lineColor: 'none',
@@ -109,60 +109,69 @@ function configs(datasets, ownerState) {
 					enabled: false
 				},
 				title: {
-				  text: '',
-				  style: {
-					color: '#ffffff',
-				 }
+					text: '',
+					style: {
+						color: '#ffffff',
+					}
 				},
 				gridLineColor: 'null',
 				gridLineWidth: 0.5
-			}],	
+			}],
 			xAxis: {
-        	  tickLength: 0,
-			  type: 'datetime',
-			  offset: 0,
-			  lineWidth: 0.5,
-			  lineColor: 'null',
-			  opposite: false,
-			  resize: {
-				enabled: false
-			},
-			 labels: {
-				style: {
-				   color: color,
-				}
-			},
+				tickLength: 0,
+				type: 'datetime',
+				offset: 0,
+				lineWidth: 0.5,
+				lineColor: 'null',
+				opposite: false,
+				resize: {
+					enabled: false
+				},
+				labels: {
+					style: {
+						color: color,
+					}
+				},
 			},
 			tooltip: {
 				shared: true,
-				formatter: function() {
+				formatter: function () {
 					let tooltipContent = `<strong>${Highcharts.dateFormat('%H:%M:%S', this.x)}</strong><br>`;
 					this.points.forEach((point) => {
-					  tooltipContent += `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${Highcharts.numberFormat(point.y, 2)}</b><br>`;
+						tooltipContent += `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${Highcharts.numberFormat(point.y, 2)}</b><br>`;
 					});
 					return tooltipContent;
-				  },
-				  style: {
+				},
+				style: {
 					minWidth: '200px',
 					maxWidth: '350px',
 					minHeight: '200px',
 					maxHeight: '350px',
 					whiteSpace: 'normal'
-				  },
-				},													
+				},
+			},
 			series,
-   },
-   containerprops: { 
-		style: { 
-				height: "100%", 
+			plotOptions: {
+				series: {
+					marker: {
+						lineColor: null,
+						lineWidth: 0,
+						symbol: 'circle'
+					}
+				}
+			}
+		},
+		containerprops: {
+			style: {
+				height: "100%",
 				width: "100%",
 				maxWidth: "100%",
 				margin: "auto",
-   				display: "inline-flex",
-				position:"absolute" 
-			} 
+				display: "inline-flex",
+				position: "absolute"
+			}
 		},
-  };
+	};
 }
 
 export default configs;

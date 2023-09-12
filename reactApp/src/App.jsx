@@ -82,7 +82,7 @@ const App = () => {
 
     const logoutUser = async () => {
       try {
-        await supabase.auth.signOut();
+        //await supabase.auth.signOut();
         setSession(null);
         openErrorSB();
         localStorage.clear();

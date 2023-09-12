@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -20,7 +20,7 @@ import ParameterCardData from "./data/ParameterCardData";
 import ChartData from "./data/ChartData";
 
 import { supabase } from "../../../lib/supabase"
-import { fetchData } from "./api"
+import { fetchData, fetchData2 } from "./api"
 import { useDataFetching } from "./utils"
 
 function RealtimeTable() {
@@ -31,11 +31,11 @@ function RealtimeTable() {
   const [tableType, setSelectedTable] = useState(null);
 
   useDataFetching({ table: `nk2_log_data_storage`, fetchData, supabase, setState });
-  useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData, supabase, setState });
-  useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData, supabase, setState });
+  useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
+  useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk3_log_data_storage`, fetchData, supabase, setState });
 
-  useEffect(() => {
+  useMemo(() => {
     if (state?.data?.length > 0) {
       setLoading(false);
     }

@@ -11,11 +11,11 @@ import MDBox from "../../../components/MDBox";
 
 // Material Dashboard 2 React example components
 import CoatingDashboardLayout from "../../LayoutContainers/CoatingDashboardLayout";
-import CoatingDetailCards from "../../Cards/StatisticsCards/CoatingDetailCards";
+//import CoatingDetailCards from "../../Cards/StatisticsCards/CoatingDetailCards";
 import DetailsChart from "../../Charts/BarCharts/DetailsChart";
 
 // Data
-import ParameterCardData from "./data/ParameterCardData";
+//import ParameterCardData from "./data/ParameterCardData";
 
 import ChartData from "./data/ChartData";
 
@@ -48,10 +48,20 @@ function RealtimeTable() {
     if (type === 'NK2') {
       setSelectedTable('nk2')
       setLoading(true);
+      if (state?.data?.length > 0) {
+        setTimeout(function () {
+          setLoading(false);
+        }, 10);
+      }
     }
     if (type === 'NK3') {
       setSelectedTable('nk3')
       setLoading(true);
+      if (state?._nk3data?.length > 0) {
+        setTimeout(function () {
+          setLoading(false);
+        }, 10);
+      }
     }
   }
 

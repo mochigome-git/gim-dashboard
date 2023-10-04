@@ -56,13 +56,13 @@ const App = () => {
         const today = new Date().toLocaleDateString();
 
         if (signIn !== today) {
-          logoutUser();
+          //logoutUser();
         } else if (signIn === today) {
           const now = Date.now();
           const diff = now - lastActivityRef.current;
 
           if (diff > 30 * 60 * 1000) { //30 Minute x 60 Second x 1000 millisecond
-            logoutUser();
+            //logoutUser();
           } else {
             localStorage.setItem("lastActivity", now.toString());
           }
@@ -80,7 +80,7 @@ const App = () => {
       clearInterval(interval);
     };
 
-    const logoutUser = async () => {
+    /*const logoutUser = async () => {
       try {
         //await supabase.auth.signOut();
         setSession(null);
@@ -92,7 +92,7 @@ const App = () => {
       } catch (error) {
         console.error(error);
       }
-    };
+    };*/
 
     startInterval();
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -11,22 +11,23 @@ import MDBox from "../../../components/MDBox";
 
 // Material Dashboard 2 React example components
 import CoatingDashboardLayout from "../../LayoutContainers/CoatingDashboardLayout";
-import CoatingDetailCards from "../../Cards/StatisticsCards/CoatingDetailCards";
+//import CoatingDetailCards from "../../Cards/StatisticsCards/CoatingDetailCards";
 import DetailsChart from "../../Charts/BarCharts/DetailsChart";
 
 // Data
-import ParameterCardData from "./data/ParameterCardData";
+//import ParameterCardData from "./data/ParameterCardData";
 
 import ChartData from "./data/ChartData";
 
 import { supabase } from "../../../lib/supabase"
-import { fetchData, fetchData2 } from "./api"
-import { useDataFetching } from "./utils"
+import { fetchData, fetchData2, fetchModel } from "./api"
+import { useDataFetching, findDifferentColumns } from "./utils"
 
 function RealtimeTable() {
 
   // State management
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const [state, setState] = useState();
   const [tableType, setSelectedTable] = useState(null);
 
@@ -34,26 +35,51 @@ function RealtimeTable() {
   useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk3_log_data_storage`, fetchData, supabase, setState });
+  useDataFetching({ table: `coating_model`, fetchData: fetchModel, supabase, setState })
+  useDataFetching({ table: `nk2_log_data_realtime`, fetchData: fetchModel, supabase, setState })
 
+  // UseMemo to clear the loading state if the data is already loaded.
   useMemo(() => {
-    if (state?.data?.length > 0) {
+    if (state?.data?.length > 0 || (state?._nk3data?.length > 0 && tableType === 'nk3')) {
       setLoading(false);
     }
-    if (state?._nk3data?.length > 0 && tableType === 'nk3') {
-      setLoading(false);
+    if (state?.data?.length === 0 || (state?._nk3data?.length === 0)) {
+      setLoading(true);
+      setTimeout(() => {
+        setFailed(true);
+        setLoading(false);
+      }, 5000);
     }
-  }, [state?.data, state?._nk3data]);
+  }, [state?.data, state?._nk3data, tableType]);
 
   const HandleOnclick = (type) => {
     if (type === 'NK2') {
-      setSelectedTable('nk2')
+      setSelectedTable('nk2');
       setLoading(true);
+
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 5000);
+
+      if (state?.data?.length > 0) {
+        clearTimeout(timeout);
+      }
     }
     if (type === 'NK3') {
-      setSelectedTable('nk3')
+      setSelectedTable('nk3');
       setLoading(true);
+
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 5000);
+
+      if (state?._nk3data?.length > 0) {
+        clearTimeout(timeout);
+      }
     }
-  }
+  };
+
+  const result = findDifferentColumns(state);
 
   if (loading) {
     return (
@@ -61,6 +87,26 @@ function RealtimeTable() {
         <MDBox style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }}>
           <MDBox py={3}>
             <CircularProgress size="7vh" color="white" />
+          </MDBox>
+        </MDBox>
+      </CoatingDashboardLayout>
+    );
+  }
+
+  if (failed) {
+    return (
+      <CoatingDashboardLayout>
+        <MDBox pb={3}>
+          <ButtonGroup color="secondary" aria-label="outlined primary button group">
+            <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
+            <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
+          </ButtonGroup>
+        </MDBox>
+        <MDBox style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '20vh' }}>
+          <MDBox>
+            <h1 style={{ fontSize: '3rem', fontWeight: 'bold' }}>Failed to load data</h1>
+            <p style={{ fontSize: '1.5rem' }}>Please try again later.</p>
+            <Button variant="outlined" onClick={() => window.location.reload()}>Reload</Button>
           </MDBox>
         </MDBox>
       </CoatingDashboardLayout>
@@ -194,6 +240,8 @@ function RealtimeTable() {
                           amount: "",
                           label: "",
                         }}
+                        ymin={0}
+                        ymax={200}
                       />
                     )}
                   </ChartData>
@@ -220,6 +268,8 @@ function RealtimeTable() {
                         amount: "",
                         label: "",
                       }}
+                      ymin={0}
+                      ymax={100}
                     />
                   )}
                 </ChartData>

@@ -1,6 +1,6 @@
 import Highcharts from "highcharts/highstock";
 
-function configs(datasets, ownerState) {
+function configs(datasets, ownerState, ymin, ymax) {
 
 	const darkMode = ownerState?.darkMode ?? true;
 	const color = darkMode ? "#ffffff6c" : "#000";
@@ -93,6 +93,8 @@ function configs(datasets, ownerState) {
 				enabled: false
 			},
 			yAxis: [{
+				min: ymin,
+				max: ymax,
 				labels: {
 					align: 'right',
 					x: 0,

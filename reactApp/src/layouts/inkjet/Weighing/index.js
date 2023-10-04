@@ -4,6 +4,7 @@ import React from 'react';
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import RestoreIcon from '@mui/icons-material/Restore';
+import Divider from '@mui/material/Divider';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../components/MDBox";
@@ -30,51 +31,96 @@ function Tables() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-            <MDBox
-                mx={0}
-                mt={0}
-                py={3}
-                px={2}
-                pb={-6}
-                bgColor="transparent"
-                borderRadius="lg"
-                coloredShadow="none"
-                width="100%"
-              >
-              </MDBox>
               <Card>
-                <MDBox pt={3}>
-                <Grid >
-                  <MDBox mb={1.5}>
+                <MDBox
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <MDBox sx={{ flexGrow: 1 }}>
                     <InkjetDetailCards
-                      color="transparent"
-                      icon={<RestoreIcon/>}
-                      time={time}
-                      title= "Job Order:"
-                      job= {job}
-                      title2="Ok:"
-                      title3="High:"
-                      title4="Low:"
-                      title5="Hi/Lo"
-                      lowCount={low? `${low}/${total}pcs` : "NA"}
-                      highCount={high? `${high}/${total}pcs` : "NA"}
-                      okCount={ok? `${ok}/${total}pcs` : "NA"}
-                      setting={detail? `${detail[0]?.high}/${detail[0]?.low}kg` : "NA"}
+                      icon={<RestoreIcon />}
+                      title="Recent Job"
+                      value={time}
+                      color={(theme) => theme.palette.white.light}
                     />
                   </MDBox>
-                </Grid>
-                </MDBox>
-                <MDBox pt={0}>
-                  <SelectableDataTableIj
-                    table={{ columns:no1Columns, rows:no1Rows }}
-                    isSorted={false}
-                    entriesPerPage={false}
-                    showTotalEntries={true}
-                    canSearch={false}
-                    noEndBorder            
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: "70px" }}
                   />
+                  <MDBox sx={{ flexGrow: 1 }}>
+                    <InkjetDetailCards
+                      title="Job Order:"
+                      value={job}
+                      color={(theme) => theme.palette.white.light}
+                    />
+                  </MDBox>
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: "70px" }}
+                  />
+                  <MDBox sx={{ flexGrow: 1 }}>
+                    <InkjetDetailCards
+                      title="Ok:"
+                      value={ok ? `${ok}/${total}pcs` : "NA"}
+                      color={(theme) => theme.palette.success.light}
+                    />
+                  </MDBox>
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: "70px" }}
+                  />
+                  <MDBox sx={{ flexGrow: 1 }}>
+                    <InkjetDetailCards
+                      title="High:"
+                      value={high ? `${high}/${total}pcs` : "NA"}
+                      color={(theme) => theme.palette.primary.light}
+                    />
+                  </MDBox>
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: "70px" }}
+                  />
+                  <MDBox sx={{ flexGrow: 1 }}>
+                    <InkjetDetailCards
+                      title="Low:"
+                      value={low ? `${low}/${total}pcs` : "NA"}
+                      color={(theme) => theme.palette.warning.light}
+                    />
+                  </MDBox>
+                  <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    sx={{ height: "70px" }}
+                  />
+                  <MDBox sx={{ flexGrow: 1 }}>
+                    <InkjetDetailCards
+                      title="Hi/Lo"
+                      value={detail ? `${detail[0]?.high}/${detail[0]?.low}kg` : "NA"}
+                      color={(theme) => theme.palette.info.light}
+                    />
+                  </MDBox>
                 </MDBox>
               </Card>
+
+              <MDBox pt={0}>
+                <SelectableDataTableIj
+                  table={{ columns: no1Columns, rows: no1Rows }}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={true}
+                  canSearch={false}
+                  noEndBorder
+                />
+              </MDBox>
             </Card>
           </Grid>
         </Grid>

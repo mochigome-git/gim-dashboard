@@ -56,6 +56,18 @@ export const useDataFetching = ({
                         _nk3data: data,
                     }));
                 }
+                if (table === 'coating_model') {
+                    setState((prevState) => ({
+                        ...prevState,
+                        _modelconfig: data,
+                    }));
+                }
+                if (table === 'nk2_log_data_realtime') {
+                    setState((prevState) => ({
+                        ...prevState,
+                        _realtimedata: data,
+                    }));
+                }
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -93,6 +105,18 @@ export const useDataFetching = ({
                                     _nk3data: data,
                                 }));
                             }
+                            if (table === 'coating_model') {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    _modelconfig: data,
+                                }));
+                            }
+                            if (table === 'nk2_log_data_realtime') {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    _realtimedata: data,
+                                }));
+                            }
                         })
                 }
             )
@@ -103,3 +127,26 @@ export const useDataFetching = ({
         };
     }, []);
 };
+
+export function findDifferentColumns(state) {
+    const differentColumns = {};
+
+    if (state?._modelconfig && state?._realtimedata) {
+        const latestCode = state._realtimedata[0];
+        const settingCode = state._modelconfig[0];
+
+        // Iterate through one of the objects (settingCode in this case)
+        for (const key in settingCode) {
+            if (Object.prototype.hasOwnProperty.call(settingCode, key) &&
+                Object.prototype.hasOwnProperty.call(latestCode, key)) {
+                if (latestCode[key] !== settingCode[key]) {
+                    differentColumns[key] = {
+                        latestCode: latestCode[key],
+                        modelConfig: settingCode[key],
+                    };
+                }
+            }
+        }
+    }
+    return differentColumns;
+}

@@ -39,3 +39,18 @@ export const fetchData2 = async (table) => {
     alert(error.message);
   }
 };
+
+export const fetchModel = async (table) => {
+  try {
+    const { data, error } = await supabase
+      .from(table)
+      .select('*');
+
+    if (error) {
+      throw error;
+    }
+    return data
+  } catch (error) {
+    alert(error.message);
+  }
+};

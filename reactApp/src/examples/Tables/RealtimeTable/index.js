@@ -145,6 +145,8 @@ function RealtimeTable() {
                             amount: "",
                             label: "",
                           }}
+                          ymin={0}
+                          ymax={200}
                         />
                       )}
                     </ChartData>
@@ -171,6 +173,8 @@ function RealtimeTable() {
                           amount: "",
                           label: "",
                         }}
+                        ymin={0}
+                        ymax={100}
                       />
                     )}
                   </ChartData>

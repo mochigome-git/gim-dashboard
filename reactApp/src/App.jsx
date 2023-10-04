@@ -21,7 +21,7 @@ import theme from "./assets/theme";
 import themeDark from "./assets/theme-dark";
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController} from "./context";
+import { useMaterialUIController } from "./context";
 
 const App = () => {
   const [controller] = useMaterialUIController();
@@ -112,25 +112,25 @@ const App = () => {
   const handleActivity = () => {
     lastActivityRef.current = Date.now();
   };
-  
+
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       {showLogoutNotification && (
         <MDSnackbar
-        color="error"
-        icon={<NotificationsActiveIcon/>}
-        icon2={<NotificationsActiveIcon/>}
-        inlineColor="transparent"
-        title="Session Timeout:"
-        content="Inactive for more than 30 minutes."
-        content2="You have been logged out."
-        dateTime={Timenow}
-        open={errorSB}
-        onClose={closeErrorSB}
-        close={closeErrorSB}
-        bgWhite
-      />
+          color="error"
+          icon={<NotificationsActiveIcon />}
+          icon2={<NotificationsActiveIcon />}
+          inlineColor="transparent"
+          title="Session Timeout:"
+          content="Inactive for more than 30 minutes."
+          content2="You have been logged out."
+          dateTime={Timenow}
+          open={errorSB}
+          onClose={closeErrorSB}
+          close={closeErrorSB}
+          bgWhite
+        />
       )}
       {layout === "vr" && <Configurator />}
       {!session ? <Login /> : <Home key={session.user.id} session={session} />}

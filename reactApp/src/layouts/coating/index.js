@@ -30,6 +30,31 @@ import Nk3IndexTableData from "./data/nk3indexTableData"
 import generateNK2CSV from './csv/generateNK2CSV';
 import generateNK2CSV_5min from './csv/generateNK2CSV_5min';
 
+// Api
+import { dataCSV, multipleDataCSV } from "./api"
+
+const maxSeqCount = 10; // For example, up to 10 sequences
+
+// Dynamically generate cases for SET_IH_SEQ_1 to SET_IH_SEQ_maxSeqCount
+const dynamicCases = {};
+for (let i = 1; i <= maxSeqCount; i++) {
+  const actionType = `SET_IH_SEQ_${i}`;
+  dynamicCases[actionType] = (state, action) => ({
+    ...state,
+    [`iHSeq${i}`]: action.payload,
+  });
+}
+
+// Create dynamic cases for createdAt values
+const dynamicCreatedAtCases = {};
+for (let i = 1; i <= maxSeqCount; i++) {
+  const actionType = `SET_CREATED_AT_${i}`;
+  dynamicCreatedAtCases[actionType] = (state, action) => ({
+    ...state,
+    [`createdAt${i}`]: action.payload,
+  });
+}
+
 function reducer(state, action) {
   //console.log("reducer action", action.type);
   switch (action.type) {
@@ -92,10 +117,8 @@ function reducer(state, action) {
       return { ...state, downloadMultipleTrigger_NK3: action.payload };
     case 'SET_IH_SEQ':
       return { ...state, iHSeq: action.payload };
-    case 'SET_IH_SEQ_1':
-      return { ...state, iHSeq1: action.payload };
-    case 'SET_IH_SEQ_2':
-      return { ...state, iHSeq2: action.payload };
+    case 'SET_DATA_DATE':
+      return { ...state, Ddate: action.payload };
     case 'SET_C_LOT_NO':
       return { ...state, cLOTNo: action.payload };
     case 'SET_C_LOT_NO_1':
@@ -103,6 +126,13 @@ function reducer(state, action) {
     case 'SET_C_LOT_NO_2':
       return { ...state, cLOTNo2: action.payload };
     default:
+      if (dynamicCases[action.type]) {
+        // If the action type matches one of the dynamic cases, use it
+        return dynamicCases[action.type](state, action);
+      }
+      if (dynamicCreatedAtCases[action.type]) {
+        return dynamicCreatedAtCases[action.type](state, action);
+      }
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 }
@@ -207,6 +237,7 @@ function Coating() {
     const date = createdAt;
     const seq = iHSeq;
     dispatch({ type: 'SET_IH_SEQ', payload: seq });
+    dispatch({ type: 'SET_DATA_DATE', payload: date });
     setDetailsData({ date: date, seq: seq });
     await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -243,21 +274,56 @@ function Coating() {
   };
 
   const onMultipleDownloadCSV_NK3 = async (downloadData) => {
-    const i = downloadData.length - 1;
-    const date = downloadData[0].createdAt;
-    const seq1 = downloadData[i].iHSeq;
-    const seq2 = downloadData[0].iHSeq;
-    dispatch({ type: 'SET_IH_SEQ_1', payload: seq1 });
-    dispatch({ type: 'SET_IH_SEQ_2', payload: seq2 });
-    setMultipleDetailsData({ date: date, seq1: seq1, seq2: seq2 })
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    // Extract all iHSeq values into an array
+    const iHSeqValues = downloadData.map((item) => item.iHSeq);
 
+    // Extract all createdAt values into an array
+    const createdAtValues = downloadData.map((item) => item.createdAt);
+
+    // Define a default value in case there are no seq values or for inconsistent cases
+    const defaultValue = 'Default';
+
+    // Use a Set to ensure unique values and convert it back to an array
+    const uniqueIHSeqValues = [...new Set(iHSeqValues)];
+    const uniqueCreatedAtValues = [...new Set(createdAtValues)];
+
+    const setIHSeqValues = (seqValues) => {
+      seqValues.forEach((seq, index) => {
+        const actionType = `SET_IH_SEQ_${index + 1}`;
+        dispatch({ type: actionType, payload: seq });
+      });
+    };
+
+    const setCreatedAtValues = (createdAtValues) => {
+      createdAtValues.forEach((createdAt, index) => {
+        const actionType = `SET_CREATED_AT_${index + 1}`;
+        dispatch({ type: actionType, payload: createdAt });
+      });
+    };
+
+    // Check if there are any unique iHSeq values
+    if (uniqueIHSeqValues.length > 0) {
+      // Use the provided dispatch function here
+      setIHSeqValues(uniqueIHSeqValues);
+    } else {
+      // If there are no unique iHSeq values or all values are the same, use the default value
+      setIHSeqValues([defaultValue]);
+    }
+
+    // Check if there are any unique createdAt values
+    if (uniqueCreatedAtValues.length > 0) {
+      // Use the provided dispatch function here
+      setCreatedAtValues(uniqueCreatedAtValues);
+    } else {
+      // If there are no unique createdAt values or all values are the same, use the default value
+      setCreatedAtValues([defaultValue]);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
     setTimeout(() => {
       dispatch({ type: 'SET_LOADING', payload: true });
     }, 0);
-
     await new Promise(resolve => setTimeout(resolve, 5000));
-
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: true });
   };
 
@@ -450,18 +516,15 @@ function Coating() {
       dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL_5MIN', payload: nk3_multipledetail_5min });
     }
 
-    if (state.downloadTrigger_NK3 && (state.nk3Detail !== null || state.nk3Detail_5min !== null)) {
+    if (state.downloadTrigger_NK3) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
       const data = state.everyFiveMinutes ? state.nk3Detail_5min : state.nk3Detail;
-      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
-        }`;
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `${folderName}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (data === state.nk3Detail_5min) {
+        dataCSV(state.Ddate, state.iHSeq, 'nk3_log_data_storage', folderName, true);
+      }
+      if (data === state.nk3Detail) {
+        dataCSV(state.Ddate, state.iHSeq, 'nk3_log_data_storage', folderName, false);
+      }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {
         dispatch({ type: 'SET_SUCCESS', payload: false });
@@ -472,19 +535,37 @@ function Coating() {
       }, 900);
     }
 
-    if (state.downloadMultipleTrigger_NK3 && (state.nk3multipleDetail !== null || state.nk3multipleDetail_5min !== null)) {
+    if (state.downloadMultipleTrigger_NK3) {
       const noSelected = state.multipleSelection;
       const data = state.everyFiveMinutes ? state.nk3multipleDetail_5min : state.nk3multipleDetail;
-      const folderName = `nk3_roll_no:${state.iHSeq1}~${state.iHSeq2}(${noSelected}lot)`;
-      const csvContent = `data:text/csv;charset=utf-8,${state.everyFiveMinutes ? generateNK2CSV_5min(data) : generateNK2CSV(data)
-        }`;
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", folderName + ".csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const folderName = `nk3_roll_no:${state.iHSeq1},${state.iHSeq2}...(${noSelected}lot)`;
+      // Assuming you have stored the maximum sequence count in maxSeqCount
+      const combinedDataToPass = [];
+      const combinedCreatedAtProp = [];
+
+      for (let i = 1; i <= maxSeqCount; i++) {
+        const iHSeqProp = `iHSeq${i}`;
+        const ihDateProp = `createdAt${i}`;
+
+        if (state[iHSeqProp] !== undefined) {
+          const dataToPassValue = state[iHSeqProp];
+          const createdAtPropValue = state[ihDateProp];
+
+          combinedDataToPass.push(dataToPassValue);
+          combinedCreatedAtProp.push(createdAtPropValue);
+
+        } else {
+          // Break the loop if the property doesn't exist
+          break;
+        }
+      }
+
+      if (data === state.nk3multipleDetail_5min) {
+        multipleDataCSV(combinedCreatedAtProp, combinedDataToPass, 'nk3_log_data_storage', folderName, true);
+      }
+      if (data === state.nk3multipleDetail) {
+        multipleDataCSV(combinedCreatedAtProp, combinedDataToPass, 'nk3_log_data_storage', folderName, false);
+      }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {
         dispatch({ type: 'SET_SUCCESS', payload: false });
@@ -492,9 +573,22 @@ function Coating() {
         dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL', payload: null });
         dispatch({ type: 'SET_NK3_MULTIPLE_DETAIL_5MIN', payload: null });
         dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: false });
+        for (let i = 1; i <= maxSeqCount; i++) {
+          dispatch({ type: `SET_IH_SEQ_${i}`, payload: null });
+          dispatch({ type: `SET_CREATED_AT_${i}`, payload: null });
+        }
       }, 900);
     }
-  }, [nk3_detail, nk3_detail_5min, nk3_multipledetail, nk3_multipledetail_5min, state.downloadTrigger_NK3, state.nk3Detail, state.downloadMultipleTrigger_NK3, state.nk3multipleDetail]);
+  }, [
+    nk3_detail,
+    nk3_detail_5min,
+    nk3_multipledetail,
+    nk3_multipledetail_5min,
+    state.downloadTrigger_NK3,
+    state.nk3Detail,
+    state.downloadMultipleTrigger_NK3,
+    state.nk3multipleDetail
+  ]);
 
   return (
     <DashboardLayout>

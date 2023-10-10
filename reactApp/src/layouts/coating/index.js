@@ -283,7 +283,7 @@ function Coating() {
       dispatch({ type: 'SET_LOADING', payload: true });
     }, 0);
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 300));
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER', payload: true });
   };
 
@@ -337,7 +337,7 @@ function Coating() {
     setTimeout(() => {
       dispatch({ type: 'SET_LOADING', payload: true });
     }, 0);
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 300));
     dispatch({ type: 'SET_DOWNLOAD_MULTIPLE_TRIGGER_NK3', payload: true });
   };
 

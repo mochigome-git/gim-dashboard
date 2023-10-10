@@ -1,5 +1,6 @@
 import { supabase } from "../../lib/supabase";
 import Papa from 'papaparse';
+import ExcelJS from 'exceljs';
 
 // Fetch Coating Data and create a CSV
 export const dataCSV = async (date_at, seq, tableName, folderName, fivemin) => {
@@ -77,6 +78,157 @@ export const dataCSV = async (date_at, seq, tableName, folderName, fivemin) => {
     }
 };
 
+// Fetch Coating Data and create a CSV
+export const dataCSVmultiTable = async (date_at, seq, tableNames, folderName, fivemin) => {
+    try {
+        const workbook = new ExcelJS.Workbook();
+
+        for (const currentTableName of tableNames) {
+            const sheet = workbook.addWorksheet(currentTableName);
+            const { data, error } = await supabase
+                .from(currentTableName)
+                .select()
+                .eq('i_h_seq', seq)
+                .gte('created_at', `${date_at}T00:00:00.000Z`)
+                .lt('created_at', `${date_at}T23:59:59.999Z`)
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                throw error;
+            }
+
+            // Apply the 5-minute interval filtering to the data if needed
+            const selectedData = fivemin ? filterDataBy5Minutes(data) : data;
+
+            // Add a header row with column names
+            const columns = Object.keys(selectedData[0]);
+            let newHeader;
+
+            switch (currentTableName) {
+                case 'nk2_log_data_storage':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                    break;
+                case 'nk2_4u_fibre_sensor':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
+                    break;
+                case 'nk2_main_pressure_sensor':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
+                    break;
+                default:
+                    newHeader = columns;
+                    break;
+            }
+
+            sheet.addRow(newHeader);
+
+            // Add data rows
+            for (const row of selectedData) {
+                const rowData = columns.map((col) => row[col]);
+                sheet.addRow(rowData);
+            }
+        }
+
+        // Generate a blob containing the workbook data
+        const blob = await workbook.xlsx.writeBuffer();
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(new Blob([blob]));
+
+        // Create an anchor element for downloading the Excel file
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = folderName + '.xlsx';
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up by revoking the temporary URL
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
+export const multipleDataCSVmultiTable = async (dates, seqArray, tableNames, folderName, fivemin) => {
+    try {
+        const workbook = new ExcelJS.Workbook();
+
+        for (const currentTableName of tableNames) {
+            const sheet = workbook.addWorksheet(currentTableName);
+
+            // Initialize an array to accumulate all data
+            let allData = [];
+            let previousDate;
+
+            for (let i = 0; i < Math.min(seqArray.length, dates.length); i++) {
+                const seq = seqArray[i];
+                const date_at = dates[i] || previousDate;
+
+                if (seq !== null && date_at !== null) {
+                    const { data, error } = await supabase
+                        .from(currentTableName)
+                        .select()
+                        .eq('i_h_seq', seq)
+                        .gte('created_at', `${date_at}T00:00:00.000Z`)
+                        .lt('created_at', `${date_at}T23:59:59.999Z`)
+                        .order('created_at', { ascending: true });
+
+                    // Apply the 5-minute interval filtering to the data if needed
+                    const selectedData = fivemin ? filterDataBy5Minutes(data) : data;
+
+                    // Add the data for the current sequence and date to the accumulated data
+                    allData.push(...selectedData);
+
+                    // Update the previousDate
+                    previousDate = date_at;
+                }
+            }
+            // Add a header row with column names
+            const columns = Object.keys(allData[0]);
+            let newHeader;
+
+            switch (currentTableName) {
+                case 'nk2_log_data_storage':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                    break;
+                case 'nk2_4u_fibre_sensor':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
+                    break;
+                case 'nk2_main_pressure_sensor':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
+                    break;
+                default:
+                    newHeader = columns;
+                    break;
+            }
+
+            sheet.addRow(newHeader);
+            // Add data rows
+            for (const row of allData) {
+                const rowData = columns.map((col) => row[col]);
+                sheet.addRow(rowData);
+            }
+        }
+        // Generate a blob containing the workbook data
+        const blob = await workbook.xlsx.writeBuffer();
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(new Blob([blob]));
+
+        // Create an anchor element for downloading the Excel file
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = folderName + '.xlsx';
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up by revoking the temporary URL
+        window.URL.revokeObjectURL(url);
+    }
+    catch (error) {
+        alert(error.message);
+    }
+};
+
 export const multipleDataCSV = async (dates, seqArray, tableName, folderName, fivemin) => {
     try {
         // Initialize an array to accumulate all data
@@ -139,7 +291,6 @@ export const multipleDataCSV = async (dates, seqArray, tableName, folderName, fi
     }
 };
 
-
 // Function to filter data by 5-minute intervals
 function filterDataBy5Minutes(data) {
     let filteredData = [];
@@ -167,7 +318,6 @@ function filterDataBy5Minutes(data) {
     return filteredData;
 }
 
-
 function replaceHeaderColumnNames(header, replacements) {
     const newHeader = [];
     for (const column of header) {
@@ -176,7 +326,6 @@ function replaceHeaderColumnNames(header, replacements) {
     }
     return newHeader;
 }
-
 
 const columnReplacements = {
     "uuid": "ID",
@@ -269,3 +418,21 @@ const columnReplacements = {
     "d676": "Winding Meter",
     "d650": "Total Meter"
 };
+
+const columnReplacements2 = {
+    "id": "ID",
+    "created_at": "Date",
+    "i_h_seq": "roll seq",
+    "c_lot_no": "roll no",
+    "sensor1": "4U Fibre Sensor 1",
+    "sensor2": "4U Fibre Sensor 2",
+    "sensor3": "4U Fibre Sensor 3"
+}
+
+const columnReplacements3 = {
+    "id": "ID",
+    "created_at": "Date",
+    "i_h_seq": "roll seq",
+    "c_lot_no": "roll no",
+    "mpa": "Pressure(MPa)"
+}

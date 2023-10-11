@@ -138,7 +138,8 @@ export function findDifferentColumns(state) {
 
         // Iterate through one of the objects (settingCode in this case)
         for (const key in settingCode) {
-            if (Object.prototype.hasOwnProperty.call(settingCode, key) &&
+            if (key !== 'id' && Object.prototype.hasOwnProperty.call(settingCode, key) &&
+                Object.prototype.hasOwnProperty.call(settingCode, key) &&
                 Object.prototype.hasOwnProperty.call(latestCode, key)) {
                 if (latestCode[key] !== settingCode[key]) {
                     differentColumns[key] = {

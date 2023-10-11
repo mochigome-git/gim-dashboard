@@ -253,6 +253,7 @@ function RealtimeTable() {
                   <em>None</em>
                 </MenuItem>
                 <MenuItem value={1}>SD100</MenuItem>
+                <MenuItem value={2}>SR590</MenuItem>
               </Select>
             </FormControl>
           </Stack>

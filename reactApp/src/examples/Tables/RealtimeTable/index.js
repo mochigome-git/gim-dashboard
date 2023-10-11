@@ -5,9 +5,18 @@ import Grid from "@mui/material/Grid";
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../components/MDBox";
+import MDTypography from "../../../components/MDTypography";
 
 // Material Dashboard 2 React example components
 import CoatingDashboardLayout from "../../LayoutContainers/CoatingDashboardLayout";
@@ -20,7 +29,7 @@ import DetailsChart from "../../Charts/BarCharts/DetailsChart";
 import ChartData from "./data/ChartData";
 
 import { supabase } from "../../../lib/supabase"
-import { fetchData, fetchData2, fetchModel } from "./api"
+import { fetchData, fetchData2, fetchModel, fetchModel2, columnReplacements } from "./api"
 import { useDataFetching, findDifferentColumns } from "./utils"
 
 function RealtimeTable() {
@@ -30,12 +39,17 @@ function RealtimeTable() {
   const [failed, setFailed] = useState(false);
   const [state, setState] = useState();
   const [tableType, setSelectedTable] = useState(null);
+  const [id, setModel] = useState(0);
+
+  const handleChange = (event) => {
+    setModel(event.target.value);
+  };
 
   useDataFetching({ table: `nk2_log_data_storage`, fetchData, supabase, setState });
   useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk3_log_data_storage`, fetchData, supabase, setState });
-  useDataFetching({ table: `coating_model`, fetchData: fetchModel, supabase, setState })
+  useDataFetching({ table: `coating_model`, fetchData: fetchModel2, supabase, setState, id })
   useDataFetching({ table: `nk2_log_data_realtime`, fetchData: fetchModel, supabase, setState })
 
   // UseMemo to clear the loading state if the data is already loaded.
@@ -216,11 +230,45 @@ function RealtimeTable() {
   return (
     <CoatingDashboardLayout>
       <MDBox py={3}>
-        <MDBox pb={3}>
-          <ButtonGroup color="secondary" aria-label="outlined primary button group">
-            <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
-            <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
-          </ButtonGroup>
+        <MDBox pb={3} >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+          >
+            <ButtonGroup color="secondary" aria-label="outlined primary button group">
+              <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
+              <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
+            </ButtonGroup>
+
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel >Model</InputLabel>
+              <Select
+                value={id}
+                label="Model"
+                onChange={handleChange}
+              >
+                <MenuItem value={0}>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={1}>SD100</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+        </MDBox>
+        <MDBox>
+          <MDTypography variant="body1" gutterBottom mx={2}>
+            {Object.entries(result).map(([key, value]) => (
+              <div key={key}>
+                <Stack direction="row" spacing={1}>
+                  <Chip label={`${columnReplacements[key] || key}:`} color="error" variant="outlined" />
+                  <Chip icon={<CheckIcon />} label={`Model Config ${value.modelConfig}`} color="warning" variant="outlined" />
+                  <Chip icon={<ClearIcon />} label={`Current Config ${value.latestCode}`} color="error" variant="outlined" />
+                </Stack>
+              </div>
+            ))}
+          </MDTypography>
         </MDBox>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>

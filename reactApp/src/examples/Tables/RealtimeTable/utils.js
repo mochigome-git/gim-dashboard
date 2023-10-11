@@ -28,9 +28,10 @@ export const useDataFetching = ({
     fetchData,
     supabase,
     setState,
+    id,
 }) => {
     useEffect(() => {
-        fetchData(table)
+        fetchData(table, id)
             .then((data) => {
                 if (table === 'nk2_log_data_storage') {
                     setState((prevState) => ({
@@ -125,7 +126,7 @@ export const useDataFetching = ({
         return () => {
             indexSubscription.unsubscribe();
         };
-    }, []);
+    }, [id]);
 };
 
 export function findDifferentColumns(state) {

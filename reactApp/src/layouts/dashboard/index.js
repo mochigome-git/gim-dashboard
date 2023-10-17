@@ -32,10 +32,10 @@ import OrdersOverview from "./components/OrdersOverview";
 import { DailyContext } from "../../lib/realtime";
 
 function Dashboard() {
-  const {sales, tasks} = reportsLineChartData;
-  const {codingDailydata} = ReportsBarChartData();
-  const {tFillingdata} = machinetDailyChartData();
-  const {CodingLatestData, records, machine_tLatestData, machine_tRecords} = useContext(DailyContext);
+  const { sales, tasks } = reportsLineChartData;
+  const { codingDailydata } = ReportsBarChartData();
+  const { tFillingdata } = machinetDailyChartData();
+  const { CodingLatestData, records, machine_tLatestData, machine_tRecords } = useContext(DailyContext);
   const [isPositive, setPositive] = useState();
   const [iscodingAmount, setcodingAmount] = useState();
   const [ismachinetPositive, setmachinetPositive] = useState();
@@ -58,7 +58,7 @@ function Dashboard() {
       } else {
         setPositive("success");
       }
-  
+
       var machineSum = 0;
       for (var i = 0; i < machine_tRecords.length; i++) {
         machineSum += parseInt(machine_tRecords[i].total, 10);
@@ -72,18 +72,18 @@ function Dashboard() {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [records, CodingLatestData, machine_tRecords, machine_tLatestData]);  
+  }, [records, CodingLatestData, machine_tRecords, machine_tLatestData]);
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      <DashboardNavbar />
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="dark"
-                icon={<WeekendIcon/>}
+                icon={<WeekendIcon />}
                 title="Sample1"
                 count={281}
                 percentage={{
@@ -97,7 +97,7 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                icon={<LeaderboardIcon/>}
+                icon={<LeaderboardIcon />}
                 title="Sample2"
                 count="2,300"
                 percentage={{
@@ -112,7 +112,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="success"
-                icon={<StoreIcon/>}
+                icon={<StoreIcon />}
                 title="Sample3"
                 count="34k"
                 percentage={{
@@ -127,7 +127,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon={<PersonAddIcon/>}
+                icon={<PersonAddIcon />}
                 title="Sample4"
                 count="+91"
                 percentage={{
@@ -161,7 +161,7 @@ function Dashboard() {
                 <ReportsBarChart
                   color="transparent"
                   title="Coding Output (書き込み)"
-                  description={CodingLatestData + " Pcs" }
+                  description={CodingLatestData + " Pcs"}
                   date=""
                   datasets={codingDailydata}
                   percentage={{
@@ -177,7 +177,7 @@ function Dashboard() {
                 <MachineTLineChart
                   color="transparent"
                   title="Machine T Output (充填)"
-                  description={machine_tLatestData + " Pcs" }
+                  description={machine_tRecords[0]?.total + " Pcs"}
                   date=""
                   datasets={tFillingdata}
                   percentage={{

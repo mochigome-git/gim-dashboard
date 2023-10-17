@@ -1,14 +1,20 @@
 function configs(datasets, ownerState) {
 
-  const darkMode = ownerState?.darkMode ?? true;
-  const color = darkMode ? "#ffffff6c" : "#000";
+	const darkMode = ownerState?.darkMode ?? true;
+	const color = darkMode ? "#ffffff6c" : "#000";
 
-  return {
-    option: {
-      responsive: true,
+	const commonStyle = {
+		color: color,
+		fontWeight: 'bold',
+		fontSize: 8.5,
+	};
+
+	return {
+		option: {
+			responsive: false,
 			credits: {
 				enabled: false
-			  },
+			},
 			chart: {
 				backgroundColor: {
 					linearGradient: null,
@@ -21,17 +27,17 @@ function configs(datasets, ownerState) {
 			navigation: {
 				buttonOptions: {
 					enabled: true
-				},		
+				},
 			},
 			rangeSelector: {
 				dropdown: 'always',
 				verticalAlign: 'bottom',
-				buttonSpacing : 0.5,
+				buttonSpacing: 0.5,
 				buttonTheme: { // styles for the buttons
 					fill: 'none',
 					stroke: 'none',
 					'stroke-width': 0,
-					width : 18,
+					width: 18,
 					r: 8,
 					style: {
 						color: '#ffffff',
@@ -46,9 +52,7 @@ function configs(datasets, ownerState) {
 						},
 						select: {
 							fill: '#ffffff10',
-							style: {
-								color: color
-							}
+							style: commonStyle,
 						}
 						// disabled: { ... }
 					}
@@ -56,34 +60,24 @@ function configs(datasets, ownerState) {
 				inputBoxBorderColor: 'null',
 				inputBoxWidth: 70,
 				inputBoxHeight: 18,
-				inputStyle: {
-					color: color,
-					fontWeight: 'bold',
-					fontSize: '8.5',
-				},
-				labelStyle: {
-					color: color,
-					fontWeight: 'bold',
-					fontSize: '8.5',
-				},
-			selected: 1,
-				enabled:true
-				},
-				navigator: {
-					enabled: false
-				},
-				scrollbar: {
-					enabled: false
-				},  
+				inputStyle: commonStyle,
+				labelStyle: commonStyle,
+				selected: 1,
+				enabled: true
+			},
+			navigator: {
+				enabled: false
+			},
+			scrollbar: {
+				enabled: false
+			},
 			yAxis: [{
 				labels: {
 					align: 'right',
 					x: 0,
 					y: 0,
 					//format: '{value}',
-					style: {
-						color: color, 
-					 }
+					style: commonStyle,
 				},
 				lineWidth: 0.5,
 				lineColor: 'none',
@@ -92,52 +86,50 @@ function configs(datasets, ownerState) {
 					enabled: false
 				},
 				title: {
-				  text: '',
-				  style: {
-					color: '#ffffff',
-				 }
+					text: '',
+					style: {
+						color: '#ffffff',
+					}
 				},
 				gridLineColor: 'null',
 				gridLineWidth: 0.5
-			  }],	
+			}],
 			xAxis: {
-        	  tickLength: 0,
-			  type: 'datetime',
-			  offset: 0,
-			  lineWidth: 0.5,
-			  lineColor: 'null',
-			  opposite: false,
-			  resize: {
-				enabled: false
-			},
-			 labels: {
-				style: {
-				   color: color,
+				tickLength: 0,
+				type: 'datetime',
+				offset: 0,
+				lineWidth: 0.5,
+				lineColor: 'null',
+				opposite: false,
+				resize: {
+					enabled: false
+				},
+				labels: {
+					style: commonStyle,
 				}
-			}
 			},
-      series: [{
-			  name: '個',
-			  type: 'line',		
-			  data: (datasets.datasets.data.sort((a, b) =>  - b).reverse()),
-			  color: '#BB86FC',
-			  tooltip: {
-				valueDecimals: 2,
-			  },
-		
+			series: [{
+				name: '個',
+				type: 'line',
+				data: datasets.datasets.data.slice().reverse(), // Slice creates a shallow copy.
+				color: '#BB86FC',
+				tooltip: {
+					valueDecimals: 2,
+				},
+
 			}]
-   },
-   containerprops: { 
-		style: { 
-				height: "100%", 
-				width: "100%",
-				maxWidth: "485px",
-				margin: "auto",
-   				display: "inline-flex",
-				position:"absolute" 
-			} 
 		},
-  };
+		containerprops: {
+			style: {
+				height: "100%",
+				width: "100%",
+				maxWidth: "100%",
+				margin: "auto",
+				display: "inline-flex",
+				position: "absolute"
+			}
+		},
+	};
 }
 
 export default configs;

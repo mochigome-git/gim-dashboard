@@ -25,7 +25,7 @@ function Tables() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-            <MDBox
+              <MDBox
                 mx={0}
                 mt={0}
                 py={3}
@@ -41,7 +41,7 @@ function Tables() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <InkjetHome/>
+                <InkjetHome />
               </MDBox>
             </Card>
           </Grid>

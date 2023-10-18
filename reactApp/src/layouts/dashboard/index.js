@@ -6,6 +6,7 @@ import WeekendIcon from '@mui/icons-material/Weekend';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import StoreIcon from '@mui/icons-material/Store';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -35,9 +36,18 @@ function Dashboard() {
   const { codingDailydata } = ReportsBarChartData();
   const { tFillingdata } = machinetDailyChartData();
   const { nk2DailyData } = Nk2DailyData();
-  const { CodingLatestData, records, nk2_daily, machine_tRecords, nk2_index } = useContext(DailyContext);
+  const {
+    CodingLatestData,
+    records,
+    nk2_daily,
+    machine_tRecords,
+    nk2_index,
+    ij_index_no1,
+  } = useContext(DailyContext);
   const [isPositive, setPositive] = useState();
   const [isnk2Positive, setnk2Positive] = useState();
+  const [isPackagingPositive, setPackagingPositive] = useState();
+  const [isPackagingAmount, setPackagingAmount] = useState();
   const [iscodingAmount, setcodingAmount] = useState();
   const [isnk2Amount, setnk2Amount] = useState();
   const [ismachinetPositive, setmachinetPositive] = useState();
@@ -48,6 +58,11 @@ function Dashboard() {
     nk2Roll_orange: 0,
     nk2Roll_yellow: 0,
     nk2Roll_green: 0,
+    nk2Roll_length: 0,
+    nk2Roll_rate: 0,
+  });
+  const [ijPackagingGroups, setijPackagingGroups] = useState({
+    ijCount_sum: 0,
   });
 
   useEffect(() => {
@@ -165,6 +180,53 @@ function Dashboard() {
     }, 20);
   }, [records, CodingLatestData, machine_tRecords, tRecordsDaily]);
 
+  useEffect(() => {
+    if (ij_index_no1) {
+      // Get the current date
+      const currentDate = new Date();
+
+      // Calculate the start of the current week (Sunday as the start of the week)
+      const currentWeekStart = new Date(currentDate);
+      currentWeekStart.setHours(0, 0, 0, 0);
+      currentWeekStart.setDate(currentDate.getDate() - currentDate.getDay());
+
+      // Calculate the start of last week
+      const lastWeekStart = new Date(currentWeekStart);
+      lastWeekStart.setDate(currentWeekStart.getDate() - 7);
+
+      let thisWeekTotal = 0;
+      let lastWeekTotal = 0;
+
+      function relDiff(a, b) {
+        return 100 * ((a - b) / ((a + b) / 2));
+      }
+
+      ij_index_no1.forEach((item) => {
+        const createdAtDate = new Date(item.created_at);
+
+        if (createdAtDate >= currentWeekStart && createdAtDate < currentDate) {
+          // Check if the item's 'created_at' is within the current week
+          thisWeekTotal += item.ok_count;
+        } else if (createdAtDate >= lastWeekStart && createdAtDate < currentWeekStart) {
+          // Check if the item's 'created_at' is within the last week
+          lastWeekTotal += item.ok_count;
+        }
+        const packagingAmount = relDiff(thisWeekTotal, lastWeekTotal).toFixed(2);
+        setPackagingAmount(packagingAmount);
+        if (packagingAmount < 0) {
+          setPackagingPositive("error");
+        } else {
+          setPackagingPositive("success");
+        }
+      });
+
+      setijPackagingGroups({
+        ijCount_thisWeek: thisWeekTotal,
+        ijCount_lastWeek: lastWeekTotal,
+      });
+    }
+  }, [ij_index_no1]);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -174,12 +236,13 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="dark"
-                icon={<WeekendIcon />}
-                title="Sample1"
-                count={281}
+                icon={<LocalShippingIcon />}
+                title="Inkjet Packaging"
+                count={ijPackagingGroups.ijCount_thisWeek}
+                unit={"boxes"}
                 percentage={{
-                  color: "success",
-                  amount: "+55%",
+                  color: isPackagingPositive,
+                  amount: isPackagingAmount,
                   label: "than lask week",
                 }}
               />
@@ -230,7 +293,7 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}>
+        <MDBox mt={2}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>

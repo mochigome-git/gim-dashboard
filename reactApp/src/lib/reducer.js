@@ -9,6 +9,8 @@ export const initialState = {
   machine_tLatestData: [],
   machine_tRecordsbyhour: [],
   nk2_index: [],
+  nk2_daily: [],
+  nk2_output: [],
   nk2_detail: [],
   nk2_detail_5min: [],
   nk2_4u_fibre_sensor: [],

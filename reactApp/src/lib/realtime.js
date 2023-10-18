@@ -204,6 +204,8 @@ const DailyProvider = ({ children }) => {
         machine_tLatestData: state.machine_tLatestData,
         machine_tRecordsbyhour: state.machine_tRecordsbyhour,
         nk2_index: state.nk2_index,
+        nk2_daily: state.nk2_daily,
+        nk2_output: state.nk2_output,
         setDetailsData,
         ...(state.nk2_detail && { nk2_detail: state.nk2_detail }),
         ...(state.nk2_detail_5min && {

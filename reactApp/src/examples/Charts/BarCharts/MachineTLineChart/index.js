@@ -18,16 +18,16 @@ import configs from "./configs";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 
-function createChartOptions(datasets) {
+function createChartOptions(datasets, ymax) {
   return function (controller) {
-    const { option, containerprops } = configs(datasets, controller);
+    const { option, containerprops } = configs(datasets, controller, ymax);
     return { option, containerprops };
   }
 }
 
-function MachineTLineChart({ color, title, description, date, percentage, datasets }) {
+function MachineTLineChart({ color, title, description, date, percentage, datasets, ymax }) {
   const [controller, dispatch] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets), [datasets])(controller);
+  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymax), [datasets])(controller);
 
   Highcharts.setOptions({
     accessibility: { enabled: false }, time: { timezoneOffset: -8 * 60 }, lang: { rangeSelectorZoom: '' }

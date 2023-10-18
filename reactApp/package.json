@@ -10,6 +10,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
+    "@mui/x-charts": "^6.0.0-alpha.15",
     "@mui/x-data-grid": "^5.17.14",
     "@mui/x-data-grid-generator": "^5.17.14",
     "@mui/x-date-pickers": "^6.2.1",

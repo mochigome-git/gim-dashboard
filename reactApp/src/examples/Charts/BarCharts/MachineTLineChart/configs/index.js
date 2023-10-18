@@ -1,4 +1,4 @@
-function configs(datasets, ownerState) {
+function configs(datasets, ownerState, ymax) {
 
 	const darkMode = ownerState?.darkMode ?? true;
 	const color = darkMode ? "#ffffff6c" : "#000";
@@ -72,6 +72,7 @@ function configs(datasets, ownerState) {
 				enabled: false
 			},
 			yAxis: [{
+				max: ymax,
 				labels: {
 					align: 'right',
 					x: 0,

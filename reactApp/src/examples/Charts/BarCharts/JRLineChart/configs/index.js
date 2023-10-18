@@ -110,7 +110,7 @@ function configs(datasets, ownerState, ymax) {
 				}
 			},
 			series: [{
-				name: '個',
+				name: '本',
 				type: 'line',
 				data: datasets.datasets.data.slice().reverse(), // Slice creates a shallow copy.
 				color: '#BB86FC',

@@ -242,7 +242,7 @@ function Dashboard() {
                 unit={"boxes"}
                 percentage={{
                   color: isPackagingPositive,
-                  amount: isPackagingAmount,
+                  amount: `${isPackagingAmount}%`,
                   label: "than lask week",
                 }}
               />

@@ -11,8 +11,6 @@ export const fetchData = async (table) => {
       .select('*')
       .gt('created_at', eightHoursAgo.toISOString());
 
-    console.log(data);
-
     if (error) {
       throw error;
     }

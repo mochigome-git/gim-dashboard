@@ -58,9 +58,9 @@ function RealtimeTable() {
       setLoading(false);
     }
     if (state?.data?.length === 0 || (state?._nk3data?.length === 0)) {
-      setLoading(true);
+      //setLoading(true);
       setTimeout(() => {
-        setFailed(true);
+        //setFailed(true);
         setLoading(false);
       }, 5000);
     }

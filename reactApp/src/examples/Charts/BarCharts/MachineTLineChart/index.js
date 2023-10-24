@@ -34,58 +34,57 @@ function MachineTLineChart({ color, title, description, date, percentage, datase
   });
 
   return (
-    <Card sx={{ height: "100%" }}>
-      <MDBox pt={0} pb={0} px={3} mt={2} display="flex" alignItems='flex-start'>
-        <MDTypography variant="h6" textTransform="capitalize" color="text" fontWeight="bold">
-          {title}
-        </MDTypography>
-      </MDBox>
-      <MDTypography px={4} mt={2} component="div" variant="h2" color="text2" fontWeight="light">
-        {description}
-      </MDTypography>
-      <MDBox display="flex" alignItems="center">
-        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-          <Icon />
-        </MDTypography>
-        <MDTypography variant="button" color="text" fontWeight="light">
-          {date}
-        </MDTypography>
-        <MDTypography px={2} component="p" variant="button" color="text" display="flex">
-          <MDTypography
-            component="span"
-            variant="button"
-            fontWeight="bold"
-            color={percentage.color}
-          >
-            {percentage.amount}
+    <MDBox p={3} display="flex" justifyContent="space-between" alignItems="center" >
+      <Card style={{ width: '100%', height: '100%', border: 'none', boxShadow: 'none' }}>
+        <MDBox display="flex" alignItems='flex-start'>
+          <MDTypography variant="h6" textTransform="capitalize" color="text" fontWeight="bold">
+            {title}
           </MDTypography>
-          &nbsp;{percentage.label}
-        </MDTypography>
-      </MDBox>
-      <MDBox padding="1rem" display="inline-flex" flexDirection='column'>
-        <MDBox
-          sx={{ pt: 0, pb: 0, pr: 0 }}
-          //variant="gradient"
-          bgColor={color}
-          color="text"
-          borderRadius="lg"
-          coloredShadow="none"
-          py={1}
-          pr={0}
-          mt={-5}
-          height="12.5rem"
-          display="inline-flex"
-          flexDirection='column'
-          position="relative"
-        >
-          <HighchartsReact
-            containerProps={containerprops}
-            highcharts={Highcharts}
-            constructorType={"stockChart"}
-            options={option} />
         </MDBox>
-      </MDBox>
-    </Card>
+        <MDTypography mt={2} component="div" variant="h2" color="text2" fontWeight="light">
+          {description}
+        </MDTypography>
+        <MDBox display="flex" alignItems="center">
+          <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+            <Icon />
+          </MDTypography>
+          <MDTypography variant="button" color="text" fontWeight="light">
+            {date}
+          </MDTypography>
+          <MDTypography mx={-2} component="p" variant="button" color="text" display="flex">
+            <MDTypography
+              component="span"
+              variant="button"
+              fontWeight="bold"
+              color={percentage.color}
+            >
+              {percentage.amount}
+            </MDTypography>
+            &nbsp;{percentage.label}
+          </MDTypography>
+        </MDBox>
+        <MDBox pt={3} display="inline-flex" flexDirection='column'>
+          <MDBox
+            //variant="gradient"
+            bgColor={color}
+            color="text"
+            borderRadius="lg"
+            coloredShadow="none"
+            mt={-5}
+            height="12.5rem"
+            display="inline-flex"
+            flexDirection='column'
+            position="relative"
+          >
+            <HighchartsReact
+              containerProps={containerprops}
+              highcharts={Highcharts}
+              constructorType={"stockChart"}
+              options={option} />
+          </MDBox>
+        </MDBox>
+      </Card >
+    </MDBox >
   );
 }
 

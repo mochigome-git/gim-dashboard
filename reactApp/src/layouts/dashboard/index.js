@@ -28,6 +28,7 @@ import machinetDailyChartData from "./data/machinetDailyChartData"
 // Dashboard components
 import Projects from "./components/Projects";
 import OrdersOverview from "./components/OrdersOverview";
+import MachineTgraph from "./components/MachineTgraph";
 
 // Realtime data
 import { DailyContext } from "../../lib/realtime";
@@ -341,21 +342,7 @@ function Dashboard() {
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <MachineTLineChart
-                  color="transparent"
-                  title="Machine T Output (充填)"
-                  description={tRecordsDaily + " Pcs"}
-                  date=""
-                  datasets={tFillingdata}
-                  percentage={{
-                    color: ismachinetPositive,
-                    amount: ismachinetAmount + "%",
-                    label: "than Average",
-                  }}
-                  ymax={1200}
-                />
-              </MDBox>
+              <MachineTgraph />
             </Grid>
           </Grid>
         </MDBox>

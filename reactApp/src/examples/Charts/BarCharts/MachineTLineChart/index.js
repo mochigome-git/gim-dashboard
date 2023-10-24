@@ -34,7 +34,7 @@ function MachineTLineChart({ color, title, description, date, percentage, datase
   });
 
   return (
-    <MDBox p={3} display="flex" justifyContent="space-between" alignItems="center" >
+    <MDBox p={3} pb={4.5} display="flex" justifyContent="space-between" alignItems="center" >
       <Card style={{ width: '100%', height: '100%', border: 'none', boxShadow: 'none' }}>
         <MDBox display="flex" alignItems='flex-start'>
           <MDTypography variant="h6" textTransform="capitalize" color="text" fontWeight="bold">

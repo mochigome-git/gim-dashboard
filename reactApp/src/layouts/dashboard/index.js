@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import WeekendIcon from '@mui/icons-material/Weekend';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import StoreIcon from '@mui/icons-material/Store';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -14,16 +13,13 @@ import MDBox from "../../components/MDBox";
 // Material Dashboard 2 React example components
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
-import ReportsLineChart from "../../examples/Charts/LineCharts/ReportsLineChart";
 import ReportsBarChart from "../../examples/Charts/BarCharts/CodingLineChart";
 import ComplexStatisticsCard from "../../examples/Cards/StatisticsCards/ComplexStatisticsCard";
-import MachineTLineChart from "../../examples/Charts/BarCharts/MachineTLineChart";
 import JRLineChart from "../../examples/Charts/BarCharts/JRLineChart"
 
 // Data
 import Nk2DailyData from "./data/nk2DailyData";
 import ReportsBarChartData from "./data/reportsBarChartData";
-import machinetDailyChartData from "./data/machinetDailyChartData"
 
 // Dashboard components
 import Projects from "./components/Projects";
@@ -35,13 +31,11 @@ import { DailyContext } from "../../lib/realtime";
 
 function Dashboard() {
   const { codingDailydata } = ReportsBarChartData();
-  const { tFillingdata } = machinetDailyChartData();
   const { nk2DailyData } = Nk2DailyData();
   const {
     CodingLatestData,
     records,
     nk2_daily,
-    machine_tRecords,
     nk2_index,
     ij_index_no1,
   } = useContext(DailyContext);
@@ -51,9 +45,6 @@ function Dashboard() {
   const [isPackagingAmount, setPackagingAmount] = useState();
   const [iscodingAmount, setcodingAmount] = useState();
   const [isnk2Amount, setnk2Amount] = useState();
-  const [ismachinetPositive, setmachinetPositive] = useState();
-  const [ismachinetAmount, setmachinetAmount] = useState();
-  const tRecordsDaily = machine_tRecords[0]?.total ?? 0
   const [nk2RollGroups, setNk2RollGroups] = useState({
     nk2Roll_red: 0,
     nk2Roll_orange: 0,
@@ -165,21 +156,8 @@ function Dashboard() {
       } else {
         setPositive("success");
       }
-
-      var machineSum = 0;
-      for (var i = 0; i < machine_tRecords.length; i++) {
-        machineSum += parseInt(machine_tRecords[i].total, 10);
-      }
-      const machineAvg = machineSum / machine_tRecords.length;
-      const machinetAmount = relDiff(tRecordsDaily, machineAvg).toFixed(2);
-      setmachinetAmount(machinetAmount);
-      if (machinetAmount < 0) {
-        setmachinetPositive("error");
-      } else {
-        setmachinetPositive("success");
-      }
     }, 20);
-  }, [records, CodingLatestData, machine_tRecords, tRecordsDaily]);
+  }, [records, CodingLatestData]);
 
   useEffect(() => {
     if (ij_index_no1) {
@@ -294,10 +272,10 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={2}>
+        <MDBox mt={2} mb={2}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
+              <MDBox >
                 <JRLineChart
                   color="transparent"
                   title="Coating NK2 Output"
@@ -326,6 +304,9 @@ function Dashboard() {
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
+              <MachineTgraph />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsBarChart
                   color="transparent"
@@ -340,9 +321,6 @@ function Dashboard() {
                   }}
                 />
               </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MachineTgraph />
             </Grid>
           </Grid>
         </MDBox>

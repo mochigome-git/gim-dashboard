@@ -94,8 +94,8 @@ function JRLineChart({
           {descriptionTitle}
         </MDTypography>
         <Stack direction="row" justifyContent="space-between" width="100%" textAlign="center" spacing={0}>
-          <MDBox mx={2}>
-            <MDTypography px={4} mt={2} component="div" variant="h2" color="text2" fontWeight="light">
+          <MDBox mx={2} >
+            <MDTypography mt={2} component="div" variant="h2" color="text2" fontWeight="light">
               {description}
             </MDTypography>
             <MDBox display="flex" alignItems="center">

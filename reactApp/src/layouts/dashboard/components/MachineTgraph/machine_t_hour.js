@@ -21,7 +21,6 @@ export const MachineTHour = () => {
   const tRecordsDaily = machine_tRecordsbyhour[0]?.total ?? 0
 
   function transformData(inputData) {
-    const currentTimestamp = new Date().getTime();
     const eightAmToday = new Date(new Date().setHours(8, 0, 0, 0)).getTime();
     const eightPmToday = new Date(new Date().setHours(20, 0, 0, 0)).getTime();
 

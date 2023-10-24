@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Popover from "@mui/material/Popover";
 import MDBox from "../../../../components/MDBox";
 import { MachineTDaily } from "./machine_t_daily";
 import { MachineTHour } from "./machine_t_hour";
@@ -48,7 +47,7 @@ export const MachineTgraph = () => {
   );
 
   return (
-    <Card style={{ display: 'flex', marginLeft: 'auto', marginRight: 'auto' }}>
+    <Card style={{ marginLeft: 'auto', marginRight: 'auto' }}>
       <MDBox color="text" style={{ position: 'relative', flex: 1 }}>
         <MoreVertIcon
           sx={{ cursor: "pointer", fontWeight: "bold", position: 'absolute', top: 8, right: 8 }}

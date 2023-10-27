@@ -49,6 +49,7 @@ function RealtimeTable() {
   useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk3_log_data_storage`, fetchData, supabase, setState });
+  useDataFetching({ table: `nk3_2u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `coating_model`, fetchData: fetchModel2, supabase, setState, id })
   useDataFetching({ table: `nk2_log_data_realtime`, fetchData: fetchModel, supabase, setState })
 
@@ -206,6 +207,31 @@ function RealtimeTable() {
                       <DetailsChart
                         color="transparent"
                         title="テンション Tension"
+                        description=""
+                        date=""
+                        datasets={ddata}
+                        percentage={{
+                          color: "info",
+                          amount: "",
+                          label: "",
+                        }}
+                      />
+                    )}
+                  </ChartData>
+                ) : (null)}
+              </Grid>
+
+              <Grid item xs={12} md={12} lg={6}>
+                {state?._nk3data ? (
+                  <ChartData
+                    fieldNames={["Sensor1"]}
+                    fields={["sensor1"]}
+                    data={state._nk32ufiberdata}
+                  >
+                    {({ ddata }) => (
+                      <DetailsChart
+                        color="transparent"
+                        title="濃度 Density (2U)"
                         description=""
                         date=""
                         datasets={ddata}

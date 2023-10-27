@@ -57,6 +57,12 @@ export const useDataFetching = ({
                         _nk3data: data,
                     }));
                 }
+                if (table === 'nk3_2u_fibre_sensor') {
+                    setState((prevState) => ({
+                        ...prevState,
+                        _nk32ufiberdata: data,
+                    }));
+                }
                 if (table === 'coating_model') {
                     setState((prevState) => ({
                         ...prevState,
@@ -104,6 +110,12 @@ export const useDataFetching = ({
                                 setState((prevState) => ({
                                     ...prevState,
                                     _nk3data: data,
+                                }));
+                            }
+                            if (table === 'nk3_2u_fibre_sensor') {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    _nk32ufiberdata: data,
                                 }));
                             }
                             if (table === 'coating_model') {

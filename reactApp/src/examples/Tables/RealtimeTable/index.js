@@ -147,6 +147,7 @@ function RealtimeTable() {
                       fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
                       fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
                       data={state._nk3data}
+                      divide={10}
                     >
                       {({ ddata }) => (
                         <DetailsChart
@@ -175,6 +176,7 @@ function RealtimeTable() {
                     fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
                     fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
                     data={state._nk3data}
+                    divide={10}
                   >
                     {({ ddata }) => (
                       <DetailsChart
@@ -202,6 +204,7 @@ function RealtimeTable() {
                     fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
                     fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
                     data={state._nk3data}
+                    divide={10}
                   >
                     {({ ddata }) => (
                       <DetailsChart
@@ -227,6 +230,7 @@ function RealtimeTable() {
                     fieldNames={["Sensor1"]}
                     fields={["sensor1"]}
                     data={state._nk32ufiberdata}
+                    divide={0.1}
                   >
                     {({ ddata }) => (
                       <DetailsChart
@@ -306,6 +310,7 @@ function RealtimeTable() {
                     fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
                     fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
                     data={state.data}
+                    divide={10}
                   >
                     {({ ddata }) => (
                       <DetailsChart
@@ -334,6 +339,7 @@ function RealtimeTable() {
                   fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
                   fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
                   data={state.data}
+                  divide={10}
                 >
                   {({ ddata }) => (
                     <DetailsChart
@@ -361,6 +367,7 @@ function RealtimeTable() {
                   fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
                   fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
                   data={state.data}
+                  divide={10}
                 >
                   {({ ddata }) => (
                     <DetailsChart
@@ -386,6 +393,7 @@ function RealtimeTable() {
                   fieldNames={["Sensor1", "Sensor2", "Sensor3"]}
                   fields={["sensor1", "sensor2", "sensor3"]}
                   data={state._fibredata}
+                  divide={10}
                 >
                   {({ ddata }) => (
                     <DetailsChart
@@ -411,6 +419,7 @@ function RealtimeTable() {
                   fieldNames={["mpa"]}
                   fields={["mpa"]}
                   data={state._pressuredata}
+                  divide={10}
                 >
                   {({ ddata }) => (
                     <DetailsChart

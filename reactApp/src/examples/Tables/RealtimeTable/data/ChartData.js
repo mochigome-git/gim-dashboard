@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-export default function ChartData({ fieldNames, fields, data, children }) {
+export default function ChartData({ fieldNames, fields, data, children, divide }) {
   const [sortedData, setSortedData] = useState([]);
   const [dataPoints, setDataPoints] = useState([]);
 
@@ -24,7 +24,7 @@ export default function ChartData({ fieldNames, fields, data, children }) {
         const datapoint = {};
         for (let j = 0; j < fields.length; j++) {
           const field = fields[j];
-          const yValue = sortedData[i][field] ? Number(sortedData[i][field]) / 10 : newDataPoints[newDataPoints.length - 1]?.[field]?.y;
+          const yValue = sortedData[i][field] ? Number(sortedData[i][field]) / divide : newDataPoints[newDataPoints.length - 1]?.[field]?.y;
           datapoint[field] = {
             x: Math.floor(new Date(sortedData[i].created_at).getTime()),
             y: yValue,

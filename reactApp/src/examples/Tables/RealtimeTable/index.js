@@ -419,7 +419,7 @@ function RealtimeTable() {
                   fieldNames={["mpa"]}
                   fields={["mpa"]}
                   data={state._pressuredata}
-                  divide={10}
+                  divide={1}
                 >
                   {({ ddata }) => (
                     <DetailsChart

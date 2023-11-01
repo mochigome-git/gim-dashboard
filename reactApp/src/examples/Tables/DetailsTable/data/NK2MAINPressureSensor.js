@@ -17,7 +17,7 @@ export default function NK2MAINPressureSensor() {
   const processData = useMemo(() => {
     return async () => {
       try {
-        const fields = ["mpa" ];
+        const fields = ["mpa"];
         const newDataPoints = [];
 
         for (let i = 0; i < sortedData.length; i++) {
@@ -54,14 +54,14 @@ export default function NK2MAINPressureSensor() {
           }
         })
         .catch((error) => console.error(error));
-  
+
       // Cleanup function to be called when the component unmounts
       return () => {
         isMounted = false;
       };
     }
   }, [sortedData, processData]);
-  
+
 
   return {
     nk2pressuresensordata: {

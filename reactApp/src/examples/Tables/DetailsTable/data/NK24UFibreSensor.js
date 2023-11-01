@@ -7,7 +7,7 @@ export default function NK24UFibreSensor() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await nk2_4u_fibre_sensor; 
+      const data = await nk2_4u_fibre_sensor;
 
       if (data && data.length > 0 || data.length == 0) {
         const newSortedData = [...data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
@@ -23,7 +23,7 @@ export default function NK24UFibreSensor() {
   const processData = useMemo(() => {
     return async () => {
       try {
-        const fields = ["sensor1", "sensor2", "sensor3" ];
+        const fields = ["sensor1", "sensor2", "sensor3"];
         const newDataPoints = [];
 
         for (let i = 0; i < sortedData.length; i++) {
@@ -60,14 +60,14 @@ export default function NK24UFibreSensor() {
           }
         })
         .catch((error) => console.error(error));
-  
+
       // Cleanup function to be called when the component unmounts
       return () => {
         isMounted = false;
       };
     }
   }, [sortedData, processData]);
-  
+
 
   return {
     fourusensorfibredata: {

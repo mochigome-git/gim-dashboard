@@ -11,7 +11,7 @@ import {
 import {
   fetchNk2Index,
   fetchNk2Details,
-  fetchNK2MultipleDetails,
+  //fetchNK2MultipleDetails,
   fetchNk3Index,
   fetchNk3Details,
   fetchNK3MultipleDetails,
@@ -52,7 +52,7 @@ const DailyProvider = ({ children }) => {
     fetchCodingData(setState);
     fetchMachineTData(setState);
     fetchNk2Details(setState, state);
-    fetchNK2MultipleDetails(setState, state);
+    //fetchNK2MultipleDetails(setState, state);
     fetchNk3Index(setState);
     fetchNk3Details(setState, state);
     fetchNK3MultipleDetails(setState, state);
@@ -90,7 +90,7 @@ const DailyProvider = ({ children }) => {
   //coating/multiple.detail
   useEffect(() => {
     const fetchmultipleDetails = async () => {
-      await fetchNK2MultipleDetails(setState, state);
+      //await fetchNK2MultipleDetails(setState, state);
       await fetchNK3MultipleDetails(setState, state);
     };
 
@@ -246,6 +246,10 @@ const DailyProvider = ({ children }) => {
         ...(state.nk2_multipledetail_5min && {
           nk2_multipledetail_5min: state.nk2_multipledetail_5min,
         }),
+        ...(state.nk2_2u_fibre_sensor && {
+          nk2_2u_fibre_sensor: state.nk2_2u_fibre_sensor,
+        }),
+
         //NK3
         nk3_index: state.nk3_index,
         ...(state.nk3_detail && { nk3_detail: state.nk3_detail }),

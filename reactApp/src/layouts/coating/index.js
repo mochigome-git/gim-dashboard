@@ -363,11 +363,11 @@ function Coating() {
     if (state.downloadTrigger) {
       const folderName = `nk2_roll_no:${state.cLOTNo}`;
       if (state.everyFiveMinutes) {
-        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor']
+        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
       if (!state.everyFiveMinutes) {
-        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor']
+        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, false);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
@@ -409,11 +409,11 @@ function Coating() {
       }
 
       if (state.everyFiveMinutes) {
-        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor']
+        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
       if (!state.everyFiveMinutes) {
-        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor']
+        const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, false);
       }
 
@@ -437,18 +437,8 @@ function Coating() {
   }, [
     state.downloadTrigger,
     state.downloadMultipleTrigger,
-    state.nk2Detail,
-    state.nk2Detail_5min,
     state.everyFiveMinutes,
-    state.cLOTNo,
-    state.nk24ufibreSensor,
-    state.nk24ufibreSensor5min,
-    state.nk2mainpressureSensor,
-    state.nk2mainpressureSensor5min,
-    state.nk24ufibreSensormultiple,
-    state.nk24ufibreSensormultiple5min,
-    state.nk2mainpressureSensormultiple,
-    state.nk2mainpressureSensormultiple5min
+    state.cLOTNo
   ]);
 
   useEffect(() => {
@@ -519,9 +509,8 @@ function Coating() {
     }
   }, [
     state.downloadTrigger_NK3,
-    state.nk3Detail,
     state.downloadMultipleTrigger_NK3,
-    state.nk3multipleDetail
+    state.everyFiveMinutes
   ]);
 
   return (

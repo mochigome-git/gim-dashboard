@@ -421,6 +421,7 @@ function RealtimeTable() {
                   fields={["sensor1", "sensor2", "sensor3"]}
                   data={state._fibredata}
                   divide={10}
+                  reverse={true}
                 >
                   {({ ddata }) => (
                     <DetailsChart

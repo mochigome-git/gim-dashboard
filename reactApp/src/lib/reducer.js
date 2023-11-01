@@ -13,6 +13,7 @@ export const initialState = {
   nk2_output: [],
   nk2_detail: [],
   nk2_detail_5min: [],
+  nk2_2u_fibre_sensor: [],
   nk2_4u_fibre_sensor: [],
   nk2_4u_fibre_sensor_5min: [],
   nk2_4u_fibre_sensor_multiple: [],

@@ -54,14 +54,14 @@ export default function Nk3DChartData() {
           }
         })
         .catch((error) => console.error(error));
-  
+
       // Cleanup function to be called when the component unmounts
       return () => {
         isMounted = false;
       };
     }
   }, [sortedData, processData]);
-  
+
 
   return {
     NK3ddata: {

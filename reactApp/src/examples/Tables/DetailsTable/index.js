@@ -48,7 +48,7 @@ function DetailsTable() {
   const { nk2pressuresensordata } = NK2MAINPressureSensor();
 
   // Data loading
-  const { nk3_detail, nk2_detail, nk3_2u_fibre_sensor } = useContext(DailyContext);
+  const { nk3_detail, nk2_detail, nk3_2u_fibre_sensor, nk2_2u_fibre_sensor } = useContext(DailyContext);
 
   useEffect(() => {
     let dataToUse = ddata;
@@ -154,6 +154,11 @@ function DetailsTable() {
           </Grid>
           <MDBox mt={0.5}>
             <Grid container spacing={3}>
+              <Grid item xs={12} md={12} lg={4}>
+                <MDBox mb={3}>
+                  <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
+                </MDBox>
+              </Grid>
               <Grid item xs={12} md={12} lg={4}>
                 <MDBox mb={3}>
                   <Skeleton variant="rounded" width="100%" height={300} animation="wave" />
@@ -432,7 +437,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["Sensor1"]}
                   fields={["sensor1"]}
-                  data={nk3_2u_fibre_sensor}
+                  data={nk2_2u_fibre_sensor}
                   divide={0.1}
                 >
                   {({ ddata }) => (

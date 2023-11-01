@@ -39,6 +39,12 @@ export const useDataFetching = ({
                         data: data,
                     }));
                 }
+                if (table === 'nk2_2u_fibre_sensor') {
+                    setState((prevState) => ({
+                        ...prevState,
+                        _nk22ufiberdata: data,
+                    }));
+                }
                 if (table === 'nk2_4u_fibre_sensor') {
                     setState((prevState) => ({
                         ...prevState,
@@ -92,6 +98,12 @@ export const useDataFetching = ({
                                 setState((prevState) => ({
                                     ...prevState,
                                     data: data,
+                                }));
+                            }
+                            if (table === 'nk2_2u_fibre_sensor') {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    _nk22ufiberdata: data,
                                 }));
                             }
                             if (table === 'nk2_4u_fibre_sensor') {

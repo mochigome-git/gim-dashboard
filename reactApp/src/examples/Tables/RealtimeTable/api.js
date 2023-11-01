@@ -4,7 +4,7 @@ export const fetchData = async (table) => {
   try {
     // Calculate the datetime 8 hours ago from now
     const eightHoursAgo = new Date();
-    eightHoursAgo.setHours(eightHoursAgo.getHours() - 8);
+    eightHoursAgo.setHours(eightHoursAgo.getHours());
 
     const { data, error } = await supabase
       .from(table)

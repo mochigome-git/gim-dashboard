@@ -46,6 +46,7 @@ function RealtimeTable() {
   };
 
   useDataFetching({ table: `nk2_log_data_storage`, fetchData, supabase, setState });
+  useDataFetching({ table: `nk2_2u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk2_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk2_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
   useDataFetching({ table: `nk3_log_data_storage`, fetchData, supabase, setState });
@@ -388,6 +389,32 @@ function RealtimeTable() {
             </Grid>
 
             <Grid item xs={12} md={12} lg={6}>
+              {state?._nk22ufiberdata ? (
+                <ChartData
+                  fieldNames={["Sensor1"]}
+                  fields={["sensor1"]}
+                  data={state._nk22ufiberdata}
+                  divide={0.1}
+                >
+                  {({ ddata }) => (
+                    <DetailsChart
+                      color="transparent"
+                      title="濃度 Density (2U)"
+                      description=""
+                      date=""
+                      datasets={ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )}
+                </ChartData>
+              ) : (null)}
+            </Grid>
+
+            <Grid item xs={12} md={12} lg={6}>
               {state?._fibredata ? (
                 <ChartData
                   fieldNames={["Sensor1", "Sensor2", "Sensor3"]}
@@ -398,7 +425,7 @@ function RealtimeTable() {
                   {({ ddata }) => (
                     <DetailsChart
                       color="transparent"
-                      title="濃度 Density"
+                      title="濃度 4U Density"
                       description=""
                       date=""
                       datasets={ddata}

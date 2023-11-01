@@ -455,10 +455,12 @@ function Coating() {
     if (state.downloadTrigger_NK3) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
       if (state.everyFiveMinutes) {
-        dataCSV(state.Ddate, state.iHSeq, 'nk3_log_data_storage', folderName, true);
+        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
+        dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
       if (!state.everyFiveMinutes) {
-        dataCSV(state.Ddate, state.iHSeq, 'nk3_log_data_storage', folderName, false);
+        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
+        dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {
@@ -495,10 +497,12 @@ function Coating() {
       }
 
       if (state.everyFiveMinutes) {
-        multipleDataCSV(combinedCreatedAtProp, combinedDataToPass, 'nk3_log_data_storage', folderName, true);
+        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
+        multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
       if (!state.everyFiveMinutes) {
-        multipleDataCSV(combinedCreatedAtProp, combinedDataToPass, 'nk3_log_data_storage', folderName, false);
+        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
+        multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {

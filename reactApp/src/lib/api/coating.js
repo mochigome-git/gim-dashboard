@@ -147,9 +147,17 @@ export const fetchNk3Details = async (setState, state) => {
     const { data: data2, error: error2 } = await supabase.rpc("get_nk3_details_5min", {
       seq: seq, date_at: date,
     });
-    if (error1 || error2) { throw error1 || error2; }
+    const { data: data3, error: error3 } = await supabase.rpc("get_nk3_2u_fibre_sensor", {
+      seq: seq, date_at: date,
+    });
+    if (error1 || error2 || error3) { throw error1 || error2 || error3; }
 
-    setState(prevState => ({ ...prevState, nk3_detail: data1, nk3_detail_5min: data2 }));
+    setState(prevState => ({
+      ...prevState,
+      nk3_detail: data1,
+      nk3_detail_5min: data2,
+      nk3_2u_fibre_sensor: data3
+    }));
 
   } catch (error) {
     alert(error.message);

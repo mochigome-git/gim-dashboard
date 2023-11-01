@@ -207,6 +207,7 @@ const DailyProvider = ({ children }) => {
         nk2_daily: state.nk2_daily,
         nk2_output: state.nk2_output,
         setDetailsData,
+        //NK2
         ...(state.nk2_detail && { nk2_detail: state.nk2_detail }),
         ...(state.nk2_detail_5min && {
           nk2_detail_5min: state.nk2_detail_5min,
@@ -245,6 +246,7 @@ const DailyProvider = ({ children }) => {
         ...(state.nk2_multipledetail_5min && {
           nk2_multipledetail_5min: state.nk2_multipledetail_5min,
         }),
+        //NK3
         nk3_index: state.nk3_index,
         ...(state.nk3_detail && { nk3_detail: state.nk3_detail }),
         ...(state.nk3_detail_5min && {
@@ -256,9 +258,15 @@ const DailyProvider = ({ children }) => {
         ...(state.nk3_multipledetail_5min && {
           nk3_multipledetail_5min: state.nk3_multipledetail_5min,
         }),
+        ...(state.nk3_2u_fibre_sensor && {
+          nk3_2u_fibre_sensor: state.nk3_2u_fibre_sensor,
+        }),
+
+        //IJ
         ij_latest_weight_no1: state.ij_latest_weight_no1,
         ij_latest_detail_no1: state.ij_latest_detail_no1,
         ij_index_no1: state.ij_index_no1,
+        //PO
         ...(state.po_vendor && { po_vendor: state.po_vendor }),
         ...(state.po_edit_vendor && { po_edit_vendor: state.po_edit_vendor }),
         po_data: state.po_data,

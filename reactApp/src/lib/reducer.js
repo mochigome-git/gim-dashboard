@@ -30,6 +30,7 @@ export const initialState = {
   nk3_detail_5min: [],
   nk3_multipledetail: [],
   nk3_multipledetail_5min: [],
+  nk3_2u_fibre_sensor: [],
   ij_latest_weight_no1: [],
   ij_latest_detail_no1: [],
   ij_index_no1: [],

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { DailyContext } from "../../../lib/realtime";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -22,35 +23,32 @@ import DetailsChart from "../../../examples/Charts/BarCharts/DetailsChart";
 
 // Data
 import ParameterCardData from "./data/ParameterCardData";
-import Nk2TempChartData from "./data/Nk2TempChartData";
-import Nk3TempChartData from "./data/Nk3TempChartData"
 import Nk2DChartData from "./data/Nk2DChartData";
 import Nk3DChartData from "./data/Nk3DChartData";
-import Nk2DTensionData from "./data/Nk2DTensionData";
-import Nk3DTensionData from "./data/Nk3DTensionData"
 import NK24UFibreSensor from "./data/NK24UFibreSensor";
 import NK2MAINPressureSensor from "./data/NK2MAINPressureSensor";
+
+// Chart Process
+import ChartData from "./data/ChartData";
 
 function DetailsTable() {
   // State management
   const [timeDifference, setTimeDifference] = useState("");
   const [downtime, setDowntime] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [type, setType] = useState(false)
   // common Data loading
   const { data } = ParameterCardData();
 
   // nk2 Data loading
-  const { tempdata } = Nk2TempChartData();
   const { ddata } = Nk2DChartData();
-  const { tensiondata } = Nk2DTensionData();
+  const { NK3ddata } = Nk3DChartData();
+
   const { fourusensorfibredata } = NK24UFibreSensor();
   const { nk2pressuresensordata } = NK2MAINPressureSensor();
 
-  // nk3 Data loading
-  const { NK3tempdata } = Nk3TempChartData();
-  const { NK3tensiondata } = Nk3DTensionData();
-  const { NK3ddata } = Nk3DChartData();
+  // Data loading
+  const { nk3_detail, nk2_detail, nk3_2u_fibre_sensor } = useContext(DailyContext);
 
   useEffect(() => {
     let dataToUse = ddata;
@@ -60,6 +58,7 @@ function DetailsTable() {
         return; // Return if both ddata and NK3ddata have no data
       } else {
         dataToUse = NK3ddata; // Use NK3ddata if ddata has no data
+        setType(true)
       }
     }
 
@@ -79,7 +78,7 @@ function DetailsTable() {
     setDowntime(downtimeString);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 1200);
 
     // Cleanup function to reset downtime when unmounting
     return () => {
@@ -276,109 +275,212 @@ function DetailsTable() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
-                {ddata.datasets.some((dataset) => dataset.data.length > 0) ? (
-                  <DetailsChart
-                    color="transparent"
-                    title="段差ロール D-roll"
-                    description=""
-                    date=""
-                    datasets={ddata}
-                    percentage={{
-                      color: "info",
-                      amount: "",
-                      label: "",
-                    }}
-                  />
-                ) : (
-                  NK3ddata.datasets.some((dataset) => dataset.data.length > 0) && (
-                    <DetailsChart
-                      color="transparent"
-                      title="段差ロール D-roll"
-                      description=""
-                      date=""
-                      datasets={NK3ddata}
-                      percentage={{
-                        color: "info",
-                        amount: "",
-                        label: "",
-                      }}
-                    />
-                  )
-                )}
+                {!type ? (
+                  <ChartData
+                    fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
+                    fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
+                    data={nk2_detail}
+                    divide={10}
+                  >
+                    {({ ddata }) => (
+                      <DetailsChart
+                        color="transparent"
+                        title="段差ロール D-roll"
+                        description=""
+                        date=""
+                        datasets={ddata}
+                        percentage={{
+                          color: "info",
+                          amount: "",
+                          label: "",
+                        }}
+                        ymin={0}
+                        ymax={200}
+                      />
+                    )}
+                  </ChartData>
+                ) : type ? (
+                  <ChartData
+                    fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
+                    fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
+                    data={nk3_detail}
+                    divide={10}
+                  >
+                    {({ ddata }) => (
+                      <DetailsChart
+                        color="transparent"
+                        title="段差ロール D-roll"
+                        description=""
+                        date=""
+                        datasets={ddata}
+                        percentage={{
+                          color: "info",
+                          amount: "",
+                          label: "",
+                        }}
+                        ymin={0}
+                        ymax={200}
+                      />
+                    )}
+                  </ChartData>
+                ) : (null)}
               </MDBox>
             </Grid>
+
             <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                {tempdata.datasets.some((dataset) => dataset.data.length > 0) ? (
-                  <DetailsChart
-                    color="transparent"
-                    title="ダクト温度 Temperature"
-                    description=""
-                    date=""
-                    datasets={tempdata}
-                    percentage={{
-                      color: "info",
-                      amount: "",
-                      label: "",
-                    }}
-                  />
-                ) : (
-                  NK3tempdata.datasets.some((dataset) => dataset.data.length > 0) && (
+              {!type ? (
+                <ChartData
+                  fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
+                  fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
+                  data={nk2_detail}
+                  divide={10}
+                >
+                  {({ ddata }) => (
                     <DetailsChart
                       color="transparent"
                       title="ダクト温度 Temperature"
                       description=""
                       date=""
-                      datasets={NK3tempdata}
+                      datasets={ddata}
                       percentage={{
                         color: "info",
                         amount: "",
                         label: "",
                       }}
+                      ymin={0}
+                      ymax={100}
                     />
-                  )
-                )}
-              </MDBox>
+                  )}
+                </ChartData>
+              ) : type ? (
+                <ChartData
+                  fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
+                  fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
+                  data={nk3_detail}
+                  divide={10}
+                >
+                  {({ ddata }) => (
+                    <DetailsChart
+                      color="transparent"
+                      title="ダクト温度 Temperature"
+                      description=""
+                      date=""
+                      datasets={ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                      ymin={0}
+                      ymax={100}
+                    />
+                  )}
+                </ChartData>
+              ) : null}
             </Grid>
+
             <Grid item xs={12} md={12} lg={4}>
-              <MDBox mb={3}>
-                {tensiondata.datasets.some((dataset) => dataset.data.length > 0) ? (
-                  <DetailsChart
-                    color="transparent"
-                    title="テンション Tension"
-                    description=""
-                    date=""
-                    datasets={tensiondata}
-                    percentage={{
-                      color: "info",
-                      amount: "",
-                      label: "",
-                    }}
-                  />
-                ) : (
-                  NK3tensiondata.datasets.some((dataset) => dataset.data.length > 0) && (
+              {!type ? (
+                <ChartData
+                  fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
+                  fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
+                  data={nk2_detail}
+                  divide={10}
+                >
+                  {({ ddata }) => (
                     <DetailsChart
                       color="transparent"
                       title="テンション Tension"
                       description=""
                       date=""
-                      datasets={NK3tensiondata}
+                      datasets={ddata}
                       percentage={{
                         color: "info",
                         amount: "",
                         label: "",
                       }}
                     />
-                  )
-                )}
-              </MDBox>
+                  )}
+                </ChartData>
+              ) : type ? (
+                <ChartData
+                  fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
+                  fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
+                  data={nk3_detail}
+                  divide={10}
+                >
+                  {({ ddata }) => (
+                    <DetailsChart
+                      color="transparent"
+                      title="テンション Tension"
+                      description=""
+                      date=""
+                      datasets={ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )}
+                </ChartData>
+              ) : null}
             </Grid>
+
+            <Grid item xs={12} md={12} lg={4}>
+              {!type ? (
+                <ChartData
+                  fieldNames={["Sensor1"]}
+                  fields={["sensor1"]}
+                  data={nk3_2u_fibre_sensor}
+                  divide={0.1}
+                >
+                  {({ ddata }) => (
+                    <DetailsChart
+                      color="transparent"
+                      title="濃度 Density (2U)"
+                      description=""
+                      date=""
+                      datasets={ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )}
+                </ChartData>
+              ) : type ? (
+                <ChartData
+                  fieldNames={["Sensor1"]}
+                  fields={["sensor1"]}
+                  data={nk3_2u_fibre_sensor}
+                  divide={0.1}
+                >
+                  {({ ddata }) => (
+                    <DetailsChart
+                      color="transparent"
+                      title="濃度 Density (2U)"
+                      description=""
+                      date=""
+                      datasets={ddata}
+                      percentage={{
+                        color: "info",
+                        amount: "",
+                        label: "",
+                      }}
+                    />
+                  )}
+                </ChartData>
+              ) : (null)}
+            </Grid>
+
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
                 {fourusensorfibredata.datasets.some((dataset) => dataset.data.length > 0) && (
                   <DetailsChart
                     color="transparent"
-                    title="濃度 Density"
+                    title="濃度 4U Density"
                     description=""
                     date=""
                     datasets={fourusensorfibredata}
@@ -391,6 +493,7 @@ function DetailsTable() {
                 )}
               </MDBox>
             </Grid>
+
             <Grid item xs={12} md={12} lg={4}>
               <MDBox mb={3}>
                 {nk2pressuresensordata.datasets.some((dataset) => dataset.data.length > 0) && (
@@ -409,6 +512,7 @@ function DetailsTable() {
                 )}
               </MDBox>
             </Grid>
+
           </Grid>
         </MDBox>
       </MDBox>

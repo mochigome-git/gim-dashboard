@@ -114,6 +114,9 @@ export const dataCSVmultiTable = async (date_at, seq, tableNames, folderName, fi
                 case 'nk2_main_pressure_sensor':
                     newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
                     break;
+                case 'nk3_log_data_storage':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                    break;
                 default:
                     newHeader = columns;
                     break;
@@ -195,6 +198,9 @@ export const multipleDataCSVmultiTable = async (dates, seqArray, tableNames, fol
                     break;
                 case 'nk2_main_pressure_sensor':
                     newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
+                    break;
+                case 'nk3_log_data_storage':
+                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
                     break;
                 default:
                     newHeader = columns;

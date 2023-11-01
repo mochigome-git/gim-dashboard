@@ -4,6 +4,7 @@ function configs(datasets, ownerState, ymin, ymax) {
 
 	const darkMode = ownerState?.darkMode ?? true;
 	const color = darkMode ? "#ffffff6c" : "#000";
+	const color2 = darkMode ? "#ffffff" : "#000";
 	const series = datasets.datasets.slice(0, 9).map((dataset, index) => ({
 		name: dataset.name,
 		type: 'line',
@@ -152,6 +153,12 @@ function configs(datasets, ownerState, ymin, ymax) {
 					whiteSpace: 'normal'
 				},
 			},
+			legend: {
+				itemStyle: {
+					color: color2,
+				},
+				itemHiddenStyle: { "color": "#384554" }
+			},
 			series,
 			plotOptions: {
 				series: {
@@ -161,7 +168,7 @@ function configs(datasets, ownerState, ymin, ymax) {
 						symbol: 'circle'
 					}
 				}
-			}
+			},
 		},
 		containerprops: {
 			style: {

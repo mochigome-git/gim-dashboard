@@ -33,7 +33,7 @@ export default function NK24UFibreSensor() {
             const yValue = sortedData[i][field] ? Number(sortedData[i][field]) / 10 : newDataPoints[newDataPoints.length - 1]?.[field]?.y;
             datapoint[field] = {
               x: Math.floor(new Date(sortedData[i].created_at).getTime()),
-              y: yValue,
+              y: 3000 / yValue,
             };
           }
           newDataPoints.push(datapoint);

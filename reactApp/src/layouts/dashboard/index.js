@@ -81,8 +81,7 @@ function Dashboard() {
       });
 
       const greenCount = nk2_daily.length - redCount - yellowCount - orangeCount;
-      const goodRate = ((greenCount + yellowCount) / nk2_daily.length).toFixed(2) * 100;
-
+      const goodRate = ((greenCount + yellowCount) / nk2_daily.length * 100).toFixed(1);
       setNk2RollGroups({
         nk2Roll_red: redCount,
         nk2Roll_orange: orangeCount,

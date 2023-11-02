@@ -57,8 +57,12 @@ function Dashboard() {
     ijCount_sum: 0,
   });
 
+  function relDiff(a, b) {
+    return 100 * ((a - b) / ((a + b) / 2));
+  }
+
   useEffect(() => {
-    if (nk2_daily) {
+    if (nk2_daily && nk2_index) {
       let redCount = 0;
       let yellowCount = 0;
       let orangeCount = 0;
@@ -71,8 +75,7 @@ function Dashboard() {
           redCount++;
         } else if (d676Value < 5000) {
           orangeCount++;
-        }
-        else if (d676Value < 10000) {
+        } else if (d676Value < 10000) {
           yellowCount++;
         }
       });
@@ -89,12 +92,11 @@ function Dashboard() {
         nk2Roll_rate: goodRate,
       });
 
-    }
-    if (nk2_index) {
-      // Create an object to store daily averages
+      // Create an object to store daily averages and overall sum/count
       const dailyAverages = {};
+      let overallSum = 0;
+      let overallCount = 0;
 
-      // Iterate over the nk2_index array and calculate daily averages
       nk2_index.forEach((item) => {
         const date = item.created_at.split('T')[0];
 
@@ -107,6 +109,9 @@ function Dashboard() {
             count: 1,
           };
         }
+
+        overallSum += item.d676;
+        overallCount = Object.keys(dailyAverages).length;
       });
 
       // Calculate the average for each day
@@ -116,28 +121,18 @@ function Dashboard() {
       }
 
       // Calculate the overall average per day
-      let overallSum = 0;
-      const overallCount = Object.keys(dailyAverages).length;
-
-      for (const date in dailyAverages) {
-        overallSum += dailyAverages[date].sum;
-      }
-
-      function relDiff(a, b) {
-        return 100 * ((a - b) / ((a + b) / 2));
-      }
-
       const overallAveragePerDay = overallSum / overallCount;
-      const nk2Amount = relDiff(nk2RollGroups.nk2Roll_length, overallAveragePerDay).toFixed(2);
+      const nk2Amount = relDiff(totalSum, overallAveragePerDay).toFixed(2);
       setnk2Amount(nk2Amount);
+
       if (nk2Amount < 0) {
         setnk2Positive("error");
       } else {
         setnk2Positive("success");
       }
     }
-
   }, [nk2_daily, nk2_index]);
+
 
   useEffect(() => {
     setTimeout(() => {

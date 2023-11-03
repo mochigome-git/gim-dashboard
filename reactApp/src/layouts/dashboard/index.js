@@ -20,30 +20,37 @@ import JRLineChart from "../../examples/Charts/BarCharts/JRLineChart"
 // Data
 import Nk2DailyData from "./data/nk2DailyData";
 import ReportsBarChartData from "./data/reportsBarChartData";
+import AssemblyDaily from "./data/assemblyDaily";
 
 // Dashboard components
 import Projects from "./components/Projects";
 import OrdersOverview from "./components/OrdersOverview";
 import MachineTgraph from "./components/MachineTgraph";
+import MachineMgraph from "./components/MachineMgraph";
 
 // Realtime data
 import { DailyContext } from "../../lib/realtime";
 
+
 function Dashboard() {
   const { codingDailydata } = ReportsBarChartData();
   const { nk2DailyData } = Nk2DailyData();
+  const { assemblydata } = AssemblyDaily()
   const {
     CodingLatestData,
     records,
     nk2_daily,
     nk2_index,
     ij_index_no1,
+    assembly_line1,
   } = useContext(DailyContext);
   const [isPositive, setPositive] = useState();
   const [isnk2Positive, setnk2Positive] = useState();
+  const [isassemblyPostive, setassemblyPositive] = useState();
   const [isPackagingPositive, setPackagingPositive] = useState();
   const [isPackagingAmount, setPackagingAmount] = useState();
   const [iscodingAmount, setcodingAmount] = useState();
+  const [isassemblyAmount, setassemblyAmount] = useState();
   const [isnk2Amount, setnk2Amount] = useState();
   const [nk2RollGroups, setNk2RollGroups] = useState({
     nk2Roll_red: 0,
@@ -200,6 +207,27 @@ function Dashboard() {
     }
   }, [ij_index_no1]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const LatestData = assembly_line1[0].total_count
+      var sum = 0;
+      for (var i = 0; i < assembly_line1.length; i++) {
+        sum += parseInt(assembly_line1[i].total_count, 10);
+      }
+      const avg = sum / assembly_line1.length;
+      function relDiff(a, b) {
+        return 100 * ((a - b) / ((a + b) / 2));
+      }
+      const Amount = relDiff(LatestData, avg).toFixed(2);
+      setassemblyAmount(Amount);
+      if (Amount < 0) {
+        setassemblyPositive("error");
+      } else {
+        setassemblyPositive("success");
+      }
+    }, 20);
+  }, [assembly_line1]);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -297,9 +325,33 @@ function Dashboard() {
                 />
               </MDBox>
             </Grid>
+
             <Grid item xs={12} md={6} lg={4}>
               <MachineTgraph />
             </Grid>
+
+            <Grid item xs={12} md={6} lg={4}>
+              <MachineMgraph />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox>
+                <ReportsBarChart
+                  color="transparent"
+                  title="Assembly Line Output"
+                  description={assembly_line1[0]?.total_count + " Rolls"}
+                  date=""
+                  datasets={assemblydata}
+                  percentage={{
+                    color: isassemblyPostive,
+                    amount: isassemblyAmount + "%",
+                    label: "than Average",
+                  }}
+                  navigator={true}
+                />
+              </MDBox>
+            </Grid>
+
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsBarChart
@@ -316,6 +368,7 @@ function Dashboard() {
                 />
               </MDBox>
             </Grid>
+
           </Grid>
         </MDBox>
         <MDBox>

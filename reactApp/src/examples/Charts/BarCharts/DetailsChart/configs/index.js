@@ -1,6 +1,6 @@
 import Highcharts from "highcharts/highstock";
 
-function configs(datasets, ownerState, ymin, ymax) {
+function configs(datasets, ownerState, ymin, ymax, navigator) {
 
 	const darkMode = ownerState?.darkMode ?? true;
 	const color = darkMode ? "#ffffff6c" : "#000";
@@ -88,7 +88,7 @@ function configs(datasets, ownerState, ymin, ymax) {
 				enabled: true
 			},
 			navigator: {
-				enabled: true
+				enabled: navigator === true ? false : true,
 			},
 			scrollbar: {
 				enabled: false
@@ -181,6 +181,10 @@ function configs(datasets, ownerState, ymin, ymax) {
 			}
 		},
 	};
+}
+
+configs.defaultProps = {
+	navigator: true
 }
 
 export default configs;

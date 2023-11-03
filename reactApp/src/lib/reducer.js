@@ -38,4 +38,5 @@ export const initialState = {
   po_vendor: [],
   po_edit_vendor: [],
   po_data: [],
+  assembly_line1: [],
 };

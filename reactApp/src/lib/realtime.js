@@ -16,6 +16,7 @@ import {
   fetchNk3Details,
   fetchNK3MultipleDetails,
 } from "./api/coating";
+import { fetchAssemblyData } from "./api/assembly";
 import { fetchPo, editPoVendor, fetchPoData } from "./api/po";
 
 //import { DetailsTabContext } from "../layouts/tables/index";
@@ -61,6 +62,7 @@ const DailyProvider = ({ children }) => {
     fetchPo(setState);
     editPoVendor(setState, state);
     fetchPoData(setState);
+    fetchAssemblyData(setState);
   }, []);
 
   //injket/weight
@@ -179,6 +181,16 @@ const DailyProvider = ({ children }) => {
       )
       .subscribe();
 
+    const assemblycountsSubscription = supabase
+      .channel("public.assembly_line_count")
+      .on(
+        "postgres_changes",
+        { event: "*", shcema: "public", table: "po_system_vendor" },
+        (payload) => {
+          fetchAssemblyData(setState);
+        }
+      )
+
     return () => {
       supabase.removeChannel(state.subscription);
       recordsSubscription.unsubscribe();
@@ -188,6 +200,7 @@ const DailyProvider = ({ children }) => {
       weightrecordsSubscription.unsubscribe();
       posystemSubscription.unsubscribe();
       poSystemSubscription.unsubscribe();
+      assemblycountsSubscription.unsubscribe();
     };
   }, []);
 
@@ -274,6 +287,8 @@ const DailyProvider = ({ children }) => {
         ...(state.po_vendor && { po_vendor: state.po_vendor }),
         ...(state.po_edit_vendor && { po_edit_vendor: state.po_edit_vendor }),
         po_data: state.po_data,
+        //Assembly
+        ...(state.assembly_line1 && { assembly_line1: state.assembly_line1 }),
       }}
     >
       {children}

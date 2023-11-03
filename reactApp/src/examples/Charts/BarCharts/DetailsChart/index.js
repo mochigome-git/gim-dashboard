@@ -19,17 +19,17 @@ import configs from "./configs/index";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 
-function createChartOptions(datasets, ymin, ymax) {
+function createChartOptions(datasets, ymin, ymax, navigator) {
   return function (controller) {
-    const { option, containerprops } = configs(datasets, controller, ymin, ymax);
+    const { option, containerprops } = configs(datasets, controller, ymin, ymax, navigator);
     return { option, containerprops };
   }
 }
 
-function DetailsGaugeChart({ color, title, description, date, percentage, ymin, ymax, datasets }) {
+function DetailsGaugeChart({ color, title, description, date, percentage, ymin, ymax, datasets, navigator }) {
   const cacheBuster = useMemo(() => Date.now(), []);
   const [controller, dispatch] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymin, ymax)(controller), [datasets, controller]);
+  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymin, ymax, navigator)(controller), [datasets, controller]);
 
   const setOptions = useCallback(() => {
     Highcharts.setOptions({

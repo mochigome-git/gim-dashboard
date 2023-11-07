@@ -133,6 +133,7 @@ const DailyProvider = ({ children }) => {
         { event: "*", schema: "public", table: "machine_t" },
         (payload) => {
           fetchMachineTData(setState);
+          console.log(payload)
         }
       )
       .subscribe();
@@ -144,6 +145,7 @@ const DailyProvider = ({ children }) => {
         { event: "*", schema: "public", table: "nk2_log_data_storage" },
         (payload) => {
           fetchNk2Index(setState);
+          console.log(payload)
         }
       )
       .subscribe();
@@ -171,7 +173,7 @@ const DailyProvider = ({ children }) => {
       .subscribe();
 
     const posystemSubscription = supabase
-      .channel("public.po_system_vendor")
+      .channel("public:po_system_vendor")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "po_system_vendor" },
@@ -182,14 +184,15 @@ const DailyProvider = ({ children }) => {
       .subscribe();
 
     const assemblycountsSubscription = supabase
-      .channel("public.assembly_line_count")
+      .channel("public:assembly_line_count")
       .on(
         "postgres_changes",
-        { event: "*", shcema: "public", table: "po_system_vendor" },
+        { event: "*", shcema: "public", table: "assembly_line_count" },
         (payload) => {
           fetchAssemblyData(setState);
         }
       )
+      .subscribe();
 
     return () => {
       supabase.removeChannel(state.subscription);

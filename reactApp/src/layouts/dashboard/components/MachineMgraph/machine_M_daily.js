@@ -1,5 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 
+import Card from '@mui/material/Card';
+
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
@@ -46,9 +48,11 @@ export const MachineMDaily = () => {
 
 
   return (
-    <MDTypography m={18}>
-      Machine M Upcoming Soon
-      {/* <MachineTLineChart
+    <MDBox>
+      <Card sx={{ minHeight: 350, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <MDTypography component="div" variant="caption" color="text2" fontWeight="light" >
+          Machine M Upcoming Soon
+          {/* <MachineTLineChart
       color="transparent"
       title="Machine M Output (Daily)"
       description={0 + " Pcs"}
@@ -61,8 +65,9 @@ export const MachineMDaily = () => {
       }}
       ymax={1200}
     /> */}
-    </MDTypography>
-
+        </MDTypography>
+      </Card>
+    </MDBox>
   );
 }
 

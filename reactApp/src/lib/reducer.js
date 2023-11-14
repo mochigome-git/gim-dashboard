@@ -39,4 +39,5 @@ export const initialState = {
   po_edit_vendor: [],
   po_data: [],
   assembly_line1: [],
+  rewinding_1: [],
 };

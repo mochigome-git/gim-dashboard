@@ -18,6 +18,7 @@ import {
 } from "./api/coating";
 import { fetchAssemblyData } from "./api/assembly";
 import { fetchPo, editPoVendor, fetchPoData } from "./api/po";
+import { fetchRewindingData } from "./api/rewinding";
 
 //import { DetailsTabContext } from "../layouts/tables/index";
 export const DailyContext = createContext();
@@ -63,6 +64,7 @@ const DailyProvider = ({ children }) => {
     editPoVendor(setState, state);
     fetchPoData(setState);
     fetchAssemblyData(setState);
+    fetchRewindingData(setState)
   }, []);
 
   //injket/weight
@@ -194,6 +196,17 @@ const DailyProvider = ({ children }) => {
       )
       .subscribe();
 
+    const rewindingcountsSubscription = supabase
+      .channel("public:rewinding_count")
+      .on(
+        "postgres_changes",
+        { event: "*", shcema: "public", table: "rewinding_count" },
+        (payload) => {
+          fetchRewindingData(setState);
+        }
+      )
+      .subscribe();
+
     return () => {
       supabase.removeChannel(state.subscription);
       recordsSubscription.unsubscribe();
@@ -204,6 +217,7 @@ const DailyProvider = ({ children }) => {
       posystemSubscription.unsubscribe();
       poSystemSubscription.unsubscribe();
       assemblycountsSubscription.unsubscribe();
+      rewindingcountsSubscription.unsubscribe();
     };
   }, []);
 
@@ -292,6 +306,8 @@ const DailyProvider = ({ children }) => {
         po_data: state.po_data,
         //Assembly
         ...(state.assembly_line1 && { assembly_line1: state.assembly_line1 }),
+        //Rewinding
+        ...(state.rewinding_1 && { rewinding_1: state.rewinding_1 }),
       }}
     >
       {children}

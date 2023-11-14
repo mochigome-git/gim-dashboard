@@ -21,6 +21,7 @@ import JRLineChart from "../../examples/Charts/BarCharts/JRLineChart"
 import Nk2DailyData from "./data/nk2DailyData";
 import ReportsBarChartData from "./data/reportsBarChartData";
 import AssemblyDaily from "./data/assemblyDaily";
+import RewindingDaily from "./data/rewindingDaily";
 
 // Dashboard components
 import Projects from "./components/Projects";
@@ -35,7 +36,8 @@ import { DailyContext } from "../../lib/realtime";
 function Dashboard() {
   const { codingDailydata } = ReportsBarChartData();
   const { nk2DailyData } = Nk2DailyData();
-  const { assemblydata } = AssemblyDaily()
+  const { assemblydata } = AssemblyDaily();
+  const { rewinding_1data } = RewindingDaily();
   const {
     CodingLatestData,
     records,
@@ -43,14 +45,17 @@ function Dashboard() {
     nk2_index,
     ij_index_no1,
     assembly_line1,
+    rewinding_1,
   } = useContext(DailyContext);
   const [isPositive, setPositive] = useState();
   const [isnk2Positive, setnk2Positive] = useState();
   const [isassemblyPostive, setassemblyPositive] = useState();
+  const [isrewindingPostive, setrewindingPositive] = useState();
   const [isPackagingPositive, setPackagingPositive] = useState();
   const [isPackagingAmount, setPackagingAmount] = useState();
   const [iscodingAmount, setcodingAmount] = useState();
   const [isassemblyAmount, setassemblyAmount] = useState();
+  const [isrewindingAmount, setrewindingAmount] = useState();
   const [isnk2Amount, setnk2Amount] = useState();
   const [nk2RollGroups, setNk2RollGroups] = useState({
     nk2Roll_red: 0,
@@ -228,6 +233,27 @@ function Dashboard() {
     }, 20);
   }, [assembly_line1]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const LatestData = rewinding_1[0].total_count
+      var sum = 0;
+      for (var i = 0; i < rewinding_1.length; i++) {
+        sum += parseInt(rewinding_1[i].total_count, 10);
+      }
+      const avg = sum / rewinding_1.length;
+      function relDiff(a, b) {
+        return 100 * ((a - b) / ((a + b) / 2));
+      }
+      const Amount = relDiff(LatestData, avg).toFixed(2);
+      setrewindingAmount(Amount);
+      if (Amount < 0) {
+        setrewindingPositive("error");
+      } else {
+        setrewindingPositive("success");
+      }
+    }, 20);
+  }, [rewinding_1]);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -365,6 +391,24 @@ function Dashboard() {
                     amount: iscodingAmount + "%",
                     label: "than Average",
                   }}
+                />
+              </MDBox>
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox>
+                <ReportsBarChart
+                  color="transparent"
+                  title="Rewinding Output(M1)"
+                  description={rewinding_1[0]?.total_count + " Rolls"}
+                  date=""
+                  datasets={rewinding_1data}
+                  percentage={{
+                    color: isrewindingPostive,
+                    amount: isrewindingAmount + "%",
+                    label: "than Average",
+                  }}
+                  navigator={true}
                 />
               </MDBox>
             </Grid>

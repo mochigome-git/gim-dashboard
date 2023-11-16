@@ -81,6 +81,12 @@ export const useDataFetching = ({
                         _realtimedata: data,
                     }));
                 }
+                if (table === 'nk3_main_pressure_sensor') {
+                    setState((prevState) => ({
+                        ...prevState,
+                        _pressuredata_nk3: data,
+                    }));
+                }
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -140,6 +146,12 @@ export const useDataFetching = ({
                                 setState((prevState) => ({
                                     ...prevState,
                                     _realtimedata: data,
+                                }));
+                            }
+                            if (table === 'nk3_main_pressure_sensor') {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    _pressuredata_nk3: data,
                                 }));
                             }
                         })

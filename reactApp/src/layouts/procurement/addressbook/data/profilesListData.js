@@ -10,7 +10,7 @@ export default function PoVendorDataProcessor() {
       const data = await po_vendor;
 
       // Assuming po_vendor is an array of objects with a 'company_name' property
-      if (data && data.length > 0 || data.length === 0) {
+      if ((data && data.length > 0) || data.length === 0) {
         const newSortedData = [...data].sort((a, b) =>
           a.company_name.localeCompare(b.company_name)
         );
@@ -28,15 +28,15 @@ export default function PoVendorDataProcessor() {
       try {
         const fields = ["company_name", "address_1", "address_2", "attn", "currency", "fax", "id", "tel_1", "tel_2", "price"];
         const newDataPoints = [];
-  
+
         for (let i = 0; i < sortedData.length; i++) {
           const datapoint = {};
           for (let j = 0; j < fields.length; j++) {
             const field = fields[j];
             datapoint[field] = sortedData[i][field];
           }
-          
-          datapoint.price = datapoint.price? datapoint.price : 0;
+
+          datapoint.price = datapoint.price ? datapoint.price : 0;
           datapoint.tel_1 = datapoint.tel_1 ? `${datapoint.tel_1}` : " ";
           datapoint.tel_2 = datapoint.tel_2 ? `/ ${datapoint.tel_2}` : " ";
           datapoint.fax = datapoint.fax ? `${datapoint.fax}` : " ";
@@ -69,7 +69,7 @@ export default function PoVendorDataProcessor() {
       }
     };
   }, [sortedData]);
-  
+
 
   const [dataPoints, setDataPoints] = useState([]);
 
@@ -79,7 +79,7 @@ export default function PoVendorDataProcessor() {
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error("Timeout")), 3000)
       );
-      let isMounted = true; 
+      let isMounted = true;
       Promise.race([processDataPromise, timeoutPromise])
         .then((newDataPoints) => {
           if (isMounted) {

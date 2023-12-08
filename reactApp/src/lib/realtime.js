@@ -14,7 +14,6 @@ import {
   //fetchNK2MultipleDetails,
   fetchNk3Index,
   fetchNk3Details,
-  fetchNK3MultipleDetails,
 } from "./api/coating";
 import { fetchAssemblyData } from "./api/assembly";
 import { fetchPo, editPoVendor, fetchPoData } from "./api/po";
@@ -54,18 +53,17 @@ const DailyProvider = ({ children }) => {
     fetchCodingData(setState);
     fetchMachineTData(setState);
     fetchNk2Details(setState, state);
-    //fetchNK2MultipleDetails(setState, state);
     fetchNk3Index(setState);
-    fetchNk3Details(setState, state);
-    fetchNK3MultipleDetails(setState, state);
     fetchIJWeightRecord(setState);
     fetchIJWeightDetail(setState, state);
     fetchPo(setState);
     editPoVendor(setState, state);
     fetchPoData(setState);
     fetchAssemblyData(setState);
-    fetchRewindingData(setState)
+    fetchRewindingData(setState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   //injket/weight
   useEffect(() => {
@@ -76,6 +74,7 @@ const DailyProvider = ({ children }) => {
     if (state.ij_latest_weight_no1) {
       fetchDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.ij_latest_weight_no1]);
 
   //coating.detail
@@ -89,19 +88,20 @@ const DailyProvider = ({ children }) => {
     if (state.detailsData) {
       fetchDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.detailsData]);
 
   //coating/multiple.detail
-  useEffect(() => {
-    const fetchmultipleDetails = async () => {
-      //await fetchNK2MultipleDetails(setState, state);
-      await fetchNK3MultipleDetails(setState, state);
-    };
-
-    if (state.multipledetailsData) {
-      fetchmultipleDetails();
-    }
-  }, [state.multipledetailsData]);
+  //useEffect(() => {
+  //  const fetchmultipleDetails = async () => {
+  //    //await fetchNK2MultipleDetails(setState, state);
+  //    await fetchNK3MultipleDetails(setState, state);
+  //  };
+  //
+  //  if (state.multipledetailsData) {
+  //    fetchmultipleDetails();
+  //  }
+  //}, [state.multipledetailsData]);
 
   useEffect(() => {
     const poSystemSubscription = supabase
@@ -135,7 +135,7 @@ const DailyProvider = ({ children }) => {
         { event: "*", schema: "public", table: "machine_t" },
         (payload) => {
           fetchMachineTData(setState);
-          console.log(payload)
+          //console.log(payload)
         }
       )
       .subscribe();
@@ -147,7 +147,7 @@ const DailyProvider = ({ children }) => {
         { event: "*", schema: "public", table: "nk2_log_data_storage" },
         (payload) => {
           fetchNk2Index(setState);
-          console.log(payload)
+          //console.log(payload)
         }
       )
       .subscribe();
@@ -219,6 +219,7 @@ const DailyProvider = ({ children }) => {
       assemblycountsSubscription.unsubscribe();
       rewindingcountsSubscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -239,43 +240,13 @@ const DailyProvider = ({ children }) => {
         setDetailsData,
         //NK2
         ...(state.nk2_detail && { nk2_detail: state.nk2_detail }),
-        ...(state.nk2_detail_5min && {
-          nk2_detail_5min: state.nk2_detail_5min,
-        }),
         ...(state.nk2_4u_fibre_sensor && {
           nk2_4u_fibre_sensor: state.nk2_4u_fibre_sensor,
-        }),
-        ...(state.nk2_4u_fibre_sensor_5min && {
-          nk2_4u_fibre_sensor_5min: state.nk2_4u_fibre_sensor_5min,
-        }),
-        ...(state.nk2_4u_fibre_sensor_multiple && {
-          nk2_4u_fibre_sensor_multiple: state.nk2_4u_fibre_sensor_multiple,
-        }),
-        ...(state.nk2_4u_fibre_sensor_multiple_5min && {
-          nk2_4u_fibre_sensor_multiple_5min:
-            state.nk2_4u_fibre_sensor_multiple_5min,
         }),
         ...(state.nk2_main_pressure_sensor && {
           nk2_main_pressure_sensor: state.nk2_main_pressure_sensor,
         }),
-        ...(state.nk2_main_pressure_sensor_5min && {
-          nk2_main_pressure_sensor_5min: state.nk2_main_pressure_sensor_5min,
-        }),
-        ...(state.nk2_main_pressure_sensor_multiple && {
-          nk2_main_pressure_sensor_multiple:
-            state.nk2_main_pressure_sensor_multiple,
-        }),
-        ...(state.nk2_main_pressure_sensor_multiple_5min && {
-          nk2_main_pressure_sensor_multiple_5min:
-            state.nk2_main_pressure_sensor_multiple_5min,
-        }),
         setMultipleDetailsData,
-        ...(state.nk2_multipledetail && {
-          nk2_multipledetail: state.nk2_multipledetail,
-        }),
-        ...(state.nk2_multipledetail_5min && {
-          nk2_multipledetail_5min: state.nk2_multipledetail_5min,
-        }),
         ...(state.nk2_2u_fibre_sensor && {
           nk2_2u_fibre_sensor: state.nk2_2u_fibre_sensor,
         }),
@@ -283,15 +254,6 @@ const DailyProvider = ({ children }) => {
         //NK3
         nk3_index: state.nk3_index,
         ...(state.nk3_detail && { nk3_detail: state.nk3_detail }),
-        ...(state.nk3_detail_5min && {
-          nk3_detail_5min: state.nk3_detail_5min,
-        }),
-        ...(state.nk3_multipledetail && {
-          nk3_multipledetail: state.nk3_multipledetail,
-        }),
-        ...(state.nk3_multipledetail_5min && {
-          nk3_multipledetail_5min: state.nk3_multipledetail_5min,
-        }),
         ...(state.nk3_2u_fibre_sensor && {
           nk3_2u_fibre_sensor: state.nk3_2u_fibre_sensor,
         }),

@@ -2,7 +2,7 @@
 
 import { BrowserRouter } from "react-router-dom";
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import DailyProvider from './lib/realtime';
@@ -16,9 +16,9 @@ const root = createRoot(rootElement);
 root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
-        <DailyProvider>
-          <App />
-        </DailyProvider>
+      <DailyProvider>
+        <App />
+      </DailyProvider>
     </MaterialUIControllerProvider>
   </BrowserRouter>
 );

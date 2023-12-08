@@ -7,11 +7,9 @@ import React, {
   useState,
 } from "react";
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 // @mui material components
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CircleIcon from "@mui/icons-material/Circle";
 import Zoom from "@mui/material/Zoom";
@@ -26,7 +24,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
-import MDButton from "../../../../components/MDButton";
 import MDSnackbar from "../../../../components/MDSnackbar";
 import FormField from "../../FormField";
 
@@ -45,20 +42,11 @@ export default function ConditionMenu({ noGutter, onDataUpdate, error, data }) {
   const [value, setValue] = React.useState(dayjs());
   const [dueValue, setDueValue] = React.useState(null);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const openSuccessSB = useCallback(() => {
-    dispatch({ type: "SET_UPDATE", payload: true });
-  }, []);
   const closeSuccessSB = useCallback(() => {
     dispatch({ type: "SET_UPDATE", payload: false });
   }, []);
-  const openDeleteSB = useCallback(() => {
-    dispatch({ type: "SET_DELETE", payload: true });
-  }, []);
   const closeDeleteSB = useCallback(() => {
     dispatch({ type: "SET_DELETE", payload: false });
-  }, []);
-  const openInsertSB = useCallback(() => {
-    dispatch({ type: "SET_INSERT", payload: true });
   }, []);
   const closeInsertSB = useCallback(() => {
     dispatch({ type: "SET_INSERT", payload: false });
@@ -102,6 +90,7 @@ export default function ConditionMenu({ noGutter, onDataUpdate, error, data }) {
 
   useEffect(() => {
     onDataUpdate(memoizedStatus, memoizedDueDate, memoizedIssuedDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memoizedStatus, memoizedDueDate, memoizedIssuedDate]);
 
   useEffect(() => {
@@ -114,11 +103,8 @@ export default function ConditionMenu({ noGutter, onDataUpdate, error, data }) {
       }
     };
     fetchAndDispatchPoNumber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
-
-  const clearFields = () => {
-    dispatch({ type: "CLEAR_FIELDS" });
-  };
 
   // useEffect to reset vendor_details and success flag after 5 seconds
   useEffect(() => {
@@ -136,6 +122,7 @@ export default function ConditionMenu({ noGutter, onDataUpdate, error, data }) {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success, state.delete]);
 
   return (

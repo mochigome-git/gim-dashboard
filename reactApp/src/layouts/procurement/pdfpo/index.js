@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React from "react";
 
 // @mui material components
 import { Grid, Card, Stack, Divider } from "@mui/material";
@@ -8,11 +8,11 @@ import MDBox from "../../../components/MDBox";
 import MDTypography from "../../../components/MDTypography";
 
 // Material Dashboard 2 React context
-import { useMaterialUIController, setDarkMode } from "../../../context";
+import { useMaterialUIController } from "../../../context";
 
 function Tables({ data, to, from }) {
-  const [controller, dispatch] = useMaterialUIController();
-  const { darkMode, miniSidenav } = controller;
+  const [controller] = useMaterialUIController();
+  const { miniSidenav } = controller;
 
   function ContactInfo({ title, contact }) {
     return (
@@ -384,12 +384,12 @@ function Tables({ data, to, from }) {
                                 textTransform="capitalize"
                               >
                                 {data[0].discount !== null &&
-                                data[0].discount !== 0
+                                  data[0].discount !== 0
                                   ? "-" +
-                                    data[0].discount.toLocaleString("en-US", {
-                                      style: "currency",
-                                      currency: data[0].currency,
-                                    })
+                                  data[0].discount.toLocaleString("en-US", {
+                                    style: "currency",
+                                    currency: data[0].currency,
+                                  })
                                   : "-"}
                               </MDTypography>
                             </Grid>

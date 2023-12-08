@@ -25,7 +25,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
       .select("*")
       .eq("id", id);
 
-    if (errorBefore ) {
+    if (errorBefore) {
       throw errorBefore;
     }
 
@@ -40,7 +40,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
         continue;
       }
 
-      const { error: error } = await supabase
+      const { error } = await supabase
         .from("po_system_vendor")
         .update({ [column]: value })
         .eq("id", id)
@@ -55,7 +55,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
       .select("*")
       .eq("id", id);
 
-    if (errorAfter ) {
+    if (errorAfter) {
       throw errorAfter;
     }
 
@@ -71,16 +71,16 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
     ) {
       throw new Error("Failed to update data");
     }
-    
+
     dispatch({ type: "SET_SUCCESS", payload: true });
     openSuccessSB();
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
     dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-    dispatch({ 
-      type: "SET_ERRORS", 
-      payload: { errors: errorMessage, error_title: "Update Failed"} 
+    dispatch({
+      type: "SET_ERRORS",
+      payload: { errors: errorMessage, error_title: "Update Failed" }
     });
     openErrorSB();
   }
@@ -130,63 +130,65 @@ export async function deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB) 
 
 export async function insertVendorBook(inserts, dispatch, openInsertSB, openErrorSB) {
   try {
-      const insertObject = {};
+    const insertObject = {};
 
-      for (const insert of inserts) {
-          const { column, value } = insert;
+    for (const insert of inserts) {
+      const { column, value } = insert;
 
-          if (value === null || (Array.isArray(value) && value.length === 0)) {
-              continue;
-          }
-
-          if (column === undefined || (Array.isArray(column) && column.length === 0)) {
-            continue;
-        }
-
-          insertObject[column] = value;
+      if (value === null || (Array.isArray(value) && value.length === 0)) {
+        continue;
       }
 
-      if (Object.keys(insertObject).length === 0) {
-          // No valid data to insert
-          return;
+      if (column === undefined || (Array.isArray(column) && column.length === 0)) {
+        continue;
       }
 
-      const { data: existingData, error: searchError } = await supabase
-          .from('po_system_vendor')
-          .select('company_name')
-          .textSearch('company_name', insertObject.company_name, {
-              type: 'plain',
-              config: 'english'
-          });
+      insertObject[column] = value;
+    }
 
-      if (searchError) {
-          throw searchError;
-      }
+    if (Object.keys(insertObject).length === 0) {
+      // No valid data to insert
+      return;
+    }
 
-      if (existingData && existingData.length > 0) {
-          dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-          dispatch({ type: "SET_ERRORS", payload: { 
-            errors: "Company name already exists", error_title: "Creation Failed"} 
-          });
-          openErrorSB();
-          return; 
-      }
+    const { data: existingData, error: searchError } = await supabase
+      .from('po_system_vendor')
+      .select('company_name')
+      .textSearch('company_name', insertObject.company_name, {
+        type: 'plain',
+        config: 'english'
+      });
 
-      const { error: insertError } = await supabase
-          .from("po_system_vendor")
-          .insert([insertObject]);
+    if (searchError) {
+      throw searchError;
+    }
 
-      if (insertError) {
-          throw insertError;
-      }
-
-      dispatch({ type: "SET_INSERT", payload: true });
-      openInsertSB();
-      
-  } catch (error) {
+    if (existingData && existingData.length > 0) {
       dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-      dispatch({ type: "SET_ERRORS", payload: { errors: error.message, error_title: "Creation Failed"} });
+      dispatch({
+        type: "SET_ERRORS", payload: {
+          errors: "Company name already exists", error_title: "Creation Failed"
+        }
+      });
       openErrorSB();
+      return;
+    }
+
+    const { error: insertError } = await supabase
+      .from("po_system_vendor")
+      .insert([insertObject]);
+
+    if (insertError) {
+      throw insertError;
+    }
+
+    dispatch({ type: "SET_INSERT", payload: true });
+    openInsertSB();
+
+  } catch (error) {
+    dispatch({ type: "SET_ERRORS_EXIST", payload: true });
+    dispatch({ type: "SET_ERRORS", payload: { errors: error.message, error_title: "Creation Failed" } });
+    openErrorSB();
   }
 }
 

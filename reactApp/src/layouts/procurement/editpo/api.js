@@ -119,7 +119,7 @@ export async function updateDraftPO(
       // No valid data to insert
       return;
     }
-    const { data: jsonb, error: jsonbError } = await supabase
+    const { error: jsonbError } = await supabase
       .from("po_system")
       .update({
         description: [insertObject.description[0]],

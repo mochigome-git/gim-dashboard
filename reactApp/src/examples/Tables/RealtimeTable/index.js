@@ -36,13 +36,13 @@ function RealtimeTable() {
 
   // State management
   const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(false);
+  const [failed, /*setFailed*/] = useState(false);
   const [state, setState] = useState();
   const [tableType, setSelectedTable] = useState(null);
   const [id, setModel] = useState(0);
 
   const handleChange = (event) => {
-    setModel(event.target.value);
+    setModel((prevModel) => event.target.value);
   };
 
   useDataFetching({ table: `nk2_log_data_storage`, fetchData, supabase, setState });

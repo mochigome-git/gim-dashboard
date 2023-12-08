@@ -38,15 +38,15 @@ import MDButton from "../../../components/MDButton";
 import AddressBookLayout from "../../../examples/LayoutContainers/ProcurementLayout/AddressBookLayout";
 import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import ViewPo from "../viewpo";
-import PDFPo from "../pdfpo";
+//import PDFPo from "../pdfpo";
 import PoDetailCards from "../../../examples/Cards/StatisticsCards/PoDetailCards";
 import PoListDataTable from "../../../examples/Tables/PoListDataTable";
 import EditPo from "../editpo";
 import {
-  SuccessSnackbar,
+  //SuccessSnackbar,
   ErrorSnackbar,
   DeleteSnackbar,
-  InsertSnackbar,
+  //InsertSnackbar,
 } from "../../../examples/Alerts";
 
 // Material Dashboard 2 React context
@@ -190,13 +190,14 @@ function PurchaseOrder() {
     }
   };
 
-  const PDFpo = ({ data, to, from }) => {
-    if (data !== undefined && to !== undefined && from !== undefined) {
-      return <PDFPo data={data} to={to} from={from} />;
-    } else {
-      return null;
-    }
-  };
+  /* const PDFpo = ({ data, to, from }) => {
+     if (data !== undefined && to !== undefined && from !== undefined) {
+       return <PDFPo data={data} to={to} from={from} />;
+     } else {
+       return null;
+     }
+   };
+   */
 
   const Headerpo = ({ data, to, from }) => {
     if (data !== undefined && to !== undefined && from !== undefined) {

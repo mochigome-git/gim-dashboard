@@ -214,10 +214,10 @@ function Dashboard() {
 
   useEffect(() => {
     setTimeout(() => {
-      const LatestData = assembly_line1[0].total_count
+      const LatestData = assembly_line1[0]?.total_count
       var sum = 0;
       for (var i = 0; i < assembly_line1.length; i++) {
-        sum += parseInt(assembly_line1[i].total_count, 10);
+        sum += parseInt(assembly_line1[i]?.total_count, 10);
       }
       const avg = sum / assembly_line1.length;
       function relDiff(a, b) {
@@ -235,10 +235,10 @@ function Dashboard() {
 
   useEffect(() => {
     setTimeout(() => {
-      const LatestData = rewinding_1[0].total_count
+      const LatestData = rewinding_1[0]?.total_count
       var sum = 0;
       for (var i = 0; i < rewinding_1.length; i++) {
-        sum += parseInt(rewinding_1[i].total_count, 10);
+        sum += parseInt(rewinding_1[i]?.total_count, 10);
       }
       const avg = sum / rewinding_1.length;
       function relDiff(a, b) {

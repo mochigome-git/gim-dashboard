@@ -1,13 +1,9 @@
 import React, { useReducer, useEffect, useRef, useMemo, useCallback } from "react";
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // @mui material components
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CircleIcon from '@mui/icons-material/Circle';
-import Zoom  from '@mui/material/Zoom';
+import Zoom from '@mui/material/Zoom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ErrorIcon from '@mui/icons-material/Error';
 import Grid from "@mui/material/Grid";
@@ -19,7 +15,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
-import MDButton from "../../../../components/MDButton";
 import MDSnackbar from "../../../../components/MDSnackbar"
 import FormField from '../../FormField';
 
@@ -27,28 +22,25 @@ import FormField from '../../FormField';
 import { useMaterialUIController } from "../../../../context";
 
 // Suapabase function
-import { 
+import {
   fetchPoNumber,
 } from "../utility";
 
-import {formReducer, initialState,} from "../../formReducer";
+import { formReducer, initialState, } from "../../formReducer";
 
-export default function ConditionMenu({ 
-    noGutter,
-    onDataUpdate,
-    error,
-  }) {
+export default function ConditionMenu({
+  noGutter,
+  onDataUpdate,
+  error,
+}) {
   const [controller] = useMaterialUIController();
   const { darkMode, miniSidenav } = controller;
   const timerRef = useRef(null);
   const [value, setValue] = React.useState(dayjs());
   const [dueValue, setDueValue] = React.useState(null);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const openSuccessSB = useCallback(() => { dispatch({ type: "SET_UPDATE", payload: true });  }, []);
   const closeSuccessSB = useCallback(() => { dispatch({ type: "SET_UPDATE", payload: false }); }, []);
-  const openDeleteSB = useCallback(() => { dispatch({ type: "SET_DELETE", payload: true }); }, []);
   const closeDeleteSB = useCallback(() => { dispatch({ type: "SET_DELETE", payload: false }); }, []);
-  const openInsertSB = useCallback(() => { dispatch({ type: "SET_INSERT", payload: true }); }, []);
   const closeInsertSB = useCallback(() => { dispatch({ type: "SET_INSERT", payload: false }); }, []);
   const openErrorSB = useCallback(() => { dispatch({ type: "SET_ERROR_EXIST", payload: true }); }, []);
   const closeErrorSB = useCallback(() => { dispatch({ type: "SET_ERROR_EXIST", payload: false }); }, []);
@@ -60,24 +52,22 @@ export default function ConditionMenu({
 
   useEffect(() => {
     onDataUpdate(memoizedStatus, memoizedDueDate, memoizedIssuedDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memoizedStatus, memoizedDueDate, memoizedIssuedDate]);
 
   useEffect(() => {
     const fetchAndDispatchPoNumber = async () => {
       try {
         const poNumber = await fetchPoNumber(dispatch, openErrorSB);
-        dispatch({type: "SET_PO_NO", payload: poNumber });
+        dispatch({ type: "SET_PO_NO", payload: poNumber });
 
       } catch (error) {
         console.error("Error fetching PO number:", error);
       }
     };
     fetchAndDispatchPoNumber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
-
-  const clearFields = () => {
-    dispatch({ type: 'CLEAR_FIELDS' });
-  };
 
   // useEffect to reset vendor_details and success flag after 5 seconds
   useEffect(() => {
@@ -95,8 +85,9 @@ export default function ConditionMenu({
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success, state.delete]);
-  
+
 
   return (
     <MDBox
@@ -108,7 +99,7 @@ export default function ConditionMenu({
       mb={noGutter ? 0 : 0}
       mt={1}
       sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-         position: "relative",
+        position: "relative",
         [breakpoints.up("xl")]: {
           marginLeft: miniSidenav ? pxToRem(180) : pxToRem(15),
           marginRight: miniSidenav ? pxToRem(0) : pxToRem(15),
@@ -124,117 +115,117 @@ export default function ConditionMenu({
         },
       })}
     >
-        {state.success && (
+      {state.success && (
         <MDSnackbar
-            color="success"
-            inlineColor="white"
-            icon={<CircleIcon fontSize="medium"/>}
-            icon2={
-              <MDBox sx={{ display: 'flex' }}>
-              <Zoom {...(true ? { timeout: 500 }:{})} 
-                  in={true}><CheckIcon /></Zoom >
-              </MDBox>
-            }
-            title="Update Successful"
-            content="disable"
-            content2="disable"
-            dateTime="disable"
-            open={state.update}
-            onClose={closeSuccessSB}
-            close={closeSuccessSB}
-            bgWhite
-          />
+          color="success"
+          inlineColor="white"
+          icon={<CircleIcon fontSize="medium" />}
+          icon2={
+            <MDBox sx={{ display: 'flex' }}>
+              <Zoom {...(true ? { timeout: 500 } : {})}
+                in={true}><CheckIcon /></Zoom >
+            </MDBox>
+          }
+          title="Update Successful"
+          content="disable"
+          content2="disable"
+          dateTime="disable"
+          open={state.update}
+          onClose={closeSuccessSB}
+          close={closeSuccessSB}
+          bgWhite
+        />
       )}
-        {state.delete && (
+      {state.delete && (
         <MDSnackbar
-            color="error"
-            inlineColor="error"
-            icon="disable"
-            icon2={
-              <MDBox sx={{ display: 'flex' }}>
-              <Zoom {...(true ? { timeout: 500 }:{})} 
-                  in={true}><DeleteForeverIcon /></Zoom >
-              </MDBox>
-            }
-            title="Delete Successful"
-            content="disable"
-            content2="disable"
-            dateTime="disable"
-            open={state.delete}
-            onClose={closeDeleteSB}
-            close={closeDeleteSB}
-            bgWhite
-          />
+          color="error"
+          inlineColor="error"
+          icon="disable"
+          icon2={
+            <MDBox sx={{ display: 'flex' }}>
+              <Zoom {...(true ? { timeout: 500 } : {})}
+                in={true}><DeleteForeverIcon /></Zoom >
+            </MDBox>
+          }
+          title="Delete Successful"
+          content="disable"
+          content2="disable"
+          dateTime="disable"
+          open={state.delete}
+          onClose={closeDeleteSB}
+          close={closeDeleteSB}
+          bgWhite
+        />
       )}
-        {state.insert && (
+      {state.insert && (
         <MDSnackbar
-            color="success"
-            inlineColor="white"
-            icon={<CircleIcon fontSize="medium"/>}
-            icon2={
-              <MDBox sx={{ display: 'flex' }}>
-              <Zoom {...(true ? { timeout: 500 }:{})} 
-                  in={true}><CheckIcon /></Zoom >
-              </MDBox>
-            }
-            title="Insert Successful"
-            content="disable"
-            content2="disable"
-            dateTime="disable"
-            open={state.insert}
-            onClose={closeInsertSB}
-            close={closeInsertSB}
-            bgWhite
-          />
+          color="success"
+          inlineColor="white"
+          icon={<CircleIcon fontSize="medium" />}
+          icon2={
+            <MDBox sx={{ display: 'flex' }}>
+              <Zoom {...(true ? { timeout: 500 } : {})}
+                in={true}><CheckIcon /></Zoom >
+            </MDBox>
+          }
+          title="Insert Successful"
+          content="disable"
+          content2="disable"
+          dateTime="disable"
+          open={state.insert}
+          onClose={closeInsertSB}
+          close={closeInsertSB}
+          bgWhite
+        />
       )}
-        {state.errorexist && (
+      {state.errorexist && (
         <MDSnackbar
-            color="error"
-            inlineColor="error"
-            icon="disable"
-            icon2={
-              <MDBox sx={{ display: 'flex' }}>
-              <Zoom {...(true ? { timeout: 500 }:{})} 
-                  in={true}><ErrorIcon/></Zoom >
-              </MDBox>
-            }
-            title={state.error_title}
-            content={ state.errors }
-            content2="disable"
-            dateTime="disable"
-            open={state.errorexist}
-            onClose={closeErrorSB}
-            close={closeErrorSB}
-            bgWhite
-          />
+          color="error"
+          inlineColor="error"
+          icon="disable"
+          icon2={
+            <MDBox sx={{ display: 'flex' }}>
+              <Zoom {...(true ? { timeout: 500 } : {})}
+                in={true}><ErrorIcon /></Zoom >
+            </MDBox>
+          }
+          title={state.error_title}
+          content={state.errors}
+          content2="disable"
+          dateTime="disable"
+          open={state.errorexist}
+          onClose={closeErrorSB}
+          close={closeErrorSB}
+          bgWhite
+        />
       )}
       <MDBox width="100%" display="flex" flexDirection="column">
         <MDBox
           display="flex"
           justifyContent="space-start"
           alignItems={{ xs: "flex-start", sm: "center" }}
-          flexDirection={{ xs: "column", sm: "row", md: "row" }} 
-          flexWrap="wrap" 
+          flexDirection={{ xs: "column", sm: "row", md: "row" }}
+          flexWrap="wrap"
           mb={-1}
         >
-        <Grid container >
-          <Grid item xs={12} sm={6} md={3}>
-            <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-              <FormField
-                disabled
-                label="Purchase Order number"
-                controlOn={true}
-                value={state.po_number || ''}
-                darkMode={darkMode}
-                width="30ch"
-                miniSidenav={miniSidenav}
-                sx={{m: 1,  width: "95%"}}
-              />
-            </MDTypography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-            <FormField
+          <Grid container >
+            <Grid item xs={12} sm={6} md={3}>
+              <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                <FormField
+                  disabled
+                  label="Purchase Order number"
+                  controlOn={true}
+                  value={state.po_number || ''}
+                  darkMode={darkMode}
+                  width="30ch"
+                  miniSidenav={miniSidenav}
+                  sx={{ m: 1, width: "95%" }}
+                />
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                <FormField
                   label="Status"
                   select={true}
                   value={state.status_textfield || ''}
@@ -249,11 +240,11 @@ export default function ConditionMenu({
                   miniSidenav={miniSidenav}
                   menuOption="poStatus"
                 />
-            </MDTypography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label={
                       <MDBox
@@ -267,15 +258,15 @@ export default function ConditionMenu({
                     defaultValue={dayjs()}
                     value={value}
                     onChange={(newValue) => setValue(newValue)}
-                    sx={{m: 1,  width: "95%"}}
+                    sx={{ m: 1, width: "95%" }}
                     disablePast
                   />
-              </LocalizationProvider>
-            </MDTypography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                </LocalizationProvider>
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label={
                       <MDBox
@@ -289,14 +280,14 @@ export default function ConditionMenu({
                     defaultValue={""}
                     value={dueValue}
                     onChange={(newDueValue) => setDueValue(newDueValue)}
-                    sx={{m: 1,  width: "95%"}}
+                    sx={{ m: 1, width: "95%" }}
                     disablePast
                     error={error}
                   />
-              </LocalizationProvider>
-            </MDTypography>
+                </LocalizationProvider>
+              </MDTypography>
+            </Grid>
           </Grid>
-        </Grid>
         </MDBox>
       </MDBox>
     </MDBox>

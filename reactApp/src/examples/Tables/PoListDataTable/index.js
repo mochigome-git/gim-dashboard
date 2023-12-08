@@ -16,27 +16,17 @@ import {
 // @mui material components
 import {
   Table,
-  Divider,
   TableBody,
   TableContainer,
   TableRow,
   Autocomplete,
   Checkbox,
   TableCell,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material";
-import { IconButton } from "@mui/material";
 
 // @mui icon components
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -51,7 +41,7 @@ import MDPagination from "../../../components/MDPagination";
 
 // Material Dashboard 2 React example components
 import PoListDataTableHeadCell from "./SelectableDataTableHeadCell";
-import PoListDataTableBodyCell from "./SelectableDataTableBodyCell";
+//import PoListDataTableBodyCell from "./SelectableDataTableBodyCell";
 import EnhancedTableToolbar from "./components/Toolbar";
 import TableRows from "./components/TableRows";
 
@@ -65,7 +55,6 @@ function PoListDataTable({
   table,
   pagination,
   isSorted,
-  noEndBorder,
   onDetailsTabClick,
   onDownloadCSV,
   setSuccess,
@@ -159,20 +148,20 @@ function PoListDataTable({
     nextPage,
     previousPage,
     setPageSize,
-    setGlobalFilter,
+    // setGlobalFilter,
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
-  const processedData = data.map((item) => {
-    if (item.section?.props) {
-      const concatenatedValues = Object.values(item.section.props)
-        .join(" ")
-        .toLowerCase();
-      return { ...item, search: concatenatedValues };
-    } else {
-      return item; // or you can modify the behavior if props is null/undefined
-    }
-  });
+  //const processedData = data.map((item) => {
+  //  if (item.section?.props) {
+  //    const concatenatedValues = Object.values(item.section.props)
+  //      .join(" ")
+  //      .toLowerCase();
+  //    return { ...item, search: concatenatedValues };
+  //  } else {
+  //    return item; // or you can modify the behavior if props is null/undefined
+  //  }
+  //});
 
   //MoreVertIcon Render Menu Response
   const [anchorEl, setAnchorEl] = React.useState(null);

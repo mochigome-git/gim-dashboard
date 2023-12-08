@@ -14,7 +14,7 @@ import MDTypography from "../../components/MDTypography";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 import SelectableDataTable from "../../examples/Tables/SelectableDataTable";
-import SelectableDataTable_nk3 from "../../examples/Tables/SelectableDataTable_nk3";
+import SelectableDataTablenk3 from "../../examples/Tables/SelectableDataTable_nk3";
 import CoatingHome from "../../examples/Tables/IndexTable/CoatingHome";
 import DetailsTable from "../../examples/Tables/DetailsTable/index";
 import RealtimeTable from "../../examples/Tables/RealtimeTable/index";
@@ -27,7 +27,7 @@ import Nk2IndexTableData from "./data/nk2indexTableData"
 import Nk3IndexTableData from "./data/nk3indexTableData"
 
 // Api
-import { dataCSV, multipleDataCSV, dataCSVmultiTable, multipleDataCSVmultiTable } from "./api"
+import { dataCSVmultiTable, multipleDataCSVmultiTable } from "./api"
 
 const maxSeqCount = 10; // For example, up to 10 sequences
 
@@ -434,6 +434,7 @@ function Coating() {
         }
       }, 900);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state.downloadTrigger,
     state.downloadMultipleTrigger,
@@ -507,6 +508,7 @@ function Coating() {
         }
       }, 900);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state.downloadTrigger_NK3,
     state.downloadMultipleTrigger_NK3,
@@ -570,7 +572,7 @@ function Coating() {
               )}
               {state.tabValue === 1 && !state.isDataTableVisible && (
                 <MDBox pt={0}>
-                  <SelectableDataTable_nk3
+                  <SelectableDataTablenk3
                     table={{ columns: nk3Columns, rows: nk3Rows }}
                     isSorted={false}
                     entriesPerPage={false}

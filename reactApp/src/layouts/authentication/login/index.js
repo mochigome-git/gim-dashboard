@@ -13,7 +13,8 @@ import CoverLayout from "../components/CoverLayout";
 
 // Supabase ccomponents
 import { supabase } from "../../../lib/supabase";
-import { Auth,ThemeSupa } from '@supabase/auth-ui-react'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 // Images
 import bgImage from "../../../assets/images/bg-sign-up-cover.jpeg";
@@ -22,8 +23,8 @@ import Helmet from 'react-helmet';
 function Login() {
   return (
     <CoverLayout image={bgImage}>
-      <Helmet bodyAttributes={{style: 'background-color : #262626'}}/>
-      <Card variant="outlined" sx={{ width: 350 }} style={{backgroundColor: "#212121"}}>
+      <Helmet bodyAttributes={{ style: 'background-color : #262626' }} />
+      <Card variant="outlined" sx={{ width: 350 }} style={{ backgroundColor: "#212121" }}>
         <MDBox
           variant="contained"
           bgColor="#212121"
@@ -35,37 +36,37 @@ function Login() {
         >
           <MDTypography variant="h5" fontWeight="medium" color="white" mt={1}>
             <Grid style={{ display: "flex" }}>
-              <DashboardIcon style={{ marginRight: '5px' }} fontSize="medium"/> 実績ダッシュボード
+              <DashboardIcon style={{ marginRight: '5px' }} fontSize="medium" /> 実績ダッシュボード
             </Grid>
           </MDTypography>
         </MDBox>
         <MDBox pt={0} pb={3} px={3}>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-            </MDBox>
-            <Auth
-              supabaseClient={supabase}
-              redirectTo="http://192.168.0.6:3001/authentication/reset-password"
-              //highlight-start
-              appearance={{ theme: ThemeSupa, style:{anchor:{color: 'grey' }}}}
-              theme="dark"
-              localization={{
+          <MDBox display="flex" alignItems="center" ml={-1}>
+          </MDBox>
+          <Auth
+            supabaseClient={supabase}
+            redirectTo="http://192.168.0.6:3001/authentication/reset-password"
+            //highlight-start
+            appearance={{ theme: ThemeSupa, style: { anchor: { color: 'grey' } } }}
+            theme="dark"
+            localization={{
               variables: {
-              sign_in: {
-                        email_label: 'Login',
-                        email_input_placeholder: "email address",
-                        password_input_placeholder: "password",
-                        password_label: '',
-                      },
-              sign_up: {
-                        email_label: 'Sign up',
-                        password_label: '',
-                        email_input_placeholder: 'new email address',
-                        password_input_placeholder: 'new password',
-                      },
-                    },
-                  }}
-              //highlight-end
-            />
+                sign_in: {
+                  email_label: 'Login',
+                  email_input_placeholder: "email address",
+                  password_input_placeholder: "password",
+                  password_label: '',
+                },
+                sign_up: {
+                  email_label: 'Sign up',
+                  password_label: '',
+                  email_input_placeholder: 'new email address',
+                  password_input_placeholder: 'new password',
+                },
+              },
+            }}
+          //highlight-end
+          />
         </MDBox>
       </Card>
     </CoverLayout>

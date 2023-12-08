@@ -31,66 +31,74 @@ export const useDataFetching = ({
     id,
 }) => {
     useEffect(() => {
-        fetchData(table, id)
-            .then((data) => {
-                if (table === 'nk2_log_data_storage') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        data: data,
-                    }));
+        const fetchDataAndSetState = async () => {
+            try {
+                const data = await fetchData(table, id);
+                switch (table) {
+                    case 'nk2_log_data_storage':
+                        setState((prevState) => ({
+                            ...prevState,
+                            data: data,
+                        }));
+                        break;
+                    case 'nk2_2u_fibre_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _nk22ufiberdata: data,
+                        }));
+                        break;
+                    case 'nk2_4u_fibre_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _fibredata: data,
+                        }));
+                        break;
+                    case 'nk2_main_pressure_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _pressuredata: data,
+                        }));
+                        break;
+                    case 'nk3_log_data_storage':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _nk3data: data,
+                        }));
+                        break;
+                    case 'nk3_2u_fibre_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _nk32ufiberdata: data,
+                        }));
+                        break;
+                    case 'coating_model':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _modelconfig: data,
+                        }));
+                        break;
+                    case 'nk2_log_data_realtime':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _realtimedata: data,
+                        }));
+                        break;
+                    case 'nk3_main_pressure_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _pressuredata_nk3: data,
+                        }));
+                        break;
+                    // Add cases for other tables as needed
+                    default:
+                        break;
                 }
-                if (table === 'nk2_2u_fibre_sensor') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _nk22ufiberdata: data,
-                    }));
-                }
-                if (table === 'nk2_4u_fibre_sensor') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _fibredata: data,
-                    }));
-                }
-                if (table === 'nk2_main_pressure_sensor') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _pressuredata: data,
-                    }));
-                }
-                if (table === 'nk3_log_data_storage') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _nk3data: data,
-                    }));
-                }
-                if (table === 'nk3_2u_fibre_sensor') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _nk32ufiberdata: data,
-                    }));
-                }
-                if (table === 'coating_model') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _modelconfig: data,
-                    }));
-                }
-                if (table === 'nk2_log_data_realtime') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _realtimedata: data,
-                    }));
-                }
-                if (table === 'nk3_main_pressure_sensor') {
-                    setState((prevState) => ({
-                        ...prevState,
-                        _pressuredata_nk3: data,
-                    }));
-                }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error('Error fetching data:', error);
-            })
+            }
+        };
+
+        fetchDataAndSetState();
 
         const indexSubscription = supabase
             .channel(`public:${table}`)
@@ -98,63 +106,7 @@ export const useDataFetching = ({
                 "postgres_changes",
                 { event: "*", schema: "public", table: table },
                 (payload) => {
-                    fetchData(table)
-                        .then((data) => {
-                            if (table === 'nk2_log_data_storage') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    data: data,
-                                }));
-                            }
-                            if (table === 'nk2_2u_fibre_sensor') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _nk22ufiberdata: data,
-                                }));
-                            }
-                            if (table === 'nk2_4u_fibre_sensor') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _fibredata: data,
-                                }));
-                            }
-                            if (table === 'nk2_main_pressure_sensor') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _pressuredata: data,
-                                }));
-                            }
-                            if (table === 'nk3_log_data_storage') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _nk3data: data,
-                                }));
-                            }
-                            if (table === 'nk3_2u_fibre_sensor') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _nk32ufiberdata: data,
-                                }));
-                            }
-                            if (table === 'coating_model') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _modelconfig: data,
-                                }));
-                            }
-                            if (table === 'nk2_log_data_realtime') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _realtimedata: data,
-                                }));
-                            }
-                            if (table === 'nk3_main_pressure_sensor') {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    _pressuredata_nk3: data,
-                                }));
-                            }
-                        })
+                    fetchDataAndSetState();
                 }
             )
             .subscribe();
@@ -162,7 +114,7 @@ export const useDataFetching = ({
         return () => {
             indexSubscription.unsubscribe();
         };
-    }, [id]);
+    }, [id, fetchData, setState, supabase, table]);
 };
 
 export function findDifferentColumns(state) {

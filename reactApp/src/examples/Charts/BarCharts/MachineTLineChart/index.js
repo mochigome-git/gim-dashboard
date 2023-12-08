@@ -26,8 +26,8 @@ function createChartOptions(datasets, ymax) {
 }
 
 function MachineTLineChart({ color, title, description, date, percentage, datasets, ymax }) {
-  const [controller, dispatch] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymax), [datasets])(controller);
+  const [controller] = useMaterialUIController();
+  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymax), [datasets, ymax])(controller);
 
   Highcharts.setOptions({
     accessibility: { enabled: false }, time: { timezoneOffset: -8 * 60 }, lang: { rangeSelectorZoom: '' }

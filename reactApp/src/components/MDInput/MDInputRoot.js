@@ -21,7 +21,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   const { palette, functions } = theme;
   const { error, success, disabled } = ownerState;
 
-  const { grey, transparent, error: colorError, success: colorSuccess } = palette;
+  const { transparent, error: colorError, success: colorSuccess } = palette;
   const { pxToRem } = functions;
 
   // styles for the input with error={true}
@@ -45,9 +45,9 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiOutlinedInput-notchedOutline": {
       borderColor: colorError.main,
     },
-  
+
     "& .MuiFormHelperText-root": {
-      color: colorError.main, 
+      color: colorError.main,
     },
   });
 

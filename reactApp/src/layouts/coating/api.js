@@ -92,7 +92,6 @@ export const dataCSVmultiTable = async (date_at, seq, tableNames, folderName, fi
                 .gte('created_at', `${date_at}T00:00:00.000Z`)
                 .lt('created_at', `${date_at}T23:59:59.999Z`)
                 .order('created_at', { ascending: true });
-
             if (error) {
                 throw error;
             }
@@ -101,25 +100,28 @@ export const dataCSVmultiTable = async (date_at, seq, tableNames, folderName, fi
             const selectedData = fivemin ? filterDataBy5Minutes(data) : data;
 
             // Add a header row with column names
-            const columns = Object.keys(selectedData[0]);
+            const columns = selectedData && selectedData.length > 0 ? Object.keys(selectedData[0]) : [];
             let newHeader;
 
-            switch (currentTableName) {
-                case 'nk2_log_data_storage':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
-                    break;
-                case 'nk2_4u_fibre_sensor':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
-                    break;
-                case 'nk2_main_pressure_sensor':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
-                    break;
-                case 'nk3_log_data_storage':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
-                    break;
-                default:
-                    newHeader = columns;
-                    break;
+            // Check if a valid table name is provided and data is not null
+            if (currentTableName && selectedData !== null && selectedData !== undefined) {
+                switch (currentTableName) {
+                    case 'nk2_log_data_storage':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                        break;
+                    case 'nk2_4u_fibre_sensor':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
+                        break;
+                    case 'nk2_main_pressure_sensor':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
+                        break;
+                    case 'nk3_log_data_storage':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                        break;
+                    default:
+                        newHeader = columns;
+                        break;
+                }
             }
 
             sheet.addRow(newHeader);
@@ -167,7 +169,7 @@ export const multipleDataCSVmultiTable = async (dates, seqArray, tableNames, fol
                 const date_at = dates[i] || previousDate;
 
                 if (seq !== null && date_at !== null) {
-                    const { data, error } = await supabase
+                    const { data } = await supabase
                         .from(currentTableName)
                         .select()
                         .eq('i_h_seq', seq)
@@ -186,25 +188,28 @@ export const multipleDataCSVmultiTable = async (dates, seqArray, tableNames, fol
                 }
             }
             // Add a header row with column names
-            const columns = Object.keys(allData[0]);
+            const columns = allData && allData.length > 0 ? Object.keys(allData[0]) : [];
             let newHeader;
 
-            switch (currentTableName) {
-                case 'nk2_log_data_storage':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
-                    break;
-                case 'nk2_4u_fibre_sensor':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
-                    break;
-                case 'nk2_main_pressure_sensor':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
-                    break;
-                case 'nk3_log_data_storage':
-                    newHeader = replaceHeaderColumnNames(columns, columnReplacements);
-                    break;
-                default:
-                    newHeader = columns;
-                    break;
+            // Check if a valid table name is provided and data is not null
+            if (currentTableName && allData !== null && allData !== undefined) {
+                switch (currentTableName) {
+                    case 'nk2_log_data_storage':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                        break;
+                    case 'nk2_4u_fibre_sensor':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
+                        break;
+                    case 'nk2_main_pressure_sensor':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
+                        break;
+                    case 'nk3_log_data_storage':
+                        newHeader = replaceHeaderColumnNames(columns, columnReplacements);
+                        break;
+                    default:
+                        newHeader = columns;
+                        break;
+                }
             }
 
             sheet.addRow(newHeader);
@@ -246,7 +251,7 @@ export const multipleDataCSV = async (dates, seqArray, tableName, folderName, fi
             const date_at = dates[i] || previousDate;
 
             if (seq !== null && date_at !== null) {
-                const { data, error } = await supabase
+                const { data } = await supabase
                     .from(tableName)
                     .select()
                     .eq('i_h_seq', seq)

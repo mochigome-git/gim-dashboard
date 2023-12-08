@@ -7,21 +7,21 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // Material Dashboard 2 React example components
-import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
+//import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
 
 // Data
-import machinetDailyChartData from "../../data/machinetDailyChartData"
+//import machinetDailyChartData from "../../data/machinetDailyChartData"
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
 
 export const MachineMDaily = () => {
-  const { tFillingdata } = machinetDailyChartData();
+  // const { tFillingdata } = machinetDailyChartData();
   const {
     machine_tRecords,
   } = useContext(DailyContext);
-  const [ismachinetPositive, setmachinetPositive] = useState();
-  const [ismachinetAmount, setmachinetAmount] = useState();
+  const [/*ismachinetPositive*/, setmachinetPositive] = useState();
+  const [/*ismachinetAmount*/, setmachinetAmount] = useState();
   const tRecordsDaily = machine_tRecords[0]?.total ?? 0
 
   function relDiff(a, b) {

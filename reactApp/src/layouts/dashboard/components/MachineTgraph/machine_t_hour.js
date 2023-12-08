@@ -1,13 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 
-// Material Dashboard 2 React components
-import MDBox from "../../../../components/MDBox";
-
 // Material Dashboard 2 React example components
 import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
-
-// Data
-import machinetDailyChartData from "../../data/machinetDailyChartData"
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";

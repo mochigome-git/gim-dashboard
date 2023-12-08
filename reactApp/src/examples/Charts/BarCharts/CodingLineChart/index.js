@@ -18,70 +18,70 @@ import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 
 function createChartOptions(datasets) {
-  return function(controller) {
+  return function (controller) {
     const { option, containerprops } = configs(datasets, controller);
     return { option, containerprops };
   }
 }
 
 function ReportsBarChart({ color, title, description, date, percentage, datasets }) {
-  const [controller, dispatch] = useMaterialUIController();
+  const [controller] = useMaterialUIController();
   const { option, containerprops } = useMemo(() => createChartOptions(datasets), [datasets])(controller);
 
   Highcharts.setOptions({
-		accessibility:{enabled: false},time: {timezoneOffset: -8 * 60},lang:{rangeSelectorZoom:''}
-	  });
-    
+    accessibility: { enabled: false }, time: { timezoneOffset: -8 * 60 }, lang: { rangeSelectorZoom: '' }
+  });
+
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={0} pb={0} px={3} mt={2} display="flex" alignItems='flex-start'>
-				<MDTypography variant="h6" textTransform="capitalize" color="text" fontWeight="bold">
-			  {title}
+        <MDTypography variant="h6" textTransform="capitalize" color="text" fontWeight="bold">
+          {title}
         </MDTypography>
-			</MDBox>
-          <MDTypography px={4} mt={2} component="div" variant="h2" color="text2" fontWeight="light">
-           {description}
-          </MDTypography>
-          <MDBox display="flex" alignItems="center">
-            <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-              <Icon></Icon>
-            </MDTypography>
-            <MDTypography variant="button" color="text" fontWeight="light">
-            {date}
-            </MDTypography>
-          <MDTypography px={2} component="p" variant="button" color="text" display="flex">
-            <MDTypography
+      </MDBox>
+      <MDTypography px={4} mt={2} component="div" variant="h2" color="text2" fontWeight="light">
+        {description}
+      </MDTypography>
+      <MDBox display="flex" alignItems="center">
+        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+          <Icon></Icon>
+        </MDTypography>
+        <MDTypography variant="button" color="text" fontWeight="light">
+          {date}
+        </MDTypography>
+        <MDTypography px={2} component="p" variant="button" color="text" display="flex">
+          <MDTypography
             component="span"
             variant="button"
             fontWeight="bold"
             color={percentage.color}
           >
             {percentage.amount}
-            </MDTypography>
+          </MDTypography>
           &nbsp;{percentage.label}
         </MDTypography>
+      </MDBox>
+      <MDBox padding="1rem" display="inline-flex" flexDirection='column'>
+        <MDBox
+          sx={{ pt: 0, pb: 0, pr: 0 }}
+          //variant="gradient"
+          bgColor={color}
+          borderRadius="lg"
+          coloredShadow="none"
+          py={1}
+          pr={0}
+          mt={-5}
+          height="12.5rem"
+          display="inline-flex"
+          flexDirection='column'
+          position="relative"
+        >
+          <HighchartsReact
+            containerProps={containerprops}
+            highcharts={Highcharts}
+            constructorType={"stockChart"}
+            options={option} />
         </MDBox>
-      <MDBox padding="1rem" display="inline-flex" flexDirection= 'column'>
-            <MDBox
-            sx={{ pt: 0, pb:0, pr:0 }}
-              //variant="gradient"
-              bgColor={color}
-              borderRadius="lg"
-              coloredShadow="none"
-              py={1}
-              pr={0}
-              mt={-5}
-              height="12.5rem"
-              display="inline-flex" 
-              flexDirection= 'column'
-              position="relative"
-            >
-              <HighchartsReact 					
-              containerProps={containerprops}
-					    highcharts={Highcharts} 
-					    constructorType={"stockChart"} 
-					    options={option}/>
-            </MDBox>
       </MDBox>
     </Card>
   );

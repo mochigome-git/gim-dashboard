@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // @mui material components
-import Icon from "@mui/material/Icon";
+//import Icon from "@mui/material/Icon";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
@@ -73,7 +73,7 @@ function PoListDataTableHeadCell({ width, children, sorted, align, ...rest }) {
               color={sorted === "asce" ? "text" : "transparent"}
               opacity={sorted === "asce" ? 1 : 0.75}
             >
-              <ArrowUpwardIcon  sx={{ fontSize: 400 }}/>
+              <ArrowUpwardIcon sx={{ fontSize: 400 }} />
             </MDBox>
             <MDBox
               position="absolute"
@@ -81,7 +81,7 @@ function PoListDataTableHeadCell({ width, children, sorted, align, ...rest }) {
               color={sorted === "desc" ? "text" : "transparent"}
               opacity={sorted === "desc" ? 1 : 0.75}
             >
-              <ArrowDownwardIcon  sx={{ fontSize: 400 }} />
+              <ArrowDownwardIcon sx={{ fontSize: 400 }} />
             </MDBox>
           </MDBox>
         )}

@@ -1,39 +1,51 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect } from "react";
 
 // porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Pie } from "react-chartjs-2";
+import Chart from 'chart.js/auto';
 
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "../../../components/MDBox";
+import MDTypography from "../../../components/MDTypography";
 
 // PieChart configurations
-import configs from "examples/Charts/PieChart/configs";
+import configs from "./configs";
 
-function PieChart({ icon, title, description, height, chart }) {
+function drawCenterText(ctx, text) {
+  if (ctx) {
+    const canvasWidth = ctx.canvas.width;
+    const canvasHeight = ctx.canvas.height;
+
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = 'grey';
+    ctx.font = '20px Segoe UI';
+
+    // Center the text
+    const textWidth = ctx.measureText(text).width;
+    const x = (canvasWidth - textWidth) / 2;
+    const y = canvasHeight / 2;
+
+    ctx.fillText(text, x, y);
+  }
+}
+
+function PieChart({ icon, iconColor, title, description, height, chart }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d');
+      drawCenterText(ctx, description);
+    }
+  }, [chart]);
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
@@ -44,33 +56,56 @@ function PieChart({ icon, title, description, height, chart }) {
               width="4rem"
               height="4rem"
               bgColor={icon.color || "info"}
-              variant="gradient"
-              coloredShadow={icon.color || "info"}
+              // variant="gradient"
+              // coloredShadow={icon.color || "info"}
               borderRadius="xl"
               display="flex"
               justifyContent="center"
               alignItems="center"
-              color="white"
+              color={iconColor}
               mt={-5}
               mr={2}
             >
-              <Icon fontSize="medium">{icon.component}</Icon>
+              <Icon fontSize="large" sx={{ lineHeight: "1.5" }}>{icon.component}</Icon>
             </MDBox>
           )}
           <MDBox mt={icon.component ? -2 : 0}>
-            {title && <MDTypography variant="h6">{title}</MDTypography>}
-            <MDBox mb={2}>
-              <MDTypography component="div" variant="button" color="text">
+            {title && <MDTypography variant="h5">{title}</MDTypography>}
+            {/*<MDBox mb={2}>
+              <MDTypography component="div" lineHeight={1.25}
+                color="text"
+                sx={{
+                  textTransform: 'capitalize',
+                  fontWeight: 'light',
+                  fontFamily: '"Segoe UI"',
+                }}>
                 {description}
               </MDTypography>
-            </MDBox>
+              </MDBox>*/}
           </MDBox>
         </MDBox>
       ) : null}
       {useMemo(
         () => (
-          <MDBox height={height}>
-            <Pie data={data} options={options} />
+          <MDBox height={height} position="relative">
+            <canvas
+              ref={canvasRef}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: '1',
+              }}
+            />
+            <Pie
+              data={data}
+              options={options}
+              style={{
+                position: 'relative',
+                zIndex: '2',
+              }}
+            />
           </MDBox>
         ),
         [chart, height]
@@ -78,7 +113,7 @@ function PieChart({ icon, title, description, height, chart }) {
     </MDBox>
   );
 
-  return title || description ? <Card>{renderChart}</Card> : renderChart;
+  return title || description ? renderChart : renderChart;
 }
 
 // Setting default values for the props of PieChart

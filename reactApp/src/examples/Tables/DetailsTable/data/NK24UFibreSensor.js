@@ -9,7 +9,7 @@ export default function NK24UFibreSensor() {
     const fetchData = async () => {
       const data = await nk2_4u_fibre_sensor;
 
-      if (data && data.length > 0 || data.length == 0) {
+      if ((data && data.length > 0) || data.length === 0) {
         const newSortedData = [...data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
         if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
           setSortedData(newSortedData);
@@ -49,7 +49,7 @@ export default function NK24UFibreSensor() {
   const [dataPoints, setDataPoints] = useState([]);
 
   useEffect(() => {
-    if (sortedData.length > 0 || sortedData.length == 0) {
+    if (sortedData.length > 0 || sortedData.length === 0) {
       const processDataPromise = processData();
       const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 3000));
       let isMounted = true; // Add a flag to track component mount state

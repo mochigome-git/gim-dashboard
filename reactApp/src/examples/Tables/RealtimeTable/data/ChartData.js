@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChartData({ fieldNames, fields, data, children, divide, reverse }) {
   const [sortedData, setSortedData] = useState([]);
   const [dataPoints, setDataPoints] = useState([]);
 
   useEffect(() => {
-    if (data && data.length > 0 || data.length === 0) {
+    if ((data && data.length > 0) || data.length === 0) {
       const newSortedData = [...data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
@@ -13,9 +13,9 @@ export default function ChartData({ fieldNames, fields, data, children, divide, 
     }
   }, [data, sortedData]);
 
-  const dData = useMemo(() => {
-    return data?.filter((item) => fields.includes(item.name));
-  }, [data, fields]);
+  // const dData = useMemo(() => {
+  //   return data?.filter((item) => fields.includes(item.name));
+  // }, [data, fields]);
 
   useEffect(() => {
     try {
@@ -45,6 +45,7 @@ export default function ChartData({ fieldNames, fields, data, children, divide, 
       console.error(error);
       setDataPoints([]); // Set an empty array in case of an error
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortedData, fields]);
 
   const ddata = {

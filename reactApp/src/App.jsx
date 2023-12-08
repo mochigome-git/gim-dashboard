@@ -27,10 +27,10 @@ const App = () => {
   const [controller] = useMaterialUIController();
   const { layout, darkMode } = controller;
   const [session, setSession] = useState(null);
-  const [showLogoutNotification, setShowLogoutNotification] = useState(false);
+  const [showLogoutNotification, /*setShowLogoutNotification*/] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
 
-  const openErrorSB = () => setErrorSB(true);
+ // const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
   const Timenow = new Date(Date.now()).toLocaleString();
   const lastActivityRef = useRef(Date.now());

@@ -5,8 +5,6 @@ import PropTypes from "prop-types";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 // Material Dashboard 2 React components

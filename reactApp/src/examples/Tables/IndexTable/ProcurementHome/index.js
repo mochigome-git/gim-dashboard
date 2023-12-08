@@ -10,7 +10,6 @@ import Tab from "@mui/material/Tab";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
-import MDTypography from "../../../../components/MDTypography";
 //import MDButton from "../../../components/MDButton";
 
 // Icons
@@ -23,7 +22,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../../context";
 
-function ProcurementHome({ }) {
+function ProcurementHome() {
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
@@ -39,12 +38,12 @@ function ProcurementHome({ }) {
   const handlePoListTabClick = () => {
     navigate("/procurement/purchase-order-list");
   };
-  
+
   return (
     <Card id="home">
       <MDBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
       </MDBox>
-      <MDBox p={2} marginBottom= {50}>
+      <MDBox p={2} marginBottom={50}>
         <Grid container spacing={2} >
           <Grid item xs={12} md={60}>
             <MDBox
@@ -53,32 +52,32 @@ function ProcurementHome({ }) {
               justifyContent="space-between"
               alignItems="center"
             >
-                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
-                    <Tabs 
-                      value={0} 
-                      display="flex"
-                      sx={{
-                        border: ({ borders: { borderWidth, borderColor } }) =>
-                          `${borderWidth[1]} solid ${borderColor}`,
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        padding: 0,
-                      }}
-                      >
-                        <Tab
-                        label={<strong>Create PO</strong>}
-                        sx={{
-                            paddingLeft: 3,
-                            paddingRight: 3,
-                            justifyContent: "flex-start",
-                            padding: 3
-                          }}
-                        icon={<ListAltIcon fontSize="large"/>}
-                        onClick={handleCreatePoTabClick}
-                        />
-                    </Tabs>
-                </AppBar>
-                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Create PO</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<ListAltIcon fontSize="large" />}
+                    onClick={handleCreatePoTabClick}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
               </MDBox>
             </MDBox>
           </Grid>
@@ -89,32 +88,32 @@ function ProcurementHome({ }) {
               justifyContent="space-between"
               alignItems="center"
             >
-                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
-                    <Tabs 
-                      value={0} 
-                      display="flex"
-                      sx={{
-                        border: ({ borders: { borderWidth, borderColor } }) =>
-                          `${borderWidth[1]} solid ${borderColor}`,
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        padding: 0,
-                      }}
-                      >
-                        <Tab
-                        label={<strong>Purchase Order</strong>}
-                        sx={{
-                            paddingLeft: 3,
-                            paddingRight: 3,
-                            justifyContent: "flex-start",
-                            padding: 3
-                          }}
-                        icon={<ContentPasteSearchIcon fontSize="large"/>}
-                        onClick={handlePoListTabClick}
-                        />
-                    </Tabs>
-                </AppBar>
-                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Purchase Order</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<ContentPasteSearchIcon fontSize="large" />}
+                    onClick={handlePoListTabClick}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
               </MDBox>
             </MDBox>
           </Grid>
@@ -125,32 +124,32 @@ function ProcurementHome({ }) {
               justifyContent="space-between"
               alignItems="center"
             >
-                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
-                    <Tabs 
-                      value={0} 
-                      display="flex"
-                      sx={{
-                        border: ({ borders: { borderWidth, borderColor } }) =>
-                          `${borderWidth[1]} solid ${borderColor}`,
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        padding: 0,
-                      }}
-                      >
-                        <Tab
-                        label={<strong>Address Book</strong>}
-                        sx={{
-                            paddingLeft: 3,
-                            paddingRight: 3,
-                            justifyContent: "flex-start",
-                            padding: 3
-                          }}
-                        icon={<SwitchAccountIcon fontSize="large"/>}
-                        onClick={handleAddressBookTabClick}
-                        />
-                    </Tabs>
-                </AppBar>
-                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Address Book</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<SwitchAccountIcon fontSize="large" />}
+                    onClick={handleAddressBookTabClick}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
               </MDBox>
             </MDBox>
           </Grid>
@@ -161,31 +160,31 @@ function ProcurementHome({ }) {
               justifyContent="space-between"
               alignItems="center"
             >
-                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
-                    <Tabs 
-                      value={0} 
-                      display="flex"
-                      sx={{
-                        border: ({ borders: { borderWidth, borderColor } }) =>
-                          `${borderWidth[1]} solid ${borderColor}`,
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        padding: 0,
-                      }}
-                      >
-                        <Tab
-                        label={<strong>PO Profiles</strong>}
-                        sx={{
-                            paddingLeft: 3,
-                            paddingRight: 3,
-                            justifyContent: "flex-start",
-                            padding: 3
-                          }}
-                        icon={<ArticleIcon fontSize="large"/>}
-                        />
-                    </Tabs>
-                </AppBar>
-                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>PO Profiles</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<ArticleIcon fontSize="large" />}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
               </MDBox>
             </MDBox>
           </Grid>
@@ -196,31 +195,31 @@ function ProcurementHome({ }) {
               justifyContent="space-between"
               alignItems="center"
             >
-                <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
-                    <Tabs 
-                      value={0} 
-                      display="flex"
-                      sx={{
-                        border: ({ borders: { borderWidth, borderColor } }) =>
-                          `${borderWidth[1]} solid ${borderColor}`,
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        padding: 0,
-                      }}
-                      >
-                        <Tab
-                        label={<strong>Settings</strong>}
-                        sx={{
-                            paddingLeft: 3,
-                            paddingRight: 3,
-                            justifyContent: "flex-start",
-                            padding: 3
-                          }}
-                        icon={<SettingsIcon fontSize="large"/>}
-                        />
-                    </Tabs>
-                </AppBar>
-                <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Settings</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<SettingsIcon fontSize="large" />}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
               </MDBox>
             </MDBox>
           </Grid>

@@ -6,7 +6,8 @@ import MDBox from '../../../../components/MDBox';
 import MDTypography from '../../../../components/MDTypography';
 import CoverLayout from '../../../../layouts/authentication/components/CoverLayout';
 import bgImage from '../../../../assets/images/bg-sign-in-basic.jpeg';
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 const ResetPassword = () => {
   const [countdown, setCountdown] = useState(3);
@@ -32,7 +33,7 @@ const ResetPassword = () => {
   };
 
   const redirectToLogin = () => {
-    navigate('/'); 
+    navigate('/');
   };
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const ResetPassword = () => {
 
     // Subscribe to the onAuthStateChange event
     supabase.auth.onAuthStateChange(handleAuthStateChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

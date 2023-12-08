@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 // @mui material components
-import { Divider, Card, LinearProgress } from "@mui/material";
+import { Divider, Card } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // Material Dashboard 2 Custom component
 import MDBox from "../../../../components/MDBox";
 import MDButton from "../../../../components/MDButton";
 import MDProgress from "../../../../components/MDProgress";
-import { useMaterialUIController } from "../../../../context";
+//import { useMaterialUIController } from "../../../../context";
 
 // Material Dashboard 2 React example components
 import DetailsForm from "../../../../examples/Forms/FormMenu/DetailsFormEdituse";
@@ -24,8 +24,8 @@ export default function DetailsSection({
   const [loadedData, setLoadedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
+  // const [controller] = useMaterialUIController();
+  // const { darkMode } = controller;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -37,7 +37,7 @@ export default function DetailsSection({
     if (data && data[0] && data[0].description) {
       setDataLength(data[0].description.length);
       setLoadedData(data[0]);
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         setIsLoading(false);
       }, 700);
     }

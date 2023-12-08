@@ -7,7 +7,7 @@ import colors from "../base/colors";
 import rgba from "../functions/rgba";
 import pxToRem from "../functions/pxToRem";
 
-const { dark, transparent, white, dashedBorder  } = colors;
+const { dark, transparent, white } = colors;
 
 const divider = {
   styleOverrides: {

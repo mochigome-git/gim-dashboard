@@ -20,7 +20,7 @@ export default function ParameterCardData() {
   useEffect(() => {
 
     // For nk2_detail
-    if (nk2_detail && nk2_detail.length > 0 || nk2_detail.length === 0) {
+    if ((nk2_detail && nk2_detail.length > 0) || nk2_detail.length === 0) {
       const filteredDataNk2 = nk2_detail.filter(
         item => item.d676 !== undefined && item.d650 !== undefined
       );
@@ -52,7 +52,7 @@ export default function ParameterCardData() {
     }
 
     // For nk3_detail
-    if (nk3_detail && nk3_detail.length > 0 || nk3_detail.length === 0) {
+    if ((nk3_detail && nk3_detail.length > 0) || nk3_detail.length === 0) {
       const filteredDataNk3 = nk3_detail.filter(
         item => item.d676 !== undefined && item.d650 !== undefined
       );

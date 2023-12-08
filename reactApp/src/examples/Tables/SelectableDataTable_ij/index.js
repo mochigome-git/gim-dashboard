@@ -45,33 +45,33 @@ function SelectableDataTable({
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ["5", "10", "15", "20", "25"];
-    const [startdate, setStartDate] = React.useState(null);
-    const [enddate, setEndDate] = React.useState(null);
-    const columns = useMemo(() => table.columns, [table]);
-    const data = useMemo(() => {
-      if (startdate && enddate) {
-        // Filter the data based on the selected date range
-        return table.rows.filter((row) => {
-          if (row && row.created_at) {
-            const rowDate = dayjs(row.created_at);
-            return (
-              rowDate.isSame(startdate, 'day') || rowDate.isAfter(startdate, 'day')
-            ) && (
+  const [startdate, setStartDate] = React.useState(null);
+  const [enddate, setEndDate] = React.useState(null);
+  const columns = useMemo(() => table.columns, [table]);
+  const data = useMemo(() => {
+    if (startdate && enddate) {
+      // Filter the data based on the selected date range
+      return table.rows.filter((row) => {
+        if (row && row.created_at) {
+          const rowDate = dayjs(row.created_at);
+          return (
+            rowDate.isSame(startdate, 'day') || rowDate.isAfter(startdate, 'day')
+          ) && (
               rowDate.isSame(enddate, 'day') || rowDate.isBefore(enddate, 'day')
             );
-          }
-          return true;
-        });
-      }
-      // Return the unfiltered data if startdate or enddate is not set
-      return table.rows;
-    }, [table.rows, startdate, enddate]);
+        }
+        return true;
+      });
+    }
+    // Return the unfiltered data if startdate or enddate is not set
+    return table.rows;
+  }, [table.rows, startdate, enddate]);
   const [selected, setSelected] = React.useState([]);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const storedPageIndex = window.localStorage.getItem('currentPageIndex');
   const initialPageIndex = storedPageIndex ? parseInt(storedPageIndex, 10) : 0;
-  const [currentPageIndex, setCurrentPageIndex] = useState(initialPageIndex); 
+  const [currentPageIndex, setCurrentPageIndex] = useState(initialPageIndex);
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: currentPageIndex, /*, hiddenColumns: ["created_at","insertdate"]*/ } },
     useGlobalFilter,
@@ -103,18 +103,18 @@ function SelectableDataTable({
       color: "info",
     },
   }));
-  
+
   const theme = createTheme({
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: '#007bff', 
+        main: '#007bff',
       },
     },
   });
 
   // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue,setPageSize]);
+  useEffect(() => setPageSize(defaultValue || 10), [defaultValue, setPageSize]);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
@@ -177,7 +177,7 @@ function SelectableDataTable({
     const storedPageIndex = window.localStorage.getItem('currentPageIndex');
     setCurrentPageIndex(storedPageIndex ? parseInt(storedPageIndex, 10) : 0);
   }, []);
-  
+
   // Go back to last index page 
   useEffect(() => {
     window.localStorage.setItem('currentPageIndex', pageIndex);
@@ -198,33 +198,33 @@ function SelectableDataTable({
   const handleClick = (event, row) => {
     const selectedIndex = selected.indexOf(row.id);
     let newSelected = [];
-    
+
     if (event.detail === 2) {
-      const date = row.original.created_at.substr(0, 10);
-      const seq = row.original.i_h_seq;
+      // const date = row.original.created_at.substr(0, 10);
+      // const seq = row.original.i_h_seq;
     } else {
 
-    if (selectedIndex === -1) {
-      // Add the clicked row to the selected rows
-      newSelected = [...selected, row.id];
-    } else if (selectedIndex === 0) {
-      // Remove the clicked row from the selected rows
-      newSelected = selected.slice(1);
-    } else if (selectedIndex === selected.length - 1) {
-      // Remove the clicked row from the selected rows
-      newSelected = selected.slice(0, -1);
-    } else if (selectedIndex > 0) {
-      // Remove the clicked row from the selected rows
-      newSelected = [      
-        ...selected.slice(0, selectedIndex),      
-        ...selected.slice(selectedIndex + 1),    
-      ];
+      if (selectedIndex === -1) {
+        // Add the clicked row to the selected rows
+        newSelected = [...selected, row.id];
+      } else if (selectedIndex === 0) {
+        // Remove the clicked row from the selected rows
+        newSelected = selected.slice(1);
+      } else if (selectedIndex === selected.length - 1) {
+        // Remove the clicked row from the selected rows
+        newSelected = selected.slice(0, -1);
+      } else if (selectedIndex > 0) {
+        // Remove the clicked row from the selected rows
+        newSelected = [
+          ...selected.slice(0, selectedIndex),
+          ...selected.slice(selectedIndex + 1),
+        ];
+      }
+
+      setSelected(newSelected);
     }
-  
-    setSelected(newSelected);
-   }
   };
-  
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
@@ -246,7 +246,7 @@ function SelectableDataTable({
     <TableContainer sx={{ boxShadow: "none" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <MDBox display="flex" alignItems="center">
-          <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1}} >
+          <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1 }} >
             <DatePicker
               label={
                 <MDBox
@@ -260,10 +260,11 @@ function SelectableDataTable({
               maxDate={dayjs()}
               value={startdate}
               onChange={(newValue) => setStartDate(newValue)}
-              sx={{ 
+              sx={{
                 mr: 2,
-                '& .MuiSvgIcon-root' : {color: (theme) => 
-                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                '& .MuiSvgIcon-root': {
+                  color: (theme) =>
+                    darkMode ? theme.palette.white.main : theme.palette.dark.main,
                 },
               }}
             />
@@ -280,10 +281,11 @@ function SelectableDataTable({
               maxDate={dayjs()}
               value={enddate}
               onChange={(newValue) => setEndDate(newValue)}
-              sx={{ 
+              sx={{
                 mr: 2,
-                '& .MuiSvgIcon-root' : {color: (theme) => 
-                  darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                '& .MuiSvgIcon-root': {
+                  color: (theme) =>
+                    darkMode ? theme.palette.white.main : theme.palette.dark.main,
                 },
               }}
             />
@@ -320,13 +322,15 @@ function SelectableDataTable({
                       onSearchChange(currentTarget.value);
                     }}
                     sx={{
-                      border: (theme) =>  `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
-                      borderRadius: `7px`, 
-                      '& .MuiSvgIcon-root' : {color: (theme) => 
-                        darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                      border: (theme) => `0.5px solid  ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                      borderRadius: `7px`,
+                      '& .MuiSvgIcon-root': {
+                        color: (theme) =>
+                          darkMode ? theme.palette.white.main : theme.palette.dark.main,
                       },
-                      '& input::placeholder': {color: (theme) => 
-                        darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                      '& input::placeholder': {
+                        color: (theme) =>
+                          darkMode ? theme.palette.white.main : theme.palette.dark.main,
                       },
                     }}
                   />
@@ -341,29 +345,29 @@ function SelectableDataTable({
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               <ThemeProvider theme={theme}>
-              <TableCell padding="checkbox"
-                sx={(theme) => ({
-                  borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
-                })}
+                <TableCell padding="checkbox"
+                  sx={(theme) => ({
+                    borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                  })}
                 >
-                <CustomCheckbox
-                  indeterminate={selected.length > 0 && selected.length < rows.length}
-                  checked={rows.length > 0 && selected.length === rows.length}
-                  onChange={handleSelectAllClick}
-                  inputProps={{ 'aria-label': 'select all rows' }}
-                />
+                  <CustomCheckbox
+                    indeterminate={selected.length > 0 && selected.length < rows.length}
+                    checked={rows.length > 0 && selected.length === rows.length}
+                    onChange={handleSelectAllClick}
+                    inputProps={{ 'aria-label': 'select all rows' }}
+                  />
                 </TableCell>
-                </ThemeProvider>
+              </ThemeProvider>
               {headerGroup.headers.map((column) => (
                 <SelectableDataTableHeadCell
                   {...column.getHeaderProps(isSorted && column.getSortByToggleProps())}
                   width={column.width ? column.width : "auto"}
                   align={column.align ? column.align : "left"}
                   sorted={setSortedValue(column)}
-                  fontColor={ (theme) =>  darkMode 
-                    ? theme.palette.white.main 
+                  fontColor={(theme) => darkMode
+                    ? theme.palette.white.main
                     : theme.palette.dark.main
-                    }
+                  }
                 >
                   {column.render("Header")}
                 </SelectableDataTableHeadCell>
@@ -378,39 +382,39 @@ function SelectableDataTable({
             prepareRow(row);
             return (
               <TableRow
-              hover
-              onClick={(event) => handleClick(event, row)}
-              onMouseEnter={(event) => {
-                if (!isItemSelected) {handleCellMouseEnter(event, row)}
-              }}
-              onMouseLeave={(event) => {
-                if (!isItemSelected) {handleCellMouseLeave(event)}
-              }}
-              role="customcheckbox"
-              aria-checked={isItemSelected}
-              tabIndex={-1}
-              key={row.id}
-              selected={isItemSelected}
-              style={{
-                backgroundColor: isItemSelected
-                  ? darkMode
-                    ? "black"
-                    : "#e3eefc"
-                  : "inherit",
-              }}
-              {...row.getRowProps()}>
+                hover
+                onClick={(event) => handleClick(event, row)}
+                onMouseEnter={(event) => {
+                  if (!isItemSelected) { handleCellMouseEnter(event, row) }
+                }}
+                onMouseLeave={(event) => {
+                  if (!isItemSelected) { handleCellMouseLeave(event) }
+                }}
+                role="customcheckbox"
+                aria-checked={isItemSelected}
+                tabIndex={-1}
+                key={row.id}
+                selected={isItemSelected}
+                style={{
+                  backgroundColor: isItemSelected
+                    ? darkMode
+                      ? "black"
+                      : "#e3eefc"
+                    : "inherit",
+                }}
+                {...row.getRowProps()}>
                 <ThemeProvider theme={theme}>
-                <TableCell padding="checkbox"
-                  sx={(theme) => ({
-                    borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
-                  })}
+                  <TableCell padding="checkbox"
+                    sx={(theme) => ({
+                      borderBottom: `1px solid ${darkMode ? theme.palette.action.disabled : "#939fad"}`,
+                    })}
                   >
-                  <CustomCheckbox
-                    checked={isItemSelected}
-                    onChange={(event) => handleClick(event, row)}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </TableCell>
+                    <CustomCheckbox
+                      checked={isItemSelected}
+                      onChange={(event) => handleClick(event, row)}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </TableCell>
                 </ThemeProvider>
                 {row.cells.map((cell) => (
                   <SelectableDataTableBodyCell
@@ -422,9 +426,9 @@ function SelectableDataTable({
                     align={cell.column.align ? cell.column.align : "left"}
                     isSelected={isItemSelected}
                     {...cell.getCellProps()}
-                    fontColor={ (theme) =>  darkMode 
-                    ? theme.palette.white.main 
-                    : theme.palette.dark.main
+                    fontColor={(theme) => darkMode
+                      ? theme.palette.white.main
+                      : theme.palette.dark.main
                     }
                   >
                     {cell.render("Cell")}

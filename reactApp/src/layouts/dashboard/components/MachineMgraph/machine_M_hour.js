@@ -1,14 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 
 // Material Dashboard 2 React components
-import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
-
-// Material Dashboard 2 React example components
-import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
-
-// Data
-import machinetDailyChartData from "../../data/machinetDailyChartData"
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
@@ -17,8 +10,8 @@ export const MachineMHour = () => {
   const {
     machine_tRecordsbyhour,
   } = useContext(DailyContext);
-  const [ismachinetPositive, setmachinetPositive] = useState();
-  const [ismachinetAmount, setmachinetAmount] = useState();
+  const [/*ismachinetPositive*/, setmachinetPositive] = useState();
+  const [/*ismachinetAmount*/, setmachinetAmount] = useState();
   const tRecordsDaily = machine_tRecordsbyhour[0]?.total ?? 0
 
   function transformData(inputData) {
@@ -38,7 +31,7 @@ export const MachineMHour = () => {
     return { datasets: { data: filteredData } };
   }
 
-  const transformedData = transformData(machine_tRecordsbyhour);
+  /*const transformedData =*/ transformData(machine_tRecordsbyhour);
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));

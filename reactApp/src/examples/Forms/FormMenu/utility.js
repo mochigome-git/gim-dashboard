@@ -18,20 +18,20 @@ export const clearFields = (dispatch) => {
   });
 };
 
-export async function fetchPoNumber(dispatch, openErrorSB){
+export async function fetchPoNumber(dispatch, openErrorSB) {
   try {
-    const { data , error } = await supabase
-    .from("po_running_lot_sequence")
-    .select("last_value")
-    
+    const { data, error } = await supabase
+      .from("po_running_lot_sequence")
+      .select("last_value")
+
     if (error) {
       throw error;
     }
 
-    const lot  = generateJobLogEntry(data[0]?.last_value + 1);
+    const lot = generateJobLogEntry(data[0]?.last_value + 1);
     return lot;
 
-  } catch (error){
+  } catch (error) {
     dispatch({ type: "SET_ERRORS_EXIST", payload: true });
     dispatch({
       type: "SET_ERRORS",
@@ -46,7 +46,7 @@ export function generateJobLogEntry(RunningNumber) {
   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
   const currentYear = currentDate.getFullYear().toString().slice(-2);
   const jobLogEntry = `M${currentYear}${currentMonth}${RunningNumber.toString().padStart(3, '0')}`;
-      
+
   return jobLogEntry;
 }
 
@@ -58,7 +58,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
       .select("*")
       .eq("id", id);
 
-    if (errorBefore ) {
+    if (errorBefore) {
       throw errorBefore;
     }
 
@@ -69,7 +69,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
         continue;
       }
 
-      const { error: error } = await supabase
+      const { error } = await supabase
         .from("po_system_vendor")
         .update({ [column]: value })
         .eq("id", id)
@@ -84,7 +84,7 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
       .select("*")
       .eq("id", id);
 
-    if (errorAfter ) {
+    if (errorAfter) {
       throw errorAfter;
     }
 
@@ -100,16 +100,16 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
     ) {
       throw new Error("Failed to update data");
     }
-    
+
     dispatch({ type: "SET_SUCCESS", payload: true });
     openSuccessSB();
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
     dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-    dispatch({ 
-      type: "SET_ERRORS", 
-      payload: { errors: errorMessage, error_title: "Update Failed"} 
+    dispatch({
+      type: "SET_ERRORS",
+      payload: { errors: errorMessage, error_title: "Update Failed" }
     });
     openErrorSB();
   }
@@ -159,59 +159,61 @@ export async function deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB) 
 
 export async function insertVendorBook(inserts, dispatch, openInsertSB, openErrorSB) {
   try {
-      const insertObject = {};
+    const insertObject = {};
 
-      for (const insert of inserts) {
-          const { column, value } = insert;
+    for (const insert of inserts) {
+      const { column, value } = insert;
 
-          if (value === null || (Array.isArray(value) && value.length === 0)) {
-              continue;
-          }
-
-          insertObject[column] = value;
+      if (value === null || (Array.isArray(value) && value.length === 0)) {
+        continue;
       }
 
-      if (Object.keys(insertObject).length === 0) {
-          // No valid data to insert
-          return;
-      }
+      insertObject[column] = value;
+    }
 
-      const { data: existingData, error: searchError } = await supabase
-          .from('po_system_vendor')
-          .select('company_name')
-          .textSearch('company_name', insertObject.company_name, {
-              type: 'plain',
-              config: 'english'
-          });
+    if (Object.keys(insertObject).length === 0) {
+      // No valid data to insert
+      return;
+    }
 
-      if (searchError) {
-          throw searchError;
-      }
+    const { data: existingData, error: searchError } = await supabase
+      .from('po_system_vendor')
+      .select('company_name')
+      .textSearch('company_name', insertObject.company_name, {
+        type: 'plain',
+        config: 'english'
+      });
 
-      if (existingData && existingData.length > 0) {
-          dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-          dispatch({ type: "SET_ERRORS", payload: { 
-            errors: "Company name already exists", error_title: "Creation Failed"} 
-          });
-          openErrorSB();
-          return; 
-      }
+    if (searchError) {
+      throw searchError;
+    }
 
-      const { error: insertError } = await supabase
-          .from("po_system_vendor")
-          .insert([insertObject]);
-
-      if (insertError) {
-          throw insertError;
-      }
-
-      dispatch({ type: "SET_INSERT", payload: true });
-      openInsertSB();
-      
-  } catch (error) {
+    if (existingData && existingData.length > 0) {
       dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-      dispatch({ type: "SET_ERRORS", payload: { errors: error.message, error_title: "Creation Failed"} });
+      dispatch({
+        type: "SET_ERRORS", payload: {
+          errors: "Company name already exists", error_title: "Creation Failed"
+        }
+      });
       openErrorSB();
+      return;
+    }
+
+    const { error: insertError } = await supabase
+      .from("po_system_vendor")
+      .insert([insertObject]);
+
+    if (insertError) {
+      throw insertError;
+    }
+
+    dispatch({ type: "SET_INSERT", payload: true });
+    openInsertSB();
+
+  } catch (error) {
+    dispatch({ type: "SET_ERRORS_EXIST", payload: true });
+    dispatch({ type: "SET_ERRORS", payload: { errors: error.message, error_title: "Creation Failed" } });
+    openErrorSB();
   }
 }
 

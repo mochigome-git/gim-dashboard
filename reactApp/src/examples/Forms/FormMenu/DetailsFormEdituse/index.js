@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 // @mui material components
 import CheckIcon from "@mui/icons-material/Check";
@@ -24,7 +24,7 @@ import MDSnackbar from "../../../../components/MDSnackbar";
 import FormField from "../../FormField";
 
 // Material Dashboard 2 React context
-import { useMaterialUIController, setLayout } from "../../../../context";
+import { useMaterialUIController } from "../../../../context";
 
 import { machine } from "../../FormField/menuOption";
 
@@ -39,8 +39,6 @@ export default function DetailsForm({
   tel_1,
   tel_2,
   currency,
-  id,
-  createform,
   onDataUpdate,
   error,
   data,
@@ -52,31 +50,31 @@ export default function DetailsForm({
   const [selectedSection, setSelectedSection] = useState("");
   const machineOptions = machine[selectedSection] || [];
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const openSuccessSB = useCallback(() => {
-    dispatch({ type: "SET_UPDATE", payload: true });
-  }, []);
+  //const openSuccessSB = useCallback(() => {
+  //  dispatch({ type: "SET_UPDATE", payload: true });
+  //}, []);
   const closeSuccessSB = useCallback(() => {
     dispatch({ type: "SET_UPDATE", payload: false });
   }, []);
-  const openDeleteSB = useCallback(() => {
-    dispatch({ type: "SET_DELETE", payload: true });
-  }, []);
+  //const openDeleteSB = useCallback(() => {
+  //  dispatch({ type: "SET_DELETE", payload: true });
+  //}, []);
   const closeDeleteSB = useCallback(() => {
     dispatch({ type: "SET_DELETE", payload: false });
   }, []);
-  const openInsertSB = useCallback(() => {
-    dispatch({ type: "SET_INSERT", payload: true });
-  }, []);
+  //const openInsertSB = useCallback(() => {
+  //  dispatch({ type: "SET_INSERT", payload: true });
+  //}, []);
   const closeInsertSB = useCallback(() => {
     dispatch({ type: "SET_INSERT", payload: false });
   }, []);
-  const openErrorSB = useCallback(() => {
-    dispatch({ type: "SET_ERROR_EXIST", payload: true });
-  }, []);
+  //const openErrorSB = useCallback(() => {
+  //  dispatch({ type: "SET_ERROR_EXIST", payload: true });
+  //}, []);
   const closeErrorSB = useCallback(() => {
     dispatch({ type: "SET_ERROR_EXIST", payload: false });
   }, []);
-  const [loadedData, setLoadedData] = useState(null);
+  const [/*loadedData*/, setLoadedData] = useState(null);
   const [loadedDescription, setDescriptionData] = useState(null);
 
   useEffect(() => {
@@ -107,9 +105,9 @@ export default function DetailsForm({
     });
   }, [state.quantity_textfield, state.price_textfield]);
 
-  const clearFields = () => {
-    dispatch({ type: "CLEAR_FIELDS" });
-  };
+  //const clearFields = () => {
+  //  dispatch({ type: "CLEAR_FIELDS" });
+  //};
 
   // useEffect to reset vendor_details and success flag after 5 seconds
   useEffect(() => {
@@ -127,6 +125,7 @@ export default function DetailsForm({
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success, state.delete]);
 
   useEffect(() => {
@@ -138,6 +137,7 @@ export default function DetailsForm({
     dispatch({ type: "SET_ADDRESS2", payload: { value: address_2 } });
     dispatch({ type: "SET_FAX", payload: { value: fax } });
     dispatch({ type: "SET_CURRENCY", payload: { value: currency } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -151,6 +151,7 @@ export default function DetailsForm({
     const total = state?.total_textfield || loadedDescription?.total;
 
     onDataUpdate(description, section, machine, quantity, unit, price, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     loadedDescription,
     state?.quantity_textfield,

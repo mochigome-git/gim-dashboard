@@ -103,6 +103,7 @@ function DetailsTable() {
         setLoading(false);
       }, 1000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
 

@@ -14,7 +14,7 @@ import MDBox from "../../../components/MDBox";
 import { useMaterialUIController, setLayout } from "../../../context";
 
 function CoatingDashboardLayout({ children }) {
-  const [controller, dispatch] = useMaterialUIController();
+  const [, dispatch] = useMaterialUIController();
   const { pathname } = useLocation();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 // @mui material components
 import { Grid, Card, Stack, Divider } from "@mui/material";
@@ -12,14 +12,7 @@ import { useMaterialUIController } from "../../../context";
 
 function Tables({ data, to, from }) {
   const [controller] = useMaterialUIController();
-  const { darkMode, miniSidenav } = controller;
-  const formFieldProps = useMemo(
-    () => ({
-      darkMode,
-      miniSidenav,
-    }),
-    [darkMode, miniSidenav]
-  );
+  const { miniSidenav } = controller;
 
   function ContactInfo({ title, contact }) {
     return (
@@ -367,12 +360,12 @@ function Tables({ data, to, from }) {
                                 textTransform="capitalize"
                               >
                                 {data[0].discount !== null &&
-                                data[0].discount !== 0
+                                  data[0].discount !== 0
                                   ? "-" +
-                                    data[0].discount.toLocaleString("en-US", {
-                                      style: "currency",
-                                      currency: data[0].currency,
-                                    })
+                                  data[0].discount.toLocaleString("en-US", {
+                                    style: "currency",
+                                    currency: data[0].currency,
+                                  })
                                   : "-"}
                               </MDTypography>
                             </Grid>

@@ -25,7 +25,8 @@ import Dashboard from "./layouts/dashboard";
 import Coating from "./layouts/coating";
 import Resetpassword from "./layouts/authentication/reset-password/cover/index"
 import InkjetIndex from "./layouts/inkjet/"
-import InkjetWeighing from "./layouts/inkjet/Weighing"
+import InkjetWeighing from "./layouts/inkjet/Weighing";
+import InkjetFilling from "./layouts/inkjet/Filling";
 import ProcurementIndex from "./layouts/procurement"
 import ProcurementAddressbook from "./layouts/procurement/addressbook"
 import ProcurementCreatepo from "./layouts/procurement/createpo"
@@ -49,7 +50,7 @@ const routes = [
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
-    icon: <DashboardIcon fontSize="small"/>,
+    icon: <DashboardIcon fontSize="small" />,
     route: "/dashboard",
     component: <Dashboard />,
   },
@@ -57,7 +58,7 @@ const routes = [
     type: "collapse",
     name: "Coating",
     key: "coating",
-    icon: <BackupTableIcon fontSize="small"/>,
+    icon: <BackupTableIcon fontSize="small" />,
     route: "/coating",
     component: <Coating />,
   },
@@ -65,7 +66,7 @@ const routes = [
     type: "",
     name: "Reset",
     key: "reset",
-    icon: <LoginIcon fontSize="small"/>,
+    icon: <LoginIcon fontSize="small" />,
     route: "/authentication/reset-password",
     component: <Resetpassword />,
   },
@@ -73,46 +74,54 @@ const routes = [
     type: "collapse",
     name: "Inkjet",
     key: "inkjet",
-    icon: <ReceiptLongIcon fontSize="small"/>,
+    icon: <ReceiptLongIcon fontSize="small" />,
     route: "/inkjet",
-    component: <InkjetIndex/>,
+    component: <InkjetIndex />,
   },
   {
     type: "",
     name: "Inkjet Weighing",
     key: "inkjet/weighing",
-    icon: <ReceiptLongIcon fontSize="small"/>,
+    icon: <ReceiptLongIcon fontSize="small" />,
     route: "/inkjet/weighing",
-    component: <InkjetWeighing/>,
+    component: <InkjetWeighing />,
+  },
+  {
+    type: "",
+    name: "Inkjet Filling",
+    key: "inkjet/filling",
+    icon: <ReceiptLongIcon fontSize="small" />,
+    route: "/inkjet/filling",
+    component: <InkjetFilling />,
   },
   {
     type: "collapse",
     name: "Procurement",
     key: "procurement",
-    icon: <ShoppingCartIcon fontSize="small"/>,
+    icon: <ShoppingCartIcon fontSize="small" />,
     route: "/procurement",
-    component: <ProcurementIndex/>,
+    component: <ProcurementIndex />,
   },
   {
     type: "",
     name: "Procurement Create Po",
     key: "Create-PO",
     route: "/procurement/create-po",
-    component: <ProcurementCreatepo/>,
+    component: <ProcurementCreatepo />,
   },
   {
     type: "",
     name: "Procurement AddressBook",
     key: "Address-Book",
     route: "/procurement/address-book",
-    component: <ProcurementAddressbook/>,
+    component: <ProcurementAddressbook />,
   },
   {
     type: "",
     name: "Procurement PurchaseOrder",
     key: "Purchase-Order",
     route: "/procurement/purchase-order-list",
-    component: <PurchaseOrder/>,
+    component: <PurchaseOrder />,
   }
   /*{
     type: "collapse",

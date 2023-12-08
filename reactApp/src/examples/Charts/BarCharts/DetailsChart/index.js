@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect } from "react";
+import { useMemo, useCallback } from "react";
 import React from "react"
 
 // porp-types is a library for typechecking of props
@@ -18,6 +18,9 @@ import { useMaterialUIController } from "../../../../context/index";
 import configs from "./configs/index";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
+import boost from 'highcharts/modules/boost';
+
+boost(Highcharts);
 
 function createChartOptions(datasets, ymin, ymax, navigator) {
   return function (controller) {
@@ -28,8 +31,8 @@ function createChartOptions(datasets, ymin, ymax, navigator) {
 
 function DetailsGaugeChart({ color, title, description, date, percentage, ymin, ymax, datasets, navigator }) {
   const cacheBuster = useMemo(() => Date.now(), []);
-  const [controller, dispatch] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymin, ymax, navigator)(controller), [datasets, controller]);
+  const [controller] = useMaterialUIController();
+  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymin, ymax, navigator)(controller), [ymin, ymax, navigator, datasets, controller]);
 
   const setOptions = useCallback(() => {
     Highcharts.setOptions({

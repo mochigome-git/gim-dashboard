@@ -5,7 +5,6 @@ import React, {
   useState,
   useMemo,
   useCallback,
-  useRef,
 } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -50,9 +49,9 @@ function Tables() {
   const { darkMode, miniSidenav } = controller;
   const dailyContext = useContext(DailyContext);
   const [currentType, setCurrentType] = useState(null);
-  const [numDetailsForms, setNumDetailsForms] = useState(1);
+  //const [numDetailsForms, setNumDetailsForms] = useState(1);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const [formDataList, setFormDataList] = useState([]);
+  const [, setFormDataList] = useState([]);
   const [error, setError] = useState(null);
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);

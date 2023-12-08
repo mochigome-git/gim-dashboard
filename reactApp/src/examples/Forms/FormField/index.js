@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { TextField, MenuItem, Select, FormControl, InputLabel, OutlinedInput, Divider } from '@mui/material';
+//import PropTypes from 'prop-types';
+import { MenuItem, Select, FormControl, InputLabel, OutlinedInput, Divider } from '@mui/material';
 import MDBox from '../../../components/MDBox';
 import MDInput from '../../../components/MDInput';
 import { currencies, poStatus, section, unit } from "./menuOption";
@@ -36,47 +36,47 @@ const FormField = ({
   if (select === false) {
     return (
       <MDBox
-      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-        position: "relative",
-       [breakpoints.up("xl")]: {
-         marginLeft: miniSidenav ? pxToRem(100) : pxToRem(0),
-         flexDirection: miniSidenav ? "column" : "row",
-         alignItems: miniSidenav ? "center" : "flex-start",
-         "& > *": {
-           marginBottom: miniSidenav ? pxToRem(0) : 0,
-         },
-         transition: transitions.create(["margin-left", "margin-right"], {
-           easing: transitions.easing.easeInOut,
-           duration: transitions.duration.standard,
-         }),
-       },
-     })}
+        sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+          position: "relative",
+          [breakpoints.up("xl")]: {
+            marginLeft: miniSidenav ? pxToRem(100) : pxToRem(0),
+            flexDirection: miniSidenav ? "column" : "row",
+            alignItems: miniSidenav ? "center" : "flex-start",
+            "& > *": {
+              marginBottom: miniSidenav ? pxToRem(0) : 0,
+            },
+            transition: transitions.create(["margin-left", "margin-right"], {
+              easing: transitions.easing.easeInOut,
+              duration: transitions.duration.standard,
+            }),
+          },
+        })}
       >
-          <MDInput
-            label={
-              <MDBox
-                sx={{
-                  color: (theme) => (darkMode ? theme.palette.white.main : theme.palette.dark.main),
-                }}
-              >
-                {label}
-              </MDBox>
-            }
-            ref={ref}
-            defaultValue={defaultValue? defaultValue : undefined}
-            value={ controlOn ? value || ''  : value? value : undefined }
-            onChange={onChange}
-            sx={{
-              m: 1,
-              height: { xs: inputWidth, md: 50 },
-              width: { xs: inputWidth, sm: width, md: width },
-              '& .MuiInputLabel-root': {
-                fontSize: '1rem',
-              },
-            }}
-            {...otherProps}
-            error={error}
-          />
+        <MDInput
+          label={
+            <MDBox
+              sx={{
+                color: (theme) => (darkMode ? theme.palette.white.main : theme.palette.dark.main),
+              }}
+            >
+              {label}
+            </MDBox>
+          }
+          ref={ref}
+          defaultValue={defaultValue ? defaultValue : undefined}
+          value={controlOn ? value || '' : value ? value : undefined}
+          onChange={onChange}
+          sx={{
+            m: 1,
+            height: { xs: inputWidth, md: 50 },
+            width: { xs: inputWidth, sm: width, md: width },
+            '& .MuiInputLabel-root': {
+              fontSize: '1rem',
+            },
+          }}
+          {...otherProps}
+          error={error}
+        />
       </MDBox>
     );
   } else {
@@ -99,13 +99,13 @@ const FormField = ({
               input={<OutlinedInput label={label} />}
               sx={{ height: selectHeight }}
             >
-            <MenuItem key={''} value={''}>None</MenuItem>
-            <Divider orientation="horizontal" variant="middle" sx={{ borderStyle:'dashed'}}/>
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
+              <MenuItem key={''} value={''}>None</MenuItem>
+              <Divider orientation="horizontal" variant="middle" sx={{ borderStyle: 'dashed' }} />
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </MDBox>

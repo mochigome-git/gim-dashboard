@@ -1,16 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import MDBox from "../../../../../components/MDBox";
 import MDTypography from "../../../../../components/MDTypography";
-import MDProgress from "../../../../../components/MDProgress";
 import Form from "../../../../../examples/Forms/FormVendor";
-import { DailyContext } from "../../../../../lib/realtime"
-import { useMaterialUIController } from "../../../../../context";
 
 function CreateForm() {
-    const [controller] = useMaterialUIController();
-    const { darkMode } = controller;
-  
-
   return (
     <MDBox>
       <MDBox pt={3} px={2} mb={-2}>

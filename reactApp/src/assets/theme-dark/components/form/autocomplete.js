@@ -25,7 +25,7 @@ import rgba from "../../functions/rgba";
 
 const { md } = boxShadows;
 const { size } = typography;
-const { text, transparent, light, dark, gradients, background, white, error } = colors;
+const { text, transparent, light, dark, gradients, background, white } = colors;
 const { borderRadius } = borders;
 
 const autocomplete = {

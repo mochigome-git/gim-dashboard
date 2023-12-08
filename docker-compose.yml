@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./reactApp:/opt/gim-dashboard/reactApp # ローカルをコンテナ内にマウント
-    command: sh -c "npm start"
+    command: sh -c "yarn start"
     ports:
       - "3001:3001"
-    stdin_open: true 
+    stdin_open: true
     restart: always

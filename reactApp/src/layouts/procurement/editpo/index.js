@@ -5,11 +5,10 @@ import React, {
   useState,
   useMemo,
   useCallback,
-  useRef,
 } from "react";
 
 // @mui material components
-import { Grid, Card, Divider, CircularProgress } from "@mui/material";
+import { Grid, Divider, CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Zoom from "@mui/material/Zoom";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -22,8 +21,6 @@ import MDTypography from "../../../components/MDTypography";
 import MDSnackbar from "../../../components/MDSnackbar";
 
 // Material Dashboard 2 React example components
-import CreatePoLayout from "../../../examples/LayoutContainers/ProcurementLayout/CreatePoLayout";
-import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import FormEdit from "../../../examples/Forms/FormEdituse";
 import ConditionMenu from "../../../examples/Forms/FormMenu/ConditionMenuEdituse";
 import FormField from "../../../examples/Forms/FormField";
@@ -33,7 +30,7 @@ import DetailsSection from "./DetailsSectionEdituse";
 import TotalsSection from "./TotalsSectionEdituse";
 import { handleDetailsTabClick, updateFormDataList } from "./utility";
 import { initialState, formReducer } from "../../../examples/Forms/formReducer";
-import { insertDraftPO, updateDraftPO } from "./api";
+import { updateDraftPO } from "./api";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../context";
@@ -46,9 +43,9 @@ function Tables({ data, to, from }) {
   const { darkMode, miniSidenav } = controller;
   const dailyContext = useContext(DailyContext);
   const [currentType, setCurrentType] = useState(null);
-  const [numDetailsForms, setNumDetailsForms] = useState(1);
+  // const [numDetailsForms, setNumDetailsForms] = useState(1);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  const [formDataList, setFormDataList] = useState([]);
+  const [, setFormDataList] = useState([]);
   const [error, setError] = useState(null);
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);

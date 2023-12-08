@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React base styles
 import colors from "../../base/colors";
 
-const { text, error } = colors;
+const { error } = colors;
 
 const formLabel = {
   styleOverrides: {

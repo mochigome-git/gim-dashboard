@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo} from "react";
+import React, { useState, useEffect} from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -6,10 +6,10 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import SettingsIcon from '@mui/icons-material/Settings';
+//import SettingsIcon from '@mui/icons-material/Settings';
 
 // Material Dashboard 2 React components
-import MDBox from "./components/MDBox";
+//import MDBox from "./components/MDBox";
 
 // Material Dashboard 2 React example components
 import Sidenav from "./examples/Sidenav";
@@ -25,7 +25,7 @@ import themeDark from "./assets/theme-dark";
 import routes from "./routes";
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
+import { useMaterialUIController, setMiniSidenav, /*setOpenConfigurator*/ } from "./context";
 
 const Home = () => {
   const [controller, dispatch] = useMaterialUIController();
@@ -33,7 +33,7 @@ const Home = () => {
     miniSidenav,
     direction,
     layout,
-    openConfigurator,
+   // openConfigurator,
     sidenavColor,
     darkMode,
   } = controller;
@@ -57,7 +57,7 @@ const Home = () => {
   };
 
   // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  //const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
   // Setting the dir attribute for the body element
   useEffect(() => {
@@ -83,29 +83,29 @@ const Home = () => {
       return null;
     });
 
-  const configsButton = (
-    <MDBox
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      width="3.25rem"
-      height="3.25rem"
-      bgColor="white"
-      shadow="sm"
-      borderRadius="50%"
-      position="fixed"
-      right="2rem"
-      bottom="2rem"
-      zIndex={99}
-      color="dark"
-      sx={{ cursor: "pointer" }}
-      onClick={handleConfiguratorOpen}
-    >
-      <SettingsIcon fontSize="small" color="inherit">
-        settings
-      </SettingsIcon>
-    </MDBox>
-  );
+  //const configsButton = (
+  //  <MDBox
+  //    display="flex"
+  //    justifyContent="center"
+  //    alignItems="center"
+  //    width="3.25rem"
+  //    height="3.25rem"
+  //    bgColor="white"
+  //    shadow="sm"
+  //    borderRadius="50%"
+  //    position="fixed"
+  //    right="2rem"
+  //    bottom="2rem"
+  //    zIndex={99}
+  //    color="dark"
+  //    sx={{ cursor: "pointer" }}
+  //    onClick={handleConfiguratorOpen}
+  //  >
+  //    <SettingsIcon fontSize="small" color="inherit">
+  //      settings
+  //    </SettingsIcon>
+  //  </MDBox>
+  //);
 
   return (
     <ThemeProvider theme={ darkMode ? themeDark : theme}>

@@ -8,7 +8,6 @@ import { Pie } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 
 // @mui material components
-import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components

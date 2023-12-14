@@ -3,7 +3,6 @@ import React, {
   useContext,
   useRef,
   useEffect,
-  useMemo,
 } from "react";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";

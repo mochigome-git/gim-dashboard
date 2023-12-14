@@ -179,7 +179,7 @@ function Tables({ data, to, from }) {
     dispatch({ type: "SET_TAX_RESULT", payload: { value: taxtotalValue } });
     dispatch({ type: "SET_TOTAL_RESULT", payload: { value: grandtotal } });
   }, [taxtotalValue, grandtotal]);
-
+// eslint-disable-next-line
   const memoizedOnDetailsTabClick = useCallback(
     handleDetailsTabClick(dispatch, dailyContext, setCurrentType),
     [dispatch, dailyContext, setCurrentType]

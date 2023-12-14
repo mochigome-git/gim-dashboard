@@ -366,6 +366,7 @@ function Coating() {
         const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
+      console.log(state.everyFiveMinutes)
       if (!state.everyFiveMinutes) {
         const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, false);
@@ -412,6 +413,7 @@ function Coating() {
         const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
+      console.log(state.everyFiveMinutes)
       if (!state.everyFiveMinutes) {
         const tableNames = ['nk2_log_data_storage', 'nk2_4u_fibre_sensor', 'nk2_main_pressure_sensor', 'nk2_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, false);
@@ -445,13 +447,14 @@ function Coating() {
   useEffect(() => {
     if (state.downloadTrigger_NK3) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
+      console.log(state.everyFiveMinutes)
       if (state.everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
       if (!state.everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
-        dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
+        dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, false);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {
@@ -493,7 +496,7 @@ function Coating() {
       }
       if (!state.everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
-        multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
+        multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, false);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
       setTimeout(() => {

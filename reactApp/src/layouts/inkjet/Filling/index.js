@@ -138,7 +138,7 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["info", "warning", "success"],
-      data: [state.data, state.mdata, 0],
+      data: [state?.data, state?.mdata, 0],
     },
   };
 
@@ -147,7 +147,7 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["warning", "info", "success"],
-      data: [state.mdata, 0, 0],
+      data: [state?.mdata, 0, 0],
     },
   };
 
@@ -156,12 +156,12 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["info", "warning", "success"],
-      data: [state.data, 0, 0],
+      data: [state?.data, 0, 0],
     },
   };
 
   useEffect(() => {
-    const newTotal = state.data + state.mdata //+ state.data2 + state.data3;
+    const newTotal = state?.data + state?.mdata //+ state.data2 + state.data3;
     dispatch({
       type: "UPDATE_TOTAL",
       payload: newTotal,
@@ -196,7 +196,7 @@ function Tables() {
                       }}
                       iconColor={"info"}
                       title={"Total"}
-                      description={state.total}
+                      description={state?.total}
                       height={100}
                       chart={pietotaldata}
                     />
@@ -222,7 +222,7 @@ function Tables() {
                       }}
                       iconColor={"warning"}
                       title={"Water-base"}
-                      description={state.mdata}
+                      description={state?.mdata}
                       height={100}
                       chart={piewaterdata}
                     />
@@ -248,7 +248,7 @@ function Tables() {
                       }}
                       iconColor={"primary"}
                       title={"Solvent-base"}
-                      description={state.data}
+                      description={state?.data}
                       height={100}
                       chart={piesolventdata}
                     />

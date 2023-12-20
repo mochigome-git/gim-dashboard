@@ -67,7 +67,7 @@ export const fetchMachineMData = async (setState) => {
       ...prevState,
       machine_m: data1,
       machine_mRecords: data2,
-      machine_mLatestData: data3[0].total,
+      machine_mLatestData: data3[0]?.total,
       machine_mRecordsbyhour: data3,
     }));
 

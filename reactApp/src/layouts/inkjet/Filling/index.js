@@ -166,7 +166,7 @@ function Tables() {
       type: "UPDATE_TOTAL",
       payload: newTotal,
     });
-  }, [state.data, state.data2, state.data3]);
+  }, [state.data, state.mdata, state.data3]);
 
   useDataFetching({table: `machine_t`, fetchData: fetchData, supabase, dispatch});
   useDataFetching({table: `machine_m`, fetchData: fetchData2, supabase, dispatch});

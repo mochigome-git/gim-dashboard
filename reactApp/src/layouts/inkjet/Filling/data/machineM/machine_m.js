@@ -10,7 +10,15 @@ export const Machine_MData = () => {
       { Header: "date", accessor: "date", width: "1%", Cell: ({ row }) => row.original.created_at.substr(0, 10) },
       { Header: "time", accessor: "time", width: "1%", Cell: ({ row }) => row.original.created_at.substr(11, 11).substr(0, 8) },
       { Header: "sequence", accessor: "counter", width: "1%", align: "left" },
-      { Header: "time to reach 20pa(s)", accessor: "reach_20pa", width: "1%", align: "left" },
+      { Header: "time to reach 20pa(s)", 
+        accessor: "reach_20pa", 
+        width: "1%", 
+        align: "left",
+        Cell: ({ value }) => {
+          const formattedValue = (Number(value) / 10).toFixed(1);
+          return formattedValue;
+        },
+      },
       {
         Header: "Ink temp℃",
         accessor: "ch1_tica1",

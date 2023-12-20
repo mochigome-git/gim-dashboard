@@ -4,15 +4,15 @@ import { DailyContext } from "../../../lib/realtime";
 
 export default function Nk2DailyData() {
 	const [dataPoints, setPoints] = useState([]);
-	const { nk2_output } = useContext(DailyContext);
+	const { nk2 } = useContext(DailyContext);
 
 	useEffect(() => {
-		if (nk2_output) {
+		if (nk2.output) {
 			// Create a map to store the count of d676 for each day
 			const countByDay = {};
 
 			// Loop through the nk2_output data and count d676 for each day
-			nk2_output.forEach((data) => {
+			nk2.output.forEach((data) => {
 				const date = new Date(data.created_at).toDateString(); // Get the date part only
 				if (countByDay[date]) {
 					countByDay[date]++;
@@ -30,7 +30,7 @@ export default function Nk2DailyData() {
 			// Set the data points in the state
 			setPoints(dps);
 		}
-	}, [nk2_output]);
+	}, [nk2.output]);
 
 	return {
 		nk2DailyData: {

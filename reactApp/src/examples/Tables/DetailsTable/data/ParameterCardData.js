@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function ParameterCardData() {
-  const { nk2_detail, nk3_detail } = useContext(DailyContext);
+  const { nk2, nk3 } = useContext(DailyContext);
   const [data, setData] = useState({
     rollnumber: "",
     date: {
@@ -19,9 +19,9 @@ export default function ParameterCardData() {
 
   useEffect(() => {
 
-    // For nk2_detail
-    if ((nk2_detail && nk2_detail.length > 0) || nk2_detail.length === 0) {
-      const filteredDataNk2 = nk2_detail.filter(
+    // For nk2.detail
+    if ((nk2.detail && nk2.detail.length > 0) || nk2.detail.length === 0) {
+      const filteredDataNk2 = nk2.detail.filter(
         item => item.d676 !== undefined && item.d650 !== undefined
       );
 
@@ -51,9 +51,9 @@ export default function ParameterCardData() {
       }
     }
 
-    // For nk3_detail
-    if ((nk3_detail && nk3_detail.length > 0) || nk3_detail.length === 0) {
-      const filteredDataNk3 = nk3_detail.filter(
+    // For nk3.detail
+    if ((nk3.detail && nk3.detail.length > 0) || nk3.detail.length === 0) {
+      const filteredDataNk3 = nk3.detail.filter(
         item => item.d676 !== undefined && item.d650 !== undefined
       );
 
@@ -83,7 +83,7 @@ export default function ParameterCardData() {
       }
     }
 
-  }, [nk2_detail, nk3_detail]);
+  }, [nk2.detail, nk3.detail]);
 
   return {
     data

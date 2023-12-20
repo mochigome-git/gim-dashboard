@@ -3,7 +3,7 @@ import { DailyContext } from "../../../../lib/realtime";
 
 
 export default function IndexData() {
-  const { ij_index_no1 } = useContext(DailyContext);
+  const { ij } = useContext(DailyContext);
   const [formattedJobs, setFormattedJobs] = useState([]);
 
   const formatDate = (dateStr) => {
@@ -37,15 +37,15 @@ export default function IndexData() {
   };
 
   useEffect(() => {
-    if (Array.isArray(ij_index_no1) && ij_index_no1.length > 0) {
+    if (Array.isArray(ij.indexNo1) && ij.indexNo1.length > 0) {
       // Format the job property using the formatDate function
-      const formattedJobs = ij_index_no1.map((item) => ({
+      const formattedJobs = ij.indexNo1.map((item) => ({
         ...item,
         job: formatDate(item.job),
       }));
       setFormattedJobs(formattedJobs);
     }
-  }, [ij_index_no1]);
+  }, [ij.indexNo1]);
 
   return {
     columns: [
@@ -58,7 +58,7 @@ export default function IndexData() {
       { Header: "Setting Hi", accessor: "high", align: "left" },
       { Header: "Setting Lo", accessor: "low", align: "left" },
     ],
-    rows: ij_index_no1.map((item, index) => ({
+    rows: ij.indexNo1.map((item, index) => ({
       ...item,
       job: formattedJobs[index]?.job || item.job,
     })),

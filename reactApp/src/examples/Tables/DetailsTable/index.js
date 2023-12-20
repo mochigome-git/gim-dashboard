@@ -48,7 +48,7 @@ function DetailsTable() {
   const { nk2pressuresensordata } = NK2MAINPressureSensor();
 
   // Data loading
-  const { nk3_detail, nk2_detail, nk3_2u_fibre_sensor, nk2_2u_fibre_sensor } = useContext(DailyContext);
+  const { nk3, nk2 } = useContext(DailyContext);
 
   useEffect(() => {
     let dataToUse = ddata;
@@ -285,7 +285,7 @@ function DetailsTable() {
                   <ChartData
                     fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
                     fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
-                    data={nk2_detail}
+                    data={nk2.detail}
                     divide={10}
                   >
                     {({ ddata }) => (
@@ -309,7 +309,7 @@ function DetailsTable() {
                   <ChartData
                     fieldNames={["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"]}
                     fields={["d608", "d609", "d610", "d611", "d612", "d613", "d614"]}
-                    data={nk3_detail}
+                    data={nk3.detail}
                     divide={10}
                   >
                     {({ ddata }) => (
@@ -338,7 +338,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
                   fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
-                  data={nk2_detail}
+                  data={nk2.detail}
                   divide={10}
                 >
                   {({ ddata }) => (
@@ -362,7 +362,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"]}
                   fields={["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"]}
-                  data={nk3_detail}
+                  data={nk3.detail}
                   divide={10}
                 >
                   {({ ddata }) => (
@@ -390,7 +390,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
                   fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
-                  data={nk2_detail}
+                  data={nk2.detail}
                   divide={10}
                 >
                   {({ ddata }) => (
@@ -412,7 +412,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"]}
                   fields={["d534", "d536", "d538", "d540", "d542", "d544", "d546"]}
-                  data={nk3_detail}
+                  data={nk3.detail}
                   divide={10}
                 >
                   {({ ddata }) => (
@@ -438,7 +438,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["Sensor1"]}
                   fields={["sensor1"]}
-                  data={nk2_2u_fibre_sensor}
+                  data={nk2.fiberSensor2U}
                   divide={0.1}
                 >
                   {({ ddata }) => (
@@ -460,7 +460,7 @@ function DetailsTable() {
                 <ChartData
                   fieldNames={["Sensor1"]}
                   fields={["sensor1"]}
-                  data={nk3_2u_fibre_sensor}
+                  data={nk3.fiberSensor2U}
                   divide={0.1}
                 >
                   {({ ddata }) => (

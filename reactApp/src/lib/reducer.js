@@ -1,13 +1,10 @@
 export const initialState = {
   records: [],
   records2: [],
-  machine_t: [],
   isUpdate: false,
   agoisLoaded: false,
-  codingLatestData: [],
-  machine_tRecords: [],
-  machine_tLatestData: [],
-  machine_tRecordsbyhour: [],
+
+  //COATING
   nk2_index: [],
   nk2_daily: [],
   nk2_output: [],
@@ -32,12 +29,30 @@ export const initialState = {
   nk3_multipledetail: [],
   nk3_multipledetail_5min: [],
   nk3_2u_fibre_sensor: [],
+
+  //INKJET
   ij_latest_weight_no1: [],
   ij_latest_detail_no1: [],
   ij_index_no1: [],
+  codingLatestData: [],
+  //..Machine T
+  machine_t: [],
+  machine_tRecords: [],
+  machine_tLatestData: [],
+  machine_tRecordsbyhour: [],
+  //..MACHINE M
+  machine_m: [],
+  machine_mRecords: [],
+  machine_mLatestData: [],
+  machine_mRecordsbyhour: [], 
+  //PO
   po_vendor: [],
   po_edit_vendor: [],
   po_data: [],
+
+  //ASSEMBLY
   assembly_line1: [],
+
+  //REWINDING
   rewinding_1: [],
 };

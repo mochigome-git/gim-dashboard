@@ -1,22 +1,20 @@
 import { useContext, useState, useEffect } from "react";
 
 // Material Dashboard 2 React example components
-import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
+import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Data
-import machinetDailyChartData from "../../data/machinetDailyChartData"
+import useChartData from "../../data/useIJChartData";
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
 
 export const MachineTDaily = () => {
-  const { tFillingdata } = machinetDailyChartData();
-  const {
-    machine_tRecords,
-  } = useContext(DailyContext);
+  const { machineT } = useContext(DailyContext);
+  const { data } = useChartData(machineT?.records);
   const [ismachinetPositive, setmachinetPositive] = useState();
   const [ismachinetAmount, setmachinetAmount] = useState();
-  const tRecordsDaily = machine_tRecords[0]?.total ?? 0
+  const RecordsDaily = machineT.records[0]?.total ?? 0;
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));
@@ -25,11 +23,11 @@ export const MachineTDaily = () => {
   useEffect(() => {
     setTimeout(() => {
       var machineSum = 0;
-      for (var i = 0; i < machine_tRecords.length; i++) {
-        machineSum += parseInt(machine_tRecords[i].total, 10);
+      for (var i = 0; i < machineT.records.length; i++) {
+        machineSum += parseInt(machineT.records[i].total, 10);
       }
-      const machineAvg = machineSum / machine_tRecords.length;
-      const machinetAmount = relDiff(tRecordsDaily, machineAvg).toFixed(2);
+      const machineAvg = machineSum / machineT.records.length;
+      const machinetAmount = relDiff(RecordsDaily, machineAvg).toFixed(2);
       setmachinetAmount(machinetAmount);
       if (machinetAmount < 0) {
         setmachinetPositive("error");
@@ -37,15 +35,15 @@ export const MachineTDaily = () => {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [machine_tRecords, tRecordsDaily]);
+  }, [machineT.records, RecordsDaily]);
 
   return (
-    <MachineTLineChart
+    <IJMachineLineChart
       color="transparent"
       title="Machine T Output (Daily)"
-      description={tRecordsDaily + " Pcs"}
+      description={RecordsDaily + " Pcs"}
       date=""
-      datasets={tFillingdata}
+      datasets={data}
       percentage={{
         color: ismachinetPositive,
         amount: ismachinetAmount + "%",
@@ -54,13 +52,6 @@ export const MachineTDaily = () => {
       ymax={1200}
     />
   );
-}
+};
 
 export default MachineTDaily;
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 // @mui material components
 
 import { useContext } from "react";
-import { DailyContext } from "../../../../lib/realtime";
+import { DailyContext } from "../../../../../lib/realtime";
 
-export const Machine_t_hour_Data = () => {
-  const { machine_tRecordsbyhour } = useContext(DailyContext);
+export const Machine_m_hour_Data = () => {
+  const { machineM } = useContext(DailyContext);
 
   return {
     columns: [
@@ -12,8 +12,8 @@ export const Machine_t_hour_Data = () => {
       { Header: "quantity", accessor: "total", width: "1%", align: "left" },
     ],
 
-    rows: machine_tRecordsbyhour
+    rows: machineM.recordsByHour
   };
 }
 
-export default Machine_t_hour_Data;
+export default Machine_m_hour_Data;

@@ -1,7 +1,4 @@
-import React, {
-  useReducer,
-  useEffect,
-} from "react";
+import React, { useReducer, useEffect } from "react";
 
 import { supabase } from "../../../lib/supabase";
 
@@ -19,18 +16,18 @@ import {
   ListItemIcon,
   Tooltip,
 } from "@mui/material";
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import ScienceIcon from '@mui/icons-material/Science';
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import ScienceIcon from "@mui/icons-material/Science";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
-import FunctionsIcon from '@mui/icons-material/Functions';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import FunctionsIcon from "@mui/icons-material/Functions";
 
 // Material Dashboard 2 Custom component
 import MDBox from "../../../components/MDBox";
@@ -43,16 +40,26 @@ import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import MDPieChart from "../../../examples/Charts/PieChart";
 
 // Local Components
-import MachineTTimebase from "./components/machine_t_timebase"
-import MachineTHour from "./components/machine_t_hour"
-import MachineTDaily from "./components/machine_t_daily"
-import MachineTgraph from "./components/MachineTgraph"
+import IJTable from "./components/IJTable"
+
+//Data
+import Machine_t_daily_Data from "./data/machineT/machine_t_daily";
+import Machine_t_hour_Data from "./data/machineT/machine_t_hour";
+import Machine_tData from "./data/machineT/machine_t";
+
+import Machine_mData from "./data/machineM/machine_m";
+import Machine_m_daily_Data from "./data/machineM/machine_m_daily";
+import Machine_m_hour_Data from "./data/machineM/machine_m_hour";
+
+// Components from dashboard
+import MachineTgraph from "../../dashboard/components/MachineTgraph";
+import MachineMgraph from "../../dashboard/components/MachineMgraph";
 
 // Api
-import { dataCSV } from "./api"
+import { dataCSV } from "./api";
 
 // Realtime Api
-import { fetchData } from "./realtime/api"
+import { fetchData, fetchData2 } from "./realtime/api";
 import { useDataFetching } from "./realtime";
 
 // Material Dashboard 2 React context
@@ -73,6 +80,15 @@ function Tables() {
   const [tableNames, setTableNames] = React.useState();
   const open = Boolean(anchorEl);
 
+  //Machine T Table Data
+  const { columns: dailyColumnsT, rows: dailyRowsT } = Machine_t_daily_Data();
+  const { columns: hourColumnsT, rows: hourRowsT } = Machine_t_hour_Data();
+  const { columns: detailColumnsT, rows: detailRowsT } = Machine_tData();
+  //Machine M Table Data
+  const { columns: detailColumnsM, rows: detailRowsM } = Machine_mData();
+  const { columns: dailyColumnsM, rows: dailyRowsM } = Machine_m_daily_Data();
+  const { columns: hourColumnsM, rows: hourRowsM } = Machine_m_hour_Data();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,24 +100,24 @@ function Tables() {
     setValue(newValue);
     switch (newValue) {
       case 1:
-        setTableNames(['machine_t'])
-        break
+        setTableNames(["machine_t"]);
+        break;
       case 2:
-        setTableNames(['machine_M'])
-        break
+        setTableNames(["machine_m"]);
+        break;
       case 3:
-        setTableNames(['machine_D'])
-        break
+        setTableNames(["machine_D"]);
+        break;
       case 4:
-        setTableNames(['machine_H'])
-        break
+        setTableNames(["machine_H"]);
+        break;
       case 5:
-        setTableNames(['machine_C'])
-        break
+        setTableNames(["machine_C"]);
+        break;
       default:
         setTableNames([]);
-    };
-  }
+    }
+  };
 
   function a11yProps(index) {
     return {
@@ -111,10 +127,10 @@ function Tables() {
   }
 
   const onDownload = async () => {
-    const formattedDate = dayjs(startdate).format('YYYY-MM-DD HH:mm:ss');
-    const formattedEnddate = dayjs(enddate).format('YYYY-MM-DD HH:mm:ss');
-    const folderName = `machine_t:${formattedDate}~${formattedEnddate}`;
-    dataCSV(formattedDate, formattedEnddate, tableNames, folderName)
+    const formattedDate = dayjs(startdate).format("YYYY-MM-DD");
+    const formattedEnddate = dayjs(enddate).format("YYYY-MM-DD");
+    const folderName = `${tableNames}:${formattedDate}~${formattedEnddate}`;
+    dataCSV(formattedDate, formattedEnddate, tableNames, folderName);
   };
 
   const pietotaldata = {
@@ -122,7 +138,7 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["info", "warning", "success"],
-      data: [state.data, 0, 0],
+      data: [state.data, state.mdata, 0],
     },
   };
 
@@ -130,8 +146,8 @@ function Tables() {
     labels: ["Machine M", "Machine D"],
     datasets: {
       label: "pcs",
-      backgroundColors: ["info", "warning", "success"],
-      data: [0, 0, 0],
+      backgroundColors: ["warning", "info", "success"],
+      data: [state.mdata, 0, 0],
     },
   };
 
@@ -145,14 +161,15 @@ function Tables() {
   };
 
   useEffect(() => {
-    const newTotal = state.data //+ state.data2 + state.data3;
+    const newTotal = state.data + state.mdata //+ state.data2 + state.data3;
     dispatch({
-      type: 'UPDATE_TOTAL',
+      type: "UPDATE_TOTAL",
       payload: newTotal,
     });
   }, [state.data, state.data2, state.data3]);
 
-  useDataFetching({ table: `machine_t`, fetchData: fetchData, supabase, dispatch });
+  useDataFetching({table: `machine_t`, fetchData: fetchData, supabase, dispatch});
+  useDataFetching({table: `machine_m`, fetchData: fetchData2, supabase, dispatch});
 
   return (
     <DashboardLayout>
@@ -161,11 +178,15 @@ function Tables() {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card sx={{ width: "100%" }}>
-              <Grid container spacing={2} sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-              }}>
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
                 <Grid item>
                   <MDBox sx={{ position: "relative" }}>
                     <MDPieChart
@@ -201,7 +222,7 @@ function Tables() {
                       }}
                       iconColor={"warning"}
                       title={"Water-base"}
-                      description={0}
+                      description={state.mdata}
                       height={100}
                       chart={piewaterdata}
                     />
@@ -240,7 +261,6 @@ function Tables() {
           </Grid>
         </Grid>
       </MDBox>
-
 
       <MDBox pt={2} pb={2}>
         <Grid container spacing={6}>
@@ -295,23 +315,25 @@ function Tables() {
                       xs={12}
                       md={2}
                       lg={1}
-                      sx={{ display: "flex", marginLeft: "auto", marginRight: 2 }}
+                      sx={{
+                        display: "flex",
+                        marginLeft: "auto",
+                        marginRight: 2,
+                      }}
                     >
                       <MDBox>
                         <MDButton
                           id="basic-button"
-                          aria-controls={open ? 'basic-menu' : undefined}
+                          aria-controls={open ? "basic-menu" : undefined}
                           aria-haspopup="true"
-                          aria-expanded={open ? 'true' : undefined}
+                          aria-expanded={open ? "true" : undefined}
                           onClick={handleClick}
                           variant="text"
                           disableElevation
                           endIcon={<KeyboardArrowDownIcon />}
                           color={darkMode ? "white" : "dark"}
                         >
-                          <MDTypography variant="body2">
-                            Option
-                          </MDTypography>
+                          <MDTypography variant="body2">Option</MDTypography>
                         </MDButton>
                         <Menu
                           id="basic-menu"
@@ -320,7 +342,7 @@ function Tables() {
                           value={value}
                           onClick={handleClose}
                           MenuListProps={{
-                            'aria-labelledby': 'basic-button',
+                            "aria-labelledby": "basic-button",
                           }}
                         >
                           <MenuItem
@@ -331,11 +353,12 @@ function Tables() {
                             }}
                           >
                             <ListItemIcon>
-                              <ListAltIcon color={darkMode ? "white" : "dark"} fontSize="small" />
+                              <ListAltIcon
+                                color={darkMode ? "white" : "dark"}
+                                fontSize="small"
+                              />
                             </ListItemIcon>
-                            <MDTypography variant="body2">
-                              Details
-                            </MDTypography>
+                            <MDTypography variant="body2">Details</MDTypography>
                           </MenuItem>
 
                           <MenuItem
@@ -346,11 +369,12 @@ function Tables() {
                             }}
                           >
                             <ListItemIcon>
-                              <HourglassBottomIcon color={darkMode ? "white" : "dark"} fontSize="small" />
+                              <HourglassBottomIcon
+                                color={darkMode ? "white" : "dark"}
+                                fontSize="small"
+                              />
                             </ListItemIcon>
-                            <MDTypography variant="body2">
-                              Hours
-                            </MDTypography>
+                            <MDTypography variant="body2">Hours</MDTypography>
                           </MenuItem>
 
                           <MenuItem
@@ -361,13 +385,13 @@ function Tables() {
                             }}
                           >
                             <ListItemIcon>
-                              <DateRangeIcon color={darkMode ? "white" : "dark"} fontSize="small" />
+                              <DateRangeIcon
+                                color={darkMode ? "white" : "dark"}
+                                fontSize="small"
+                              />
                             </ListItemIcon>
-                            <MDTypography variant="body2">
-                              Daily
-                            </MDTypography>
+                            <MDTypography variant="body2">Daily</MDTypography>
                           </MenuItem>
-
                         </Menu>
                       </MDBox>
                     </Grid>
@@ -376,12 +400,18 @@ function Tables() {
                     <Stack direction="row" spacing={-1}>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <MDBox display="flex" alignItems="center">
-                          <MDBox components={['DatePicker', 'DatePicker']} sx={{ mr: 2, p: 1 }}>
+                          <MDBox
+                            components={["DatePicker", "DatePicker"]}
+                            sx={{ mr: 2, p: 1 }}
+                          >
                             <DatePicker
                               label={
                                 <MDBox
                                   sx={{
-                                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                                    color: (theme) =>
+                                      darkMode
+                                        ? theme.palette.white.main
+                                        : theme.palette.dark.main,
                                   }}
                                 >
                                   Start Date
@@ -392,9 +422,11 @@ function Tables() {
                               onChange={(newValue) => setStartDate(newValue)}
                               sx={{
                                 mr: 2,
-                                '& .MuiSvgIcon-root': {
+                                "& .MuiSvgIcon-root": {
                                   color: (theme) =>
-                                    darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                                    darkMode
+                                      ? theme.palette.white.main
+                                      : theme.palette.dark.main,
                                 },
                               }}
                             />
@@ -402,7 +434,10 @@ function Tables() {
                               label={
                                 <MDBox
                                   sx={{
-                                    color: (theme) => darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                                    color: (theme) =>
+                                      darkMode
+                                        ? theme.palette.white.main
+                                        : theme.palette.dark.main,
                                   }}
                                 >
                                   End Date
@@ -413,9 +448,11 @@ function Tables() {
                               onChange={(newValue) => setEndDate(newValue)}
                               sx={{
                                 mr: 2,
-                                '& .MuiSvgIcon-root': {
+                                "& .MuiSvgIcon-root": {
                                   color: (theme) =>
-                                    darkMode ? theme.palette.white.main : theme.palette.dark.main,
+                                    darkMode
+                                      ? theme.palette.white.main
+                                      : theme.palette.dark.main,
                                 },
                               }}
                             />
@@ -449,41 +486,73 @@ function Tables() {
                           <MDBox role="tabpanel" hidden={value !== 0}>
                             {value === 0 && (
                               <MDBox sx={{ p: 3 }}>
-                                <Grid item xs={12} md={6} lg={4}>
-                                  <MachineTgraph />
-                                </Grid>
+                                <MDBox mt={2} mb={2}>
+                                  <Grid container spacing={3}>
+
+                                    <Grid item xs={12} md={6} lg={4}>
+                                      <MachineTgraph />
+                                    </Grid>
+
+                                    <Grid item xs={12} md={6} lg={4}>
+                                      <MachineMgraph />
+                                    </Grid>
+
+                                  </Grid>
+                                </MDBox>
                               </MDBox>
                             )}
                           </MDBox>
                           <MDBox role="tabpanel" hidden={value !== 1}>
                             {value === 1 && (
                               <MDBox sx={{ p: 3 }}>
-                                {_value === 0 && <MachineTTimebase />}
-                                {_value === 1 && <MachineTHour />}
-                                {_value === 2 && <MachineTDaily />}
+                                {_value === 0 && <IJTable
+                                  title_en="Machine T timebase with details"
+                                  title_jp="充填実績・詳細"
+                                  columns={detailColumnsT}
+                                  rows={detailRowsT}
+                                />}
+                                {_value === 1 && <IJTable
+                                  title_en="Machine T output by hour"
+                                  title_jp="時間別充填実績"
+                                  columns={hourColumnsT}
+                                  rows={hourRowsT}
+                                />}
+                                {_value === 2 && <IJTable
+                                  title_en="Machine T daily output"
+                                  title_jp="日間充填実績"
+                                  columns={dailyColumnsT}
+                                  rows={dailyRowsT}
+                                />}
                               </MDBox>
                             )}
                           </MDBox>
                           <MDBox role="tabpanel" hidden={value !== 2}>
-                            {value === 2 && (
-                              <MDBox sx={{ p: 3 }}>
-                                Tab 3
-                              </MDBox>
-                            )}
+                            {value === 2 && <MDBox sx={{ p: 3 }}>
+                              {_value === 0 && <IJTable
+                                title_en="Machine M timebase with details"
+                                title_jp="充填実績・詳細"
+                                columns={detailColumnsM}
+                                rows={detailRowsM}
+                              />}
+                              {_value === 1 && <IJTable
+                                title_en="Machine M output by hour"
+                                title_jp="時間別充填実績"
+                                columns={hourColumnsM}
+                                rows={hourRowsM}
+                              />}
+                              {_value === 2 && <IJTable
+                                title_en="Machine M daily output"
+                                title_jp="日間充填実績"
+                                columns={dailyColumnsM}
+                                rows={dailyRowsM}
+                              />}
+                            </MDBox>}
                           </MDBox>
                           <MDBox role="tabpanel" hidden={value !== 3}>
-                            {value === 3 && (
-                              <MDBox sx={{ p: 3 }}>
-                                Tab 4
-                              </MDBox>
-                            )}
+                            {value === 3 && <MDBox sx={{ p: 3 }}>Tab 4</MDBox>}
                           </MDBox>
                           <MDBox role="tabpanel" hidden={value !== 4}>
-                            {value === 4 && (
-                              <MDBox sx={{ p: 3 }}>
-                                Tab 5
-                              </MDBox>
-                            )}
+                            {value === 4 && <MDBox sx={{ p: 3 }}>Tab 5</MDBox>}
                           </MDBox>
                         </MDBox>
                       </MDBox>
@@ -494,13 +563,12 @@ function Tables() {
             </Card>
           </Grid>
         </Grid>
-      </MDBox >
+      </MDBox>
 
       <MDBox pt={6} pb={3}>
-        <Grid container spacing={6}>
-        </Grid>
+        <Grid container spacing={6}></Grid>
       </MDBox>
-    </DashboardLayout >
+    </DashboardLayout>
   );
 }
 

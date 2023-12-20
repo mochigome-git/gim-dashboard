@@ -1,28 +1,20 @@
 import { useContext, useState, useEffect } from "react";
 
-import Card from '@mui/material/Card';
-
-// Material Dashboard 2 React components
-import MDBox from "../../../../components/MDBox";
-import MDTypography from "../../../../components/MDTypography";
-
 // Material Dashboard 2 React example components
-//import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
+import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Data
-//import machinetDailyChartData from "../../data/machinetDailyChartData"
+import useChartData from "../../data/useIJChartData";
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
 
 export const MachineMDaily = () => {
-  // const { tFillingdata } = machinetDailyChartData();
-  const {
-    machine_tRecords,
-  } = useContext(DailyContext);
-  const [/*ismachinetPositive*/, setmachinetPositive] = useState();
-  const [/*ismachinetAmount*/, setmachinetAmount] = useState();
-  const tRecordsDaily = machine_tRecords[0]?.total ?? 0
+  const { machineM } = useContext(DailyContext);
+  const { data } = useChartData(machineM?.records);
+  const [ismachinetPositive, setmachinetPositive] = useState();
+  const [ismachinetAmount, setmachinetAmount] = useState();
+  const RecordsDaily = machineM.records[0]?.total ?? 0;
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));
@@ -31,11 +23,11 @@ export const MachineMDaily = () => {
   useEffect(() => {
     setTimeout(() => {
       var machineSum = 0;
-      for (var i = 0; i < machine_tRecords.length; i++) {
-        machineSum += parseInt(machine_tRecords[i].total, 10);
+      for (var i = 0; i < machineM.records.length; i++) {
+        machineSum += parseInt(machineM.records[i].total, 10);
       }
-      const machineAvg = machineSum / machine_tRecords.length;
-      const machinetAmount = relDiff(tRecordsDaily, machineAvg).toFixed(2);
+      const machineAvg = machineSum / machineM.records.length;
+      const machinetAmount = relDiff(RecordsDaily, machineAvg).toFixed(2);
       setmachinetAmount(machinetAmount);
       if (machinetAmount < 0) {
         setmachinetPositive("error");
@@ -43,39 +35,23 @@ export const MachineMDaily = () => {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [machine_tRecords, tRecordsDaily]);
-
-
+  }, [machineM.records, RecordsDaily]);
 
   return (
-    <MDBox>
-      <Card sx={{ minHeight: 350, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <MDTypography component="div" variant="caption" color="text2" fontWeight="light" >
-          Machine M Upcoming Soon
-          {/* <MachineTLineChart
+    <IJMachineLineChart
       color="transparent"
       title="Machine M Output (Daily)"
-      description={0 + " Pcs"}
+      description={RecordsDaily + " Pcs"}
       date=""
-      datasets={tFillingdata}
+      datasets={data}
       percentage={{
         color: ismachinetPositive,
         amount: ismachinetAmount + "%",
         label: "than Average",
       }}
       ymax={1200}
-    /> */}
-        </MDTypography>
-      </Card>
-    </MDBox>
+    />
   );
-}
+};
 
 export default MachineMDaily;
-
-
-
-
-
-
-

@@ -2,17 +2,17 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function Nk3DChartData() {
-  const { nk3_detail } = useContext(DailyContext);
+  const { nk3 } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    if ((nk3_detail && nk3_detail.length > 0) || nk3_detail.length === 0) {
-      const newSortedData = [...nk3_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    if ((nk3.detail && nk3.detail.length > 0) || nk3.detail.length === 0) {
+      const newSortedData = [...nk3.detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
       }
     }
-  }, [nk3_detail, sortedData]);
+  }, [nk3.detail, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

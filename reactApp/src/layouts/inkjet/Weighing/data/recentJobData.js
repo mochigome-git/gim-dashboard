@@ -3,7 +3,7 @@ import { DailyContext } from "../../../../lib/realtime";
 
 
 export default function Data() {
-  const { ij_latest_weight_no1, ij_latest_detail_no1 } = useContext(DailyContext);
+  const { ij } = useContext(DailyContext);
   const [job, setJob] = useState([]);
   const [time, setTime] = useState([]);
   const [detail, setJobByDetail] = useState([]);
@@ -43,11 +43,11 @@ export default function Data() {
   };
 
   useEffect(() => {
-    if (Array.isArray(ij_latest_weight_no1) && ij_latest_weight_no1.length > 0) {
-      setJob(formatDate(ij_latest_weight_no1[0]?.job));
+    if (Array.isArray(ij.latestWeightNo1) && ij.latestWeightNo1.length > 0) {
+      setJob(formatDate(ij.latestWeightNo1[0]?.job));
       setTime(
-        ij_latest_weight_no1[0]?.created_at &&
-          new Date(ij_latest_weight_no1[0]?.created_at).toLocaleString('en-US', {
+        ij.latestWeightNo1[0]?.created_at &&
+          new Date(ij.latestWeightNo1[0]?.created_at).toLocaleString('en-US', {
             hour: 'numeric',
             minute: 'numeric',
             second: 'numeric',
@@ -55,11 +55,11 @@ export default function Data() {
           })
       );
     }
-  }, [ij_latest_weight_no1]);
+  }, [ij.latestWeightNo1]);
 
   useEffect(() => {
-    setJobByDetail(ij_latest_detail_no1);
-  }, [ij_latest_detail_no1]);
+    setJobByDetail(ij.latestDetailNo1);
+  }, [ij.latestDetailNo1]);
 
   useEffect(() => {
     if (Array.isArray(detail) && detail.length > 0) {

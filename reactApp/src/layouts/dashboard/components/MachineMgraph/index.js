@@ -37,11 +37,11 @@ export const MachineMgraph = () => {
     >
       <MenuItem onClick={() => handlePress('MTD')}>
         <Switch checked={isMTDVisible} />
-        {'Machine T daily'}
+        {'Machine M daily'}
       </MenuItem>
       <MenuItem onClick={() => handlePress('MTH')}>
         <Switch checked={isMTHVisible} />
-        {'Machine T hour'}
+        {'Machine M hour'}
       </MenuItem>
     </Menu>
   );

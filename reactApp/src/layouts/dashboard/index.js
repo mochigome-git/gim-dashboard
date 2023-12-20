@@ -32,21 +32,12 @@ import MachineMgraph from "./components/MachineMgraph";
 // Realtime data
 import { DailyContext } from "../../lib/realtime";
 
-
 function Dashboard() {
   const { codingDailydata } = ReportsBarChartData();
   const { nk2DailyData } = Nk2DailyData();
   const { assemblydata } = AssemblyDaily();
   const { rewinding_1data } = RewindingDaily();
-  const {
-    CodingLatestData,
-    records,
-    nk2_daily,
-    nk2_index,
-    ij_index_no1,
-    assembly_line1,
-    rewinding_1,
-  } = useContext(DailyContext);
+  const { records, nk2, ij, assembly, rewinding } = useContext(DailyContext);
   const [isPositive, setPositive] = useState();
   const [isnk2Positive, setnk2Positive] = useState();
   const [isassemblyPostive, setassemblyPositive] = useState();
@@ -74,13 +65,13 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    if (nk2_daily && nk2_index) {
+    if (nk2.daily && nk2.index) {
       let redCount = 0;
       let yellowCount = 0;
       let orangeCount = 0;
       let totalSum = 0;
 
-      nk2_daily.forEach((item) => {
+      nk2.daily.forEach((item) => {
         const d676Value = item.d676;
         totalSum += d676Value;
         if (d676Value < 1000) {
@@ -92,8 +83,8 @@ function Dashboard() {
         }
       });
 
-      const greenCount = nk2_daily.length - redCount - yellowCount - orangeCount;
-      const goodRate = ((greenCount + yellowCount) / nk2_daily.length * 100).toFixed(1);
+      const greenCount = nk2.daily.length - redCount - yellowCount - orangeCount;
+      const goodRate = ((greenCount + yellowCount) / nk2.daily.length * 100).toFixed(1);
       setNk2RollGroups({
         nk2Roll_red: redCount,
         nk2Roll_orange: orangeCount,
@@ -108,7 +99,7 @@ function Dashboard() {
       let overallSum = 0;
       let overallCount = 0;
 
-      nk2_index.forEach((item) => {
+      nk2.index.forEach((item) => {
         const date = item.created_at.split('T')[0];
 
         if (dailyAverages[date]) {
@@ -142,7 +133,7 @@ function Dashboard() {
         setnk2Positive("success");
       }
     }
-  }, [nk2_daily, nk2_index]);
+  }, [nk2.daily, nk2.index]);
 
 
   useEffect(() => {
@@ -155,7 +146,7 @@ function Dashboard() {
       function relDiff(a, b) {
         return 100 * ((a - b) / ((a + b) / 2));
       }
-      const codingAmount = relDiff(CodingLatestData, avg).toFixed(2);
+      const codingAmount = relDiff(ij.codingLatestData, avg).toFixed(2);
       setcodingAmount(codingAmount);
       if (codingAmount < 0) {
         setPositive("error");
@@ -163,10 +154,10 @@ function Dashboard() {
         setPositive("success");
       }
     }, 20);
-  }, [records, CodingLatestData]);
+  }, [records, ij.codingLatestData]);
 
   useEffect(() => {
-    if (ij_index_no1) {
+    if (ij.indexNo1) {
       // Get the current date
       const currentDate = new Date();
 
@@ -186,7 +177,7 @@ function Dashboard() {
         return 100 * ((a - b) / ((a + b) / 2));
       }
 
-      ij_index_no1.forEach((item) => {
+      ij.indexNo1.forEach((item) => {
         const createdAtDate = new Date(item.created_at);
 
         if (createdAtDate >= currentWeekStart && createdAtDate < currentDate) {
@@ -210,16 +201,16 @@ function Dashboard() {
         ijCount_lastWeek: lastWeekTotal,
       });
     }
-  }, [ij_index_no1]);
+  }, [ij.indexNo1]);
 
   useEffect(() => {
     setTimeout(() => {
-      const LatestData = assembly_line1[0]?.total_count
+      const LatestData = assembly.line1[0]?.total_count
       var sum = 0;
-      for (var i = 0; i < assembly_line1.length; i++) {
-        sum += parseInt(assembly_line1[i]?.total_count, 10);
+      for (var i = 0; i < assembly.line1.length; i++) {
+        sum += parseInt(assembly.line1[i]?.total_count, 10);
       }
-      const avg = sum / assembly_line1.length;
+      const avg = sum / assembly.line1.length;
       function relDiff(a, b) {
         return 100 * ((a - b) / ((a + b) / 2));
       }
@@ -231,16 +222,16 @@ function Dashboard() {
         setassemblyPositive("success");
       }
     }, 20);
-  }, [assembly_line1]);
+  }, [assembly.line1]);
 
   useEffect(() => {
     setTimeout(() => {
-      const LatestData = rewinding_1[0]?.total_count
+      const LatestData = rewinding.m1[0]?.total_count
       var sum = 0;
-      for (var i = 0; i < rewinding_1.length; i++) {
-        sum += parseInt(rewinding_1[i]?.total_count, 10);
+      for (var i = 0; i < rewinding.m1.length; i++) {
+        sum += parseInt(rewinding.m1[i]?.total_count, 10);
       }
-      const avg = sum / rewinding_1.length;
+      const avg = sum / rewinding.m1.length;
       function relDiff(a, b) {
         return 100 * ((a - b) / ((a + b) / 2));
       }
@@ -252,7 +243,7 @@ function Dashboard() {
         setrewindingPositive("success");
       }
     }, 20);
-  }, [rewinding_1]);
+  }, [rewinding.m1]);
 
   return (
     <DashboardLayout>
@@ -265,7 +256,7 @@ function Dashboard() {
                 color="dark"
                 icon={<LocalShippingIcon />}
                 title="Inkjet Packaging"
-                count={ijPackagingGroups.ijCount_thisWeek}
+                count={ijPackagingGroups.ijCount_thisWeek || 0}
                 unit={"boxes"}
                 percentage={{
                   color: isPackagingPositive,
@@ -365,7 +356,7 @@ function Dashboard() {
                 <ReportsBarChart
                   color="transparent"
                   title="Assembly Line Output"
-                  description={assembly_line1[0]?.total_count + " Rolls"}
+                  description={assembly.line1[0]?.total_count + " Rolls"}
                   date=""
                   datasets={assemblydata}
                   percentage={{
@@ -383,7 +374,7 @@ function Dashboard() {
                 <ReportsBarChart
                   color="transparent"
                   title="Coding Output (書き込み)"
-                  description={CodingLatestData + " Pcs"}
+                  description={ij.codingLatestData + " Pcs"}
                   date=""
                   datasets={codingDailydata}
                   percentage={{
@@ -400,7 +391,7 @@ function Dashboard() {
                 <ReportsBarChart
                   color="transparent"
                   title="Rewinding Output(M1)"
-                  description={rewinding_1[0]?.total_count + " Rolls"}
+                  description={rewinding.m1[0]?.total_count + " Rolls"}
                   date=""
                   datasets={rewinding_1data}
                   percentage={{

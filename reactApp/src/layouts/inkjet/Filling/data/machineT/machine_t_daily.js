@@ -1,10 +1,10 @@
 // @mui material components
 
 import { useContext } from "react";
-import { DailyContext } from "../../../../lib/realtime";
+import { DailyContext } from "../../../../../lib/realtime";
 
 export const Machine_t_daily_Data = () => {
-  const { machine_tRecords } = useContext(DailyContext);
+  const { machineT } = useContext(DailyContext);
 
   return {
     columns: [
@@ -13,7 +13,7 @@ export const Machine_t_daily_Data = () => {
       { Header: "quantity", accessor: "total", width: "1%", align: "left" },
     ],
 
-    rows: machine_tRecords
+    rows: machineT.records
   };
 }
 

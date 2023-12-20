@@ -25,7 +25,7 @@ function createChartOptions(datasets, ymax) {
   }
 }
 
-function MachineTLineChart({ color, title, description, date, percentage, datasets, ymax }) {
+function IJMachineLineChart({ color, title, description, date, percentage, datasets, ymax }) {
   const [controller] = useMaterialUIController();
   const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymax), [datasets, ymax])(controller);
 
@@ -89,7 +89,7 @@ function MachineTLineChart({ color, title, description, date, percentage, datase
 }
 
 // Setting default values for the props of ReportsBarChart
-MachineTLineChart.defaultProps = {
+IJMachineLineChart.defaultProps = {
   color: "dark",
   description: "",
   percentage: {
@@ -100,7 +100,7 @@ MachineTLineChart.defaultProps = {
 };
 
 // Typechecking props for the ReportsBarChart
-MachineTLineChart.propTypes = {
+IJMachineLineChart.propTypes = {
   color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark", "transparent"]),
   //title: PropTypes.string.isRequired,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -123,4 +123,4 @@ MachineTLineChart.propTypes = {
 };
 
 
-export default MachineTLineChart;
+export default IJMachineLineChart;

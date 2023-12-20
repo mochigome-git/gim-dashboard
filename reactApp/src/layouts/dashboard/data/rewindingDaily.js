@@ -4,11 +4,11 @@ import { DailyContext } from "../../../lib/realtime";
 
 export default function AssemblyDaily() {
 	const [dataPoints, setPoints] = useState([]);
-	const { rewinding_1 } = useContext(DailyContext);
+	const { rewinding } = useContext(DailyContext);
 
 	useEffect(() => {
 		const theRecords = new Promise((resolve) => {
-			resolve(rewinding_1);
+			resolve(rewinding.m1);
 		});
 		//Reference: https://reactjs.org/docs/faq-ajax.html#example-using-ajax-results-to-set-local-state
 		theRecords
@@ -24,7 +24,7 @@ export default function AssemblyDaily() {
 					setPoints(dps);
 				}
 			)
-	}, [rewinding_1]);
+	}, [rewinding.m1]);
 
 	return {
 		rewinding_1data: {

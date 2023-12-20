@@ -2,12 +2,12 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function NK24UFibreSensor() {
-  const { nk2_4u_fibre_sensor } = useContext(DailyContext);
+  const { nk2 } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await nk2_4u_fibre_sensor;
+      const data = await nk2.fiberSensor4U;
 
       if ((data && data.length > 0) || data.length === 0) {
         const newSortedData = [...data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
@@ -18,7 +18,7 @@ export default function NK24UFibreSensor() {
     };
 
     fetchData();
-  }, [nk2_4u_fibre_sensor, sortedData]);
+  }, [nk2.fiberSensor4U, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

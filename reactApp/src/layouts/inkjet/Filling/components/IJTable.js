@@ -1,6 +1,7 @@
+import React, { useMemo } from "react";
+
 // @mui material components
 import DoneIcon from '@mui/icons-material/Done';
-
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -9,21 +10,16 @@ import MDTypography from "../../../../components/MDTypography";
 // Material Dashboard 2 React examples
 import DataTable from "../../../../examples/Tables/DataTable";
 
-// Data
-import Machine_tData from "../data/machine_t";
-
-export const MachineTTimebase = () => {
-  const { columns, rows } = Machine_tData();
-
+export const IJTable = ({ title_en, title_jp, columns, rows }) => {
   return (
     <MDBox sx={{ width: 'auto' }}>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <MDBox>
           <MDTypography variant="h6" gutterBottom>
-            Machine T time base
+            {title_en}
           </MDTypography>
           <MDTypography variant="h6" gutterBottom>
-            充填実績・詳細
+            {title_jp}
             <DoneIcon sx={{
               fontWeight: "bold",
               color: ({ palette: { info } }) => info.main,
@@ -49,4 +45,4 @@ export const MachineTTimebase = () => {
   );
 }
 
-export default MachineTTimebase;
+export default IJTable;

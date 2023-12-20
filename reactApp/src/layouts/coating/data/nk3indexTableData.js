@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { DailyContext } from "../../../lib/realtime";
 
 export default function Nk3IndexTableData() {
-  const { nk3_index } = useContext(DailyContext);
+  const { nk3 } = useContext(DailyContext);
   
   return {
     columns: [
@@ -14,7 +14,7 @@ export default function Nk3IndexTableData() {
       { Header: "widing length", accessor: "d676", align: "left" },
     ],
 
-    rows: nk3_index
+    rows: nk3.index
   };
 }
 

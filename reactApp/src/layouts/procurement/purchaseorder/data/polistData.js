@@ -10,18 +10,18 @@ import { DailyContext } from "../../../../lib/realtime";
 import { hashCode } from "../utility";
 
 export default function POIndexTableData() {
-  const { po_vendor, po_data } = useContext(DailyContext);
-  const allCount = po_data?.length;
-  const draftCount = po_data.filter((item) => item.status === "Darft").length;
-  const paidCount = po_data.filter((item) => item.status === "Paid").length;
-  const pendingCount = po_data.filter(
+  const { po } = useContext(DailyContext);
+  const allCount = po.data?.length;
+  const draftCount = po.data.filter((item) => item.status === "Darft").length;
+  const paidCount = po.data.filter((item) => item.status === "Paid").length;
+  const pendingCount = po.data.filter(
     (item) => item.status === "Pending"
   ).length;
-  const overdueCount = po_data.filter(
+  const overdueCount = po.data.filter(
     (item) => item.status === "Overdue"
   ).length;
   const findCompanyNameById = (id) => {
-    const vendor = po_vendor.find((item) => item.id === id);
+    const vendor = po.vendor.find((item) => item.id === id);
     return vendor ? vendor : "N/A";
   };
 
@@ -165,7 +165,7 @@ export default function POIndexTableData() {
     { Header: "Description", accessor: "description", align: "right" },
   ];
 
-  const rows = po_data.map((dataItem) => {
+  const rows = po.data.map((dataItem) => {
     // Find the sectionObject for the current dataItem
     const sectionObject = dataItem.description.find((item) => item.section);
     const sectionDescriptions = dataItem.description.find(

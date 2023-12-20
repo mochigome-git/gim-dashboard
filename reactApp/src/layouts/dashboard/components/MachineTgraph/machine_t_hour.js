@@ -1,29 +1,27 @@
 import { useContext, useState, useEffect } from "react";
 
 // Material Dashboard 2 React example components
-import MachineTLineChart from "../../../../examples/Charts/BarCharts/MachineTLineChart";
+import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
 
 export const MachineTHour = () => {
-  const {
-    machine_tRecordsbyhour,
-  } = useContext(DailyContext);
+  const { machineT } = useContext(DailyContext);
   const [ismachinetPositive, setmachinetPositive] = useState();
   const [ismachinetAmount, setmachinetAmount] = useState();
-  const tRecordsDaily = machine_tRecordsbyhour[0]?.total ?? 0
+  const tRecordsDaily = machineT.recordsByHour[0]?.total ?? 0;
 
   function transformData(inputData) {
     const eightAmToday = new Date(new Date().setHours(8, 0, 0, 0)).getTime();
     const eightPmToday = new Date(new Date().setHours(20, 0, 0, 0)).getTime();
 
     const filteredData = inputData
-      .filter(item => {
+      .filter((item) => {
         const timestamp = new Date(item.insertdate).getTime();
         return timestamp >= eightAmToday && timestamp <= eightPmToday;
       })
-      .map(item => {
+      .map((item) => {
         const timestamp = new Date(item.insertdate).getTime();
         return { x: timestamp, y: item.total };
       });
@@ -31,7 +29,7 @@ export const MachineTHour = () => {
     return { datasets: { data: filteredData } };
   }
 
-  const transformedData = transformData(machine_tRecordsbyhour);
+  const transformedData = transformData(machineT.recordsByHour);
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));
@@ -40,7 +38,7 @@ export const MachineTHour = () => {
   useEffect(() => {
     setTimeout(() => {
       var machineSum = 0;
-      var data = machine_tRecordsbyhour;
+      var data = machineT.recordsByHour;
       for (var i = 0; i < data.length; i++) {
         machineSum += parseInt(data[i].total, 10);
       }
@@ -53,10 +51,10 @@ export const MachineTHour = () => {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [machine_tRecordsbyhour, tRecordsDaily]);
+  }, [machineT.recordsByHour, tRecordsDaily]);
 
   return (
-    <MachineTLineChart
+    <IJMachineLineChart
       color="transparent"
       title="Machine T Output (Hour)"
       description={tRecordsDaily + " Pcs"}
@@ -70,13 +68,6 @@ export const MachineTHour = () => {
       ymax={null}
     />
   );
-}
+};
 
 export default MachineTHour;
-
-
-
-
-
-
-

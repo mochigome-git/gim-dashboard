@@ -195,17 +195,17 @@ function Tables() {
   );
 
   useEffect(() => {
-    if (dailyContext.po_edit_vendor[0] && currentType) {
+    if (dailyContext.po.editVendor[0] && currentType) {
       const timer = setTimeout(() => {
         dispatch({
           type: currentType === "FROM" ? "SET_FROM" : "SET_TO",
-          payload: dailyContext.po_edit_vendor[0],
+          payload: dailyContext.po.editVendor[0],
         });
       }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [dailyContext.po_edit_vendor, currentType]);
+  }, [dailyContext.po.editVendor, currentType]);
 
   return (
     <CreatePoLayout>

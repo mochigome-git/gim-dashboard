@@ -7,6 +7,7 @@ import {
   fetchMachineTData,
   fetchIJWeightRecord,
   fetchIJWeightDetail,
+  fetchMachineMData,
 } from "./api/inkjet";
 import {
   fetchNk2Index,
@@ -48,22 +49,30 @@ const DailyProvider = ({ children }) => {
   };
 
   // initial fetch Data
-  useEffect(() => {
-    fetchNk2Index(setState);
-    fetchCodingData(setState);
-    fetchMachineTData(setState);
-    fetchNk2Details(setState, state);
-    fetchNk3Index(setState);
-    fetchIJWeightRecord(setState);
-    fetchIJWeightDetail(setState, state);
-    fetchPo(setState);
-    editPoVendor(setState, state);
-    fetchPoData(setState);
-    fetchAssemblyData(setState);
-    fetchRewindingData(setState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const fetchData = async () => {
+    await Promise.all([
+      //COATING
+      fetchNk2Index,
+      fetchNk2Details,
+      fetchNk3Index,
+      //INKET
+      fetchCodingData,
+      fetchMachineTData,
+      fetchMachineMData,
+      fetchIJWeightRecord,
+      fetchIJWeightDetail,
+      //ASSEMBLY
+      fetchAssemblyData,
+      //REWINDING
+      fetchRewindingData,
+      //PO
+      fetchPo,
+      editPoVendor,
+      fetchPoData,
+    ].map(async (fetchFunction) => {
+      await fetchFunction(setState, state);
+    }));
+  };
 
   //injket/weight
   useEffect(() => {
@@ -91,133 +100,42 @@ const DailyProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.detailsData]);
 
-  //coating/multiple.detail
-  //useEffect(() => {
-  //  const fetchmultipleDetails = async () => {
-  //    //await fetchNK2MultipleDetails(setState, state);
-  //    await fetchNK3MultipleDetails(setState, state);
-  //  };
-  //
-  //  if (state.multipledetailsData) {
-  //    fetchmultipleDetails();
-  //  }
-  //}, [state.multipledetailsData]);
-
   useEffect(() => {
-    const poSystemSubscription = supabase
-      .channel("public:po_system")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "po_system" },
-        (payload) => {
-          fetchPoData(setState, state);
-        }
-      )
-      .subscribe();
+    //initial fetchData
+    fetchData();
+    const subscribeToChannel = (channel, table, callback) => {
+      return supabase
+        .channel(`public:${channel}`)
+        .on("postgres_changes", { event: "*", schema: "public", table }, callback)
+        .subscribe();
+    };
 
-    const recordsSubscription = supabase
-      .channel("public:records")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "records" },
-        (payload) => {
-          fetchCodingData(setState);
-          Go();
-          setState((prevState) => ({ ...prevState, isUpdate: moment.now() }));
-        }
-      )
-      .subscribe();
+    const setupSubscription = (channel, table, callback) => {
+      return subscribeToChannel(channel, table, (payload) => {
+        callback(setState);
+      });
+    };
 
-    const machineTSubscription = supabase
-      .channel("public:machine_t")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "machine_t" },
-        (payload) => {
-          fetchMachineTData(setState);
-          //console.log(payload)
-        }
-      )
-      .subscribe();
-
-    const nk2indexSubscription = supabase
-      .channel("public:nk2_log_data_storage")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "nk2_log_data_storage" },
-        (payload) => {
-          fetchNk2Index(setState);
-          //console.log(payload)
-        }
-      )
-      .subscribe();
-
-    const nk3indexSubscription = supabase
-      .channel("public:nk3_log_data_storage")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "nk3_log_data_storage" },
-        (payload) => {
-          fetchNk3Index(setState);
-        }
-      )
-      .subscribe();
-
-    const weightrecordsSubscription = supabase
-      .channel("public:ij_pkg_weight_records")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "ij_pkg_weight_records" },
-        (payload) => {
-          fetchIJWeightRecord(setState);
-        }
-      )
-      .subscribe();
-
-    const posystemSubscription = supabase
-      .channel("public:po_system_vendor")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "po_system_vendor" },
-        (payload) => {
-          fetchPo(setState);
-        }
-      )
-      .subscribe();
-
-    const assemblycountsSubscription = supabase
-      .channel("public:assembly_line_count")
-      .on(
-        "postgres_changes",
-        { event: "*", shcema: "public", table: "assembly_line_count" },
-        (payload) => {
-          fetchAssemblyData(setState);
-        }
-      )
-      .subscribe();
-
-    const rewindingcountsSubscription = supabase
-      .channel("public:rewinding_count")
-      .on(
-        "postgres_changes",
-        { event: "*", shcema: "public", table: "rewinding_count" },
-        (payload) => {
-          fetchRewindingData(setState);
-        }
-      )
-      .subscribe();
-
+    const subscriptions = [
+      setupSubscription("po_system", "po_system", fetchPoData),
+      setupSubscription("records", "records", () => {
+        fetchCodingData(setState);
+        Go();
+        setState((prevState) => ({ ...prevState, isUpdate: moment.now() }));
+      }),
+      setupSubscription("machine_t", "machine_t", fetchMachineTData),
+      setupSubscription("machine_m", "machine_m", fetchMachineMData),
+      setupSubscription("nk2_log_data_storage", "nk2_log_data_storage", fetchNk2Index),
+      setupSubscription("nk3_log_data_storage", "nk3_log_data_storage", fetchNk3Index),
+      setupSubscription("ij_pkg_weight_records", "ij_pkg_weight_records", fetchIJWeightRecord),
+      setupSubscription("po_system_vendor", "po_system_vendor", fetchPo),
+      setupSubscription("assembly_line_count", "assembly_line_count", fetchAssemblyData),
+      setupSubscription("rewinding_count", "rewinding_count", fetchRewindingData),
+    ];
     return () => {
       supabase.removeChannel(state.subscription);
-      recordsSubscription.unsubscribe();
-      machineTSubscription.unsubscribe();
-      nk2indexSubscription.unsubscribe();
-      nk3indexSubscription.unsubscribe();
-      weightrecordsSubscription.unsubscribe();
-      posystemSubscription.unsubscribe();
-      poSystemSubscription.unsubscribe();
-      assemblycountsSubscription.unsubscribe();
-      rewindingcountsSubscription.unsubscribe();
+      subscriptions.forEach((subscription) => subscription.unsubscribe());
+      supabase.removeAllChannels();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -225,51 +143,71 @@ const DailyProvider = ({ children }) => {
   return (
     <DailyContext.Provider
       value={{
+        // General data
         records: state.records,
         records2: state.records2,
         isUpdate: state.isUpdate,
         agoisLoaded: state.agoisLoaded,
-        CodingLatestData: state.codingLatestData,
-        machine_t: state.machine_t,
-        machine_tRecords: state.machine_tRecords,
-        machine_tLatestData: state.machine_tLatestData,
-        machine_tRecordsbyhour: state.machine_tRecordsbyhour,
-        nk2_index: state.nk2_index,
-        nk2_daily: state.nk2_daily,
-        nk2_output: state.nk2_output,
         setDetailsData,
-        //NK2
-        ...(state.nk2_detail && { nk2_detail: state.nk2_detail }),
-        ...(state.nk2_4u_fibre_sensor && {
-          nk2_4u_fibre_sensor: state.nk2_4u_fibre_sensor,
-        }),
-        ...(state.nk2_main_pressure_sensor && {
-          nk2_main_pressure_sensor: state.nk2_main_pressure_sensor,
-        }),
-        setMultipleDetailsData,
-        ...(state.nk2_2u_fibre_sensor && {
-          nk2_2u_fibre_sensor: state.nk2_2u_fibre_sensor,
-        }),
 
-        //NK3
-        nk3_index: state.nk3_index,
-        ...(state.nk3_detail && { nk3_detail: state.nk3_detail }),
-        ...(state.nk3_2u_fibre_sensor && {
-          nk3_2u_fibre_sensor: state.nk3_2u_fibre_sensor,
-        }),
+        // NK2 data
+        nk2: {
+          index: state.nk2_index,
+          daily: state.nk2_daily,
+          output: state.nk2_output,
+          detail: state.nk2_detail,
+          fiberSensor4U: state.nk2_4u_fibre_sensor,
+          mainPressureSensor: state.nk2_main_pressure_sensor,
+          fiberSensor2U: state.nk2_2u_fibre_sensor,
+        },
 
-        //IJ
-        ij_latest_weight_no1: state.ij_latest_weight_no1,
-        ij_latest_detail_no1: state.ij_latest_detail_no1,
-        ij_index_no1: state.ij_index_no1,
-        //PO
-        ...(state.po_vendor && { po_vendor: state.po_vendor }),
-        ...(state.po_edit_vendor && { po_edit_vendor: state.po_edit_vendor }),
-        po_data: state.po_data,
-        //Assembly
-        ...(state.assembly_line1 && { assembly_line1: state.assembly_line1 }),
-        //Rewinding
-        ...(state.rewinding_1 && { rewinding_1: state.rewinding_1 }),
+        // NK3 data
+        nk3: {
+          index: state.nk3_index,
+          detail: state.nk3_detail,
+          fiberSensor2U: state.nk3_2u_fibre_sensor,
+        },
+
+        // IJ data
+        ij: {
+          latestWeightNo1: state.ij_latest_weight_no1,
+          latestDetailNo1: state.ij_latest_detail_no1,
+          indexNo1: state.ij_index_no1,
+          codingLatestData: state.codingLatestData,
+        },
+
+        // Machine T data
+        machineT: {
+          data: state.machine_t,
+          records: state.machine_tRecords,
+          latestData: state.machine_tLatestData,
+          recordsByHour: state.machine_tRecordsbyhour,
+        },
+
+        // Machine M data
+        machineM: {
+          data: state.machine_m,
+          records: state.machine_mRecords,
+          latestData: state.machine_mLatestData,
+          recordsByHour: state.machine_mRecordsbyhour,
+        },
+
+        // PO data
+        po: {
+          vendor: state.po_vendor,
+          editVendor: state.po_edit_vendor,
+          data: state.po_data,
+        },
+
+        // Assembly data
+        assembly: {
+          line1: state.assembly_line1,
+        },
+
+        // Rewinding data
+        rewinding: {
+          m1: state.rewinding_1,
+        },
       }}
     >
       {children}

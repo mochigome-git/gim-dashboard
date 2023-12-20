@@ -1,29 +1,27 @@
 import { useContext, useState, useEffect } from "react";
 
-// Material Dashboard 2 React components
-import MDTypography from "../../../../components/MDTypography";
+// Material Dashboard 2 React example components
+import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Realtime data
 import { DailyContext } from "../../../../lib/realtime";
 
 export const MachineMHour = () => {
-  const {
-    machine_tRecordsbyhour,
-  } = useContext(DailyContext);
-  const [/*ismachinetPositive*/, setmachinetPositive] = useState();
-  const [/*ismachinetAmount*/, setmachinetAmount] = useState();
-  const tRecordsDaily = machine_tRecordsbyhour[0]?.total ?? 0
+  const { machineM } = useContext(DailyContext);
+  const [ismachinetPositive, setmachinetPositive] = useState();
+  const [ismachinetAmount, setmachinetAmount] = useState();
+  const tRecordsDaily = machineM.recordsByHour[0]?.total ?? 0;
 
   function transformData(inputData) {
     const eightAmToday = new Date(new Date().setHours(8, 0, 0, 0)).getTime();
     const eightPmToday = new Date(new Date().setHours(20, 0, 0, 0)).getTime();
 
     const filteredData = inputData
-      .filter(item => {
+      .filter((item) => {
         const timestamp = new Date(item.insertdate).getTime();
         return timestamp >= eightAmToday && timestamp <= eightPmToday;
       })
-      .map(item => {
+      .map((item) => {
         const timestamp = new Date(item.insertdate).getTime();
         return { x: timestamp, y: item.total };
       });
@@ -31,7 +29,7 @@ export const MachineMHour = () => {
     return { datasets: { data: filteredData } };
   }
 
-  /*const transformedData =*/ transformData(machine_tRecordsbyhour);
+  const transformedData = transformData(machineM.recordsByHour);
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));
@@ -40,7 +38,7 @@ export const MachineMHour = () => {
   useEffect(() => {
     setTimeout(() => {
       var machineSum = 0;
-      var data = machine_tRecordsbyhour;
+      var data = machineM.recordsByHour;
       for (var i = 0; i < data.length; i++) {
         machineSum += parseInt(data[i].total, 10);
       }
@@ -53,15 +51,13 @@ export const MachineMHour = () => {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [machine_tRecordsbyhour, tRecordsDaily]);
+  }, [machineM.recordsByHour, tRecordsDaily]);
 
   return (
-    <MDTypography m={18}>
-      Machine M Upcoming Soon
-      {/*     <MachineTLineChart
+    <IJMachineLineChart
       color="transparent"
       title="Machine M Output (Hour)"
-      description={0 + " Pcs"}
+      description={tRecordsDaily + " Pcs"}
       date=""
       datasets={transformedData}
       percentage={{
@@ -70,16 +66,8 @@ export const MachineMHour = () => {
         label: "than Average",
       }}
       ymax={null}
-    /> */}
-    </MDTypography>
+    />
   );
-}
+};
 
 export default MachineMHour;
-
-
-
-
-
-
-

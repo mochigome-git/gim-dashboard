@@ -2,17 +2,17 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function NK2MAINPressureSensor() {
-  const { nk2_main_pressure_sensor } = useContext(DailyContext);
+  const { nk2 } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    if ((nk2_main_pressure_sensor && nk2_main_pressure_sensor.length > 0) || nk2_main_pressure_sensor.length === 0) {
-      const newSortedData = [...nk2_main_pressure_sensor].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    if ((nk2.mainPressureSensor && nk2.mainPressureSensor.length > 0) || nk2.mainPressureSensor.length === 0) {
+      const newSortedData = [...nk2.mainPressureSensor].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
       }
     }
-  }, [nk2_main_pressure_sensor, sortedData]);
+  }, [nk2.mainPressureSensor, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

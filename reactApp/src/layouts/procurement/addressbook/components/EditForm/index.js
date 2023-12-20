@@ -8,7 +8,7 @@ import { useMaterialUIController } from "../../../../../context";
 //import EditSkeleton from "./EditSkeleton"
 
 function EditForm() {
-    const { po_edit_vendor } = useContext(DailyContext);
+    const { po } = useContext(DailyContext);
     const [delayedData, setDelayedData] = useState(null);
     const [progress, setProgress] = useState(0);
     const [controller] = useMaterialUIController();
@@ -16,11 +16,11 @@ function EditForm() {
   
     useEffect(() => {
         const timer = setTimeout(() => {
-          setDelayedData(po_edit_vendor[0]);
+          setDelayedData(po.editVendor[0]);
         }, 300);
     
         return () => clearTimeout(timer);
-      }, [po_edit_vendor]);
+      }, [po.editVendor]);
     
       useEffect(() => {
         const startTime = Date.now();

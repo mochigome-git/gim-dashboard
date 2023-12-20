@@ -50,7 +50,34 @@ export const fetchMachineTData = async (setState) => {
   }
 };
 
+// Fetch Inkjet-Machine M Data
+export const fetchMachineMData = async (setState) => {
+  try {
+    const { data: data1, error: error1 } = await supabase
+      .from("machine_m")
+      .select("*")
+      .order("created_at", { ascending: false });
+    const { data: data2, error: error2 } = await supabase.rpc("machinemdaily");
+    const { data: data3, error: error3 } = await supabase.rpc("machinemhours");
+    if (error1 || error2 || error3) {
+      throw error1 || error2 || error3;
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      machine_m: data1,
+      machine_mRecords: data2,
+      machine_mLatestData: data3[0].total,
+      machine_mRecordsbyhour: data3,
+    }));
+
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
 // Fetch Inkjet Packaging Area Weighing Data
+
 export const fetchIJWeightRecord = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase.rpc(

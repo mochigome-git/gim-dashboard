@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { DailyContext } from "../../../lib/realtime";
 
 export default function Nk2IndexTableData() {
-  const { nk2_index } = useContext(DailyContext);
+  const { nk2 } = useContext(DailyContext);
   
   return {
     columns: [
@@ -21,7 +21,7 @@ export default function Nk2IndexTableData() {
       { Header: "widing length", accessor: "d676", align: "left" },
     ],
 
-    rows: nk2_index
+    rows: nk2.index
   };
 }
 

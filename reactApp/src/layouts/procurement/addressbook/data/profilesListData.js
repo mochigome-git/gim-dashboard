@@ -2,12 +2,12 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function PoVendorDataProcessor() {
-  const { po_vendor } = useContext(DailyContext);
+  const { po } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await po_vendor;
+      const data = await po.vendor;
 
       // Assuming po_vendor is an array of objects with a 'company_name' property
       if ((data && data.length > 0) || data.length === 0) {
@@ -21,7 +21,7 @@ export default function PoVendorDataProcessor() {
     };
 
     fetchData();
-  }, [po_vendor, sortedData]);
+  }, [po.vendor, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

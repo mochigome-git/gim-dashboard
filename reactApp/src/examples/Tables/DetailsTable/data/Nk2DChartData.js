@@ -2,17 +2,17 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { DailyContext } from "../../../../lib/realtime";
 
 export default function Nk2DChartData() {
-  const { nk2_detail } = useContext(DailyContext);
+  const { nk2 } = useContext(DailyContext);
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    if ((nk2_detail && nk2_detail.length > 0) || nk2_detail.length === 0) {
-      const newSortedData = [...nk2_detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    if ((nk2.detail && nk2.detail.length > 0) || nk2.detail.length === 0) {
+      const newSortedData = [...nk2.detail].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       if (JSON.stringify(newSortedData) !== JSON.stringify(sortedData)) {
         setSortedData(newSortedData);
       }
     }
-  }, [nk2_detail, sortedData]);
+  }, [nk2.detail, sortedData]);
 
   const processData = useMemo(() => {
     return async () => {

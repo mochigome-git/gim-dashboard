@@ -19,6 +19,8 @@ import SelectableDataTableIj from "../../../examples/Tables/SelectableDataTable_
 import recentJobData from "./data/recentJobData";
 import NO1IndexTableData from "./data/No1IndexTable"
 
+import IJPackagingProvider from '../../../lib/realtime/inkjet/packaging_realtime';
+
 function Tables() {
   const { job, time, detail, ok, total, low, high } = recentJobData();
   const { columns: no1Columns, rows: no1Rows } = NO1IndexTableData();
@@ -128,4 +130,12 @@ function Tables() {
   );
 }
 
-export default Tables;
+const IJTables = () => {
+  return (
+    <IJPackagingProvider>
+      <Tables />
+    </IJPackagingProvider>
+  )
+}
+
+export default IJTables;

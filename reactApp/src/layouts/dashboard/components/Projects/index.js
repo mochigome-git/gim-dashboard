@@ -87,11 +87,7 @@ export const Projects = () =>  {
     {renderMenu}
   </MDBox>
   <MDBox style={{flex: 1}}>
-    {isCTVisible? <MDBox sx={{p: 2}} ><Daily /></MDBox> : null}
-    {isCDVisible? <MDBox sx={{p: 2}}><Monthly/></MDBox> : null}
-    {isMTTVisible? <MDBox sx={{p: 2}}><MachineTTimebase/></MDBox> : null}
-    {isMTDVisible? <MDBox sx={{p: 2}}><MachineTDaily/></MDBox> : null}
-    {isMTHVisible? <MDBox sx={{p: 2}}><MachineTHour/></MDBox> : null}
+
   </MDBox>
 </Card>
   );

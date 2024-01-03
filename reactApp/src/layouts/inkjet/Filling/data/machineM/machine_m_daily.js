@@ -1,10 +1,10 @@
 // @mui material components
 
 import { useContext } from "react";
-import { DailyContext } from "../../../../../lib/realtime";
+import { MachineMContext } from "../../../../../lib/realtime/inkjet/machineM_realtime";
 
 export const Machine_m_daily_Data = () => {
-  const { machineM } = useContext(DailyContext);
+  const { machineM } = useContext(MachineMContext);
 
   return {
     columns: [

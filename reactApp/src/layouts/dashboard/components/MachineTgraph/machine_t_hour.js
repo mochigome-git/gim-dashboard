@@ -4,13 +4,13 @@ import { useContext, useState, useEffect } from "react";
 import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Realtime data
-import { DailyContext } from "../../../../lib/realtime";
+import { MachineTContext } from "../../../../lib/realtime/inkjet/machineT_realtime";
 
 export const MachineTHour = () => {
-  const { machineT } = useContext(DailyContext);
+  const { machineT } = useContext(MachineTContext);
   const [ismachinetPositive, setmachinetPositive] = useState();
   const [ismachinetAmount, setmachinetAmount] = useState();
-  const tRecordsDaily = machineT.recordsByHour[0]?.total ?? 0;
+  const tRecordsDaily = machineT?.recordsByHour[0]?.total ?? 0;
 
   function transformData(inputData) {
     const eightAmToday = new Date(new Date().setHours(8, 0, 0, 0)).getTime();
@@ -29,7 +29,7 @@ export const MachineTHour = () => {
     return { datasets: { data: filteredData } };
   }
 
-  const transformedData = transformData(machineT.recordsByHour);
+  const transformedData = transformData(machineT?.recordsByHour);
 
   function relDiff(a, b) {
     return 100 * ((a - b) / ((a + b) / 2));
@@ -38,7 +38,7 @@ export const MachineTHour = () => {
   useEffect(() => {
     setTimeout(() => {
       var machineSum = 0;
-      var data = machineT.recordsByHour;
+      var data = machineT?.recordsByHour;
       for (var i = 0; i < data.length; i++) {
         machineSum += parseInt(data[i].total, 10);
       }
@@ -51,7 +51,7 @@ export const MachineTHour = () => {
         setmachinetPositive("success");
       }
     }, 20);
-  }, [machineT.recordsByHour, tRecordsDaily]);
+  }, [machineT?.recordsByHour, tRecordsDaily]);
 
   return (
     <IJMachineLineChart

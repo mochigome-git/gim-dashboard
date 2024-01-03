@@ -7,10 +7,10 @@ import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineL
 import useChartData from "../../data/useIJChartData";
 
 // Realtime data
-import { DailyContext } from "../../../../lib/realtime";
+import { MachineMContext } from "../../../../lib/realtime/inkjet/machineM_realtime";
 
 export const MachineMDaily = () => {
-  const { machineM } = useContext(DailyContext);
+  const { machineM } = useContext(MachineMContext);
   const { data } = useChartData(machineM?.records);
   const [ismachinetPositive, setmachinetPositive] = useState();
   const [ismachinetAmount, setmachinetAmount] = useState();

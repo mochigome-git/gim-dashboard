@@ -67,6 +67,93 @@ import { useMaterialUIController } from "../../../context";
 
 //Utilites
 import { Reducer, initialState } from "./reducer";
+import MachineTProvider from "../../../lib/realtime/inkjet/machineT_realtime";
+import MachineMProvider from "../../../lib/realtime/inkjet/machineM_realtime";
+
+/* @Machine T Table Data */
+const TTableDetails = () => {
+  const { columns: detailColumnsT, rows: detailRowsT } = Machine_tData();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine T timebase with details"
+        title_jp="充填実績・詳細"
+        columns={detailColumnsT}
+        rows={detailRowsT}
+      />
+    </MDBox>
+  );
+}
+const TTableHours = () => {
+  const { columns: hourColumnsT, rows: hourRowsT } = Machine_t_hour_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine T output by hour"
+        title_jp="時間別充填実績"
+        columns={hourColumnsT}
+        rows={hourRowsT}
+      />
+    </MDBox>
+  );
+}
+const TTableDaily = () => {
+  const { columns: dailyColumnsT, rows: dailyRowsT } = Machine_t_daily_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine T daily output"
+        title_jp="日間充填実績"
+        columns={dailyColumnsT}
+        rows={dailyRowsT}
+      />
+    </MDBox>
+  );
+}
+//END
+
+/* @Machine M Table Data */
+const MTableDetails = () => {
+  const { columns: detailColumns, rows: detailRows } = Machine_mData();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine M timebase with details"
+        title_jp="充填実績・詳細"
+        columns={detailColumns}
+        rows={detailRows}
+      />
+    </MDBox>
+  );
+}
+const MTableHours = () => {
+  const { columns: hourColumns, rows: hourRows } = Machine_m_hour_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine M output by hour"
+        title_jp="時間別充填実績"
+        columns={hourColumns}
+        rows={hourRows}
+      />
+    </MDBox>
+  );
+}
+const MTableDaily = () => {
+  const { columns: dailyColumns, rows: dailyRows } = Machine_m_daily_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine M daily output"
+        title_jp="日間充填実績"
+        columns={dailyColumns}
+        rows={dailyRows}
+      />
+    </MDBox>
+  );
+}
+//END
+
 
 function Tables() {
   const [controller] = useMaterialUIController();
@@ -79,15 +166,6 @@ function Tables() {
   const [enddate, setEndDate] = React.useState(null);
   const [tableNames, setTableNames] = React.useState();
   const open = Boolean(anchorEl);
-
-  //Machine T Table Data
-  const { columns: dailyColumnsT, rows: dailyRowsT } = Machine_t_daily_Data();
-  const { columns: hourColumnsT, rows: hourRowsT } = Machine_t_hour_Data();
-  const { columns: detailColumnsT, rows: detailRowsT } = Machine_tData();
-  //Machine M Table Data
-  const { columns: detailColumnsM, rows: detailRowsM } = Machine_mData();
-  const { columns: dailyColumnsM, rows: dailyRowsM } = Machine_m_daily_Data();
-  const { columns: hourColumnsM, rows: hourRowsM } = Machine_m_hour_Data();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -168,8 +246,8 @@ function Tables() {
     });
   }, [state.data, state.mdata, state.data3]);
 
-  useDataFetching({table: `machine_t`, fetchData: fetchData, supabase, dispatch});
-  useDataFetching({table: `machine_m`, fetchData: fetchData2, supabase, dispatch});
+  useDataFetching({ table: `machine_t`, fetchData: fetchData, supabase, dispatch });
+  useDataFetching({ table: `machine_m`, fetchData: fetchData2, supabase, dispatch });
 
   return (
     <DashboardLayout>
@@ -490,11 +568,15 @@ function Tables() {
                                   <Grid container spacing={3}>
 
                                     <Grid item xs={12} md={6} lg={4}>
-                                      <MachineTgraph />
+                                      <MachineTProvider>
+                                        <MachineTgraph />
+                                      </MachineTProvider>
                                     </Grid>
 
                                     <Grid item xs={12} md={6} lg={4}>
-                                      <MachineMgraph />
+                                      <MachineMProvider>
+                                        <MachineMgraph />
+                                      </MachineMProvider>
                                     </Grid>
 
                                   </Grid>
@@ -502,52 +584,29 @@ function Tables() {
                               </MDBox>
                             )}
                           </MDBox>
-                          <MDBox role="tabpanel" hidden={value !== 1}>
-                            {value === 1 && (
-                              <MDBox sx={{ p: 3 }}>
-                                {_value === 0 && <IJTable
-                                  title_en="Machine T timebase with details"
-                                  title_jp="充填実績・詳細"
-                                  columns={detailColumnsT}
-                                  rows={detailRowsT}
-                                />}
-                                {_value === 1 && <IJTable
-                                  title_en="Machine T output by hour"
-                                  title_jp="時間別充填実績"
-                                  columns={hourColumnsT}
-                                  rows={hourRowsT}
-                                />}
-                                {_value === 2 && <IJTable
-                                  title_en="Machine T daily output"
-                                  title_jp="日間充填実績"
-                                  columns={dailyColumnsT}
-                                  rows={dailyRowsT}
-                                />}
-                              </MDBox>
-                            )}
-                          </MDBox>
-                          <MDBox role="tabpanel" hidden={value !== 2}>
-                            {value === 2 && <MDBox sx={{ p: 3 }}>
-                              {_value === 0 && <IJTable
-                                title_en="Machine M timebase with details"
-                                title_jp="充填実績・詳細"
-                                columns={detailColumnsM}
-                                rows={detailRowsM}
-                              />}
-                              {_value === 1 && <IJTable
-                                title_en="Machine M output by hour"
-                                title_jp="時間別充填実績"
-                                columns={hourColumnsM}
-                                rows={hourRowsM}
-                              />}
-                              {_value === 2 && <IJTable
-                                title_en="Machine M daily output"
-                                title_jp="日間充填実績"
-                                columns={dailyColumnsM}
-                                rows={dailyRowsM}
-                              />}
-                            </MDBox>}
-                          </MDBox>
+
+                          <MachineTProvider>
+                            <MDBox role="tabpanel" hidden={value !== 1}>
+                              {value === 1 && (
+                                <MDBox sx={{ p: 3 }}>
+                                  {_value === 0 && <TTableDetails />}
+                                  {_value === 1 && <TTableHours />}
+                                  {_value === 2 && <TTableDaily />}
+                                </MDBox>
+                              )}
+                            </MDBox>
+                          </MachineTProvider>
+
+                          <MachineMProvider>
+                            <MDBox role="tabpanel" hidden={value !== 2}>
+                              {value === 2 && <MDBox sx={{ p: 3 }}>
+                                {_value === 0 && <MTableDetails />}
+                                {_value === 1 && <MTableHours />}
+                                {_value === 2 && <MTableDaily />}
+                              </MDBox>}
+                            </MDBox>
+                          </MachineMProvider>
+
                           <MDBox role="tabpanel" hidden={value !== 3}>
                             {value === 3 && <MDBox sx={{ p: 3 }}>Tab 4</MDBox>}
                           </MDBox>

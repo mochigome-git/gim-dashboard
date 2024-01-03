@@ -1,9 +1,9 @@
 
 import { useContext } from "react";
-import { DailyContext } from "../../../lib/realtime";
+import { NK3Context } from "../../../lib/realtime/coating/nk3";
 
 export default function Nk3IndexTableData() {
-  const { nk3 } = useContext(DailyContext);
+  const { nk3 } = useContext(NK3Context);
   
   return {
     columns: [

@@ -1,9 +1,10 @@
 import { useContext, useState, useEffect } from "react";
 import { DailyContext } from "../../../../lib/realtime";
+import { IJPackagingContext } from "../../../../lib/realtime/inkjet/packaging_realtime";
 
 
 export default function IndexData() {
-  const { ij } = useContext(DailyContext);
+  const { ij } = useContext(IJPackagingContext);
   const [formattedJobs, setFormattedJobs] = useState([]);
 
   const formatDate = (dateStr) => {

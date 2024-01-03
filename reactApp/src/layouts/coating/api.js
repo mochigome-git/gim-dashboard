@@ -205,7 +205,7 @@ export const multipleDataCSVmultiTable = async (
             .eq("i_h_seq", seq)
             .order("created_at", { ascending: true });
 
-          console.log(currentTableName, seq, data);
+         // console.log(currentTableName, seq, data);
 
           // Apply the 5-minute interval filtering to the data if needed
           const selectedData = fivemin ? filterDataBy5Minutes(data) : data;

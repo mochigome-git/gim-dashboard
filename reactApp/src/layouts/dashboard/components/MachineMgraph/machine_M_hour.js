@@ -4,10 +4,10 @@ import { useContext, useState, useEffect } from "react";
 import IJMachineLineChart from "../../../../examples/Charts/BarCharts/IJMachineLineChart";
 
 // Realtime data
-import { DailyContext } from "../../../../lib/realtime";
+import { MachineMContext } from "../../../../lib/realtime/inkjet/machineM_realtime";
 
 export const MachineMHour = () => {
-  const { machineM } = useContext(DailyContext);
+  const { machineM } = useContext(MachineMContext);
   const [ismachinetPositive, setmachinetPositive] = useState();
   const [ismachinetAmount, setmachinetAmount] = useState();
   const tRecordsDaily = machineM.recordsByHour[0]?.total ?? 0;

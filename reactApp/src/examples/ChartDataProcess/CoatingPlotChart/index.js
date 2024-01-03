@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { DailyContext } from "../../../lib/realtime";
 
-export default function Nk2DailyData() {
+export default function CoatingPlotChart(records) {
 	const [dataPoints, setPoints] = useState([]);
-	const { nk2 } = useContext(DailyContext);
 
 	useEffect(() => {
-		if (nk2.output) {
+		if (records) {
 			// Create a map to store the count of d676 for each day
 			const countByDay = {};
 
 			// Loop through the nk2_output data and count d676 for each day
-			nk2.output.forEach((data) => {
+			records.forEach((data) => {
 				const date = new Date(data.created_at).toDateString(); // Get the date part only
 				if (countByDay[date]) {
 					countByDay[date]++;
@@ -30,10 +27,10 @@ export default function Nk2DailyData() {
 			// Set the data points in the state
 			setPoints(dps);
 		}
-	}, [nk2.output]);
+	}, [records]);
 
 	return {
-		nk2DailyData: {
+		data: {
 			datasets: { data: dataPoints },
 		},
 	};

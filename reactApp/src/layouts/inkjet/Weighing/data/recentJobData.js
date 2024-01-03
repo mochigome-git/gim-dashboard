@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import { DailyContext } from "../../../../lib/realtime";
+import { IJPackagingContext } from "../../../../lib/realtime/inkjet/packaging_realtime";
 
 
 export default function Data() {
-  const { ij } = useContext(DailyContext);
+  const { ij } = useContext(IJPackagingContext);
   const [job, setJob] = useState([]);
   const [time, setTime] = useState([]);
   const [detail, setJobByDetail] = useState([]);

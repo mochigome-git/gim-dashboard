@@ -6,10 +6,10 @@
 //import MDBadge from "../../../components/MDBadge";
 
 import { useContext } from "react";
-import { DailyContext } from "../../../lib/realtime";
+import { NK2Context } from "../../../lib/realtime/coating/nk2";
 
 export default function Nk2IndexTableData() {
-  const { nk2 } = useContext(DailyContext);
+  const { nk2 } = useContext(NK2Context);
   
   return {
     columns: [
@@ -21,7 +21,7 @@ export default function Nk2IndexTableData() {
       { Header: "widing length", accessor: "d676", align: "left" },
     ],
 
-    rows: nk2.index
+    rows: nk2?.index
   };
 }
 

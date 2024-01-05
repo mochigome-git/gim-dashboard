@@ -21,6 +21,7 @@ const Nk3SelectableDataTable = ({
   onDetailsTabClick,
   handleFiveMinutesChange,
   handleSelectionChange,
+  everyFiveMinutes
 }) => {
   const { columns: nk3Columns, rows: nk3Rows } = Nk3IndexTableData();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -100,11 +101,11 @@ const Nk3SelectableDataTable = ({
   useEffect(() => {
     if (state.downloadTrigger_NK3) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
-      if (state.everyFiveMinutes) {
+      if (everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
-      if (!state.everyFiveMinutes) {
+      if (!everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, false);
       }
@@ -143,11 +144,11 @@ const Nk3SelectableDataTable = ({
         }
       }
 
-      if (state.everyFiveMinutes) {
+      if (everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
-      if (!state.everyFiveMinutes) {
+      if (!everyFiveMinutes) {
         const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor']
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, false);
       }
@@ -168,7 +169,7 @@ const Nk3SelectableDataTable = ({
   }, [
     state.downloadTrigger_NK3,
     state.downloadMultipleTrigger_NK3,
-    state.everyFiveMinutes
+    everyFiveMinutes
   ]);
 
   return (
@@ -191,7 +192,7 @@ const Nk3SelectableDataTable = ({
           setSuccess={() => dispatch({ type: 'SET_SUCCESS' })}
           loading={state.loading}
           success={state.success}
-          everyFiveMinutes={state.everyFiveMinutes}
+          everyFiveMinutes={everyFiveMinutes}
           handleFiveMinutesChange={handleFiveMinutesChange}
           handleSelectionChange={handleSelectionChange}
           onMultipleDownloadCSV_NK3={onMultipleDownloadCSV_NK3}

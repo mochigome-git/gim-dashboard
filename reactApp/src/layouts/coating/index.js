@@ -125,6 +125,7 @@ function Coating() {
                       onDetailsTabClick={onDetailsTabClick}
                       handleFiveMinutesChange={handleFiveMinutesChange}
                       handleSelectionChange={handleSelectionChange}
+                      everyFiveMinutes={state.everyFiveMinutes}
                     />
                   </MDBox>
                 )}
@@ -141,6 +142,7 @@ function Coating() {
                       onDetailsTabClick={onDetailsTabClick}
                       handleFiveMinutesChange={handleFiveMinutesChange}
                       handleSelectionChange={handleSelectionChange}
+                      everyFiveMinutes={state.everyFiveMinutes}
                     />
                   </MDBox>
                 )}

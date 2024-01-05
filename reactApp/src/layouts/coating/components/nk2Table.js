@@ -21,6 +21,7 @@ const Nk2SelectableDataTable = ({
   onDetailsTabClick,
   handleFiveMinutesChange,
   handleSelectionChange,
+  everyFiveMinutes
 }) => {
   const { columns: nk2Columns, rows: nk2Rows } = Nk2IndexTableData();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -106,7 +107,7 @@ const Nk2SelectableDataTable = ({
   useEffect(() => {
     if (state.downloadTrigger) {
       const folderName = `nk2_roll_no:${state.cLOTNo}`;
-      if (state.everyFiveMinutes) {
+      if (everyFiveMinutes) {
         const tableNames = [
           "nk2_log_data_storage",
           "nk2_4u_fibre_sensor",
@@ -121,7 +122,7 @@ const Nk2SelectableDataTable = ({
           true
         );
       }
-      if (!state.everyFiveMinutes) {
+      if (!everyFiveMinutes) {
         const tableNames = [
           "nk2_log_data_storage",
           "nk2_4u_fibre_sensor",
@@ -175,7 +176,7 @@ const Nk2SelectableDataTable = ({
         }
       }
 
-      if (state.everyFiveMinutes) {
+      if (everyFiveMinutes) {
         const tableNames = [
           "nk2_log_data_storage",
           "nk2_4u_fibre_sensor",
@@ -190,7 +191,7 @@ const Nk2SelectableDataTable = ({
           true
         );
       }
-      if (!state.everyFiveMinutes) {
+      if (!everyFiveMinutes) {
         const tableNames = [
           "nk2_log_data_storage",
           "nk2_4u_fibre_sensor",
@@ -236,7 +237,7 @@ const Nk2SelectableDataTable = ({
   }, [
     state.downloadTrigger,
     state.downloadMultipleTrigger,
-    state.everyFiveMinutes,
+    everyFiveMinutes,
     state.cLOTNo,
   ]);
 
@@ -260,7 +261,7 @@ const Nk2SelectableDataTable = ({
           setSuccess={() => dispatch({ type: "SET_SUCCESS" })}
           loading={state.loading}
           success={state.success}
-          everyFiveMinutes={state.everyFiveMinutes}
+          everyFiveMinutes={everyFiveMinutes}
           handleFiveMinutesChange={handleFiveMinutesChange}
           handleSelectionChange={handleSelectionChange}
           onMultipleDownloadCSV={onMultipleDownloadCSV}

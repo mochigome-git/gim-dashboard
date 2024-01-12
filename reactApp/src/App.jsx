@@ -30,7 +30,7 @@ const App = () => {
   const [showLogoutNotification, /*setShowLogoutNotification*/] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
 
- // const openErrorSB = () => setErrorSB(true);
+  // const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
   const Timenow = new Date(Date.now()).toLocaleString();
   const lastActivityRef = useRef(Date.now());
@@ -46,67 +46,67 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    let interval;
-
-    const checkLastActivity = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        const signIn = new Date(user.last_sign_in_at).toLocaleDateString();
-        const today = new Date().toLocaleDateString();
-
-        if (signIn !== today) {
-          //logoutUser();
-        } else if (signIn === today) {
-          const now = Date.now();
-          const diff = now - lastActivityRef.current;
-
-          if (diff > 30 * 60 * 1000) { //30 Minute x 60 Second x 1000 millisecond
-            //logoutUser();
-          } else {
-            localStorage.setItem("lastActivity", now.toString());
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const startInterval = () => {
-      interval = setInterval(checkLastActivity, 30 * 60 * 1000);
-    };
-
-    const stopInterval = () => {
-      clearInterval(interval);
-    };
-
-    /*const logoutUser = async () => {
-      try {
-        //await supabase.auth.signOut();
-        setSession(null);
-        openErrorSB();
-        localStorage.clear();
-        sessionStorage.setItem("signedOut", "true");
-        // Show the logout notification window when the user logs out
-        setShowLogoutNotification(true);
-      } catch (error) {
-        console.error(error);
-      }
-    };*/
-
-    startInterval();
-
-    // Add global event listeners for user activity
-    document.addEventListener("mousemove", handleActivity);
-    document.addEventListener("keydown", handleActivity);
-
-    return () => {
-      stopInterval();
-      // Remove the global event listeners when the component unmounts
-      document.removeEventListener("mousemove", handleActivity);
-      document.removeEventListener("keydown", handleActivity);
-    };
-  }, []);
+  //useEffect(() => {
+  //  let interval;
+  //
+  //  const checkLastActivity = async () => {
+  //    try {
+  //      const { data: { user } } = await supabase.auth.getUser();
+  //      const signIn = new Date(user.last_sign_in_at).toLocaleDateString();
+  //      const today = new Date().toLocaleDateString();
+  //
+  //      if (signIn !== today) {
+  //        //logoutUser();
+  //      } else if (signIn === today) {
+  //        const now = Date.now();
+  //        const diff = now - lastActivityRef.current;
+  //
+  //        if (diff > 30 * 60 * 1000) { //30 Minute x 60 Second x 1000 millisecond
+  //          //logoutUser();
+  //        } else {
+  //          localStorage.setItem("lastActivity", now.toString());
+  //        }
+  //      }
+  //    } catch (error) {
+  //      console.error(error);
+  //    }
+  //  };
+  //
+  //  const startInterval = () => {
+  //    interval = setInterval(checkLastActivity, 30 * 60 * 1000);
+  //  };
+  //
+  //  const stopInterval = () => {
+  //    clearInterval(interval);
+  //  };
+  //
+  //  /*const logoutUser = async () => {
+  //    try {
+  //      //await supabase.auth.signOut();
+  //      setSession(null);
+  //      openErrorSB();
+  //      localStorage.clear();
+  //      sessionStorage.setItem("signedOut", "true");
+  //      // Show the logout notification window when the user logs out
+  //      setShowLogoutNotification(true);
+  //    } catch (error) {
+  //      console.error(error);
+  //    }
+  //  };*/
+  //
+  //  startInterval();
+  //
+  //  // Add global event listeners for user activity
+  //  document.addEventListener("mousemove", handleActivity);
+  //  document.addEventListener("keydown", handleActivity);
+  //
+  //  return () => {
+  //    stopInterval();
+  //    // Remove the global event listeners when the component unmounts
+  //    document.removeEventListener("mousemove", handleActivity);
+  //    document.removeEventListener("keydown", handleActivity);
+  //  };
+  //}, []);
 
   // Handle activity function to update the ref
   const handleActivity = () => {

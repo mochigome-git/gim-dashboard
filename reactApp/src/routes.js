@@ -31,6 +31,8 @@ import ProcurementIndex from "./layouts/procurement"
 import ProcurementAddressbook from "./layouts/procurement/addressbook"
 import ProcurementCreatepo from "./layouts/procurement/createpo"
 import PurchaseOrder from "./layouts/procurement/purchaseorder"
+import Rewinding from "./layouts/rewinding"
+import Board from "./layouts/rewinding/Board"
 //import Billing from "./layouts/billing";
 //import Notifications from "./layouts/notifications";
 //import Profile from "./layouts/profile";
@@ -44,8 +46,10 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 //import PersonIcon from '@mui/icons-material/Person';
 import LoginIcon from '@mui/icons-material/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CameraRollIcon from '@mui/icons-material/CameraRoll';
 
 const routes = [
+//General 
   {
     type: "collapse",
     name: "Dashboard",
@@ -55,14 +59,6 @@ const routes = [
     component: <Dashboard />,
   },
   {
-    type: "collapse",
-    name: "Coating",
-    key: "coating",
-    icon: <BackupTableIcon fontSize="small" />,
-    route: "/coating",
-    component: <Coating />,
-  },
-  {
     type: "",
     name: "Reset",
     key: "reset",
@@ -70,6 +66,18 @@ const routes = [
     route: "/authentication/reset-password",
     component: <Resetpassword />,
   },
+
+//Coating block
+  {
+    type: "collapse",
+    name: "Coating",
+    key: "coating",
+    icon: <BackupTableIcon fontSize="small" />,
+    route: "/coating",
+    component: <Coating />,
+  },  
+
+//Inkjet block  
   {
     type: "collapse",
     name: "Inkjet",
@@ -94,6 +102,25 @@ const routes = [
     route: "/inkjet/filling",
     component: <InkjetFilling />,
   },
+
+//Rewinding block
+  {
+    type: "collapse",
+    name: "Rewinding",
+    key: "Rewinding",
+    icon: <CameraRollIcon fontSize="small" />,
+    route: "/rewinding",
+    component: <Rewinding />,
+  },
+  {
+    type: "",
+    name: "Rewinding Board",
+    key: "Rewinding-Board",
+    route: "/rewinding/board",
+    component: <Board />,
+  },
+
+//Procurement block
   {
     type: "collapse",
     name: "Procurement",
@@ -123,6 +150,9 @@ const routes = [
     route: "/procurement/purchase-order-list",
     component: <PurchaseOrder />,
   }
+
+
+
   /*{
     type: "collapse",
     name: "Billing",

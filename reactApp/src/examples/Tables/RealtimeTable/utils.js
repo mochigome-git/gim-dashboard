@@ -71,6 +71,12 @@ export const useDataFetching = ({
                             _nk32ufiberdata: data,
                         }));
                         break;
+                    case 'nk3_4u_fibre_sensor':
+                        setState((prevState) => ({
+                            ...prevState,
+                            _nk34ufiberdata: data,
+                        }));
+                        break;
                     case 'coating_model':
                         setState((prevState) => ({
                             ...prevState,

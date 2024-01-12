@@ -54,6 +54,7 @@ function RealtimeTable() {
   useDataFetching({ table: `coating_model`, fetchData: fetchModel2, supabase, setState, id })
   useDataFetching({ table: `nk2_log_data_realtime`, fetchData: fetchModel, supabase, setState })
   useDataFetching({ table: `nk3_main_pressure_sensor`, fetchData: fetchData2, supabase, setState });
+  useDataFetching({ table: `nk3_4u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
 
   // UseMemo to clear the loading state if the data is already loaded.
   useMemo(() => {
@@ -264,6 +265,33 @@ function RealtimeTable() {
                       <DetailsChart
                         color="transparent"
                         title="空気圧 Air pressure"
+                        description=""
+                        date=""
+                        datasets={ddata}
+                        percentage={{
+                          color: "info",
+                          amount: "",
+                          label: "",
+                        }}
+                      />
+                    )}
+                  </ChartData>
+                ) : (null)}
+              </Grid>
+
+              <Grid item xs={12} md={12} lg={6}>
+                {state?._nk34ufiberdata ? (
+                  <ChartData
+                    fieldNames={["Sensor1", "Sensor2", "Sensor3"]}
+                    fields={["sensor1", "sensor2", "sensor3"]}
+                    data={state._nk34ufiberdata}
+                    divide={10}
+                    reverse={true}
+                  >
+                    {({ ddata }) => (
+                      <DetailsChart
+                        color="transparent"
+                        title="濃度 4U Density"
                         description=""
                         date=""
                         datasets={ddata}

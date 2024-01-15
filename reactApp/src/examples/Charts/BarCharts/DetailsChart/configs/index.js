@@ -5,11 +5,12 @@ function configs(datasets, ownerState, ymin, ymax, navigator) {
 	const darkMode = ownerState?.darkMode ?? true;
 	const color = darkMode ? "#ffffff6c" : "#000";
 	const color2 = darkMode ? "#ffffff" : "#000";
-	const series = datasets.datasets.slice(0, 9).map((dataset, index) => ({
+	const darkModeColors = ['#BB86FC', '#fc86e8', '#86d1fc', '#86fca9', '#cdfc86', '#fcfa86', '#86fcf8', '#76ff54', '#547fff', '#ffdb58', '#ff6e6e', '#6e75ff'];
+	const series = datasets.datasets.slice(0, 12).map((dataset, index) => ({
 		name: dataset.name,
 		type: 'line',
 		data: dataset.data,
-		color: ['#BB86FC', '#fc86e8', '#86d1fc', '#86fca9', '#cdfc86', '#fcfa86', '#86fcf8', '#76ff54', '#547fff'][index],
+		color: darkModeColors[index],
 		tooltip: {
 			valueDecimals: 2,
 			valueSuffix: '℃',
@@ -139,12 +140,28 @@ function configs(datasets, ownerState, ymin, ymax, navigator) {
 			tooltip: {
 				shared: true,
 				formatter: function () {
-					let tooltipContent = `<strong>${Highcharts.dateFormat('%H:%M:%S', this.x)}</strong><br>`;
+					let tooltipContent = '';
+				  
+					const midnightDate = new Date(this.x);
+					midnightDate.setHours(0, 0, 0, 0);
+				  
+					if (+this.x !== +midnightDate) {
+					  // If there is a valid time, show date and time
+					  tooltipContent = `<strong>${Highcharts?.dateFormat('%H:%M:%S', this.x)}</strong><br>`;
+					} else {
+					  // If no valid time, show date only
+					  tooltipContent = `<strong>${Highcharts?.dateFormat('%Y-%m-%d', this.x)}</strong><br>`;
+					}
+				  
+					// Common part for both cases
 					this.points.forEach((point) => {
-						tooltipContent += `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${Highcharts.numberFormat(point.y, 2)}</b><br>`;
+					  tooltipContent += `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${Highcharts.numberFormat(point.y, 2)}</b><br>`;
 					});
+				  
 					return tooltipContent;
-				},
+				  },
+				  
+								
 				style: {
 					minWidth: '200px',
 					maxWidth: '350px',

@@ -12,7 +12,7 @@ export const fetchRewindingData = async (setState) => {
 
         setState((prevState) => ({
             ...prevState,
-            rewinding_1: data,
+            rewinding: data,
         }));
     } catch (error) {
         alert(error.message);

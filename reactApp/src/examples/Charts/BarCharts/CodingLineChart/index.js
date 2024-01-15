@@ -24,13 +24,22 @@ function createChartOptions(datasets) {
   }
 }
 
-function ReportsBarChart({ color, title, description, date, percentage, datasets }) {
+function ReportsBarChart({ color, title, description, date, percentage, datasets, hideChart }) {
   const [controller] = useMaterialUIController();
   const { option, containerprops } = useMemo(() => createChartOptions(datasets), [datasets])(controller);
 
   Highcharts.setOptions({
     accessibility: { enabled: false }, time: { timezoneOffset: -8 * 60 }, lang: { rangeSelectorZoom: '' }
   });
+
+  const chartComponent = !hideChart && (
+    <HighchartsReact
+      containerProps={containerprops}
+      highcharts={Highcharts}
+      constructorType={"stockChart"}
+      options={option}
+    />
+  );
 
   return (
     <Card sx={{ height: "100%" }}>
@@ -61,28 +70,26 @@ function ReportsBarChart({ color, title, description, date, percentage, datasets
           &nbsp;{percentage.label}
         </MDTypography>
       </MDBox>
-      <MDBox padding="1rem" display="inline-flex" flexDirection='column'>
-        <MDBox
-          sx={{ pt: 0, pb: 0, pr: 0 }}
-          //variant="gradient"
-          bgColor={color}
-          borderRadius="lg"
-          coloredShadow="none"
-          py={1}
-          pr={0}
-          mt={-5}
-          height="12.5rem"
-          display="inline-flex"
-          flexDirection='column'
-          position="relative"
-        >
-          <HighchartsReact
-            containerProps={containerprops}
-            highcharts={Highcharts}
-            constructorType={"stockChart"}
-            options={option} />
+      {!hideChart ? (
+        <MDBox padding="1rem" display="inline-flex" flexDirection='column'>
+          <MDBox
+            sx={{ pt: 0, pb: 0, pr: 0 }}
+            //variant="gradient"
+            bgColor={color}
+            borderRadius="lg"
+            coloredShadow="none"
+            py={1}
+            pr={0}
+            mt={-5}
+            height="12.5rem"
+            display="inline-flex"
+            flexDirection='column'
+            position="relative"
+          >
+            {chartComponent}
+          </MDBox>
         </MDBox>
-      </MDBox>
+      ) : (<MDBox mt={3} />)}
     </Card>
   );
 }
@@ -104,7 +111,7 @@ ReportsBarChart.propTypes = {
   //title: PropTypes.string.isRequired,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   date: PropTypes.string.isRequired,
-  datasets: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+  //datasets: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
   percentage: PropTypes.shape({
     color: PropTypes.oneOf([
       "primary",

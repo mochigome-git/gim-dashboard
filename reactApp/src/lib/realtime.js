@@ -9,7 +9,6 @@ import {
   fetchNk3Details,
 } from "./api/coating";
 import { fetchPo, editPoVendor, fetchPoData } from "./api/po";
-import { fetchRewindingData } from "./api/rewinding";
 
 //import { DetailsTabContext } from "../layouts/tables/index";
 export const DailyContext = createContext();
@@ -32,8 +31,6 @@ const DailyProvider = ({ children }) => {
       fetchNk2Details,
       fetchNk3Index,
       fetchNk3Details,
-      //REWINDING
-      fetchRewindingData,
       //PO
       fetchPo,
       editPoVendor,
@@ -82,7 +79,7 @@ const DailyProvider = ({ children }) => {
      // setupSubscription("ij_pkg_weight_records", "ij_pkg_weight_records", fetchIJWeightRecord),
       setupSubscription("po_system_vendor", "po_system_vendor", fetchPo),
      // setupSubscription("assembly_line_count", "assembly_line_count", fetchAssemblyData),
-      setupSubscription("rewinding_count", "rewinding_count", fetchRewindingData),
+     // setupSubscription("rewinding_count", "rewinding_count", fetchRewindingData),
     ];
     return () => {
       supabase.removeChannel(state.subscription);
@@ -121,11 +118,6 @@ const DailyProvider = ({ children }) => {
           vendor: state.po_vendor,
           editVendor: state.po_edit_vendor,
           data: state.po_data,
-        },
-
-        // Rewinding data
-        rewinding: {
-          m1: state.rewinding_1,
         },
       }}
     >

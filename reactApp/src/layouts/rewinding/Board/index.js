@@ -1,16 +1,10 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer } from "react";
 
 // @mui material components
 import {
   Grid,
   Card,
-  AppBar,
-  Tabs,
-  Tab,
-  Divider,
-  Avatar,
   Stack,
-  IconButton,
 } from "@mui/material";
 
 import LocalBarIcon from "@mui/icons-material/LocalBar";
@@ -24,24 +18,14 @@ import AddressBookLayout from "../../../examples/LayoutContainers/ProcurementLay
 import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 
 // Material Dashboard Local components
-import ProfilesList from "./components/ProfilesList";
-
-// Data
-import ProfilesListData from "./data/profilesListData";
-
-// Material Dashboard 2 React context
-import { useMaterialUIController } from "../../../context";
+import BoardList from "./components/BoardList";
 
 // Realtime context library
 import { DailyContext } from "../../../lib/realtime";
+import RewindingProvider from "../../../lib/realtime/rewinding/rewinding_realtime";
 
 function Tables() {
   //const { columns: no1Columns, rows: no1Rows } = NO1IndexTableData();
-  const { dataPoints } = ProfilesListData();
-  const [controller] = useMaterialUIController();
-  const { darkMode, miniSidenav } = controller;
-  const { setDetailsData } = useContext(DailyContext);
-
   function reducer(state, action) {
     switch (action.type) {
       case "SET_TAB_VALUE":
@@ -50,23 +34,10 @@ function Tables() {
         throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
-  const [state, dispatch] = useReducer(reducer, {
+  const [_, dispatch] = useReducer(reducer, {
     tabValue: 0,
   });
 
-  const handleSetTabValue = (event, newValue) => {
-    dispatch({ type: "SET_TAB_VALUE", payload: newValue });
-  };
-
-  const onDetailsTabClick = (type, company_name) => {
-    if (type === "CreateNew") {
-      dispatch({ type: "SET_TAB_VALUE", payload: 1 });
-    }
-    if (type === "Edit") {
-      dispatch({ type: "SET_TAB_VALUE", payload: 2 });
-      setDetailsData({ company_name: company_name });
-    }
-  };
 
   return (
     <AddressBookLayout>
@@ -100,13 +71,11 @@ function Tables() {
               </MDBox>
               <MDBox p={3}>
                 <Grid>
-                  <MDBox style={{ position: "relative" }}>
-                    <ProfilesList
-                      profiles={dataPoints}
-                      shadow={false}
-                      onEdit={onDetailsTabClick}
-                    />
-                  </MDBox>
+                  <RewindingProvider>
+                    <MDBox style={{ position: "relative" }}>
+                      <BoardList shadow={false}/>
+                    </MDBox>
+                  </RewindingProvider>
                 </Grid>
               </MDBox>
             </Card>

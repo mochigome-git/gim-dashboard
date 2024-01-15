@@ -32,7 +32,10 @@ function createChartOptions(datasets, ymin, ymax, navigator) {
 function DetailsGaugeChart({ color, title, description, date, percentage, ymin, ymax, datasets, navigator }) {
   const cacheBuster = useMemo(() => Date.now(), []);
   const [controller] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets, ymin, ymax, navigator)(controller), [ymin, ymax, navigator, datasets, controller]);
+  const { option, containerprops } = useMemo(
+    () => createChartOptions(datasets, ymin, ymax, navigator)(controller),
+    [ymin, ymax, navigator, datasets, controller]
+  );
 
   const setOptions = useCallback(() => {
     Highcharts.setOptions({

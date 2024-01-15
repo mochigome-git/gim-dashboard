@@ -1,49 +1,51 @@
-import React, { useState, useMemo } from "react";
-
-// @mui material components
-import Grid from "@mui/material/Grid";
+import React, { useState, useMemo } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Grid from "@mui/material/Grid";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
-// Material Dashboard 2 React components
-import MDBox from "../../../components/MDBox";
-import MDTypography from "../../../components/MDTypography";
+import MDBox from '../../../components/MDBox';
+import MDTypography from '../../../components/MDTypography';
+import CoatingDashboardLayout from '../../LayoutContainers/CoatingDashboardLayout';
+import DetailsChart from '../../Charts/BarCharts/DetailsChart';
+import ChartData from './data/ChartData';
 
-// Material Dashboard 2 React example components
-import CoatingDashboardLayout from "../../LayoutContainers/CoatingDashboardLayout";
-//import CoatingDetailCards from "../../Cards/StatisticsCards/CoatingDetailCards";
-import DetailsChart from "../../Charts/BarCharts/DetailsChart";
-
-// Data
-//import ParameterCardData from "./data/ParameterCardData";
-
-import ChartData from "./data/ChartData";
-
-import { supabase } from "../../../lib/supabase"
-import { fetchData, fetchData2, fetchModel, fetchModel2, columnReplacements } from "./api"
-import { useDataFetching, findDifferentColumns } from "./utils"
+import { supabase } from '../../../lib/supabase';
+import { fetchData, fetchData2, fetchModel, fetchModel2, columnReplacements } from './api';
+import { useDataFetching, findDifferentColumns } from './utils';
 
 function RealtimeTable() {
-
-  // State management
   const [loading, setLoading] = useState(true);
-  const [failed, /*setFailed*/] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [state, setState] = useState();
   const [tableType, setSelectedTable] = useState(null);
   const [id, setModel] = useState(0);
 
   const handleChange = (event) => {
-    setModel((prevModel) => event.target.value);
+    setModel(event.target.value);
   };
+
+  const handleButtonClick = (type) => {
+    setSelectedTable(type.toLowerCase());
+    setLoading(true);
+
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    if ((type === 'NK2' && state?.data?.length > 0) || (type === 'NK3' && state?._nk3data?.length > 0)) {
+      clearTimeout(timeout);
+    }
+  };
+
 
   useDataFetching({ table: `nk2_log_data_storage`, fetchData, supabase, setState });
   useDataFetching({ table: `nk2_2u_fibre_sensor`, fetchData: fetchData2, supabase, setState });
@@ -58,44 +60,19 @@ function RealtimeTable() {
 
   // UseMemo to clear the loading state if the data is already loaded.
   useMemo(() => {
-    if (state?.data?.length > 0 || (state?._nk3data?.length > 0 && tableType === 'nk3')) {
-      setLoading(false);
-    }
-    if (state?.data?.length === 0 || (state?._nk3data?.length === 0)) {
-      //setLoading(true);
-      setTimeout(() => {
-        //setFailed(true);
-        setLoading(false);
+    const hasData = (state?.data?.length > 0) || (state?._nk3data?.length > 0 && tableType === 'nk3');
+    setLoading(!hasData);
+
+    if (!hasData) {
+      const timeout = setTimeout(() => {
+        setFailed(false);
       }, 5000);
+
+      return () => clearTimeout(timeout);
     }
+
+    return undefined;
   }, [state?.data, state?._nk3data, tableType]);
-
-  const HandleOnclick = (type) => {
-    if (type === 'NK2') {
-      setSelectedTable('nk2');
-      setLoading(true);
-
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 5000);
-
-      if (state?.data?.length > 0) {
-        clearTimeout(timeout);
-      }
-    }
-    if (type === 'NK3') {
-      setSelectedTable('nk3');
-      setLoading(true);
-
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 5000);
-
-      if (state?._nk3data?.length > 0) {
-        clearTimeout(timeout);
-      }
-    }
-  };
 
   const result = findDifferentColumns(state);
 
@@ -116,8 +93,8 @@ function RealtimeTable() {
       <CoatingDashboardLayout>
         <MDBox pb={3}>
           <ButtonGroup color="secondary" aria-label="outlined primary button group">
-            <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
-            <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
+            <Button onClick={() => handleButtonClick('NK2')}>NK2</Button>
+            <Button onClick={() => handleButtonClick('NK3')}>NK3</Button>
           </ButtonGroup>
         </MDBox>
         <MDBox style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '20vh' }}>
@@ -137,8 +114,8 @@ function RealtimeTable() {
         <MDBox py={3}>
           <MDBox pb={3}>
             <ButtonGroup color="secondary" aria-label="outlined primary button group">
-              <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
-              <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
+              <Button onClick={() => handleButtonClick('NK2')}>NK2</Button>
+              <Button onClick={() => handleButtonClick('NK3')}>NK3</Button>
             </ButtonGroup>
           </MDBox>
           <MDBox mt={4.5}>
@@ -324,8 +301,8 @@ function RealtimeTable() {
             spacing={2}
           >
             <ButtonGroup color="secondary" aria-label="outlined primary button group">
-              <Button onClick={() => HandleOnclick('NK2')}>NK2</Button>
-              <Button onClick={() => HandleOnclick('NK3')}>NK3</Button>
+              <Button onClick={() => handleButtonClick('NK2')}>NK2</Button>
+              <Button onClick={() => handleButtonClick('NK3')}>NK3</Button>
             </ButtonGroup>
 
             <FormControl sx={{ m: 1, minWidth: 120 }}>

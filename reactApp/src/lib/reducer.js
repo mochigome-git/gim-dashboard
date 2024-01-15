@@ -54,5 +54,5 @@ export const initialState = {
   assembly_line1: [],
 
   //REWINDING
-  rewinding_1: [],
+  rewinding: [],
 };

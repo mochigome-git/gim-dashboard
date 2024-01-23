@@ -11,7 +11,7 @@ function configs(datasets, ownerState, ymax) {
 
 	return {
 		option: {
-			responsive: false,
+			responsive: true,
 			credits: {
 				enabled: false
 			},
@@ -62,7 +62,7 @@ function configs(datasets, ownerState, ymax) {
 				inputBoxHeight: 18,
 				inputStyle: commonStyle,
 				labelStyle: commonStyle,
-				selected: 1,
+				selected: 2,
 				enabled: true
 			},
 			navigator: {

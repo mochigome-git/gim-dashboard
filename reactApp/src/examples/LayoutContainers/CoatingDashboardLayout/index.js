@@ -9,9 +9,13 @@ import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../components/MDBox";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setLayout } from "../../../context";
+import DashboardLayout from "../DashboardLayout";
+import DashboardNavbar from "../../Navbars/DashboardNavbar";
 
 function CoatingDashboardLayout({ children }) {
   const [, dispatch] = useMaterialUIController();
@@ -22,21 +26,32 @@ function CoatingDashboardLayout({ children }) {
   }, [dispatch, pathname]);
 
   return (
-    <MDBox
-      sx={({ breakpoints, transitions, }) => ({
-        p: 3,
-        position: "relative",
+    <DashboardLayout>
+      <DashboardNavbar />
+      <MDBox pt={6} pb={3}>
+        <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Card>
+              <MDBox
+                sx={({ breakpoints, transitions, }) => ({
+                  p: 3,
+                  position: "relative",
 
-        [breakpoints.up("xl")]: {
-          transition: transitions.create(["margin-left", "margin-right"], {
-            easing: transitions.easing.easeInOut,
-            duration: transitions.duration.standard,
-          }),
-        },
-      })}
-    >
-      {children}
-    </MDBox>
+                  [breakpoints.up("xl")]: {
+                    transition: transitions.create(["margin-left", "margin-right"], {
+                      easing: transitions.easing.easeInOut,
+                      duration: transitions.duration.standard,
+                    }),
+                  },
+                })}
+              >
+                {children}
+              </MDBox>
+            </Card>
+          </Grid>
+        </Grid>
+      </MDBox>
+    </DashboardLayout>
   );
 }
 

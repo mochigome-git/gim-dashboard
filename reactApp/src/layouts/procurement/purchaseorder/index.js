@@ -63,7 +63,7 @@ import Footer from "../pdfpo/footer";
 //Utilites
 import { poReducer, initialState } from "./reducer";
 import { deleteList, pick } from "./api";
-import "./.css";
+import "./purchaseorder.css";
 
 function PurchaseOrder() {
   const {

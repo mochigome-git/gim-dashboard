@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  react-app:
+    build:
+      context: ..
+      dockerfile: ./dev/Dockerfile
+    volumes:
+      - ../reactApp:/opt/gim-dashboard/reactApp/ # Adjust the path for mounting
+    command: sh -c "yarn start"
+    ports:
+      - "3001:3001"
+    stdin_open: true
+    restart: always

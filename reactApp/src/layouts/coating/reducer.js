@@ -24,6 +24,8 @@ export function reducer(state, action) {
       // NK2
       case 'SET_NK2_DETAIL':
         return { ...state, nk2Detail: action.payload };
+      case 'SET_DETAIL_TABLE_TYPE':
+        return { ...state, detailType: action.payload};
       case 'SET_NK2_DETAIL_5MIN':
         return { ...state, nk2Detail_5min: action.payload };
       case 'SET_NK2_MULTIPLE_DETAIL':
@@ -86,7 +88,7 @@ export function reducer(state, action) {
     }
   }
 
-  export const initialState = {
+  export const initialState_dispatch = {
     tabValue: 0,
     isDataTableVisible: false,
     loading: false,
@@ -116,6 +118,7 @@ export function reducer(state, action) {
     cLOTNo1: null,
     cLOTNo2: null,
     type: null,
+    detailType: null,
   }
 
 

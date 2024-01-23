@@ -45,9 +45,6 @@ export default function RewindingChart({
     }
   }, [data, fields, divide, reverse]);
   
-  
-  
-
   const ddata = {
     datasets: fields.map((field, index) => ({
       name: fieldNames[index],

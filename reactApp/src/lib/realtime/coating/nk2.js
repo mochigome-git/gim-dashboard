@@ -4,10 +4,9 @@ import { initialState } from "../../reducer";
 import {
   fetchNk2Index,
   fetchNk2Details,
-  //fetchNK2MultipleDetails,
+  fetchTableData,
 } from "../../api/coating";
 
-//import { DetailsTabContext } from "../layouts/tables/index";
 export const NK2Context = createContext();
 
 const NK2Provider = ({ children }) => {
@@ -20,55 +19,51 @@ const NK2Provider = ({ children }) => {
     }));
   };
 
-  // initial fetch Data
+  const setupSubscription = (channel, table, callback) => {
+    return subscribeToChannel(channel, table, (payload) => {
+      if (channel === "nk2_log_data_storage") {
+        callback(setState);
+        //console.log(payload);
+      }
+    });
+  };
+
+  const subscribeToChannel = (channel, table, callback) => {
+    return supabase
+      .channel(`public:${channel}`)
+      .on("postgres_changes", { event: "*", schema: "public", table }, callback)
+      .subscribe();
+  };
+
   const fetchData = async () => {
-    await Promise.all(
-      [
-        //COATING
-        fetchNk2Index,
-        fetchNk2Details,
-      ].map(async (fetchFunction) => {
-        await fetchFunction(setState, state);
-      })
-    );
+    fetchNk2Index(setState, state);
+    fetchNk2Details(setState, state);
+    fetchTableData('nk2_log_data_storage', 'nk2Data', setState);
+    fetchTableData('nk2_2u_fibre_sensor', 'nk2_2u_fibre_sensor', setState, -8);
+    fetchTableData('nk2_main_pressure_sensor', 'nk2PressureSensor', setState, -8);
+    fetchTableData('nk2_4u_fibre_sensor', 'nk2_4u_fibre_sensor', setState, -8);
+    // Add more data-fetching functions as needed
   };
 
   useEffect(() => {
-    //initial fetchData
-    fetchData();
-    const subscribeToChannel = (channel, table, callback) => {
-      return supabase
-        .channel(`public:${channel}`)
-        .on(
-          "postgres_changes",
-          { event: "*", schema: "public", table },
-          callback
-        )
-        .subscribe();
+    const fetchDataAndSubscribe = async () => {
+      fetchData();
+
+      const subscriptions = [
+        setupSubscription("nk2_log_data_storage", "nk2_log_data_storage", fetchData),
+        // Add more subscriptions as needed
+      ];
+
+      return () => {
+        if (state.subscription) {
+          supabase.removeChannel(state.subscription);
+          subscriptions.forEach((subscription) => subscription.unsubscribe());
+          supabase.removeAllChannels();
+        }
+      };
     };
 
-    const setupSubscription = (channel, table, callback) => {
-      return subscribeToChannel(channel, table, (payload) => {
-        callback(setState);
-        //console.log(payload)
-      });
-    };
-
-    const subscriptions = [
-      setupSubscription(
-        "nk2_log_data_storage",
-        "nk2_log_data_storage",
-        fetchNk2Index
-      ),
-    ];
-    return () => {
-      if (state.subscription) {
-        supabase.removeChannel(state.subscription);
-        subscriptions.forEach((subscription) => subscription.unsubscribe());
-        supabase.removeAllChannels();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchDataAndSubscribe();
   }, []);
 
   return (
@@ -83,8 +78,9 @@ const NK2Provider = ({ children }) => {
           daily: state.nk2_daily,
           output: state.nk2_output,
           detail: state.nk2_detail,
+          data: state.nk2Data,
           fiberSensor4U: state.nk2_4u_fibre_sensor,
-          mainPressureSensor: state.nk2_main_pressure_sensor,
+          mainPressureSensor: state.nk2PressureSensor,
           fiberSensor2U: state.nk2_2u_fibre_sensor,
         },
       }}

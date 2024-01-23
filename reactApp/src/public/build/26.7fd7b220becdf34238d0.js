@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkinkjet_dashboard_app=self.webpackChunkinkjet_dashboard_app||[]).push([[26],{57026:e=>{e.exports=function(){throw new Error("ws does not work in the browser. Browser clients must use the native WebSocket object")}}}]);
+//# sourceMappingURL=26.7fd7b220becdf34238d0.js.map

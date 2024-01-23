@@ -33,11 +33,6 @@ import MachineMProvider from "../../lib/realtime/inkjet/machineM_realtime";
 import RewindingProvider from "../../lib/realtime/rewinding/rewinding_realtime";
 
 function Dashboard() {
-  function relDiff(a, b) {
-    return 100 * ((a - b) / ((a + b) / 2));
-  }
-
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

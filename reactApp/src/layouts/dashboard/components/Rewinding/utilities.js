@@ -1,23 +1,23 @@
-
 export function transformData(inputData) {
-    const transformedData = inputData.map(item => {
-      if (item.machine) {
-        const machineKey = `mac${item.machine.replace('mac', '')}`;
-        const dateKey = 'created_at';
+  const transformedData = inputData.reduce((result, item) => {
+    if (item.machine) {
+      const machineKey = `mac${item.machine.replace('mac', '')}`;
+      const dateKey = item.created_at;
 
-        const result = {
-          [dateKey]: item.created_at,
-          [machineKey]: item.total_count,
+      if (!result[dateKey]) {
+        result[dateKey] = {
+          created_at: dateKey,
         };
-
-        return result;
       }
 
-      return null; // Skip entries with null or undefined machine
-    }).filter(Boolean); // Remove null entries from the result
+      result[dateKey][machineKey] = item.total_count;
+    }
 
-    return transformedData;
-  }
+    return result;
+  }, {});
+
+  return Object.values(transformedData);
+}
 
 export function calculateSumForLatest12(data) {
     // Sort the array based on 'created_at' in descending order

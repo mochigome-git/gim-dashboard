@@ -47,6 +47,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import LoginIcon from '@mui/icons-material/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CameraRollIcon from '@mui/icons-material/CameraRoll';
+import RealtimeTable from "./layouts/coating/components/RealtimeTable";
 
 const routes = [
 //General 
@@ -75,8 +76,16 @@ const routes = [
     icon: <BackupTableIcon fontSize="small" />,
     route: "/coating",
     component: <Coating />,
-  },  
+  }, 
+  {
+    type: "",
+    name: "Coating Realtime",
+    key: "Coating-Realtime",
+    route: "/coating/realtime",
+    component: <RealtimeTable/>,
+  },
 
+  
 //Inkjet block  
   {
     type: "collapse",

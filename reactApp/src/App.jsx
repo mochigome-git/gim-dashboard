@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "./lib/supabase";
 import Home from "./Home";
 import Login from "./layouts/authentication/login"
@@ -33,8 +33,7 @@ const App = () => {
   // const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
   const Timenow = new Date(Date.now()).toLocaleString();
-  const lastActivityRef = useRef(Date.now());
-
+  //const lastActivityRef = useRef(Date.now());
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -109,9 +108,9 @@ const App = () => {
   //}, []);
 
   // Handle activity function to update the ref
-  const handleActivity = () => {
-    lastActivityRef.current = Date.now();
-  };
+  //const handleActivity = () => {
+  //  lastActivityRef.current = Date.now();
+  //};
 
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>

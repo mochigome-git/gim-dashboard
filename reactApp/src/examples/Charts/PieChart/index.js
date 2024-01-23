@@ -44,7 +44,7 @@ function PieChart({ icon, iconColor, title, description, height, chart }) {
       const ctx = canvasRef.current.getContext('2d');
       drawCenterText(ctx, description);
     }
-  }, [chart]);
+  }, [chart, description]);
 
   const renderChart = (
     <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>

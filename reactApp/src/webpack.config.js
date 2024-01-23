@@ -1,26 +1,54 @@
+const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/app/app.tsx',
+  entry: './src/index.js',
   plugins: [
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['public/build']
     }),
     new HtmlWebpackPlugin({
-      template: 'src/templates/index.html'
+      template: './public/index.html',
     }),
   ],
   output: {
-    path: __dirname + '/public',
+    path: path.resolve(__dirname, 'public'),
     filename: 'build/[name].[contenthash].js'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.html'],
   },
+  devtool: 'source-map',
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'ts-loader' }
-    ]
+      { 
+        test: /\.tsx?$/, 
+        use: ['ts-loader', 'babel-loader', 'html-loader'], 
+        exclude: /node_modules/ 
+      },
+      { 
+        test: /\.jsx?$/, 
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        }, 
+        exclude: /node_modules/ 
+      },
+      { 
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      { 
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ]    
   }
-}
+};

@@ -21,7 +21,7 @@ import DashboardNavbar from "../../../examples/Navbars/DashboardNavbar";
 import BoardList from "./components/BoardList";
 
 // Realtime context library
-import { DailyContext } from "../../../lib/realtime";
+//import { DailyContext } from "../../../lib/realtime";
 import RewindingProvider from "../../../lib/realtime/rewinding/rewinding_realtime";
 
 function Tables() {
@@ -34,7 +34,7 @@ function Tables() {
         throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
-  const [_, dispatch] = useReducer(reducer, {
+  const [,] = useReducer(reducer, {
     tabValue: 0,
   });
 

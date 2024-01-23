@@ -2,11 +2,7 @@ import { supabase } from "./supabase";
 import { createContext, useEffect, useState } from "react";
 import { initialState } from "./reducer";
 import {
-  fetchNk2Index,
-  fetchNk2Details,
   //fetchNK2MultipleDetails,
-  fetchNk3Index,
-  fetchNk3Details,
 } from "./api/coating";
 import { fetchPo, editPoVendor, fetchPoData } from "./api/po";
 
@@ -26,11 +22,6 @@ const DailyProvider = ({ children }) => {
   // initial fetch Data
   const fetchData = async () => {
     await Promise.all([
-      //COATING
-      fetchNk2Index,
-      fetchNk2Details,
-      fetchNk3Index,
-      fetchNk3Details,
       //PO
       fetchPo,
       editPoVendor,
@@ -43,8 +34,6 @@ const DailyProvider = ({ children }) => {
   //coating.detail
   useEffect(() => {
     const fetchDetails = async () => {
-      await fetchNk2Details(setState, state);
-      await fetchNk3Details(setState, state);
       await editPoVendor(setState, state);
     };
 
@@ -95,23 +84,12 @@ const DailyProvider = ({ children }) => {
         // General data
         setDetailsData,
 
-         // NK2 data
-         nk2: {
-          index: state.nk2_index,
-          daily: state.nk2_daily,
-          output: state.nk2_output,
-          detail: state.nk2_detail,
-          fiberSensor4U: state.nk2_4u_fibre_sensor,
-          mainPressureSensor: state.nk2_main_pressure_sensor,
-          fiberSensor2U: state.nk2_2u_fibre_sensor,
-        },
-
         // NK3 data
-        nk3: {
-          index: state.nk3_index,
-          detail: state.nk3_detail,
-          fiberSensor2U: state.nk3_2u_fibre_sensor,
-        },
+        //nk3: {
+        //  index: state.nk3_index,
+        //  detail: state.nk3_detail,
+        //  fiberSensor2U: state.nk3_2u_fibre_sensor,
+        //},
 
         // PO data
         po: {

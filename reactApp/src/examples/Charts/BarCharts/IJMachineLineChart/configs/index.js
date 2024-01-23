@@ -62,7 +62,7 @@ function configs(datasets, ownerState, ymax) {
 				inputBoxHeight: 18,
 				inputStyle: commonStyle,
 				labelStyle: commonStyle,
-				selected: 1,
+				selected: 2,
 				enabled: true
 			},
 			navigator: {

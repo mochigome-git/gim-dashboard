@@ -61,14 +61,7 @@ const DailyProvider = ({ children }) => {
 
     const subscriptions = [
       setupSubscription("po_system", "po_system", fetchPoData),
-     // setupSubscription("machine_t", "machine_t", fetchMachineTData),
-     // setupSubscription("machine_m", "machine_m", fetchMachineMData),
-     // setupSubscription("nk2_log_data_storage", "nk2_log_data_storage", fetchNk2Index),
-     // setupSubscription("nk3_log_data_storage", "nk3_log_data_storage", fetchNk3Index),
-     // setupSubscription("ij_pkg_weight_records", "ij_pkg_weight_records", fetchIJWeightRecord),
       setupSubscription("po_system_vendor", "po_system_vendor", fetchPo),
-     // setupSubscription("assembly_line_count", "assembly_line_count", fetchAssemblyData),
-     // setupSubscription("rewinding_count", "rewinding_count", fetchRewindingData),
     ];
     return () => {
       supabase.removeChannel(state.subscription);
@@ -83,13 +76,6 @@ const DailyProvider = ({ children }) => {
       value={{
         // General data
         setDetailsData,
-
-        // NK3 data
-        //nk3: {
-        //  index: state.nk3_index,
-        //  detail: state.nk3_detail,
-        //  fiberSensor2U: state.nk3_2u_fibre_sensor,
-        //},
 
         // PO data
         po: {

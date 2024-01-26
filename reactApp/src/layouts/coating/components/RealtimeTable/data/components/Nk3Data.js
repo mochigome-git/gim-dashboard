@@ -7,7 +7,7 @@ import ChartData from '../ChartData';
 const ChartComponent = ({ field, chartProps, renderDetailsChart}) => {
   const { nk3 } = useContext(NK3Context);
   return (
-    <Grid item xs={12} md={12} lg={6}>
+    <Grid item xs={12} md={6} lg={6}>
       <MDBox mb={3}>
         {nk3[field] ? (
           <ChartData

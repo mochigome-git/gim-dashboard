@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useContext, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // @mui material components
@@ -18,7 +18,6 @@ import CoatingHome from "../../examples/Tables/IndexTable/CoatingHome";
 import CoatingDetailsTable from './components/CoatingDetailsTable';
 
 // Realtime context library
-import { DailyContext } from "../../lib/realtime"
 import NK2Provider from '../../lib/realtime/coating/nk2';
 import NK3Provider from '../../lib/realtime/coating/nk3';
 
@@ -37,7 +36,6 @@ function Coating() {
   const [state, dispatch] = useReducer(reducer, initialState_dispatch);
   const [_state, setState] = useState(initialState);
   const navigate = useNavigate();
-  const { setDetailsData } = useContext(DailyContext);
 
   const onDetailsTabClick = (type, date, seq) => {
     if (type === "NK2Details") {
@@ -57,6 +55,10 @@ function Coating() {
     if (type === "REALTIME") {
       dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
       dispatch({ type: 'SET_TYPE', payload: 'REALTIME' })
+    }
+    if (type === "SETTING") {
+      dispatch({ type: 'SET_TAB_VALUE', payload: 2 });
+      dispatch({ type: 'SET_TYPE', payload: 'SETTING' })
     }
   };
 
@@ -87,6 +89,10 @@ function Coating() {
   const navigateRealltime = () => {
     navigate("/coating/realtime");
   };
+
+  const navigateSetting = () => {
+    navigate("/coating/setting")
+  }
 
   return (
     <DashboardLayout>
@@ -166,6 +172,7 @@ function Coating() {
               )}
 
               {state.type === "REALTIME" && state.tabValue === 2 && navigateRealltime()}
+              {state.type === "SETTING" && state.tabValue === 2 && navigateSetting()}
             </Card>
 
           </Grid>

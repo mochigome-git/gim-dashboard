@@ -16,6 +16,7 @@ import MDTypography from "../../../../components/MDTypography";
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import StreamIcon from '@mui/icons-material/Stream';
 import Looks3Icon from '@mui/icons-material/Looks3';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../../context";
@@ -73,6 +74,7 @@ function CoatingHome({ onNk2TabClick, onDetailsTabClick }) {
               </MDBox>
             </MDBox>
           </Grid>
+
           <Grid item xs={12} md={60}>
             <MDBox
               borderRadius="lg"
@@ -109,6 +111,7 @@ function CoatingHome({ onNk2TabClick, onDetailsTabClick }) {
               </MDBox>
             </MDBox>
           </Grid>
+
           <Grid item xs={12} md={60}>
             <MDBox
               borderRadius="lg"
@@ -145,6 +148,44 @@ function CoatingHome({ onNk2TabClick, onDetailsTabClick }) {
               </MDBox>
             </MDBox>
           </Grid>
+
+          <Grid item xs={12} md={60}>
+            <MDBox
+              borderRadius="lg"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Setting</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<SettingsApplicationsIcon fontSize="large" />}
+                    onClick={() => onDetailsTabClick("SETTING")}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              </MDBox>
+            </MDBox>
+          </Grid>
+
         </Grid>
       </MDBox>
     </Card>

@@ -19,8 +19,8 @@ import MDBox from "../../../../components/MDBox";
 import CoatingDetailCards from "../../../../examples/Cards/StatisticsCards/CoatingDetailCards";
 
 // Local Components
-import NK2DetailComponent from "./data/components/NK2DetailComponent";
-import NK3DetailComponent from "./data/components/NK3DetailComponent";
+import NK2DetailComponent from "./components/NK2DetailComponent";
+import NK3DetailComponent from "./components/NK3DetailComponent";
 
 function CoatingDetailsTable({ nk2Data, nk3Data, parameter, typeDetail }) {
   // State management

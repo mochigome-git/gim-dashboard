@@ -55,6 +55,12 @@ const colors = {
   success: {
     main: "#4CAF50",
     focus: "#02962c",
+    dark: "#1b6062",
+  },
+
+  successDark: {
+    main: "#1b6062",
+    focus: "#1b6062"
   },
 
   warning: {
@@ -266,6 +272,7 @@ const colors = {
   },
 
   inputBorderColor: "#d2d6da",
+  inputBorderColor2: "#37424d",
 
   dashedBorder: "#8b98a5",
 

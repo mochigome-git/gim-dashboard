@@ -27,6 +27,8 @@ import NK2Component from './data/components/NK2Component';
 import { fetchModel, fetchModel2, columnReplacements } from './api';
 import { useDataFetching, findDifferentColumns } from './utils';
 
+import { ErrorSnackbar } from '../../../../examples/Alerts';
+
 // Extract components and functions that can be reused
 
 const LoadingErrorComponent = ({ onRetry }) => (
@@ -54,10 +56,22 @@ const RealtimeTable = memo(() => {
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [state, setState] = useState();
+  const [errorExist, setErrorExist] = useState(() => {
+    return localStorage.getItem('errorExist') || false;
+  });
   const [tableType, setSelectedTable] = useState(() => {
     // Initialize the state from localStorage, defaulting to 'nk2' if not available
     return localStorage.getItem('tableType') || 'nk2';
   });
+
+  const openErrorSB = () => {
+    setErrorExist(true);
+  };
+
+  const closeErrorSB = () => {
+    setErrorExist(false);
+  };
+
   const [id, setModel] = useState(0);
 
   const handleButtonClick = async (type) => {
@@ -72,6 +86,12 @@ const RealtimeTable = memo(() => {
   useEffect(() => {
     localStorage.setItem('tableType', tableType);
   }, [tableType]);
+
+  useEffect(() => {
+    localStorage.setItem('errorExist', errorExist);
+  }, [errorExist]);
+
+  console.log(errorExist)
 
   useDataFetching({ table: `coating_model`, fetchData: fetchModel2, supabase, setState, id });
   useDataFetching({ table: `nk2_log_data_realtime`, fetchData: fetchModel, supabase, setState });
@@ -97,10 +117,20 @@ const RealtimeTable = memo(() => {
     );
   }
 
-
   return (
     <CoatingDashboardLayout>
       <MDBox py={3}>
+      {errorExist === true && (
+        <ErrorSnackbar
+          errorTitle={"Temperatur Error"}
+          errors={"Temperature is high"}
+          content2="disable"
+          dateTime="disable"
+          state={errorExist}
+          close={closeErrorSB}
+          silent={true}
+        />
+      )}
         <MDBox pb={3} >
           <Stack
             direction="row"
@@ -112,6 +142,8 @@ const RealtimeTable = memo(() => {
               <Button onClick={() => handleButtonClick('NK2')}>NK2</Button>
               <Button onClick={() => handleButtonClick('NK3')}>NK3</Button>
             </ButtonGroup>
+
+           {/* <Button onClick={openErrorSB}>Error </Button> */}
 
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel >Model</InputLabel>

@@ -48,6 +48,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CameraRollIcon from '@mui/icons-material/CameraRoll';
 import RealtimeTable from "./layouts/coating/components/RealtimeTable";
+import SettingTable from "./layouts/coating/components/SettingTable";
 
 const routes = [
 //General 
@@ -83,6 +84,13 @@ const routes = [
     key: "Coating-Realtime",
     route: "/coating/realtime",
     component: <RealtimeTable/>,
+  },
+  {
+    type: "",
+    name: "Coating Setting",
+    key: "Coating-Setting",
+    route: "/coating/setting",
+    component: <SettingTable/>,
   },
 
   

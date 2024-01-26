@@ -53,15 +53,16 @@ const FormField = ({
         })}
       >
         <MDInput
-          label={
-            <MDBox
-              sx={{
-                color: (theme) => (darkMode ? theme.palette.white.main : theme.palette.dark.main),
-              }}
-            >
-              {label}
-            </MDBox>
-          }
+          //label={
+          //  <MDBox
+          //    sx={{
+          //      color: (theme) => (darkMode ? `#37424d` : theme.palette.dark.main),
+          //    }}
+          //  >
+          //    {label}
+          //  </MDBox>
+          //}
+          label={label}
           ref={ref}
           defaultValue={defaultValue ? defaultValue : undefined}
           value={controlOn ? value || '' : value ? value : undefined}
@@ -70,9 +71,6 @@ const FormField = ({
             m: 1,
             height: { xs: inputWidth, md: 50 },
             width: { xs: inputWidth, sm: width, md: width },
-            '& .MuiInputLabel-root': {
-              fontSize: '1rem',
-            },
           }}
           {...otherProps}
           error={error}

@@ -95,7 +95,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "HTTPS=true react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build --no-minify",
     "build:prod": "react-scripts build && NODE_ENV=production webpack --mode production --config src/webpack.config.js",
     "test": "react-scripts test",

@@ -70,6 +70,7 @@ MDTypography.propTypes = {
     "secondary",
     "info",
     "success",
+    "successDark",
     "warning",
     "error",
     "light",

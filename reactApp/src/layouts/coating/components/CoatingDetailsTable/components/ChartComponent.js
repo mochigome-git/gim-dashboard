@@ -1,5 +1,5 @@
 import React from 'react';
-import ChartData from '../ChartData';
+import ChartData from '../../RealtimeTable/data/ChartData';
 
 const ChartComponent = ({ field, chartProps, renderDetailsChart }) => {
 

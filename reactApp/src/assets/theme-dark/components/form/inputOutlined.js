@@ -8,7 +8,7 @@ import typography from "../../base/typography";
 import pxToRem from "../../functions/pxToRem";
 import rgba from "../../functions/rgba";
 
-const { inputBorderColor, info, grey, transparent, white, background } = colors;
+const { inputBorderColor2, info, grey, transparent, white, background } = colors;
 const { borderRadius } = borders;
 const { size } = typography;
 
@@ -25,7 +25,7 @@ const inputOutlined = {
       },
 
       "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor: rgba(inputBorderColor, 0.6),
+        borderColor: rgba(inputBorderColor2, 0.6),
       },
 
       "& .MuiInputBase-input.Mui-disabled": {
@@ -40,7 +40,7 @@ const inputOutlined = {
     },
 
     notchedOutline: {
-      borderColor: rgba(inputBorderColor, 0.6),
+      borderColor: rgba(inputBorderColor2, 0.6),
     },
 
     input: {

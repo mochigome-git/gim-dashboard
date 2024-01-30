@@ -63,6 +63,10 @@ const colors = {
     focus: "#1b6062"
   },
 
+  darkYellow: {
+    main: "#ffab00"
+  },
+
   warning: {
     main: "#fb8c00",
     focus: "#018507",

@@ -80,16 +80,16 @@ export const formReducer = (state, action) => {
     case "SET_ADDRESS1":
       return {
         ...state,
-        address_1_textfield: action.payload.value,
-        address_1_column: action.payload.column,
-        address_1_clear: action.payload.clear,
+        address1_textfield: action.payload.value,
+        address1_column: action.payload.column,
+        address1_clear: action.payload.clear,
       };
     case "SET_ADDRESS2":
       return {
         ...state,
-        address_2_textfield: action.payload.value,
-        address_2_column: action.payload.column,
-        address_2_clear: action.payload.clear,
+        address2_textfield: action.payload.value,
+        address2_column: action.payload.column,
+        address2_clear: action.payload.clear,
       };
     case "SET_FAX":
       return {
@@ -101,16 +101,16 @@ export const formReducer = (state, action) => {
     case "SET_TEL1":
       return {
         ...state,
-        tel_1_textfield: action.payload.value,
-        tel_1_column: action.payload.column,
-        tel_1_clear: action.payload.clear,
+        tel1_textfield: action.payload.value,
+        tel1_column: action.payload.column,
+        tel1_clear: action.payload.clear,
       };
     case "SET_TEL2":
       return {
         ...state,
-        tel_2_textfield: action.payload.value,
-        tel_2_column: action.payload.column,
-        tel_2_clear: action.payload.clear,
+        tel2_textfield: action.payload.value,
+        tel2_column: action.payload.column,
+        tel2_clear: action.payload.clear,
       };
     case "SET_UNIT":
       return {

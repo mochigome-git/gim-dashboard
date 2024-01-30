@@ -26,6 +26,18 @@ import {
 import { initialState, formReducer } from "../formReducer";
 import { SuccessSnackbar, ErrorSnackbar, DeleteSnackbar, InsertSnackbar } from "../../Alerts";
 
+const formFields = [
+  { label: 'Company Name', column: 'company', width: '100%' },
+  { label: 'Attn Name', column: 'attn', width: '100%' },
+  { label: 'Tel 1', column: 'tel1', width: '100%' },
+  { label: 'Tel 2', column: 'tel2', width: '100%' },
+  { label: 'Fax', column: 'fax', width: '100%' },
+  { label: 'Address 1', column: 'address1', width: '100%' },
+  { label: 'Address 2', column: 'address2', width: '100%', controlOn: true },
+  { label: 'Currency', column: 'currency', width: '100%', select: true },
+];
+
+
 export default function Form({
   attn,
   company,
@@ -85,6 +97,45 @@ export default function Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const snackbarTypes = [
+    { key: 'update', component: SuccessSnackbar, onClose: closeSuccessSB },
+    { key: 'delete', component: DeleteSnackbar, onClose: closeDeleteSB },
+    { key: 'insert', component: InsertSnackbar, onClose: closeInsertSB },
+    {
+      key: 'errorexist',
+      component: ErrorSnackbar,
+      onClose: closeErrorSB,
+      errorTitle: state.error_title,
+      errors: state.errors,
+      silent: false,
+    },
+  ];
+
+  const handleChange = (column, value) => {
+    dispatch({
+      type: `SET_${column.replace(/([A-Z])/g, '_$1').toUpperCase()}`,
+      payload: { value, column },
+    });
+  };
+
+  const handleSubmit = () => {
+    const formData = [
+      { column: state.company_column, value: state.company_textfield },
+      { column: state.currency_column, value: state.currency_textfield },
+      { column: state.attn_column, value: state.attn_textfield },
+      { column: state.address_1_column, value: state.address_1_textfield },
+      { column: state.address_2_column, value: state.address_2_textfield },
+      { column: state.fax_column, value: state.fax_textfield },
+      { column: state.tel_1_column, value: state.tel_1_textfield },
+      { column: state.tel_2_column, value: state.tel_2_textfield },
+    ];
+
+    if (createform) {
+      insertVendorBook(formData, dispatch, openInsertSB, openErrorSB);
+    } else {
+      updateVendorBook(formData, id, dispatch, openSuccessSB, openErrorSB);
+    }
+  };
 
   return (
     <MDBox
@@ -112,36 +163,11 @@ export default function Form({
         },
       })}
     >
-      {state.success && (
-        <SuccessSnackbar
-          state={state.update}
-          onClose={closeSuccessSB}
-          close={closeSuccessSB}
-        />
-      )}
-      {state.delete && (
-        <DeleteSnackbar
-          state={state.delete}
-          onClose={closeDeleteSB}
-          close={closeDeleteSB}
-        />
-      )}
-      {state.insert && (
-        <InsertSnackbar
-          state={state.insert}
-          onClose={closeInsertSB}
-          close={closeInsertSB}
-        />
-      )}
-      {state.errorexist && (
-        <ErrorSnackbar
-          state={state.errorexist}
-          onClose={closeErrorSB}
-          close={closeErrorSB}
-          errorTitle={state.error_title}
-          errors={state.errors}
-        />
-      )}
+
+      {snackbarTypes.map(({ key, component: SnackbarComponent, onClose, ...props }) => (
+        state[key] && <SnackbarComponent key={key} state={state[key]} onClose={onClose} close={onClose} {...props} />
+      ))}
+
       <MDBox width="100%" display="flex" flexDirection="column">
         <MDBox
           display="flex"
@@ -151,209 +177,45 @@ export default function Form({
           flexWrap="wrap"
           mb={2}
         >
-          <Grid container >
-            <Grid>
-              <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Company Name"
-                  value={state.company_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: 'SET_COMPANY',
-                      payload: { value: event.target.value, column: 'company_name', },
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="30ch"
-                  error={state.company_column && state.company_textfield.length === 0}
-                  helperText={state.company_column && state.company_textfield.length === 0
-                    ? 'Cannot be empty!' : ''}
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
+
+          <Grid container spacing={0}>
+            {formFields.map((field) => (
+              <Grid key={field.label} item xs={12} sm={6} md={3} px={2}>
+                <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                  <FormField
+                    label={field.label}
+                    value={state[`${field.column}_textfield`] || []}
+                    onChange={(event) => handleChange(field.column, event.target.value)}
+                    darkMode={darkMode}
+                    width={field.width}
+                    error={state[`${field.column}_column`] && state[`${field.column}_textfield`]?.length === 0}
+                    helperText={state[`${field.column}_column`] && state[`${field.column}_textfield`]?.length === 0
+                      ? 'Cannot be empty!' : ''}
+                    miniSidenav={miniSidenav}
+                    {...field}
+                  />
+                </MDTypography>
+              </Grid>
+            ))}
             </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Attn Name"
-                  value={state.attn_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: 'SET_ATTN',
-                      payload: { value: event.target.value, column: 'attn', },
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="20ch"
-                  error={state.attn_column && state.attn_textfield.length === 0}
-                  helperText={state.attn_column && state.attn_textfield.length === 0
-                    ? 'Cannot be empty!' : ''}
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Tel 1"
-                  value={state.tel_1_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_TEL1",
-                      payload: { value: event.target.value, column: 'tel_1', },
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="19ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Tel 2"
-                  value={state.tel_2_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_TEL2",
-                      payload: { value: event.target.value, column: 'tel_2', }
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="16ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Fax"
-                  value={state.fax_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_FAX",
-                      payload: { value: event.target.value, column: 'fax', }
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="18ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Address 1"
-                  value={state.address_1_textfield || []}
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_ADDRESS1",
-                      payload: { value: event.target.value, column: 'address_1', }
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="40ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Address 2"
-                  value={state.address_2_textfield || []}
-                  controlOn
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_ADDRESS2",
-                      payload: { value: event.target.value, column: 'address_2', }
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="40ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-            <Grid>
-              <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                <FormField
-                  label="Currency"
-                  value={state.currency_textfield || null}
-                  select={true}
-                  onChange={(event) => {
-                    dispatch({
-                      type: "SET_CURRENCY",
-                      payload: { value: event.target.value, column: 'currency' }
-                    });
-                  }}
-                  darkMode={darkMode}
-                  width="12.5ch"
-                  miniSidenav={miniSidenav}
-                />
-              </MDTypography>
-            </Grid>
-          </Grid>
         </MDBox>
+
         <MDBox display="flex" justifyContent="flex-end" alignItems="center"
           mt={{ xs: 4, sm: 6 }}
           ml={{ xs: -1.5, sm: 0 }}
           mr={{ xs: 0, sm: 5 }}
         >
           <MDBox mr={1}>
-            {createform ? (
-              <MDButton
-                variant="text"
-                color="success"
-                onClick={() =>
-                  insertVendorBook([
-                    { column: state.company_column, value: state.company_textfield },
-                    { column: state.currency_column, value: state.currency_textfield },
-                    { column: state.attn_column, value: state.attn_textfield },
-                    { column: state.address_1_column, value: state.address_1_textfield },
-                    { column: state.address_2_column, value: state.address_2_textfield },
-                    { column: state.fax_column, value: state.fax_textfield },
-                    { column: state.tel_1_column, value: state.tel_1_textfield },
-                    { column: state.tel_2_column, value: state.tel_2_textfield },
-                  ],
-                    dispatch,
-                    openInsertSB,
-                    openErrorSB,
-                  )
-                }
-                disabled={state.isCompanyEmpty || state.isAttnEmpty}
-              >
-                <EditIcon />&nbsp;Create
-              </MDButton>
-            ) : (
-              <MDButton
-                variant="text"
-                color="success"
-                onClick={() =>
-                  updateVendorBook([
-                    { column: state.company_column, value: state.company_textfield },
-                    { column: state.currency_column, value: state.currency_textfield },
-                    { column: state.attn_column, value: state.attn_textfield },
-                    { column: state.address_1_column, value: state.address_1_textfield },
-                    { column: state.address_2_column, value: state.address_2_textfield },
-                    { column: state.fax_column, value: state.fax_textfield },
-                    { column: state.tel_1_column, value: state.tel_1_textfield },
-                    { column: state.tel_2_column, value: state.tel_2_textfield },
-                  ],
-                    id,
-                    dispatch,
-                    openSuccessSB,
-                    openErrorSB,
-                  )
-                }
-              >
-                <EditIcon />&nbsp;Update
-              </MDButton>
-            )}
+            <MDButton
+              variant="text"
+              color="success"
+              onClick={handleSubmit}
+              disabled={createform ? state.isCompanyEmpty || state.isAttnEmpty : false}
+            >
+              <EditIcon />&nbsp;{createform ? 'Create' : 'Update'}
+            </MDButton>
           </MDBox>
+
           <MDBox mr={1}>
             {createform ? (
               <MDButton
@@ -378,7 +240,6 @@ export default function Form({
     </MDBox>
   );
 }
-
 // Setting default values for the props of Bill
 Form.defaultProps = {
   noGutter: false,

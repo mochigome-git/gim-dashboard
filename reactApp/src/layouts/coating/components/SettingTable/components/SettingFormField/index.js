@@ -3,11 +3,10 @@ import React, { useReducer, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui material components
-import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Grid from "@mui/material/Grid";
-import Slider, { SliderThumb } from '@mui/material/Slider';
+import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 
@@ -20,50 +19,33 @@ import FormField from "../../../../../../examples/Forms/FormField";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../../../../context";
 
-// Suapabase function
-import {
-  updateVendorBook,
-  deleteVendorBook,
-  insertVendorBook,
-  marks,
-} from "./utility";
-
+// API, Utilities and ETC..
+import { updateCoatingSetting, deleteCoatingSetting, insertCoatingSetting, marks} from "./utility";
 import { pick } from "../../api"
-import { initialState, formReducer } from "./formReducer";
+import { initialState, settingReducer } from "./settingReducer";
+
+// Alerts
 import { SuccessSnackbar, ErrorSnackbar, DeleteSnackbar, InsertSnackbar } from "../../../../../../examples/Alerts";
 
 const formFields = [
   { label: 'Model Name', column: 'fetchModel', width: '100%' },
-  { label: 'Attn Name', column: 'attn', width: '100%' },
-  { label: 'Tel 1', column: 'tel1', width: '100%' },
-  { label: 'Tel 2', column: 'tel2', width: '100%' },
-  { label: 'Fax', column: 'fax', width: '100%' },
-  { label: 'Address 1', column: 'address1', width: '100%' },
-  { label: 'Address 2', column: 'address2', width: '100%', controlOn: true },
-  { label: 'Currency', column: 'currency', width: '100%', select: true },
+  { label: 'Speed', column: 'speed', width: '100%', select: true, menuOption: 'coatingspeed' },
 ];
 
 const slideFields = [
-  { label: '1D1Z', column: 'fetchModel', width: '100%' },
-  { label: '1D2Z', column: 'attn', width: '100%' },
-  { label: '2D1Z', column: 'address2', width: '100%' },
-  { label: '2D2Z', column: 'currency', width: '100%' },
-  { label: '3D1Z', column: 'currency', width: '100%' },
-  { label: '3D2Z', column: 'currency', width: '100%' },
-  { label: '4D1Z', column: 'currency', width: '100%' },
-  { label: '4D2Z', column: 'currency', width: '100%' },
+  { label: '1D1Z', column: 'c1d1z', width: '100%' },
+  { label: '1D2Z', column: 'c1d2z', width: '100%' },
+  { label: '2D1Z', column: 'c2d1z', width: '100%' },
+  { label: '2D2Z', column: 'c2d2z', width: '100%' },
+  { label: '3D1Z', column: 'c3d1z', width: '100%' },
+  { label: '3D2Z', column: 'c3d2z', width: '100%' },
+  { label: '4D1Z', column: 'c4d1z', width: '100%' },
+  { label: '4D2Z', column: 'c4d2z', width: '100%' },
+  { label: '4D3Z', column: 'c4d3z', width: '100%' },
 ];
 
 export default function SettingFormField({
-  attn,
-  company,
   noGutter,
-  address_1,
-  address_2,
-  fax,
-  tel_1,
-  tel_2,
-  currency,
   id,
   createform,
   type,
@@ -71,8 +53,7 @@ export default function SettingFormField({
   const [controller] = useMaterialUIController();
   const { darkMode, miniSidenav } = controller;
   const timerRef = useRef(null);
-  const [fetchDetail, setFetchDetail] = useState([])
-  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [state, dispatch] = useReducer(settingReducer, initialState);
   const openSuccessSB = () => { dispatch({ type: "SET_UPDATE", payload: true }); };
   const closeSuccessSB = () => { dispatch({ type: "SET_UPDATE", payload: false }); };
   const openDeleteSB = () => { dispatch({ type: "SET_DELETE", payload: true }); };
@@ -81,10 +62,6 @@ export default function SettingFormField({
   const closeInsertSB = () => { dispatch({ type: "SET_INSERT", payload: false }); };
   const openErrorSB = () => { dispatch({ type: "SET_ERROR_EXIST", payload: true }); };
   const closeErrorSB = () => { dispatch({ type: "SET_ERROR_EXIST", payload: false }); };
-
-  const clearFields = () => {
-    dispatch({ type: 'CLEAR_FIELDS' });
-  };
 
   // useEffect to reset vendor_details and success flag after 5 seconds
   useEffect(() => {
@@ -103,30 +80,27 @@ export default function SettingFormField({
     };
   }, [state.success, state.delete]);
 
-  // initial input field
-  useEffect(() => {
-    dispatch({ type: 'SET_COMPANY', payload: { value: company }, });
-    dispatch({ type: 'SET_ATTN', payload: { value: attn }, });
-    dispatch({ type: 'SET_TEL1', payload: { value: tel_1 }, });
-    dispatch({ type: 'SET_TEL2', payload: { value: tel_2 }, });
-    dispatch({ type: 'SET_ADDRESS1', payload: { value: address_1 }, });
-    dispatch({ type: 'SET_ADDRESS2', payload: { value: address_2 }, });
-    dispatch({ type: 'SET_FAX', payload: { value: fax }, });
-    dispatch({ type: 'SET_CURRENCY', payload: { value: currency }, });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // useEffect to handle the onclick of Chip button and fetch config of model from Database
   useEffect(() => {
     if (id && type === 'EDIT') {
       pick(id, dispatch, openErrorSB)
     }
-  }, [id]);
+    if (createform && type === 'CREATE') {
+      dispatch({ type: "RESET" });
+    }
+  }, [id, createform]);
 
   const handleChange = (column, value) => {
     dispatch({
       type: `SET_${column.replace(/([A-Z])/g, '_$1').toUpperCase()}`,
       payload: { value, column },
+    });
+  };
+
+  const handleChange1 = (event, value) => {
+    dispatch({
+      type: `SET_${event.replace(/([A-Z])/g, '_$1').toUpperCase()}`,
+      payload: { valuel: value[0], valueh: value[1], column: event },
     });
   };
 
@@ -146,20 +120,23 @@ export default function SettingFormField({
 
   const handleSubmit = () => {
     const formData = [
-      { column: state.company_column, value: state.company_textfield },
-      { column: state.currency_column, value: state.currency_textfield },
-      { column: state.attn_column, value: state.attn_textfield },
-      { column: state.address_1_column, value: state.address_1_textfield },
-      { column: state.address_2_column, value: state.address_2_textfield },
-      { column: state.fax_column, value: state.fax_textfield },
-      { column: state.tel_1_column, value: state.tel_1_textfield },
-      { column: state.tel_2_column, value: state.tel_2_textfield },
+      { column: state.fetchModel_column, value: state.fetchModel_textfield },
+      { column: state.speed_column, value: state.speed_textfield },
+      { column: state.c1d1z_column, valuel: state.c1d1z_textfield_l, valueh: state.c1d1z_textfield_h },
+      { column: state.c1d2z_column, valuel: state.c1d2z_textfield_l, valueh: state.c1d2z_textfield_h },
+      { column: state.c2d1z_column, valuel: state.c2d1z_textfield_l, valueh: state.c2d1z_textfield_h },
+      { column: state.c2d2z_column, valuel: state.c2d2z_textfield_l, valueh: state.c2d2z_textfield_h },
+      { column: state.c3d1z_column, valuel: state.c3d1z_textfield_l, valueh: state.c3d1z_textfield_h },
+      { column: state.c3d2z_column, valuel: state.c3d2z_textfield_l, valueh: state.c3d2z_textfield_h },
+      { column: state.c4d1z_column, valuel: state.c4d1z_textfield_l, valueh: state.c4d1z_textfield_h },
+      { column: state.c4d2z_column, valuel: state.c4d2z_textfield_l, valueh: state.c4d2z_textfield_h },
+      { column: state.c4d3z_column, valuel: state.c4d3z_textfield_l, valueh: state.c4d3z_textfield_h },
     ];
 
     if (createform) {
-      insertVendorBook(formData, dispatch, openInsertSB, openErrorSB);
+      insertCoatingSetting(formData, dispatch, openInsertSB, openErrorSB);
     } else {
-      updateVendorBook(formData, id, dispatch, openSuccessSB, openErrorSB);
+      updateCoatingSetting(formData, id, dispatch, openSuccessSB, openErrorSB);
     }
   };
 
@@ -231,9 +208,10 @@ export default function SettingFormField({
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                       <DeviceThermostatIcon color="white" sx={{ fontSize: 140 }} />
                       <Slider
-                        aria-label="Custom marks"
-                        defaultValue={[20, 37]}
+                        aria-label="Temperature"
+                        value={[state[`${field.column}_textfield_l`], state[`${field.column}_textfield_h`]] || []}
                         valueLabelDisplay="auto"
+                        onChange={(event) => handleChange1(field.column, event.target.value)}
                         marks={marks}
                       />
                     </Stack>
@@ -261,23 +239,13 @@ export default function SettingFormField({
           </MDBox>
 
           <MDBox mr={1}>
-            {createform ? (
-              <MDButton
-                variant="text"
-                color="error"
-                onClick={() => clearFields()}
-              >
-                <DeleteIcon />&nbsp;Clear
-              </MDButton>
-            ) : (
-              <MDButton
-                variant="text"
-                color="error"
-                onClick={() => deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB)}
-              >
-                <DeleteIcon />&nbsp;Remove
-              </MDButton>
-            )}
+            <MDButton
+              variant="text"
+              color="error"
+              onClick={() => deleteCoatingSetting(id, dispatch, openDeleteSB, openErrorSB)}
+            >
+              <DeleteIcon />&nbsp;Remove
+            </MDButton>
           </MDBox>
         </MDBox>
       </MDBox>
@@ -292,8 +260,8 @@ SettingFormField.defaultProps = {
 
 // Typechecking props for the Bill
 SettingFormField.propTypes = {
-  attn: PropTypes.string.isRequired,
-  company: PropTypes.string.isRequired,
+  //attn: PropTypes.string.isRequired,
+  //company: PropTypes.string.isRequired,
   noGutter: PropTypes.bool,
-  currency: PropTypes.string.isRequired,
+  //currency: PropTypes.string.isRequired,
 };

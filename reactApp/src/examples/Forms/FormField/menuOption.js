@@ -193,3 +193,22 @@ export const currencies = [
     },
   ],
   };
+
+  export const coatingspeed = [
+    {
+      value: '300',
+      label: '300',
+    },
+    {
+      value: '250',
+      label: '250',
+    },
+    {
+      value: '200',
+      label: '200',
+    },
+    {
+      value: '180',
+      label: '180',
+    },
+  ];

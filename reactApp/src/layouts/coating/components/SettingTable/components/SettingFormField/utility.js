@@ -1,75 +1,37 @@
 import { supabase } from "../../../../../../lib/supabase";
 
-
-export const clearFields = (dispatch) => {
-  const columns = [
-    'company_name',
-    'currency',
-    'attn',
-    'address_1',
-    'address_2',
-    'fax',
-    'tel_1',
-    'tel_2',
-  ];
-
-  columns.forEach((column) => {
-    dispatch({ type: `SET_${column.toUpperCase()}`, payload: { value: '', column } });
-  });
-};
-
-export async function updateVendorBook(updates, id, dispatch, openSuccessSB, openErrorSB) {
+export async function updateCoatingSetting(updates, id, dispatch, openSuccessSB, openErrorSB) {
   try {
-    const { data: dataBefore, error: errorBefore } = await supabase
-      .from("po_system_vendor")
-      .select("*")
-      .eq("id", id);
-
-    if (errorBefore) {
-      throw errorBefore;
-    }
-
-    for (const update of updates) {
-      const { column, value } = update;
-
-      if (value === null || (Array.isArray(value) && value.length === 0)) {
+    const updateObject = {};
+    let updateColumn = '';
+    for (const { column, valuel, valueh, value } of updates) {
+      if (!column || (Array.isArray(column) && column.length === 0) ||
+        (!value && (!valuel || (Array.isArray(valuel) && valuel.length === 0)) && (!valueh || (Array.isArray(valueh) && valueh.length === 0)))) {
         continue;
       }
-
-      if (column === undefined || (Array.isArray(column) && column.length === 0)) {
-        continue;
-      }
-
-      const { error } = await supabase
-        .from("po_system_vendor")
-        .update({ [column]: value })
-        .eq("id", id)
-
-      if (error) {
-        throw error;
-      }
+      updateColumn = column;
+      updateObject[column] = (column === 'speed') ? value : [{ low: valuel, high: valueh }];
     }
 
-    const { data: dataAfter, error: errorAfter } = await supabase
-      .from("po_system_vendor")
-      .select("*")
-      .eq("id", id);
 
-    if (errorAfter) {
-      throw errorAfter;
+    if (Object.keys(updateObject).length === 0) {
+      // No valid data to insert
+      return;
     }
 
-    if (
-      dataBefore[0].address_1 === dataAfter[0].address_1 &&
-      dataBefore[0].address_2 === dataAfter[0].address_2 &&
-      dataBefore[0].attn === dataAfter[0].attn &&
-      dataBefore[0].company_name === dataAfter[0].company_name &&
-      dataBefore[0].currency === dataAfter[0].currency &&
-      dataBefore[0].fax === dataAfter[0].fax &&
-      dataBefore[0].tel_1 === dataAfter[0].tel_1 &&
-      dataBefore[0].tel_2 === dataAfter[0].tel_2
-    ) {
-      throw new Error("Failed to update data");
+    const { data, error } = await supabase
+      .from("coating_model")
+      .update(updateObject)
+      .eq("id", id)
+      .select(updateColumn)
+
+    if (error) {
+      throw error;
+    }
+
+    if (data && data.length === 0) {
+      // No rows were updated (permission issue)
+      throw new Error("No permission to update");
     }
 
     dispatch({ type: "SET_SUCCESS", payload: true });
@@ -86,10 +48,10 @@ export async function updateVendorBook(updates, id, dispatch, openSuccessSB, ope
   }
 }
 
-export async function deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB) {
+export async function deleteCoatingSetting(id, dispatch, openDeleteSB, openErrorSB) {
   try {
     const { error: deleteError } = await supabase
-      .from("po_system_vendor")
+      .from("coating_model")
       .delete()
       .eq("id", id);
 
@@ -98,7 +60,7 @@ export async function deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB) 
     }
 
     const { data: selectData, error: selectError } = await supabase
-      .from("po_system_vendor")
+      .from("coating_model")
       .select("id")
       .eq("id", id);
 
@@ -127,23 +89,18 @@ export async function deleteVendorBook(id, dispatch, openDeleteSB, openErrorSB) 
   }
 }
 
-
-export async function insertVendorBook(inserts, dispatch, openInsertSB, openErrorSB) {
+export async function insertCoatingSetting(inserts, dispatch, openInsertSB, openErrorSB) {
   try {
     const insertObject = {};
 
-    for (const insert of inserts) {
-      const { column, value } = insert;
-
-      if (value === null || (Array.isArray(value) && value.length === 0)) {
+    for (const { column, valuel, valueh, value } of inserts) {
+      if (!column || (Array.isArray(column) && column.length === 0) ||
+        (!value && (!valuel || (Array.isArray(valuel) && valuel.length === 0)) && (!valueh || (Array.isArray(valueh) && valueh.length === 0)))) {
         continue;
       }
 
-      if (column === undefined || (Array.isArray(column) && column.length === 0)) {
-        continue;
-      }
-
-      insertObject[column] = value;
+      let insertColumn = (column === 'fetchModel') ? 'model_name' : column;
+      insertObject[insertColumn] = value;
     }
 
     if (Object.keys(insertObject).length === 0) {
@@ -151,31 +108,8 @@ export async function insertVendorBook(inserts, dispatch, openInsertSB, openErro
       return;
     }
 
-    const { data: existingData, error: searchError } = await supabase
-      .from('po_system_vendor')
-      .select('company_name')
-      .textSearch('company_name', insertObject.company_name, {
-        type: 'plain',
-        config: 'english'
-      });
-
-    if (searchError) {
-      throw searchError;
-    }
-
-    if (existingData && existingData.length > 0) {
-      dispatch({ type: "SET_ERRORS_EXIST", payload: true });
-      dispatch({
-        type: "SET_ERRORS", payload: {
-          errors: "Company name already exists", error_title: "Creation Failed"
-        }
-      });
-      openErrorSB();
-      return;
-    }
-
     const { error: insertError } = await supabase
-      .from("po_system_vendor")
+      .from("coating_model")
       .insert([insertObject]);
 
     if (insertError) {

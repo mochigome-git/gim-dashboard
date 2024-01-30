@@ -46,19 +46,34 @@ export async function pick(id, dispatch, openErrorSB) {
   try {
     const { data, error } = await supabase
       .from('coating_model')
-      .select(`model_name`)
+      .select(`model_name, speed, c1d1z, c1d2z, c2d1z, c2d2z, c3d1z, c3d2z, c4d1z, c4d2z, c4d3z`)
       .eq("id", id);
 
     if (error) {
       throw error;
     }
 
-   //const vendorTo = await pickaddress(data[0].to)
-   //const vendorFrom = await pickaddress(data[0].from)
+    dispatch({ type: "SET_FETCH_MODEL", payload: { value: data[0]?.model_name || null } });
+    dispatch({ type: "SET_SPEED", payload: { value: data[0]?.speed || null } });
 
-    //dispatch({ type: "SET_TO", payload: vendorTo });
-    //dispatch({ type: "SET_FROM", payload: vendorFrom });
-    dispatch({ type: "SET_FETCH_MODEL", payload: { value: data[0].model_name} });
+    const columnNames = ["c1d1z", "c1d2z", "c2d1z", "c2d2z", "c3d1z", "c3d2z", "c4d1z", "c4d2z", "c4d3z"];
+
+    columnNames.forEach((columnName) => {
+      const columnData = data[0]?.[columnName];
+      
+      if (columnData !== null && typeof columnData === 'object') {
+        const lowValue = columnData[0]?.low ?? null;
+        const highValue = columnData[0]?.high ?? null;
+
+        dispatch({
+          type: `SET_${columnName.toUpperCase()}`,
+          payload: {
+            valuel: lowValue,
+            valueh: highValue,
+          },
+        });
+      }
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
     dispatch({ type: "SET_ERRORS_EXIST", payload: true });
@@ -69,6 +84,7 @@ export async function pick(id, dispatch, openErrorSB) {
     openErrorSB();
   }
 }
+
 
 export async function pickaddress(id) {
   try {

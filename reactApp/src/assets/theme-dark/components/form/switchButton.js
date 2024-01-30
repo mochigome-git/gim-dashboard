@@ -21,7 +21,9 @@ const switchButton = {
 
   styleOverrides: {
     switchBase: {
-      color: gradients.dark.main,
+      color: gradients.dark.main,   
+      transitionDuration: '300ms',
+      padding: 12,
 
       "&:hover": {
         backgroundColor: transparent.main,
@@ -29,19 +31,20 @@ const switchButton = {
 
       "&.Mui-checked": {
         color: gradients.dark.main,
+        transform: 'translateX(16px)',
 
         "&:hover": {
           backgroundColor: transparent.main,
         },
 
         "& .MuiSwitch-thumb": {
-          backgroundColor: white.main,
+          backgroundColor: grey[100],
           border: `${borderWidth[1]} solid ${grey[400]}`,
           opacity: 1,
         },
 
         "& + .MuiSwitch-track": {
-          backgroundColor: white.main,
+          backgroundColor:'#049868',
           borderColor: `${gradients.dark.main} !important`,
           opacity: 1,
         },
@@ -57,7 +60,10 @@ const switchButton = {
     },
 
     thumb: {
-      backgroundColor: grey[800],
+      boxSizing: 'border-box',
+      width: pxToRem(15),
+      height: pxToRem(15),
+      backgroundColor: grey[100],
       boxShadow: md,
       border: `${borderWidth[1]} solid ${grey[800]}`,
     },
@@ -70,7 +76,6 @@ const switchButton = {
       opacity: 1,
     },
 
-    checked: {},
   },
 };
 

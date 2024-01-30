@@ -3,13 +3,14 @@ import React, { useMemo } from 'react';
 import { MenuItem, Select, FormControl, InputLabel, OutlinedInput, Divider } from '@mui/material';
 import MDBox from '../../../components/MDBox';
 import MDInput from '../../../components/MDInput';
-import { currencies, poStatus, section, unit } from "./menuOption";
+import { coatingspeed, currencies, poStatus, section, unit } from "./menuOption";
 
 const menuOptionsMap = {
   currencies: currencies,
   poStatus: poStatus,
   section: section,
   unit: unit,
+  coatingspeed: coatingspeed,
 };
 
 const FormField = ({

@@ -34,6 +34,18 @@ export const initialState = {
   parameter_card: null,
   nk2: null,
   nk3: null,
+  settingId: null, 
+  settingTable: null,
+  c1d1z: null,
+  c1d2z: null,
+  c2d1z: null,
+  c2d2z: null,
+  c3d1z: null,
+  c3d2z: null,
+  c4d1z: null,
+  c4d2z: null,
+  c4d3z: null,
+  menu: '',
 
   //INKJET
   ij_latest_weight_no1: [],

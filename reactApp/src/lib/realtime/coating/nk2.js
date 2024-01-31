@@ -1,5 +1,5 @@
 import { supabase } from "../../supabase";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useMemo } from "react";
 import { initialState } from "../../reducer";
 import {
   fetchNk2Index,
@@ -18,7 +18,7 @@ const NK2Provider = ({ children }) => {
       detailsData: detailsData,
     }));
   };
-
+  
   const setupSubscription = (channel, table, callback) => {
     return subscribeToChannel(channel, table, (payload) => {
       if (channel === "nk2_log_data_storage") {
@@ -51,6 +51,7 @@ const NK2Provider = ({ children }) => {
 
       const subscriptions = [
         setupSubscription("nk2_log_data_storage", "nk2_log_data_storage", fetchData),
+        setupSubscription("coating_model", "coating_model", fetchData),
         // Add more subscriptions as needed
       ];
 

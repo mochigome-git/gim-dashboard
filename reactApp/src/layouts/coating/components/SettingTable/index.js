@@ -84,7 +84,6 @@ function SettingTable() {
     }))
   }, []);
 
-
   return (
     <AddressBookLayout>
       <DashboardNavbar />
@@ -135,7 +134,7 @@ function SettingTable() {
                 />
               </Stack>
               <Stack>
-                <MDBox borderRadius="xl" mt={{ xs: -15, lg: -15 }} pb={5} width="calc(100% - 2rem)">
+                <MDBox borderRadius="xl" mt={{ xs: -18, lg: -15, xl: -20 }} pb={5} width="calc(100% - 2rem)">
                   <Grid container spacing={1} justifyContent="flex-end">
                     <div style={{ position: 'relative', maxWidth: '30%', flexShrink: 0 }}>
                       <img
@@ -187,19 +186,21 @@ function SettingTable() {
             </Card>
           </Grid>
 
-          <Grid item xs={4}>
-            <Card>
-              <MDBox m={2}>
+          <Grid item xs={4} md={4} lg={3.5} xl={2}>
+            <Card >
+            <MDBox m={2}>
                 <MDTypography color="darkYellow" variant="subtitle2">
                   Properties
                 </MDTypography>
+                <Stack >
                 <TriggerSwitch modalDescription={modalDescription} />
                 <TriggerSwitch modalDescription={modalDescription2} />
+                </Stack>
               </MDBox>
             </Card>
           </Grid>
 
-          <Grid item xs={8}>
+          <Grid item xs={8} md={8} lg={8.5} xl={10}>
             <Card>
               <MDBox>
                 <Grid container>
@@ -207,16 +208,7 @@ function SettingTable() {
                     item
                     xs={12}
                     md={6}
-                    lg={5}
-                    sx={{ display: "flex", justifyContent: "flex-end" }}
-                  >
-
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    lg={4}
+                    lg={2}
                     sx={{ display: "flex", ml: "auto" }}
                   >
                     <AppBar position="static">

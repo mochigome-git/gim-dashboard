@@ -25,6 +25,9 @@ function configs(datasets, ownerState, ymin, ymax, navigator) {
 				text: ''
 			},
 			responsive: false,
+			accessibility: {
+				enabled: false
+			},
 			credits: {
 				enabled: false
 			},
@@ -179,6 +182,7 @@ function configs(datasets, ownerState, ymin, ymax, navigator) {
 			series,
 			plotOptions: {
 				series: {
+					turboThreshold: 50000,
 					marker: {
 						lineColor: null,
 						lineWidth: 0,

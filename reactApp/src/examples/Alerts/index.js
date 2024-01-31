@@ -146,7 +146,7 @@ const useAudio = (src, loop = false, silent = false) => {
           audioRef.current.loop = false;
         } else {
           // If silent is true, set the loop attribute to make the audio loop
-          audioRef.current.loop = loop;
+          audioRef.current.loop = true;
           audioRef.current.play().catch(error => {
             // Handle playback error (e.g., autoplay restrictions)
             console.error('Error playing audio:', error);

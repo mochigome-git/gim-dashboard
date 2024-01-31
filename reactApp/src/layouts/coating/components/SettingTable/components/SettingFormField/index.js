@@ -20,7 +20,7 @@ import FormField from "../../../../../../examples/Forms/FormField";
 import { useMaterialUIController } from "../../../../../../context";
 
 // API, Utilities and ETC..
-import { updateCoatingSetting, deleteCoatingSetting, insertCoatingSetting, marks} from "./utility";
+import { updateCoatingSetting, deleteCoatingSetting, insertCoatingSetting, marks } from "./utility";
 import { pick } from "../../api"
 import { initialState, settingReducer } from "./settingReducer";
 
@@ -54,6 +54,7 @@ export default function SettingFormField({
   const { darkMode, miniSidenav } = controller;
   const timerRef = useRef(null);
   const [state, dispatch] = useReducer(settingReducer, initialState);
+  const [removeID, setRemoveID] = useState(null)
   const openSuccessSB = () => { dispatch({ type: "SET_UPDATE", payload: true }); };
   const closeSuccessSB = () => { dispatch({ type: "SET_UPDATE", payload: false }); };
   const openDeleteSB = () => { dispatch({ type: "SET_DELETE", payload: true }); };
@@ -83,10 +84,13 @@ export default function SettingFormField({
   // useEffect to handle the onclick of Chip button and fetch config of model from Database
   useEffect(() => {
     if (id && type === 'EDIT') {
+      dispatch({ type: "SET_MODELID", payload: id });
       pick(id, dispatch, openErrorSB)
+      setRemoveID(id)
     }
     if (createform && type === 'CREATE') {
       dispatch({ type: "RESET" });
+      setRemoveID(null)
     }
   }, [id, createform]);
 
@@ -181,7 +185,7 @@ export default function SettingFormField({
 
           <Grid container spacing={0}>
             {formFields.map((field) => (
-              <Grid key={field.label} item xs={12} sm={6} md={6} px={2}>
+              <Grid key={field.label} item xs={12} sm={6} md={6} xl={3} px={2}>
                 <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
                   <FormField
                     label={field.label}
@@ -198,8 +202,11 @@ export default function SettingFormField({
                 </MDTypography>
               </Grid>
             ))}
+          </Grid>
+
+          <Grid container spacing={0}>
             {slideFields.map((field) => (
-              <Grid key={field.label} item xs={12} sm={6} md={4}>
+              <Grid key={field.label} item xs={12} sm={6} md={4} lg={4}>
                 <MDTypography color="text" variant="caption" fontWeight="medium" textTransform="capitalize">
                   <MDBox px={3} py={2} sx={{ width: 200 }}>
                     <MDTypography id="input-slider" variant="caption" gutterBottom>
@@ -242,7 +249,7 @@ export default function SettingFormField({
             <MDButton
               variant="text"
               color="error"
-              onClick={() => deleteCoatingSetting(id, dispatch, openDeleteSB, openErrorSB)}
+              onClick={() => deleteCoatingSetting(removeID, dispatch, openDeleteSB, openErrorSB)}
             >
               <DeleteIcon />&nbsp;Remove
             </MDButton>

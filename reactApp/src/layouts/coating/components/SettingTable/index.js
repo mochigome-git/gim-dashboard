@@ -90,7 +90,7 @@ function SettingTable() {
       <MDBox pt={2} pb={2}>
         <Grid container spacing={2}>
 
-          <Grid item xs={7}>
+          <Grid item xs={12} md={7}>
             <Card sx={{
               backgroundColor: "#D5F4E7",
               display: 'flex',
@@ -106,14 +106,14 @@ function SettingTable() {
               <MDTypography mx={2} mb={4} mt={-2} variant="overline" fontWeight="light" color="successDark" sx={{    zIndex: 1}}>
                 Model have created, and stored in Database
               </MDTypography>
-              <Stack direction="row" spacing={2} mx={2}>
+              <Stack useFlexGap flexWrap="wrap" direction="row" spacing={2} mx={2}>
                 {chipData.map((data) => (
                   <Chip
                     key={data.label}
                     icon={<TuneIcon />}
                     label={data.label}
                     onClick={() => [handlePickModel(data.key), setCreateForm(false)]}
-                    style={{ backgroundColor: '#00a76f', color: 'white' }}
+                    style={{ backgroundColor: '#00a76f', color: 'white', zIndex: 3 }}
                   />
                 ))}
               </Stack>
@@ -125,7 +125,6 @@ function SettingTable() {
                   size="large"
                   iconOnly={true}
                   startIcon={<AddIcon />}
-                  //value={state.tabValue === 1}
                   onClick={() => [setCreateForm(true), setState(prevState => ({
                     ...prevState,
                     type: `CREATE`
@@ -134,8 +133,8 @@ function SettingTable() {
                 />
               </Stack>
               <Stack>
-                <MDBox borderRadius="xl" mt={{ xs: -18, lg: -15, xl: -20 }} pb={5} width="calc(100% - 2rem)">
-                  <Grid container spacing={1} justifyContent="flex-end">
+                <MDBox borderRadius="xl" mt={{ xs: -10, md: -15, lg: -17, xl: -16 }} pb={5} width="calc(100% - 2rem)">
+                  <Grid container spacing={1} pb={2} justifyContent="flex-end">
                     <div style={{ position: 'relative', maxWidth: '30%', flexShrink: 0 }}>
                       <img
                         src={Adorable3dCat}
@@ -178,15 +177,15 @@ function SettingTable() {
             </Card>
           </Grid>
 
-          <Grid item xs={5}>
+          <Grid item xs md={5}>
             <Card>
-              <MDBox m={10.8}>
+              <MDBox m={11.5}>
 
               </MDBox>
             </Card>
           </Grid>
 
-          <Grid item xs={4} md={4} lg={3.5} xl={2}>
+          <Grid item xs={12} md="auto">
             <Card >
             <MDBox m={2}>
                 <MDTypography color="darkYellow" variant="subtitle2">
@@ -200,7 +199,7 @@ function SettingTable() {
             </Card>
           </Grid>
 
-          <Grid item xs={8} md={8} lg={8.5} xl={10}>
+          <Grid item xs>
             <Card>
               <MDBox>
                 <Grid container>
@@ -219,7 +218,6 @@ function SettingTable() {
                         <Tooltip title= {createform ? "Create" :"Edit"}>
                           <Tab icon={createform ? <SaveAsIcon fontSize="small" /> : <EditIcon fontSize="small" />} />
                         </Tooltip>
-
                       </Tabs>
                     </AppBar>
                   </Grid>
@@ -230,7 +228,6 @@ function SettingTable() {
                       id={modelID}
                       type={state?.type}
                       createform={createform}
-
                     />
                   </MDBox>
                 </Grid>

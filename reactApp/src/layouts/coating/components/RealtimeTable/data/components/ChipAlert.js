@@ -49,7 +49,7 @@ const ChipAlert = ({ id, handleAlert }) => {
     <MDBox>
         <Grid container direction="row" spacing={1}>
           {Object.entries(result).map(([key, value]) => (
-            <Grid item xs={6} sm={3} md={2} lg={2} xl={1} key={key}>
+            <Grid item xs={6} sm={3} md={2} lg={2} xl={2} key={key}>
               {id !== 0 && (
                 <>
                   <Stack direction="row">

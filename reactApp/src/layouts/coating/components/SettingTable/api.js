@@ -1,5 +1,6 @@
 
 import { supabase } from "../../../../lib/supabase";
+import Nk2IndexTableData from "../../data/nk2indexTableData";
 
 export async function deleteList(id, dispatch, openDeleteSB, openErrorSB) {
   try {
@@ -60,19 +61,24 @@ export async function pick(id, dispatch, openErrorSB) {
 
     columnNames.forEach((columnName) => {
       const columnData = data[0]?.[columnName];
-      
-      if (columnData !== null && typeof columnData === 'object') {
-        const lowValue = columnData[0]?.low ?? null;
-        const highValue = columnData[0]?.high ?? null;
 
-        dispatch({
-          type: `SET_${columnName.toUpperCase()}`,
-          payload: {
-            valuel: lowValue,
-            valueh: highValue,
-          },
-        });
+      let lowValue, highValue;
+
+      if (columnData === null) {
+        lowValue = 50;
+        highValue = 100;
+      } else if (typeof columnData === 'object') {
+        lowValue = columnData[0]?.low ?? null;
+        highValue = columnData[0]?.high ?? null;
       }
+    
+      dispatch({
+        type: `SET_${columnName.toUpperCase()}`,
+        payload: {
+          valuel: lowValue,
+          valueh: highValue,
+        },
+      });
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";

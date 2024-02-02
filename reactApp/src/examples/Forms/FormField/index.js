@@ -71,7 +71,7 @@ const FormField = ({
           sx={{
             m: 1,
             height: { xs: inputWidth, md: 50 },
-            width: { xs: inputWidth, sm: width, md: width },
+            width: { xs: width, sm: width, md: width },
           }}
           {...otherProps}
           error={error}

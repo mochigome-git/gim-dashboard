@@ -206,16 +206,16 @@ export default function SettingFormField({
 
           <Grid container spacing={0}>
             {slideFields.map((field) => (
-              <Grid key={field.label} item xs={12} sm={6} md={4} lg={4}>
+              <Grid key={field.label} item xs={12} sm={6} md={4} xl={2.5}>
                 <MDTypography color="text" variant="caption" fontWeight="medium" textTransform="capitalize">
-                  <MDBox px={3} py={2} sx={{ width: 200 }}>
+                  <MDBox px={3} py={2} sx={{ width: "auto" }}>
                     <MDTypography id="input-slider" variant="caption" gutterBottom>
                       {field.label}
                     </MDTypography>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                       <DeviceThermostatIcon color="white" sx={{ fontSize: 140 }} />
                       <Slider
-                        aria-label="Temperature"
+                        id="Temperature"
                         value={[state[`${field.column}_textfield_l`], state[`${field.column}_textfield_h`]] || []}
                         valueLabelDisplay="auto"
                         onChange={(event) => handleChange1(field.column, event.target.value)}

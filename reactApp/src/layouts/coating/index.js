@@ -87,11 +87,11 @@ function Coating() {
   }, []);
 
   const navigateRealltime = () => {
-    navigate("/coating/realtime");
+    navigate("realtime");
   };
 
   const navigateSetting = () => {
-    navigate("/coating/setting")
+    navigate("setting")
   }
 
   return (

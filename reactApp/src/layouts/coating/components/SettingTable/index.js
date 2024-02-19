@@ -99,11 +99,12 @@ function SettingTable() {
               listStyle: 'none',
               p: 0.5,
               m: 0,
+              position: 'relative',
             }}>
               <MDTypography m={2} variant="h6" fontWeight="medium" color="successDark">
                 Registered models
               </MDTypography>
-              <MDTypography mx={2} mb={4} mt={-2} variant="overline" fontWeight="light" color="successDark" sx={{    zIndex: 1}}>
+              <MDTypography mx={2} mb={4} mt={-2} variant="overline" fontWeight="light" color="successDark" sx={{ zIndex: 1 }}>
                 Model have created, and stored in Database
               </MDTypography>
               <Stack useFlexGap flexWrap="wrap" direction="row" spacing={2} mx={2}>
@@ -118,7 +119,7 @@ function SettingTable() {
                 ))}
               </Stack>
 
-              <Stack mt={-5} mx={0} direction="row" justifyContent="flex-end" alignItems="flex-end">
+              <Stack mt={-5} mx={2} direction="row" justifyContent="flex-end" alignItems="flex-end">
                 <MDButton
                   color="success"
                   variant="text"
@@ -132,48 +133,25 @@ function SettingTable() {
                   ]}
                 />
               </Stack>
-              <Stack>
-                <MDBox borderRadius="xl" mt={{ xs: -10, md: -15, lg: -17, xl: -16 }} pb={5} width="calc(100% - 2rem)">
-                  <Grid container spacing={1} pb={2} justifyContent="flex-end">
-                    <div style={{ position: 'relative', maxWidth: '30%', flexShrink: 0 }}>
-                      <img
-                        src={Adorable3dCat}
-                        alt="Adorable 3d Cat"
-                        style={{
-                          width: '100%',
-                          height: 'auto',
-                          borderRadius: '50%',
-                          position: 'relative',
-                          zIndex: 1,
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          width: '100pt',
-                          height: '100pt',
-                          borderRadius: '50%',
-                          background: 'radial-gradient(circle, #afe6d1, transparent)',
-                          zIndex: 0,
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: 'absolute',
-                          right: '-10%', 
-                          top: '10%', 
-                          borderRadius: '50%',
-                          background: 'linear-gradient(to right, transparent, #afe6d1)',
-                          zIndex: -1,
-                        }}
-                      />
-                    </div>
-                  </Grid>
-                </MDBox>
-              </Stack>
+                <MDBox
+                  mt={{ xs: -10, md: -15, lg: -17, xl: -16 }}
+                  width="calc(100% - 2rem)"
+                  minHeight={'30%'}
+                  borderRadius="50%"
+                  mx={2}
+                  my={2}
+                  ml={'auto'}
+                  pt={6}
+                  pb={10}
+                  sx={{
+                    backgroundImage: () =>
+                      Adorable3dCat && `url(${Adorable3dCat})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    maxWidth: '30%',
+                  }}
+                />
             </Card>
           </Grid>
 
@@ -187,13 +165,13 @@ function SettingTable() {
 
           <Grid item xs={12} md="auto">
             <Card >
-            <MDBox m={2}>
+              <MDBox m={2}>
                 <MDTypography color="darkYellow" variant="subtitle2">
                   Properties
                 </MDTypography>
                 <Stack >
-                <TriggerSwitch modalDescription={modalDescription} />
-                <TriggerSwitch modalDescription={modalDescription2} />
+                  <TriggerSwitch modalDescription={modalDescription} />
+                  <TriggerSwitch modalDescription={modalDescription2} />
                 </Stack>
               </MDBox>
             </Card>
@@ -215,7 +193,7 @@ function SettingTable() {
                         value={state.tabValue}
                         onChange={handleSetTabValue}
                       >
-                        <Tooltip title= {createform ? "Create" :"Edit"}>
+                        <Tooltip title={createform ? "Create" : "Edit"}>
                           <Tab icon={createform ? <SaveAsIcon fontSize="small" /> : <EditIcon fontSize="small" />} />
                         </Tooltip>
                       </Tabs>

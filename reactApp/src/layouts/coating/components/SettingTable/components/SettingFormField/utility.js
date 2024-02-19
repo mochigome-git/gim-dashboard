@@ -132,7 +132,7 @@ export const marks = [
     label: '0°C',
   },
   {
-    value: 100,
-    label: '100°C',
+    value: 110,
+    label: '110°C',
   },
 ];

@@ -1,7 +1,7 @@
 import { supabase } from "../supabase";
 
 // Fetch Assembly line Data
-export const fetchRewindingData = async (setState) => {
+export const fetchRewindingData = async (setState, area) => {
     try {
         const { data, error } = await supabase
             .rpc("get_rewinding_line_count")

@@ -2,7 +2,6 @@
 import Grid from "@mui/material/Grid";
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import StoreIcon from '@mui/icons-material/Store';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -11,6 +10,7 @@ import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 import ComplexStatisticsCard from "../../examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import TemperatureStaticCard from "./components/Temperature";
 
 // Dashboard components
 //import Projects from "./components/Projects";
@@ -31,6 +31,8 @@ import NK2Provider from "../../lib/realtime/coating/nk2";
 import MachineTProvider from "../../lib/realtime/inkjet/machineT_realtime";
 import MachineMProvider from "../../lib/realtime/inkjet/machineM_realtime";
 import RewindingProvider from "../../lib/realtime/rewinding/rewinding_realtime";
+import TempProvider from "../../lib/realtime/temp/temp_realtime";
+
 
 function Dashboard() {
   return (
@@ -75,21 +77,15 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon={<PersonAddIcon />}
-                title="Sample4"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "+10%",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
+            <TempProvider>
+             <MDBox m={-1.8}>
+              <TemperatureStaticCard/>
+             </MDBox>
+            </TempProvider>
           </Grid>
+
         </Grid>
         <MDBox mt={2} mb={2}>
           <Grid container spacing={3}>

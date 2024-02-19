@@ -220,6 +220,7 @@ export default function SettingFormField({
                         valueLabelDisplay="auto"
                         onChange={(event) => handleChange1(field.column, event.target.value)}
                         marks={marks}
+                        max={110}
                       />
                     </Stack>
                   </MDBox>

@@ -11,7 +11,7 @@ function configs(datasets, ownerState, ymax) {
 
 	return {
 		option: {
-			responsive: false,
+			responsive: true,
 			credits: {
 				enabled: false
 			},

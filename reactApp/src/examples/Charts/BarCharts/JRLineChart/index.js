@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 // porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
+import LinearProgress from '@mui/material/LinearProgress';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -28,6 +29,7 @@ function createChartOptions(datasets) {
   }
 }
 
+
 function JRLineChart({
   color,
   title,
@@ -46,7 +48,20 @@ function JRLineChart({
   good_rate,
 }) {
   const [controller] = useMaterialUIController();
-  const { option, containerprops } = useMemo(() => createChartOptions(datasets), [datasets])(controller);
+  const { option, containerprops } = useMemo(
+    () => createChartOptions(datasets),
+    [datasets]
+  )(controller);
+
+  const [renderChart, setRenderChart] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setRenderChart(true);
+    }, 3000); // Adjust the delay time as needed
+
+    return () => clearTimeout(timer);
+  }, []); // Only run this effect once, when the component mounts
 
   Highcharts.setOptions({
     accessibility: { enabled: false }, time: { timezoneOffset: -8 * 60 }, lang: { rangeSelectorZoom: '' }
@@ -110,7 +125,7 @@ function JRLineChart({
                   >
                     {percentage.amount}
                   </MDTypography>
-                  &nbsp;{percentage.label}
+                  &nbsp;{percentage?.label}
                 </MDTypography>
               </MDBox>
             </MDBox>
@@ -155,11 +170,14 @@ function JRLineChart({
           flexDirection='column'
           position="relative"
         >
-          <HighchartsReact
-            containerProps={containerprops}
-            highcharts={Highcharts}
-            constructorType={"stockChart"}
-            options={option} />
+          {!renderChart ? null : (
+            <HighchartsReact
+              containerProps={containerprops}
+              highcharts={Highcharts}
+              constructorType={"stockChart"}
+              options={option}
+            />
+          )}
         </MDBox>
       </MDBox>
     </Card>

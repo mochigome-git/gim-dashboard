@@ -39,7 +39,7 @@ const TempProvider = ({ children }) => {
 
     const setupSubscription = (channel, table, callback) => {
       return subscribeToChannel(channel, table, (payload) => {
-        callback(setState,state?.Area);
+        callback(setState, state?.Area);
       });
     };
 

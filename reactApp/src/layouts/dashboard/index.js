@@ -80,7 +80,7 @@ function Dashboard() {
 
           <Grid item xs={12} md={6} lg={3}>
             <TempProvider>
-             <MDBox m={-1.8}>
+             <MDBox m={-1.8} mb={1.5}>
               <TemperatureStaticCard/>
              </MDBox>
             </TempProvider>

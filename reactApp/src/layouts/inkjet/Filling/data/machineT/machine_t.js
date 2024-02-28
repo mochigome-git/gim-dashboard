@@ -13,6 +13,16 @@ export const Machine_tData = () => {
       { Header: "ink lot", accessor: "ink_lot", width: "1%", align: "left" },
       { Header: "sequence", accessor: "ch1_sequence", width: "1%", align: "left" },
       {
+        Header: "DO",
+        accessor: "do",
+        width: "1%",
+        align: "left",
+        Cell: ({ value }) => {
+          const formattedValue = (Number(value) / 100).toFixed(2);
+          return formattedValue;
+        },
+      },
+      {
         Header: "ch1 filing weight(g)",
         accessor: "ch1_filling_weight_g",
         width: "1%",

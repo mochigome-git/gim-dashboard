@@ -52,10 +52,11 @@ function TemperatureStaticCard() {
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/snow.gif')");
                 break;
             case "Clouds":
-            case "Partly Cloudy":
+            case "Partly cloudy":
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/clouds.gif')");
                 break;
             case "Fog":
+            case "Mist":
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/fog.gif')");
                 break;
             case "Rain":

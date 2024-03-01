@@ -64,9 +64,9 @@ const DailyProvider = ({ children }) => {
       setupSubscription("po_system_vendor", "po_system_vendor", fetchPo),
     ];
     return () => {
-      supabase.removeChannel(state.subscription);
-      subscriptions.forEach((subscription) => subscription.unsubscribe());
-      supabase.removeAllChannels();
+      //supabase.removeChannel(state.subscription);
+      //subscriptions.forEach((subscription) => subscription.unsubscribe());
+      //supabase.removeAllChannels();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

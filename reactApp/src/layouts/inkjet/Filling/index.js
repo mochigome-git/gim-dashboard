@@ -262,6 +262,14 @@ function Tables() {
     });
   }, [state.data, state.mdata, state.data3]);
 
+  useEffect(() => {
+    if (value === 1) {
+      if (_value ===3){
+        setTableNames(["machine_t_degas"]);
+      }
+    }
+  }, [value, _value]);
+
   useDataFetching({ table: `machine_t`, fetchData: fetchData, supabase, dispatch });
   useDataFetching({ table: `machine_m`, fetchData: fetchData2, supabase, dispatch });
 

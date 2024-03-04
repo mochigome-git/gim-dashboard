@@ -50,6 +50,26 @@ export const fetchMachineTData = async (setState) => {
   }
 };
 
+// Fetch Inkjet-Machine T Degas Data
+export const fetchMachineTDegasData = async (setState) => {
+  try {
+    const { data: data1, error: error1 } = await supabase
+      .from("machine_t_degas")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error1) {
+      throw error1;
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      machine_t_degas: data1,
+    }));
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
 // Fetch Inkjet-Machine M Data
 export const fetchMachineMData = async (setState) => {
   try {

@@ -28,6 +28,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import FunctionsIcon from "@mui/icons-material/Functions";
+import PropaneIcon from '@mui/icons-material/Propane';
 
 // Material Dashboard 2 Custom component
 import MDBox from "../../../components/MDBox";
@@ -46,6 +47,7 @@ import IJTable from "./components/IJTable"
 import Machine_t_daily_Data from "./data/machineT/machine_t_daily";
 import Machine_t_hour_Data from "./data/machineT/machine_t_hour";
 import Machine_tData from "./data/machineT/machine_t";
+import Machine_tDegas from "./data/machineT/machine_t_degas";
 
 import Machine_mData from "./data/machineM/machine_m";
 import Machine_m_daily_Data from "./data/machineM/machine_m_daily";
@@ -106,6 +108,20 @@ const TTableDaily = () => {
         title_jp="日間充填実績"
         columns={dailyColumnsT}
         rows={dailyRowsT}
+      />
+    </MDBox>
+  );
+}
+
+const TTableDegas = () => {
+  const { columns: degasColumnsT, rows: degasRowsT } = Machine_tDegas();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine T degas output"
+        title_jp="GID流量記録"
+        columns={degasColumnsT}
+        rows={degasRowsT}
       />
     </MDBox>
   );
@@ -470,6 +486,23 @@ function Tables() {
                             </ListItemIcon>
                             <MDTypography variant="body2">Daily</MDTypography>
                           </MenuItem>
+
+                          <MenuItem
+                            value={value}
+                            onClick={() => {
+                              handleClose();
+                              _setValue(3);
+                            }}
+                          >
+                            <ListItemIcon>
+                              <PropaneIcon
+                                color={darkMode ? "white" : "dark"}
+                                fontSize="small"
+                              />
+                            </ListItemIcon>
+                            <MDTypography variant="body2">Degas</MDTypography>
+                          </MenuItem>
+
                         </Menu>
                       </MDBox>
                     </Grid>
@@ -592,6 +625,7 @@ function Tables() {
                                   {_value === 0 && <TTableDetails />}
                                   {_value === 1 && <TTableHours />}
                                   {_value === 2 && <TTableDaily />}
+                                  {_value === 3 && <TTableDegas />}
                                 </MDBox>
                               )}
                             </MDBox>

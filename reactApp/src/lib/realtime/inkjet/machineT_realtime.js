@@ -1,7 +1,7 @@
 import { supabase } from "../../supabase";
 import { createContext, useEffect, useState } from "react";
 import { initialState } from "../../reducer";
-import { fetchMachineTData } from "../../api/inkjet";
+import { fetchMachineTData, fetchMachineTDegasData } from "../../api/inkjet";
 
 export const MachineTContext = createContext();
 
@@ -14,6 +14,7 @@ const MachineTProvider = ({ children }) => {
       [
         //Inkjet
         fetchMachineTData,
+        fetchMachineTDegasData,
       ].map(async (fetchFunction) => {
         await fetchFunction(setState, state);
       })
@@ -63,6 +64,7 @@ const MachineTProvider = ({ children }) => {
           records: state.machine_tRecords,
           latestData: state.machine_tLatestData,
           recordsByHour: state.machine_tRecordsbyhour,
+          degas: state.machine_t_degas,
         },
       }}
     >

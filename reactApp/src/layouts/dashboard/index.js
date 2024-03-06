@@ -17,14 +17,16 @@ import TemperatureStaticCard from "./components/Temperature";
 //import OrdersOverview from "./components/OrdersOverview";
 import MachineTgraph from "./components/MachineTgraph";
 import MachineMgraph from "./components/MachineMgraph";
-import CodingOutput from "./components/CodingOutput";
+import MachineCgraph from "./components/MachineCgraph";
+//import CodingOutput from "./components/CodingOutput";
 import IJPackaging from "./components/IJPackaging";
 import AssemblyOutput from "./components/Aseemblygraph";
 import NK2Output from "./components/Coating/NK2";
 import RewindingOutput from "./components/Rewinding";
 
 // Realtime Context and Provider
-import CodingProvider from "../../lib/realtime/inkjet/coding_realtime";
+import MachineCProvider from "../../lib/realtime/inkjet/machineC_realtime";
+//import CodingProvider from "../../lib/realtime/inkjet/coding_realtime";
 import IJPackagingProvider from "../../lib/realtime/inkjet/packaging_realtime";
 import AssemblyProvider from "../../lib/realtime/assembly/line1_realtime";
 import NK2Provider from "../../lib/realtime/coating/nk2";
@@ -111,6 +113,13 @@ function Dashboard() {
               </MachineMProvider>
             </Grid>
 
+            {/* Machine C Output Graph */}
+            <Grid item xs={12} md={6} lg={4}>
+              <MachineCProvider>
+                <MachineCgraph />
+              </MachineCProvider>
+            </Grid>
+
             {/* Assembly Output Graph */}
             <Grid item xs={12} md={6} lg={4}>
               <AssemblyProvider>
@@ -119,11 +128,11 @@ function Dashboard() {
             </Grid>
 
             {/* Coding Output Graph */}
-            <CodingProvider>
+            {/*<CodingProvider>
               <Grid item xs={12} md={6} lg={4}>
                 <CodingOutput />
               </Grid>
-            </CodingProvider>
+            </CodingProvider>*/}
 
             <Grid item xs={12} md={6} lg={4}>
               <MDBox>

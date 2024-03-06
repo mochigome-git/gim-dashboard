@@ -47,6 +47,12 @@ export const useDataFetching = ({
                             payload: data,
                         });
                         break;
+                    case 'machine_c':
+                        dispatch({
+                            type: 'UPDATE_CDATA',
+                            payload: data,
+                        });
+                        break;
                     // Add cases for other tables as needed
                     default:
                         break;

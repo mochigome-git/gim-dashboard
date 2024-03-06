@@ -62,6 +62,11 @@ export const initialState = {
   machine_mRecords: [],
   machine_mLatestData: [],
   machine_mRecordsbyhour: [], 
+  //..MACHINE C
+  machine_c: [],
+  machine_cRecords: [],
+  machine_cLatestData: [],
+  machine_cRecordsbyhour: [], 
   //PO
   po_vendor: [],
   po_edit_vendor: [],

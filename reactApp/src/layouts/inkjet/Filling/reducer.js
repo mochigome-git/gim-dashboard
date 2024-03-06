@@ -12,6 +12,11 @@ export const Reducer = (state, action) => {
         ...state,
         mdata: action.payload,
       };
+    case 'UPDATE_CDATA':
+      return {
+        ...state,
+        cdata: action.payload,
+      };
     case 'UPDATE_TOTAL':
       return {
         ...state,

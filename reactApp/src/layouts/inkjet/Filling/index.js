@@ -345,10 +345,10 @@ function Tables() {
         setTableNames(["machine_m"]);
         break;
       case 3:
-        setTableNames(["machine_D"]);
+        setTableNames(["machine_d"]);
         break;
       case 4:
-        setTableNames(["machine_H"]);
+        setTableNames(["machine_h"]);
         break;
       case 5:
         setTableNames(["machine_c"]);

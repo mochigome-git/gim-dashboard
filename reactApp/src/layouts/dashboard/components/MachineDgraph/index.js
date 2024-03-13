@@ -5,10 +5,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MDBox from "../../../../components/MDBox";
-import { MachineCDaily } from "./machine_C_daily";
-import { MachineCHour } from "./machine_C_hour";
+import { MachineDDaily } from "./machine_D_daily";
+import { MachineDHour } from "./machine_D_hour";
 
-export const MachineCgraph = () => {
+export const MachineDgraph = () => {
   const [menu, setMenu] = useState(null);
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
@@ -37,11 +37,11 @@ export const MachineCgraph = () => {
     >
       <MenuItem onClick={() => handlePress('MTD')}>
         <Switch checked={isMTDVisible} />
-        {'Machine C daily'}
+        {'Machine D daily'}
       </MenuItem>
       <MenuItem onClick={() => handlePress('MTH')}>
         <Switch checked={isMTHVisible} />
-        {'Machine C hour'}
+        {'Machine D hour'}
       </MenuItem>
     </Menu>
   );
@@ -55,11 +55,11 @@ export const MachineCgraph = () => {
           onClick={openMenu}
         />
         {renderMenu}
-        {isMTDVisible ? <MDBox ><MachineCDaily /></MDBox> : null}
-        {isMTHVisible ? <MDBox ><MachineCHour /></MDBox> : null}
+        {isMTDVisible ? <MDBox ><MachineDDaily /></MDBox> : null}
+        {isMTHVisible ? <MDBox ><MachineDHour /></MDBox> : null}
       </MDBox>
     </Card>
   );
 }
 
-export default MachineCgraph;
+export default MachineDgraph;

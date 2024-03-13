@@ -56,6 +56,7 @@ const RewindingProvider = ({ children }) => {
         // Rewinding data
         rewinding: {
           all: state.rewinding,
+          total: state.rewinding_total,
         },
       }}
     >

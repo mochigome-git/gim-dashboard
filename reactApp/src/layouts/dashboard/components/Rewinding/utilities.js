@@ -19,6 +19,36 @@ export function transformData(inputData) {
   return Object.values(transformedData);
 }
 
+export function combinedData(inputData) {
+  const combinedData = inputData.reduce((result, item) => {
+    const dateKey = item.created_at;
+
+    if (!result[dateKey]) {
+      result[dateKey] = {
+        created_at: dateKey,
+        total: 0,
+      };
+    }
+
+    // Combine values for mac1 to mac12
+    for (let i = 1; i <= 12; i++) {
+      const machineKey = `mac${i}`;
+      result[dateKey][machineKey] = result[dateKey][machineKey] || 0;
+      result[dateKey][machineKey] += item[machineKey] || 0;
+    }
+
+    // Calculate the total for the date
+    result[dateKey].total = Object.values(result[dateKey]).reduce((sum, value) => {
+      return typeof value === 'number' ? sum + value : sum;
+    }, 0);
+
+    return result;
+  }, {});
+
+  return Object.values(combinedData);
+}
+
+
 export function calculateSumForLatest12(data) {
     // Sort the array based on 'created_at' in descending order
     const sortedData = [...data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));

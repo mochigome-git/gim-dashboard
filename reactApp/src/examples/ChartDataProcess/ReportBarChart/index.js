@@ -1,5 +1,6 @@
 // ReportsBarChartData.js
 import { useEffect, useState } from "react";
+import moment from "moment";
 
 const ReportsBarChartData = (records, xKey, yKey) => {
 	const [dataPoints, setPoints] = useState([]);
@@ -8,8 +9,9 @@ const ReportsBarChartData = (records, xKey, yKey) => {
 		// Process the records to update dataPoints
 		var dps = [];
 		for (var i = 0; i < records.length; i++) {
+			const date = moment(records[i][xKey]).toDate();
 			dps.push({
-				x: Math.floor(new Date(records[i][xKey]).getTime()),
+				x: date.getTime(),
 				y: Number(records[i][yKey]),
 			});
 		}

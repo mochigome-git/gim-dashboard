@@ -34,7 +34,7 @@ export const initialState = {
   parameter_card: null,
   nk2: null,
   nk3: null,
-  settingId: null, 
+  settingId: null,
   settingTable: null,
   c1d1z: null,
   c1d2z: null,
@@ -61,12 +61,22 @@ export const initialState = {
   machine_m: [],
   machine_mRecords: [],
   machine_mLatestData: [],
-  machine_mRecordsbyhour: [], 
+  machine_mRecordsbyhour: [],
+  //..MACHINE D
+  machine_d: [],
+  machine_dRecords: [],
+  machine_dLatestData: [],
+  machine_dRecordsbyhour: [],
   //..MACHINE C
   machine_c: [],
   machine_cRecords: [],
   machine_cLatestData: [],
-  machine_cRecordsbyhour: [], 
+  machine_cRecordsbyhour: [],
+  //..MACHINE H
+  machine_h: [],
+  machine_hRecords: [],
+  machine_hLatestData: [],
+  machine_hRecordsbyhour: [],
   //PO
   po_vendor: [],
   po_edit_vendor: [],
@@ -77,4 +87,5 @@ export const initialState = {
 
   //REWINDING
   rewinding: [],
+  rewinding_total: [],
 };

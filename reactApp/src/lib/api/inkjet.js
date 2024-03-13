@@ -96,6 +96,33 @@ export const fetchMachineMData = async (setState) => {
   }
 };
 
+// Fetch Inkjet-Machine D Data
+export const fetchMachineDData = async (setState) => {
+  try {
+    const { data: data1, error: error1 } = await supabase
+      .from("machine_d")
+      .select("*")
+      .order("created_at", { ascending: false });
+    const { data: data2, error: error2 } = await supabase.rpc("machineddaily");
+    const { data: data3, error: error3 } = await supabase.rpc("machinedhours");
+    if (error1 || error2 || error3) {
+      throw error1 || error2 || error3;
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      machine_d: data1,
+      machine_dRecords: data2,
+      machine_dLatestData: data3[0]?.total,
+      machine_dRecordsbyhour: data3,
+    }));
+
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+
 // Fetch Inkjet-Machine C Data
 export const fetchMachineCData = async (setState) => {
   try {
@@ -115,6 +142,31 @@ export const fetchMachineCData = async (setState) => {
       machine_cRecords: data2,
       machine_cLatestData: data3[0]?.total,
       machine_cRecordsbyhour: data3,
+    }));
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// Fetch Inkjet-Machine H Data
+export const fetchMachineHData = async (setState) => {
+  try {
+    const { data: data1, error: error1 } = await supabase
+      .from("machine_h")
+      .select("created_at, do, counter")
+      .order("created_at", { ascending: false });
+    const { data: data2, error: error2 } = await supabase.rpc("machinehdaily");
+    const { data: data3, error: error3 } = await supabase.rpc("machinehhours");
+    if (error1 || error2 || error3) {
+      throw error1 || error2 || error3;
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      machine_h: data1,
+      machine_hRecords: data2,
+      machine_hLatestData: data3[0]?.total,
+      machine_hRecordsbyhour: data3,
     }));
   } catch (error) {
     alert(error.message);

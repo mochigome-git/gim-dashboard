@@ -59,6 +59,7 @@ function TemperatureStaticCard() {
             case "Mist":
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/fog.gif')");
                 break;
+            case "Moderate or heavy rain with thunder": 
             case "Rain":
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/rain.gif')");
                 break;

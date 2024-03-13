@@ -18,6 +18,9 @@ import TemperatureStaticCard from "./components/Temperature";
 import MachineTgraph from "./components/MachineTgraph";
 import MachineMgraph from "./components/MachineMgraph";
 import MachineCgraph from "./components/MachineCgraph";
+import MachineHgraph from "./components/MachineHgraph";
+import MachineDgraph from "./components/MachineDgraph";
+
 //import CodingOutput from "./components/CodingOutput";
 import IJPackaging from "./components/IJPackaging";
 import AssemblyOutput from "./components/Aseemblygraph";
@@ -32,9 +35,10 @@ import AssemblyProvider from "../../lib/realtime/assembly/line1_realtime";
 import NK2Provider from "../../lib/realtime/coating/nk2";
 import MachineTProvider from "../../lib/realtime/inkjet/machineT_realtime";
 import MachineMProvider from "../../lib/realtime/inkjet/machineM_realtime";
+import MachineHProvider from "../../lib/realtime/inkjet/machineH_realtime";
 import RewindingProvider from "../../lib/realtime/rewinding/rewinding_realtime";
 import TempProvider from "../../lib/realtime/temp/temp_realtime";
-
+import MachineDProvider from "../../lib/realtime/inkjet/machineD_realtime";
 
 function Dashboard() {
   return (
@@ -82,9 +86,9 @@ function Dashboard() {
 
           <Grid item xs={12} md={6} lg={3}>
             <TempProvider>
-             <MDBox m={-1.8} mb={1.5}>
-              <TemperatureStaticCard/>
-             </MDBox>
+              <MDBox m={-1.8} mb={1.5}>
+                <TemperatureStaticCard />
+              </MDBox>
             </TempProvider>
           </Grid>
 
@@ -120,6 +124,20 @@ function Dashboard() {
               </MachineCProvider>
             </Grid>
 
+            {/* Machine H Output Graph */}
+            <Grid item xs={12} md={6} lg={4}>
+              <MachineHProvider>
+                <MachineHgraph />
+              </MachineHProvider>
+            </Grid>
+
+            {/* Machine D Output Graph */}
+            <Grid item xs={12} md={6} lg={4}>
+              <MachineDProvider>
+                <MachineDgraph/>
+              </MachineDProvider>
+            </Grid>
+
             {/* Assembly Output Graph */}
             <Grid item xs={12} md={6} lg={4}>
               <AssemblyProvider>
@@ -134,12 +152,11 @@ function Dashboard() {
               </Grid>
             </CodingProvider>*/}
 
+            {/* Rewinding Output Graph */}
             <Grid item xs={12} md={6} lg={4}>
-              <MDBox>
-                <RewindingProvider>
-                  <RewindingOutput />
-                </RewindingProvider>
-              </MDBox>
+              <RewindingProvider>
+                <RewindingOutput />
+              </RewindingProvider>
             </Grid>
 
           </Grid>

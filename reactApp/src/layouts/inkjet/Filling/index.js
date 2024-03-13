@@ -57,10 +57,20 @@ import Machine_cData from "./data/machineC/machine_c";
 import Machine_c_daily_Data from "./data/machineC/machine_c_daily";
 import Machine_c_hour_Data from "./data/machineC/machine_c_hour";
 
+import Machine_hData from "./data/machineH/machine_h";
+import Machine_h_daily_Data from "./data/machineH/machine_h_daily";
+import Machine_h_hour_Data from "./data/machineH/machine_h_hour";
+
+import Machine_dData from "./data/machineD/machine_d";
+import Machine_d_daily_Data from "./data/machineD/machine_d_daily";
+import Machine_d_hour_Data from "./data/machineD/machine_d_hour";
+
 // Components from dashboard
 import MachineTgraph from "../../dashboard/components/MachineTgraph";
 import MachineMgraph from "../../dashboard/components/MachineMgraph";
 import MachineCgraph from "../../dashboard/components/MachineCgraph";
+import MachineHgraph from "../../dashboard/components/MachineHgraph";
+import MachineDgraph from "../../dashboard/components/MachineDgraph";
 
 // Api
 import { dataCSV } from "./api";
@@ -77,6 +87,8 @@ import { Reducer, initialState } from "./reducer";
 import MachineTProvider from "../../../lib/realtime/inkjet/machineT_realtime";
 import MachineMProvider from "../../../lib/realtime/inkjet/machineM_realtime";
 import MachineCProvider from "../../../lib/realtime/inkjet/machineC_realtime";
+import MachineHProvider from "../../../lib/realtime/inkjet/machineH_realtime";
+import MachineDProvider from "../../../lib/realtime/inkjet/machineD_realtime";
 
 /* @Machine T Table Data */
 const TTableDetails = () => {
@@ -176,6 +188,48 @@ const MTableDaily = () => {
 }
 //END
 
+/* @Machine D Table Data */
+const DTableDetails = () => {
+  const { columns: detailColumns, rows: detailRows } = Machine_dData();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine D timebase with details"
+        title_jp="充填実績・詳細"
+        columns={detailColumns}
+        rows={detailRows}
+      />
+    </MDBox>
+  );
+}
+const DTableHours = () => {
+  const { columns: hourColumns, rows: hourRows } = Machine_d_hour_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine D output by hour"
+        title_jp="時間別充填実績"
+        columns={hourColumns}
+        rows={hourRows}
+      />
+    </MDBox>
+  );
+}
+const DTableDaily = () => {
+  const { columns: dailyColumns, rows: dailyRows } = Machine_d_daily_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine D daily output"
+        title_jp="日間充填実績"
+        columns={dailyColumns}
+        rows={dailyRows}
+      />
+    </MDBox>
+  );
+}
+//END
+
 /* @Machine C Table Data */
 const CTableDetails = () => {
   const { columns: detailColumns, rows: detailRows } = Machine_cData();
@@ -209,6 +263,49 @@ const CTableDaily = () => {
     <MDBox sx={{ width: 'auto' }}>
       <IJTable
         title_en="Machine C daily output"
+        title_jp="日間充填実績"
+        columns={dailyColumns}
+        rows={dailyRows}
+      />
+    </MDBox>
+  );
+}
+//END
+
+/* @Machine H Table Data */
+const HTableDetails = () => {
+  const { columns: detailColumns, rows: detailRows } = Machine_hData();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine H timebase with details"
+        title_jp="充填実績・詳細"
+        columns={detailColumns}
+        rows={detailRows}
+      />
+    </MDBox>
+  );
+}
+
+const HTableHours = () => {
+  const { columns: hourColumns, rows: hourRows } = Machine_h_hour_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine H output by hour"
+        title_jp="時間別充填実績"
+        columns={hourColumns}
+        rows={hourRows}
+      />
+    </MDBox>
+  );
+}
+const HTableDaily = () => {
+  const { columns: dailyColumns, rows: dailyRows } = Machine_h_daily_Data();
+  return (
+    <MDBox sx={{ width: 'auto' }}>
+      <IJTable
+        title_en="Machine H daily output"
         title_jp="日間充填実績"
         columns={dailyColumns}
         rows={dailyRows}
@@ -276,11 +373,11 @@ function Tables() {
   };
 
   const pietotaldata = {
-    labels: ["Machine T", "Machine M", "Machine C"],
+    labels: ["Machine T", "Machine M", "Machine C", "Machine H", "Machine D"],
     datasets: {
       label: "pcs",
-      backgroundColors: ["info", "warning", "success"],
-      data: [state?.data, state?.mdata, state?.cdata],
+      backgroundColors: ["info", "warning", "success", "error", "secondary"],
+      data: [state?.data, state?.mdata, state?.cdata, state?.hdata, state?.ddata],
     },
   };
 
@@ -289,7 +386,7 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["warning", "info", "success"],
-      data: [state?.mdata, 0, 0],
+      data: [state?.mdata, state?.ddata],
     },
   };
 
@@ -298,17 +395,17 @@ function Tables() {
     datasets: {
       label: "pcs",
       backgroundColors: ["info", "warning", "success"],
-      data: [state?.data, 0, state?.cdata],
+      data: [state?.data, state?.hdata, state?.cdata],
     },
   };
 
   useEffect(() => {
-    const newTotal = state?.data + state?.mdata + state.cdata; //+ state.data3;
+    const newTotal = state?.data + state?.mdata + state.cdata + state.hdata +state.ddata; //+ state.data3;
     dispatch({
       type: "UPDATE_TOTAL",
       payload: newTotal,
     });
-  }, [state.data, state.mdata, state.cdata]);
+  }, [state.data, state.mdata, state.cdata, state.hdata, state.ddata]);
 
   useEffect(() => {
     if (value === 1) {
@@ -321,6 +418,8 @@ function Tables() {
   useDataFetching({ table: `machine_t`, fetchData: fetchData, supabase, dispatch });
   useDataFetching({ table: `machine_m`, fetchData: fetchData2, supabase, dispatch });
   useDataFetching({ table: `machine_c`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `machine_h`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `machine_d`, fetchData: fetchData2, supabase, dispatch });
 
   return (
     <DashboardLayout>
@@ -675,6 +774,18 @@ function Tables() {
                                       </MachineCProvider>
                                     </Grid>
 
+                                    <Grid item xs={12} md={6} lg={4}>
+                                      <MachineHProvider>
+                                        <MachineHgraph />
+                                      </MachineHProvider>
+                                    </Grid>
+
+                                    <Grid item xs={12} md={6} lg={4}>
+                                      <MachineDProvider>
+                                        <MachineDgraph />
+                                      </MachineDProvider>
+                                    </Grid>
+
                                   </Grid>
                                 </MDBox>
                               </MDBox>
@@ -704,12 +815,29 @@ function Tables() {
                             </MDBox>
                           </MachineMProvider>
 
-                          <MDBox role="tabpanel" hidden={value !== 3}>
-                            {value === 3 && <MDBox sx={{ p: 3 }}>Tab 4</MDBox>}
-                          </MDBox>
-                          <MDBox role="tabpanel" hidden={value !== 4}>
-                            {value === 4 && <MDBox sx={{ p: 3 }}>Tab 5</MDBox>}
-                          </MDBox>
+                          <MachineDProvider>
+                            <MDBox role="tabpanel" hidden={value !== 3}>
+                              {value === 3 && (
+                                <MDBox sx={{ p: 3 }}>
+                                  {_value === 0 && <DTableDetails />}
+                                  {_value === 1 && <DTableHours />}
+                                  {_value === 2 && <DTableDaily />}
+                                </MDBox>
+                              )}
+                            </MDBox>
+                          </MachineDProvider>
+
+                          <MachineHProvider>
+                            <MDBox role="tabpanel" hidden={value !== 4}>
+                              {value === 4 && (
+                                <MDBox sx={{ p: 3 }}>
+                                  {_value === 0 && <HTableDetails />}
+                                  {_value === 1 && <HTableHours />}
+                                  {_value === 2 && <HTableDaily />}
+                                </MDBox>
+                              )}
+                            </MDBox>
+                          </MachineHProvider>
 
                           <MachineCProvider>
                             <MDBox role="tabpanel" hidden={value !== 5}>

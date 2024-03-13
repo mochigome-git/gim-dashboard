@@ -10,7 +10,7 @@ const AssemblyOutput = () => {
   const { data } = ReportsBarChartData(
     assembly.line1,
     "created_at",
-    "total_count"
+    "total_count",
   );
   const [isassemblyAmount, setassemblyAmount] = useState();
   const [isassemblyPostive, setassemblyPositive] = useState();

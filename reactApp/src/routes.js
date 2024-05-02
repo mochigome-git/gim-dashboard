@@ -33,6 +33,7 @@ import ProcurementCreatepo from "./layouts/procurement/createpo"
 import PurchaseOrder from "./layouts/procurement/purchaseorder"
 import Rewinding from "./layouts/rewinding"
 import Board from "./layouts/rewinding/Board"
+import Output from "./layouts/rewinding/Output"
 //import Billing from "./layouts/billing";
 //import Notifications from "./layouts/notifications";
 //import Profile from "./layouts/profile";
@@ -135,6 +136,13 @@ const routes = [
     key: "Rewinding-Board",
     route: "/rewinding/board",
     component: <Board />,
+  },
+  {
+    type: "",
+    name: "Rewinding Output",
+    key: "Rewinding-Output",
+    route: "/rewinding/Output",
+    component: <Output />,
   },
 
 //Procurement block

@@ -40,14 +40,15 @@ function DataTable({
     : ["5", "10", "15", "20", "25"];
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
-
+  const storedPageIndex = window.localStorage.getItem('currentPageIndex');
+  const initialPageIndex = storedPageIndex ? parseInt(storedPageIndex, 10) : 0;
+  const [currentPageIndex, setCurrentPageIndex] = useState(initialPageIndex);
   const tableInstance = useTable(
-    { columns, data, initialState: { pageIndex: 0, hiddenColumns: ["created_at","insertdate"] } },
+    { columns, data, initialState: { pageIndex: currentPageIndex, hiddenColumns: ["created_at", "insertdate"] } },
     useGlobalFilter,
     useSortBy,
     usePagination
   );
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -66,8 +67,24 @@ function DataTable({
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
+  // Setting to stay on current index page
+  useEffect(() => {
+    setCurrentPageIndex(pageIndex);
+  }, [pageIndex]);
+
+  // Store current index page to browser
+  useEffect(() => {
+    const storedPageIndex = window.localStorage.getItem('currentPageIndex');
+    setCurrentPageIndex(storedPageIndex ? parseInt(storedPageIndex, 10) : 0);
+  }, []);
+
+  // Go back to last index page 
+  useEffect(() => {
+    window.localStorage.setItem('currentPageIndex', pageIndex);
+  }, [pageIndex]);
+
   // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue,setPageSize]);
+  useEffect(() => setPageSize(defaultValue || 10), [defaultValue, setPageSize]);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);

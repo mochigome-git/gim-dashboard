@@ -16,6 +16,7 @@ export default function useChartData(records) {
           y: Number(data[i].total),
         });
       }
+
       setPoints(dps);
     });
   }, [records]);

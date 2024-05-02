@@ -5,6 +5,7 @@ import { MachineMContext } from "../../../../../lib/realtime/inkjet/machineM_rea
 
 export const Machine_MData = () => {
   const { machineM } = useContext(MachineMContext);
+
   return {
     columns: [
       { Header: "date", accessor: "date", width: "1%", Cell: ({ row }) => row.original.created_at.substr(0, 10) },

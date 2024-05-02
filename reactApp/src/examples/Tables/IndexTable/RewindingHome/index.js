@@ -15,6 +15,7 @@ import MDTypography from "../../../../components/MDTypography";
 
 // Icons
 import LocalBarIcon from '@mui/icons-material/LocalBar';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../../context";
@@ -26,6 +27,10 @@ function InkjetHome() {
 
   const handleTabClick1 = () => {
     navigate("/rewinding/board");
+  };
+
+  const handleTabClick2 = () => {
+    navigate("/rewinding/Output");
   };
 
   return (
@@ -68,6 +73,44 @@ function InkjetHome() {
                     }}
                     icon={<LocalBarIcon fontSize="large" />}
                     onClick={handleTabClick1}
+                  />
+                </Tabs>
+              </AppBar>
+              <MDBox ml="auto" lineHeight={0} color={darkMode ? "white" : "dark"}>
+              </MDBox>
+            </MDBox>
+          </Grid>
+
+          {/* Option 2 */}
+          <Grid item xs={12} md={60}>
+            <MDBox
+              borderRadius="lg"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <AppBar position="static" sx={{ width: "100%", padding: "0 16px" }}>
+                <Tabs
+                  value={0}
+                  display="flex"
+                  sx={{
+                    border: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    padding: 0,
+                  }}
+                >
+                  <Tab
+                    label={<strong>Output</strong>}
+                    sx={{
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                      justifyContent: "flex-start",
+                      padding: 3
+                    }}
+                    icon={<ArchiveIcon fontSize="large" />}
+                    onClick={handleTabClick2}
                   />
                 </Tabs>
               </AppBar>

@@ -28,7 +28,7 @@ export const fetchMachineTData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
       .from("machine_t")
-      .select("*")
+      .select("model,ink_lot,ch1_sequence,ch1_filling_weight_g,ch2_filling_weight_g,ch3_filling_weight_g,counter,date_time")
       .order("date_time", { ascending: false });
     const { data: data2, error: error2 } = await supabase.rpc("machinetdaily");
     const { data: data3, error: error3 } = await supabase.rpc(
@@ -75,7 +75,7 @@ export const fetchMachineMData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
       .from("machine_m")
-      .select("*")
+      .select("created_at,counter,reach_20pa,ch1_tica1,ch1_do,ch2_do,ch3_do")
       .order("created_at", { ascending: false });
     const { data: data2, error: error2 } = await supabase.rpc("machinemdaily");
     const { data: data3, error: error3 } = await supabase.rpc("machinemhours");

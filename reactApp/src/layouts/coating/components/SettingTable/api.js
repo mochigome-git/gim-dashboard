@@ -6,7 +6,7 @@ export async function pick(id, dispatch, openErrorSB) {
   try {
     const { data, error } = await supabase
       .from('ct_coating_model')
-      .select(`model_name, speed, c1d1z, c1d2z, c2d1z, c2d2z, c3d1z, c3d2z, c4d1z, c4d2z, c4d3z`)
+      .select(`model_name, speed, c1d1z, c1d2z, c2d1z, c2d2z, c3d1z, c3d2z, c4d1z, c4d2z, c4d3z, f2u`)
       .eq("id", id);
 
     if (error) {
@@ -16,7 +16,7 @@ export async function pick(id, dispatch, openErrorSB) {
     dispatch({ type: "SET_FETCH_MODEL", payload: { value: data[0]?.model_name || null } });
     dispatch({ type: "SET_SPEED", payload: { value: data[0]?.speed || null } });
 
-    const columnNames = ["c1d1z", "c1d2z", "c2d1z", "c2d2z", "c3d1z", "c3d2z", "c4d1z", "c4d2z", "c4d3z"];
+    const columnNames = ["c1d1z", "c1d2z", "c2d1z", "c2d2z", "c3d1z", "c3d2z", "c4d1z", "c4d2z", "c4d3z", "f2u"];
 
     columnNames.forEach((columnName) => {
       const columnData = data[0]?.[columnName];

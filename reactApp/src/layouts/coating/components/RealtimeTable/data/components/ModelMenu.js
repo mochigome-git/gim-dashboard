@@ -5,12 +5,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { AlertContext } from '../../../../../../lib/realtime/coating/alert';
 
-const ModelMenu = ({ id, tableName, setModel, setErrorAlert, onchange }) => {
+const ModelMenu = ({ id, tableName, tableName2U, setModel, setErrorAlert, onchange }) => {
   const { setSettingId, menu } = useContext(AlertContext);
   const [selectedValue, setSelectedValue] = useState(0);
 
   useEffect(() => {
-    setSettingId(0, tableName);
+    setSettingId(0, tableName, tableName2U);
 
     if (onchange === 'nk2' || onchange === 'nk3') {
       setSelectedValue(0);
@@ -27,7 +27,7 @@ const ModelMenu = ({ id, tableName, setModel, setErrorAlert, onchange }) => {
           label="Model"
           onChange={(event) => {
             setSelectedValue(event.target.value);
-            setSettingId(event.target.value, tableName);
+            setSettingId(event.target.value, tableName, tableName2U);
             setModel(event.target.value);
             setErrorAlert(false);
           }}>

@@ -314,10 +314,11 @@ export const checkRange = async (settingFields) => {
   if (!settingFields || !Array.isArray(settingFields)) {
     return;
   }
-  for (const setting of settingFields) {
-    const { p_key_column, p_column, tableName } = setting || {};
 
-    if (!tableName || !p_key_column || !p_column) {
+  for (const setting of settingFields) {
+    const { p_key_column, p_column, tableName, tableName2U } = setting || {};
+
+    if (!(tableName || tableName2U) || !p_key_column || !p_column) {
       // Do something when either p_id or tableName is falsy
       //console.log("Invalid setting:", setting);
       return;
@@ -333,19 +334,50 @@ export const checkRange = async (settingFields) => {
             [setting.p_column]: false,
           }));
         } else {
-          // Fetch the key column value from the main table
-          const { data: mainTableData, error: mainTableError } = await supabase
-            .from(setting.tableName)
-            .select(`${setting.p_key_column}, d392`)
-            .order('created_at', { ascending: false })
-            .limit(1);
+          let mainTableData = null;
+          let subTable2UData = null;
+          let v_key = null;
+          let v_speed = null;
 
-          if (mainTableError) {
-            throw mainTableError;
+          if (setting.tableName) {
+            // Fetch the key column value from the main table
+            const { data, error: mainTableError } = await supabase
+              .from(setting.tableName)
+              .select(`${setting.p_key_column}, d392`)
+              .order('created_at', { ascending: false })
+              .limit(1);
+
+            if (mainTableError) {
+              throw new Error(`Error fetching data from ${setting.tableName}: ${mainTableError.message}`);
+            }
+
+            mainTableData = data;
+            v_key = mainTableData[0][setting.p_key_column] / 10;
+            v_speed = mainTableData[0].d392;
           }
 
-          const v_key = mainTableData[0][setting.p_key_column] / 10;
-          const v_speed = mainTableData[0].d392;
+          if (setting.tableName2U) {
+            // Fetch the key column value from the secondary table
+            const { data, error: subTable2UError } = await supabase
+              .from(setting.tableName2U)
+              .select(`${setting.p_key_column}`)
+              .order('created_at', { ascending: false })
+              .limit(1);
+
+            const { data: data2, error: speedError } = await supabase
+              .from(setting.speedRefer)
+              .select(`d392`)
+              .order('created_at', { ascending: false })
+              .limit(1);
+
+            if (subTable2UError || speedError) {
+              throw new Error(`Error fetching data from ${setting.tableName2U} or ${setting.speedRefer}: ${(subTable2UError || speedError).message}`);
+            }
+
+            subTable2UData = data;
+            v_key = subTable2UData[0][setting.p_key_column] * 10;
+            v_speed = data2[0].d392;
+          }
 
           // Fetch the coating model data
           const { data: coatingModelData, error: coatingModelError } =
@@ -355,7 +387,7 @@ export const checkRange = async (settingFields) => {
               .eq("id", setting.p_id);
 
           if (coatingModelError) {
-            throw coatingModelError;
+            throw new Error(`Error fetching coating model data: ${coatingModelError.message}`);
           }
 
           // Extract low and high values from the coating model data
@@ -373,7 +405,7 @@ export const checkRange = async (settingFields) => {
           }));
         }
       } catch (error) {
-        alert(error.message);
+        alert(`Error processing setting: ${error.message}`);
       }
     }
   };
@@ -381,6 +413,7 @@ export const checkRange = async (settingFields) => {
   // Call the function to process settings
   await processSettings();
 };
+
 
 export const modelMenu = async (setState) => {
   try {

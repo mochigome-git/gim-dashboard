@@ -17,6 +17,7 @@ const columnReplacements = {
   d812: "4D1Z Temp",
   d814: "4D2Z Temp",
   d816: "4D3Z Temp",
+  f2u: "2U Density",
 };
 
 const ChipAlert = ({ id, handleAlert }) => {
@@ -29,7 +30,6 @@ const ChipAlert = ({ id, handleAlert }) => {
 
   function findDifferentColumns(alert) {
     const differentColumns = {};
-
     // Iterate through the keys in alert
     for (const key in alert) {
       if (key !== "id" && Object.prototype.hasOwnProperty.call(alert, key)) {

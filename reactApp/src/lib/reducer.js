@@ -46,6 +46,7 @@ export const initialState = {
   c4d2z: null,
   c4d3z: null,
   menu: '',
+  f2u: null,
 
   //INKJET
   ij_latest_weight_no1: [],

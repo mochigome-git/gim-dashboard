@@ -20,7 +20,7 @@ export async function updateCoatingSetting(updates, id, dispatch, openSuccessSB,
     }
 
     const { data, error } = await supabase
-      .from("coating_model")
+      .from("ct_coating_model")
       .update(updateObject)
       .eq("id", id)
       .select(updateColumn)
@@ -51,7 +51,7 @@ export async function updateCoatingSetting(updates, id, dispatch, openSuccessSB,
 export async function deleteCoatingSetting(id, dispatch, openDeleteSB, openErrorSB) {
   try {
     const { error: deleteError } = await supabase
-      .from("coating_model")
+      .from("ct_coating_model")
       .delete()
       .eq("id", id);
 
@@ -60,7 +60,7 @@ export async function deleteCoatingSetting(id, dispatch, openDeleteSB, openError
     }
 
     const { data: selectData, error: selectError } = await supabase
-      .from("coating_model")
+      .from("ct_coating_model")
       .select("id")
       .eq("id", id);
 
@@ -109,7 +109,7 @@ export async function insertCoatingSetting(inserts, dispatch, openInsertSB, open
     }
 
     const { error: insertError } = await supabase
-      .from("coating_model")
+      .from("ct_coating_model")
       .insert([insertObject]);
 
     if (insertError) {

@@ -171,7 +171,6 @@ function SettingTable() {
                 </MDTypography>
                 <Stack >
                   <TriggerSwitch modalDescription={modalDescription} />
-                  <TriggerSwitch modalDescription={modalDescription2} />
                 </Stack>
               </MDBox>
             </Card>

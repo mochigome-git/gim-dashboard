@@ -30,6 +30,9 @@ export const initialState = {
   c4d3z_textfield_l: 50,
   c4d3z_textfield_h: 100,
   c4d3z_column: [],
+  f2u_textfield_l: 1,
+  f2u_textfield_h: 10,
+  f2u_column: [],
   success: false,
   update: false,
   delete: false,
@@ -127,6 +130,14 @@ export const settingReducer = (state, action) => {
         c4d3z_column: action.payload.column,
         c4d3z_clear: action.payload.clear,
       };
+      case "SET_F2U":
+        return {
+          ...state,
+          f2u_textfield_l: action.payload.valuel,
+          f2u_textfield_h: action.payload.valueh,
+          f2u_column: action.payload.column,
+          f2u_clear: action.payload.clear,
+        };
     case "SET_FETCH_MODEL":
       return {
         ...state,

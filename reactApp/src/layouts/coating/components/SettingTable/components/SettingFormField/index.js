@@ -33,15 +33,16 @@ const formFields = [
 ];
 
 const slideFields = [
-  { label: '1D1Z', column: 'c1d1z', width: '100%' },
-  { label: '1D2Z', column: 'c1d2z', width: '100%' },
-  { label: '2D1Z', column: 'c2d1z', width: '100%' },
-  { label: '2D2Z', column: 'c2d2z', width: '100%' },
-  { label: '3D1Z', column: 'c3d1z', width: '100%' },
-  { label: '3D2Z', column: 'c3d2z', width: '100%' },
-  { label: '4D1Z', column: 'c4d1z', width: '100%' },
-  { label: '4D2Z', column: 'c4d2z', width: '100%' },
-  { label: '4D3Z', column: 'c4d3z', width: '100%' },
+  { label: '1D1Z', column: 'c1d1z', width: '100%', max: 110 },
+  { label: '1D2Z', column: 'c1d2z', width: '100%', max: 110 },
+  { label: '2D1Z', column: 'c2d1z', width: '100%', max: 110 },
+  { label: '2D2Z', column: 'c2d2z', width: '100%', max: 110 },
+  { label: '3D1Z', column: 'c3d1z', width: '100%', max: 110 },
+  { label: '3D2Z', column: 'c3d2z', width: '100%', max: 110 },
+  { label: '4D1Z', column: 'c4d1z', width: '100%', max: 110 },
+  { label: '4D2Z', column: 'c4d2z', width: '100%', max: 110 },
+  { label: '4D3Z', column: 'c4d3z', width: '100%', max: 110 },
+  { label: '2U Density', column: 'f2u', width: '100%', max: 10 },
 ];
 
 export default function SettingFormField({
@@ -135,6 +136,7 @@ export default function SettingFormField({
       { column: state.c4d1z_column, valuel: state.c4d1z_textfield_l, valueh: state.c4d1z_textfield_h },
       { column: state.c4d2z_column, valuel: state.c4d2z_textfield_l, valueh: state.c4d2z_textfield_h },
       { column: state.c4d3z_column, valuel: state.c4d3z_textfield_l, valueh: state.c4d3z_textfield_h },
+      { column: state.f2u_column, valuel: state.f2u_textfield_l, valueh: state.f2u_textfield_h },
     ];
 
     if (createform) {
@@ -220,7 +222,7 @@ export default function SettingFormField({
                         valueLabelDisplay="auto"
                         onChange={(event) => handleChange1(field.column, event.target.value)}
                         marks={marks}
-                        max={110}
+                        max={field.max}
                       />
                     </Stack>
                   </MDBox>

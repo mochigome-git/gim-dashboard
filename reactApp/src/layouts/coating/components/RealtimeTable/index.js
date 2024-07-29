@@ -114,8 +114,8 @@ const RealtimeTable = memo(() => {
       <MDBox py={3}>
         {errorExist === true && (
           <ErrorSnackbar
-            errorTitle={"Temperatur Error"}
-            errors={"Temperature is out of range"}
+            errorTitle={"Threshold Error"}
+            errors={"Current value is out of range"}
             content2="disable"
             dateTime="disable"
             state={errorExist}
@@ -142,6 +142,7 @@ const RealtimeTable = memo(() => {
                 id={id}
                 setModel={setModel}
                 tableName={tableType === 'nk2' ? 'ct_nk2_log_data_storage' : 'ct_nk3_log_data_storage' || 0}
+                tableName2U={tableType === 'nk2' ? 'ct_nk2_2u_fibre_sensor' : 'ct_nk3_2u_fibre_sensor' || 0}
                 setErrorAlert={setErrorAlert}
                 onchange={tableType}
               />

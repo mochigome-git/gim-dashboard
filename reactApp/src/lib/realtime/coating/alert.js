@@ -9,8 +9,9 @@ const AlertProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [settingFields, setSettingFields] = useState([]);
 
-  const setSettingId = (id, tableName) => {
+  const setSettingId = (id, tableName, tableName2U) => {
     const  newSettingFields = [
+        // Temperature range
         {p_id: id, p_key_column: 'd800', p_column: 'c1d1z', tableName, setState},
         {p_id: id, p_key_column: 'd802', p_column: 'c1d2z', tableName, setState},
         {p_id: id, p_key_column: 'd804', p_column: 'c2d1z', tableName, setState},
@@ -20,6 +21,8 @@ const AlertProvider = ({ children }) => {
         {p_id: id, p_key_column: 'd812', p_column: 'c4d1z', tableName, setState},
         {p_id: id, p_key_column: 'd814', p_column: 'c4d2z', tableName, setState},
         {p_id: id, p_key_column: 'd816', p_column: 'c4d3z', tableName, setState},
+        // 2U range
+        {p_id: id, p_key_column: 'sensor1', p_column: 'f2u', tableName2U, setState, speedRefer: tableName},
       ]; 
       setSettingFields(newSettingFields);
   };
@@ -60,7 +63,7 @@ const AlertProvider = ({ children }) => {
       })
       .subscribe();
   };  
-  
+
   return (
     <AlertContext.Provider
       value={{
@@ -75,6 +78,7 @@ const AlertProvider = ({ children }) => {
           c4d1z: state.c4d1z,
           c4d2z: state.c4d2z,
           c4d3z: state.c4d3z,
+          f2u: state.f2u,
         },
         menu: state.menuItem,
       }}

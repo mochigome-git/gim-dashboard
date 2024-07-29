@@ -38,7 +38,7 @@ const RewindingProvider = ({ children }) => {
     };
 
     const subscriptions = [
-      setupSubscription("rewinding_count", "rewinding_count", fetchRewindingData),
+      setupSubscription("as_rewinding_count", "as_rewinding_count", fetchRewindingData),
     ];
     return () => {
         if(state.subscription){

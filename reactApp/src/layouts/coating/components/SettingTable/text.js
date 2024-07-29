@@ -13,6 +13,6 @@ export const modalDescription2 = {
     title: 'Turn on to active density sensor alert - 濃度計アラート検知の使用可否',
     subtitle: 'Turn on and adjust the threshold using the textbox beside.',
     subtitle2: '横の入力欄に閾値を入力してください。',
-    label1: "4U　",
+    label1: "4U",
     label2: "2U",
 };

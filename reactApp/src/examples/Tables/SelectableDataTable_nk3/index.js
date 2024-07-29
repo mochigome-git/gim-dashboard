@@ -51,7 +51,7 @@ import SelectableDataTableBodyCell from "../SelectableDataTable/SelectableDataTa
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "../../../context";
 
-import "/opt/gim-dashboard/reactApp/src/examples/Tables/SelectableDataTable_nk3/SelectableDataTable_nk3.css";
+import "../SelectableDataTable_nk3/SelectableDataTable_nk3.css";
 
 function EnhancedTableToolbar(props) {
   const [controller] = useMaterialUIController();

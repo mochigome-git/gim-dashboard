@@ -35,8 +35,8 @@ const AlertProvider = ({ children }) => {
       fetchData();
 
       const subscriptions = [
-        subscribeToChannel("coating_model_nk2", "nk2_log_data_storage", fetchData),
-        subscribeToChannel("coating_model", "coating_model", fetchData),
+        subscribeToChannel("coating_model_nk2", "ct_nk2_log_data_storage", fetchData),
+        subscribeToChannel("coating_model", "ct_coating_model", fetchData),
         // Add more subscriptions as needed
       ];
 

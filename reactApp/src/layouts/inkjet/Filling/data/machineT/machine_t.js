@@ -55,7 +55,7 @@ export const Machine_tData = () => {
       { Header: "quantity", accessor: "counter", width: "1%", align: "left" },
     ],
 
-    rows: machineT.data
+    rows: machineT?.data
   };
 }
 

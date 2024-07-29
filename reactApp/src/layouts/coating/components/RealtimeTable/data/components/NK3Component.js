@@ -66,6 +66,7 @@ const NK3Component = () => {
             fields: ["d534", "d536", "d538", "d540", "d542", "d544", "d546"],
             divide: 10,
             title: "テンション Tension",
+            ymax: 3,
           }}
           renderDetailsChart={renderDetailsChart}
         />
@@ -97,6 +98,7 @@ const NK3Component = () => {
             divide: 10,
             title: "濃度 4U Density",
             reverse: true,
+            ymax: 500,
           }}
           renderDetailsChart={renderDetailsChart}
         />

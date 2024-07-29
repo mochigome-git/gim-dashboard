@@ -12,7 +12,7 @@ export const Machine_t_hour_Data = () => {
       { Header: "quantity", accessor: "total", width: "1%", align: "left" },
     ],
 
-    rows: machineT.recordsByHour
+    rows: machineT?.recordsByHour
   };
 }
 

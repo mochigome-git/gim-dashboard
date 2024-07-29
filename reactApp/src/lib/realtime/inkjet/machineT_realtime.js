@@ -43,7 +43,7 @@ const MachineTProvider = ({ children }) => {
     };
 
     const subscriptions = [
-      setupSubscription("machine_t", "machine_t", fetchMachineTData),
+      setupSubscription("ij_machine_t", "ij_machine_t", fetchMachineTData),
     ];
     return () => {
       if (state.subscription) {

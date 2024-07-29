@@ -35,31 +35,31 @@ export const useDataFetching = ({
             try {
                 const data = await fetchData(table, id);
                 switch (table) {
-                    case 'machine_t':
+                    case 'ij_machine_t':
                         dispatch({
                             type: 'UPDATE_DATA',
                             payload: data,
                         });
                         break;
-                    case 'machine_m':
+                    case 'ij_machine_m':
                         dispatch({
                             type: 'UPDATE_MDATA',
                             payload: data,
                         });
                         break;
-                    case 'machine_c':
+                    case 'ij_machine_c':
                         dispatch({
                             type: 'UPDATE_CDATA',
                             payload: data,
                         });
                         break;
-                    case 'machine_h':
+                    case 'ij_machine_h':
                         dispatch({
                             type: 'UPDATE_HDATA',
                             payload: data,
                         });
                         break;
-                    case 'machine_d':
+                    case 'ij_machine_d':
                         dispatch({
                             type: 'UPDATE_DDATA',
                             payload: data,

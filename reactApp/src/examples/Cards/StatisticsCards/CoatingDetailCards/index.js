@@ -71,7 +71,7 @@ CoatingDetailCards.propTypes = {
     "text",
   ]),
   title: PropTypes.string.isRequired,
-  count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  //count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   icon: PropTypes.node.isRequired,
 };
 

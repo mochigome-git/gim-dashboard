@@ -1,38 +1,38 @@
 import { supabase } from "../supabase";
 
 // Fetch Inkjet-Coding Data
-export const fetchCodingData = async (setState) => {
-  try {
-    const { data: data1, error: error1 } = await supabase.rpc("daily");
-    const { data: data2, error: error2 } = await supabase
-      .from("records")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error1 || error2) {
-      throw error1 || error2;
-    }
-
-    setState((prevState) => ({
-      ...prevState,
-      records: data1,
-      codingLatestData: data1[0].total,
-      records2: data2,
-    }));
-  } catch (error) {
-    alert(error.message);
-  }
-};
+//export const fetchCodingData = async (setState) => {
+//  try {
+//    const { data: data1, error: error1 } = await supabase.rpc("daily");
+//    const { data: data2, error: error2 } = await supabase
+//      .from("records")
+//      .select("*")
+//      .order("created_at", { ascending: false });
+//    if (error1 || error2) {
+//      throw error1 || error2;
+//    }
+//
+//    setState((prevState) => ({
+//      ...prevState,
+//      records: data1,
+//      codingLatestData: data1[0].total,
+//      records2: data2,
+//    }));
+//  } catch (error) {
+//    alert(error.message);
+//  }
+//};
 
 // Fetch Inkjet-Machine T Data
 export const fetchMachineTData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_t")
+      .from("ij_machine_t")
       .select("*")
       .order("date_time", { ascending: false });
-    const { data: data2, error: error2 } = await supabase.rpc("machinetdaily");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_machinetdaily");
     const { data: data3, error: error3 } = await supabase.rpc(
-      "machinetdailybyhours"
+      "get_ij_machinetdailybyhours"
     );
     if (error1 || error2 || error3) {
       throw error1 || error2 || error3;
@@ -54,7 +54,7 @@ export const fetchMachineTData = async (setState) => {
 export const fetchMachineTDegasData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_t_degas")
+      .from("ij_machine_t_degas")
       .select("*")
       .order("created_at", { ascending: false });
     if (error1) {
@@ -74,11 +74,11 @@ export const fetchMachineTDegasData = async (setState) => {
 export const fetchMachineMData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_m")
+      .from("ij_machine_m")
       .select("*")
       .order("created_at", { ascending: false });
-    const { data: data2, error: error2 } = await supabase.rpc("machinemdaily");
-    const { data: data3, error: error3 } = await supabase.rpc("machinemhours");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_machinemdaily");
+    const { data: data3, error: error3 } = await supabase.rpc("get_ij_machinemhours");
     if (error1 || error2 || error3) {
       throw error1 || error2 || error3;
     }
@@ -100,11 +100,11 @@ export const fetchMachineMData = async (setState) => {
 export const fetchMachineDData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_d")
+      .from("ij_machine_d")
       .select("*")
       .order("created_at", { ascending: false });
-    const { data: data2, error: error2 } = await supabase.rpc("machineddaily");
-    const { data: data3, error: error3 } = await supabase.rpc("machinedhours");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_machineddaily");
+    const { data: data3, error: error3 } = await supabase.rpc("get_ij_machinedhours");
     if (error1 || error2 || error3) {
       throw error1 || error2 || error3;
     }
@@ -127,11 +127,11 @@ export const fetchMachineDData = async (setState) => {
 export const fetchMachineCData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_c")
+      .from("ij_machine_c")
       .select("created_at, do, counter")
       .order("created_at", { ascending: false });
-    const { data: data2, error: error2 } = await supabase.rpc("machinecdaily");
-    const { data: data3, error: error3 } = await supabase.rpc("machinechours");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_machinecdaily");
+    const { data: data3, error: error3 } = await supabase.rpc("get_ij_machinechours");
     if (error1 || error2 || error3) {
       throw error1 || error2 || error3;
     }
@@ -152,11 +152,11 @@ export const fetchMachineCData = async (setState) => {
 export const fetchMachineHData = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase
-      .from("machine_h")
+      .from("ij_machine_h")
       .select("created_at, do, counter")
       .order("created_at", { ascending: false });
-    const { data: data2, error: error2 } = await supabase.rpc("machinehdaily");
-    const { data: data3, error: error3 } = await supabase.rpc("machinehhours");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_machinehdaily");
+    const { data: data3, error: error3 } = await supabase.rpc("get_ij_machinehhours");
     if (error1 || error2 || error3) {
       throw error1 || error2 || error3;
     }
@@ -178,9 +178,9 @@ export const fetchMachineHData = async (setState) => {
 export const fetchIJWeightRecord = async (setState) => {
   try {
     const { data: data1, error: error1 } = await supabase.rpc(
-      "get_inkjet_weighing_latest_record"
+      "get_ij_pkg_weight_latest_record"
     );
-    const { data: data2, error: error2 } = await supabase.rpc("get_ij_index");
+    const { data: data2, error: error2 } = await supabase.rpc("get_ij_pkg_weight_index");
     if (error1 || error2) {
       throw error1 || error2;
     }
@@ -204,7 +204,7 @@ export const fetchIJWeightDetail = async (setState, state) => {
 
   try {
     const { data: data1, error: error1 } = await supabase.rpc(
-      "get_inkjet_weighing_pick_job",
+      "get_ij_pkg_weighing_pick_job",
       {
         job: data,
       }

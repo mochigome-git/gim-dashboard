@@ -109,10 +109,10 @@ const Nk2SelectableDataTable = ({
       const folderName = `nk2_roll_no:${state.cLOTNo}`;
       if (everyFiveMinutes) {
         const tableNames = [
-          "nk2_log_data_storage",
-          "nk2_4u_fibre_sensor",
-          "nk2_main_pressure_sensor",
-          "nk2_2u_fibre_sensor",
+          "ct_nk2_log_data_storage",
+          "ct_nk2_4u_fibre_sensor",
+          "ct_nk2_main_pressure_sensor",
+          "ct_nk2_2u_fibre_sensor",
         ];
         dataCSVmultiTable(
           state.Ddate,
@@ -124,10 +124,10 @@ const Nk2SelectableDataTable = ({
       }
       if (!everyFiveMinutes) {
         const tableNames = [
-          "nk2_log_data_storage",
-          "nk2_4u_fibre_sensor",
-          "nk2_main_pressure_sensor",
-          "nk2_2u_fibre_sensor",
+          "ct_nk2_log_data_storage",
+          "ct_nk2_4u_fibre_sensor",
+          "ct_nk2_main_pressure_sensor",
+          "ct_nk2_2u_fibre_sensor",
         ];
         dataCSVmultiTable(
           state.Ddate,
@@ -178,10 +178,10 @@ const Nk2SelectableDataTable = ({
 
       if (everyFiveMinutes) {
         const tableNames = [
-          "nk2_log_data_storage",
-          "nk2_4u_fibre_sensor",
-          "nk2_main_pressure_sensor",
-          "nk2_2u_fibre_sensor",
+          "ct_nk2_log_data_storage",
+          "ct_nk2_4u_fibre_sensor",
+          "ct_nk2_main_pressure_sensor",
+          "ct_nk2_2u_fibre_sensor",
         ];
         multipleDataCSVmultiTable(
           combinedCreatedAtProp,
@@ -193,10 +193,10 @@ const Nk2SelectableDataTable = ({
       }
       if (!everyFiveMinutes) {
         const tableNames = [
-          "nk2_log_data_storage",
-          "nk2_4u_fibre_sensor",
-          "nk2_main_pressure_sensor",
-          "nk2_2u_fibre_sensor",
+          "ct_nk2_log_data_storage",
+          "ct_nk2_4u_fibre_sensor",
+          "ct_nk2_main_pressure_sensor",
+          "ct_nk2_2u_fibre_sensor",
         ];
         multipleDataCSVmultiTable(
           combinedCreatedAtProp,

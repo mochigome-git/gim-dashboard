@@ -5,8 +5,8 @@ export const fetchTempData = async (setState, area) => {
   try {
     // Define a mapping from area to table
     const areaToTableMap = {
-      NK2: "1t1h",
-      NK3: "2t2h",
+      NK2: "2t2h",
+      NK3: "3t3h",
       // Add more mappings as needed
     };
 
@@ -14,9 +14,9 @@ export const fetchTempData = async (setState, area) => {
     const table = areaToTableMap[area];
 
     const { data, error } = await supabase
-      .from("temp_humi_records")
+      .from("ct_temp_humi_records")
       .select("temp, humi")
-      .eq("device", table? table : '1t1h')
+      .eq("device", table? table : '2t2h')
       .order("created_at", { ascending: false });
     if (error) {
       throw error;

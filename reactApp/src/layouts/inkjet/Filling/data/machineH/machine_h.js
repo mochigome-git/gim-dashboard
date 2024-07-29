@@ -31,7 +31,7 @@ export const Machine_HData = () => {
       },
     ],
 
-    rows: machineH.data
+    rows: machineH?.data
   };
 }
 

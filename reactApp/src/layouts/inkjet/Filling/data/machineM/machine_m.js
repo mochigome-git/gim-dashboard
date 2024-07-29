@@ -70,7 +70,7 @@ export const Machine_MData = () => {
       },
     ],
 
-    rows: machineM.data
+    rows: machineM?.data
   };
 }
 

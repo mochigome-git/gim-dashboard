@@ -10,7 +10,7 @@ import boxShadows from "../../base/boxShadows";
 import pxToRem from "../../functions/pxToRem";
 import linearGradient from "../../functions/linearGradient";
 
-const { white, gradients, grey, transparent } = colors;
+const { gradients, grey, transparent } = colors;
 const { borderWidth } = borders;
 const { md } = boxShadows;
 

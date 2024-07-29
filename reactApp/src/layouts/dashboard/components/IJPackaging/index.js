@@ -55,9 +55,7 @@ const IJPackaging = () => {
           // Check if the item's 'created_at' is within the last week
           lastWeekTotal += item.ok_count;
         }
-        const packagingAmount = relDiff(thisWeekTotal, lastWeekTotal).toFixed(
-          2
-        );
+        const packagingAmount = relDiff(thisWeekTotal, lastWeekTotal).toFixed(2);
         setPackagingAmount(packagingAmount);
         if (packagingAmount < 0) {
           setPackagingPositive("error");

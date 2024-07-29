@@ -21,7 +21,7 @@ import boxShadows from "../../theme/base/boxShadows";
 // Material Dashboard 2 React helper functions
 import pxToRem from "../../theme/functions/pxToRem";
 
-const { grey, white, text, info } = colors;
+const { grey, white, info } = colors;
 const { borderRadius, borderWidth } = borders;
 const { sliderBoxShadow } = boxShadows;
 

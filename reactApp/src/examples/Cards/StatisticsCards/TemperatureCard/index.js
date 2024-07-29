@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Icon from "@mui/material/Icon";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import CardMedia from "@mui/material/CardMedia";

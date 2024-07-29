@@ -44,8 +44,8 @@ const LoadingStateComponent = ({ children }) => (
 );
 
 const RealtimeTable = memo(() => {
-  const [loading, setLoading] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [loading,] = useState(false);
+  const [failed,] = useState(false);
   const [id, setModel] = useState(0);
   const [errorAlert, setErrorAlert] = useState(false);
   const [errorExist, setErrorExist] = useState(() => {
@@ -141,7 +141,7 @@ const RealtimeTable = memo(() => {
               <ModelMenu
                 id={id}
                 setModel={setModel}
-                tableName={tableType === 'nk2' ? 'nk2_log_data_realtime' : 'nk3_log_data_realtime' || 0}
+                tableName={tableType === 'nk2' ? 'ct_nk2_log_data_storage' : 'ct_nk3_log_data_storage' || 0}
                 setErrorAlert={setErrorAlert}
                 onchange={tableType}
               />

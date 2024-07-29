@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -27,7 +27,7 @@ function CoatingDetailsTable({ nk2Data, nk3Data, parameter, typeDetail }) {
   const [timeDifference, setTimeDifference] = useState("");
   const [downtime, setDowntime] = useState("");
   const [loading, setLoading] = useState(true);
-  const [type, setType] = useState(false)
+  //const [type, setType] = useState(false)
 
   useEffect(() => {
     const { start, end } = parameter?.winding || {};
@@ -58,15 +58,15 @@ function CoatingDetailsTable({ nk2Data, nk3Data, parameter, typeDetail }) {
     calculateDowntime();
     calculateTimeDifference();
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-
-    // Cleanup function to reset downtime when unmounting
-    return () => setDowntime("");
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parameter]);
+
+  useLayoutEffect(() => {
+    // Set loading to false after all rendering is done
+    setTimeout(() => {
+      setLoading(false);
+    }, 900);
+  }, []);
 
   if (loading) {
     return (

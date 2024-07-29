@@ -31,10 +31,10 @@ const NK3Provider = ({ children }) => {
   const fetchData = async () => {
     fetchNk3Index(setState, state);
     fetchNk3Details(setState, state);
-    fetchTableData('nk3_log_data_storage', 'nk3Data', setState);
-    fetchTableData('nk3_2u_fibre_sensor', 'nk3_2u_fibre_sensor', setState, -8);
-    fetchTableData('nk3_main_pressure_sensor', 'nk3PressureSensor', setState, -8);
-    fetchTableData('nk3_4u_fibre_sensor', 'nk3_4u_fibre_sensor', setState, -8);
+    fetchTableData('ct_nk3_log_data_storage', 'nk3Data', setState, -8);
+    fetchTableData('ct_nk3_2u_fibre_sensor', 'nk3_2u_fibre_sensor', setState, -8);
+    fetchTableData('ct_nk3_main_pressure_sensor', 'nk3PressureSensor', setState, -8);
+    fetchTableData('ct_nk3_4u_fibre_sensor', 'nk3_4u_fibre_sensor', setState, -8);
     // Add more data-fetching functions as needed
   };
 
@@ -43,7 +43,7 @@ const NK3Provider = ({ children }) => {
       fetchData();
 
       const subscriptions = [
-        setupSubscription("nk3_log_data_storage", "nk3_log_data_storage", fetchData),
+        setupSubscription("ct_nk3_log_data_storage", "nk3_log_data_storage", fetchData),
         // Add more subscriptions as needed
       ];
 

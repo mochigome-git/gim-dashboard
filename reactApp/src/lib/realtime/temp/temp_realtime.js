@@ -44,7 +44,7 @@ const TempProvider = ({ children }) => {
     };
 
     const subscriptions = [
-      setupSubscription("temp_realtime", "temp_humi_records", fetchTempData),
+      setupSubscription("ct_temp_realtime", "ct_temp_humi_records", fetchTempData),
     ];
     return () => {
         if(state.subscription){

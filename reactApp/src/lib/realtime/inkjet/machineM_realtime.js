@@ -42,7 +42,7 @@ const MachineMProvider = ({ children }) => {
     };
 
     const subscriptions = [
-      setupSubscription("machine_m", "machine_m", fetchMachineMData),
+      setupSubscription("ij_machine_m", "ij_machine_m", fetchMachineMData),
     ];
     return () => {
       if (state.subscription) {

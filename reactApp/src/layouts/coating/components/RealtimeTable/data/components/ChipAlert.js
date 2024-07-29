@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useEffect } from "react";
 import MDBox from "../../../../../../components/MDBox";
-import MDTypography from "../../../../../../components/MDTypography";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";

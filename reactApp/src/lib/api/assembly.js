@@ -4,7 +4,7 @@ import { supabase } from "../supabase";
 export const fetchAssemblyData = async (setState) => {
   try {
     const { data, error } = await supabase
-      .rpc("get_assembly_line_count")
+      .rpc("get_as_line1_sum")
       .order("created_at", { ascending: false });
     if (error) {
       throw error;

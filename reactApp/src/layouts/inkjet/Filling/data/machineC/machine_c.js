@@ -31,7 +31,7 @@ export const Machine_CData = () => {
       },
     ],
 
-    rows: machineC.data
+    rows: machineC?.data
   };
 }
 

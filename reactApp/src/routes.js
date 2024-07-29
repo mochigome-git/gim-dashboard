@@ -27,12 +27,13 @@ import Resetpassword from "./layouts/authentication/reset-password/cover/index"
 import InkjetIndex from "./layouts/inkjet/"
 import InkjetWeighing from "./layouts/inkjet/Weighing";
 import InkjetFilling from "./layouts/inkjet/Filling";
-import ProcurementIndex from "./layouts/procurement"
-import ProcurementAddressbook from "./layouts/procurement/addressbook"
-import ProcurementCreatepo from "./layouts/procurement/createpo"
-import PurchaseOrder from "./layouts/procurement/purchaseorder"
+//import ProcurementIndex from "./layouts/procurement"
+//import ProcurementAddressbook from "./layouts/procurement/addressbook"
+//import ProcurementCreatepo from "./layouts/procurement/createpo"
+//import PurchaseOrder from "./layouts/procurement/purchaseorder"
 import Rewinding from "./layouts/rewinding"
 import Board from "./layouts/rewinding/Board"
+import Output from "./layouts/rewinding/Output"
 //import Billing from "./layouts/billing";
 //import Notifications from "./layouts/notifications";
 //import Profile from "./layouts/profile";
@@ -45,7 +46,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 //import PersonIcon from '@mui/icons-material/Person';
 import LoginIcon from '@mui/icons-material/Login';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+//import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CameraRollIcon from '@mui/icons-material/CameraRoll';
 import RealtimeTable from "./layouts/coating/components/RealtimeTable";
 import SettingTable from "./layouts/coating/components/SettingTable";
@@ -136,37 +137,44 @@ const routes = [
     route: "/rewinding/board",
     component: <Board />,
   },
+  {
+    type: "",
+    name: "Rewinding Output",
+    key: "Rewinding-Output",
+    route: "/rewinding/Output",
+    component: <Output />,
+  },
 
 //Procurement block
-  {
-    type: "collapse",
-    name: "Procurement",
-    key: "procurement",
-    icon: <ShoppingCartIcon fontSize="small" />,
-    route: "/procurement",
-    component: <ProcurementIndex />,
-  },
-  {
-    type: "",
-    name: "Procurement Create Po",
-    key: "Create-PO",
-    route: "/procurement/create-po",
-    component: <ProcurementCreatepo />,
-  },
-  {
-    type: "",
-    name: "Procurement AddressBook",
-    key: "Address-Book",
-    route: "/procurement/address-book",
-    component: <ProcurementAddressbook />,
-  },
-  {
-    type: "",
-    name: "Procurement PurchaseOrder",
-    key: "Purchase-Order",
-    route: "/procurement/purchase-order-list",
-    component: <PurchaseOrder />,
-  }
+  //{
+  //  type: "collapse",
+  //  name: "Procurement",
+  //  key: "procurement",
+  //  icon: <ShoppingCartIcon fontSize="small" />,
+  //  route: "/procurement",
+  //  component: <ProcurementIndex />,
+  //},
+  //{
+  //  type: "",
+  //  name: "Procurement Create Po",
+  //  key: "Create-PO",
+  //  route: "/procurement/create-po",
+  //  component: <ProcurementCreatepo />,
+  //},
+  //{
+  //  type: "",
+  //  name: "Procurement AddressBook",
+  //  key: "Address-Book",
+  //  route: "/procurement/address-book",
+  //  component: <ProcurementAddressbook />,
+  //},
+  //{
+  //  type: "",
+  //  name: "Procurement PurchaseOrder",
+  //  key: "Purchase-Order",
+  //  route: "/procurement/purchase-order-list",
+  //  component: <PurchaseOrder />,
+  //}
 
 
 

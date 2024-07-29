@@ -27,7 +27,7 @@ function TemperatureStaticCard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://api.weatherapi.com/v1/current.json?key=2f8fe0a1e7c8471cb1c43209241902&q=Rawang&aqi=yes');
+                const response = await fetch('https://api.weatherapi.com/v1/current.json?key=2f8fe0a1e7c8471cb1c43209241902&q=rawang&aqi=yes');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');

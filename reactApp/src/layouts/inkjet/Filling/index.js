@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 
 import { supabase } from "../../../lib/supabase";
 
@@ -326,6 +326,9 @@ function Tables() {
   const [startdate, setStartDate] = React.useState(null);
   const [enddate, setEndDate] = React.useState(null);
   const [tableNames, setTableNames] = React.useState();
+  const [solventTotal, setSolvent] = useState();
+  const [waterTotal, setWater] = useState();
+
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -339,19 +342,19 @@ function Tables() {
     setValue(newValue);
     switch (newValue) {
       case 1:
-        setTableNames(["machine_t"]);
+        setTableNames(["ij_machine_t"]);
         break;
       case 2:
-        setTableNames(["machine_m"]);
+        setTableNames(["ij_machine_m"]);
         break;
       case 3:
-        setTableNames(["machine_d"]);
+        setTableNames(["ij_machine_d"]);
         break;
       case 4:
-        setTableNames(["machine_h"]);
+        setTableNames(["ij_machine_h"]);
         break;
       case 5:
-        setTableNames(["machine_c"]);
+        setTableNames(["ij_machine_c"]);
         break;
       default:
         setTableNames([]);
@@ -401,6 +404,10 @@ function Tables() {
 
   useEffect(() => {
     const newTotal = state?.data + state?.mdata + state.cdata + state.hdata +state.ddata; //+ state.data3;
+    const solventT =state?.data + state?.hdata + state?.cdata;
+    const waterT = state?.mdata + state?.ddata;
+    setSolvent(solventT);
+    setWater(waterT);
     dispatch({
       type: "UPDATE_TOTAL",
       payload: newTotal,
@@ -415,11 +422,11 @@ function Tables() {
     }
   }, [value, _value]);
 
-  useDataFetching({ table: `machine_t`, fetchData: fetchData, supabase, dispatch });
-  useDataFetching({ table: `machine_m`, fetchData: fetchData2, supabase, dispatch });
-  useDataFetching({ table: `machine_c`, fetchData: fetchData2, supabase, dispatch });
-  useDataFetching({ table: `machine_h`, fetchData: fetchData2, supabase, dispatch });
-  useDataFetching({ table: `machine_d`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `ij_machine_t`, fetchData: fetchData, supabase, dispatch });
+  useDataFetching({ table: `ij_machine_m`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `ij_machine_c`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `ij_machine_h`, fetchData: fetchData2, supabase, dispatch });
+  useDataFetching({ table: `ij_machine_d`, fetchData: fetchData2, supabase, dispatch });
 
   return (
     <DashboardLayout>
@@ -472,7 +479,7 @@ function Tables() {
                       }}
                       iconColor={"warning"}
                       title={"Water-base"}
-                      description={state?.mdata}
+                      description={waterTotal || null}
                       height={100}
                       chart={piewaterdata}
                     />
@@ -498,7 +505,7 @@ function Tables() {
                       }}
                       iconColor={"primary"}
                       title={"Solvent-base"}
-                      description={state?.data}
+                      description={solventTotal || null}
                       height={100}
                       chart={piesolventdata}
                     />

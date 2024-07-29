@@ -78,7 +78,7 @@ BoardList.defaultProps = {
 
 // Typechecking props for the BoardList
 BoardList.propTypes = {
-  profiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  //profiles: PropTypes.arrayOf(PropTypes.object).isRequired,
   shadow: PropTypes.bool,
 };
 

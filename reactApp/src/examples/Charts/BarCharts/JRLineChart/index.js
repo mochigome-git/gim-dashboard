@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Stack from '@mui/material/Stack';
-import LinearProgress from '@mui/material/LinearProgress';
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";

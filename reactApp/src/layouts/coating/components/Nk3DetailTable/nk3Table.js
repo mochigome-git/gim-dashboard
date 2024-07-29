@@ -102,11 +102,21 @@ const Nk3SelectableDataTable = ({
     if (state.downloadTrigger_NK3) {
       const folderName = `nk3_roll_no:${state.iHSeq}`;
       if (everyFiveMinutes) {
-        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor', 'nk3_4u_fibre_sensor', 'nk3_main_pressure_sensor']
+        const tableNames = [
+          'ct_nk3_log_data_storage', 
+          'ct_nk3_2u_fibre_sensor', 
+          'ct_nk3_4u_fibre_sensor', 
+          'ct_nk3_main_pressure_sensor'
+        ]
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, true);
       }
       if (!everyFiveMinutes) {
-        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor', 'nk3_4u_fibre_sensor', 'nk3_main_pressure_sensor']
+        const tableNames = [
+          'ct_nk3_log_data_storage', 
+          'ct_nk3_2u_fibre_sensor', 
+          'ct_nk3_4u_fibre_sensor', 
+          'ct_nk3_main_pressure_sensor'
+        ]
         dataCSVmultiTable(state.Ddate, state.iHSeq, tableNames, folderName, false);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });
@@ -145,11 +155,21 @@ const Nk3SelectableDataTable = ({
       }
 
       if (everyFiveMinutes) {
-        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor', 'nk3_4u_fibre_sensor', 'nk3_main_pressure_sensor']
+        const tableNames = [
+          'ct_nk3_log_data_storage', 
+          'ct_nk3_2u_fibre_sensor', 
+          'ct_nk3_4u_fibre_sensor', 
+          'ct_nk3_main_pressure_sensor'
+        ]
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, true);
       }
       if (!everyFiveMinutes) {
-        const tableNames = ['nk3_log_data_storage', 'nk3_2u_fibre_sensor', 'nk3_4u_fibre_sensor', 'nk3_main_pressure_sensor']
+        const tableNames = [
+          'ct_nk3_log_data_storage', 
+          'ct_nk3_2u_fibre_sensor', 
+          'ct_nk3_4u_fibre_sensor', 
+          'ct_nk3_main_pressure_sensor'
+        ]
         multipleDataCSVmultiTable(combinedCreatedAtProp, combinedDataToPass, tableNames, folderName, false);
       }
       dispatch({ type: 'SET_SUCCESS', payload: true });

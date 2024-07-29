@@ -1,4 +1,3 @@
-
 // @mui material components
 import Card from "@mui/material/Card";
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -13,7 +12,7 @@ import CoverLayout from "../components/CoverLayout";
 
 // Supabase ccomponents
 import { supabase } from "../../../lib/supabase";
-import { Auth } from '@supabase/auth-ui-react'
+import { Auth } from '../../../components/MDLogin'
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 // Images
@@ -45,7 +44,9 @@ function Login() {
           </MDBox>
           <Auth
             supabaseClient={supabase}
-            redirectTo="http://192.168.0.6:3001/authentication/reset-password"
+            providers={["github", "google", "azure"]}
+
+            redirectTo="https://www.general-my.com/authentication/reset-password"
             //highlight-start
             appearance={{ theme: ThemeSupa, style: { anchor: { color: 'grey' } } }}
             theme="dark"
@@ -74,4 +75,3 @@ function Login() {
 }
 
 export default Login;
-

@@ -1,0 +1,100 @@
+//import { SupabaseClient } from '@supabase/supabase-js'
+import React, { useState } from 'react'
+import { VIEWS, /*I18nVariables, RedirectTo, en*/ } from '@supabase/auth-ui-shared'
+//import { Appearance } from '../../../types'
+import {
+  Anchor,
+  Button,
+  Container,
+  Input,
+  Label,
+  Message,
+} from './../../UI/index.js'
+
+function MagicLink({
+  setAuthView = () => { },
+  supabaseClient,
+  redirectTo,
+  i18n,
+  appearance,
+  showLinks = false,
+}) {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleMagicLinkSignIn = async (e) => {
+    e.preventDefault()
+    setError('')
+    setMessage('')
+    setLoading(true)
+
+    if (email.length === 0) {
+      setError(i18n?.magic_link?.empty_email_address)
+      setLoading(false)
+      return
+    }
+    const { error } = await supabaseClient.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: redirectTo },
+    })
+    if (error) setError(error.message)
+    else setMessage(i18n?.magic_link?.confirmation_text)
+    setLoading(false)
+  }
+
+  const labels = i18n?.magic_link
+
+  return (
+    <form id="auth-magic-link" onSubmit={handleMagicLinkSignIn}>
+      <Container gap="large" direction="vertical" appearance={appearance}>
+        <div>
+          <Label htmlFor="email" appearance={appearance}>
+            {labels?.email_input_label}
+          </Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoFocus
+            placeholder={labels?.email_input_placeholder}
+            onChange={(e) => {
+              if (setError) setError('')
+              setEmail(e.target.value)
+            }}
+            appearance={appearance}
+          />
+        </div>
+        <Button
+          color="primary"
+          type="submit"
+          loading={loading}
+          appearance={appearance}
+        >
+          {loading ? labels?.loading_button_label : labels?.button_label}
+        </Button>
+        {showLinks && (
+          <Anchor
+            href="#auth-sign-in"
+            onClick={(e) => {
+              e.preventDefault()
+              setAuthView(VIEWS.SIGN_IN)
+            }}
+            appearance={appearance}
+          >
+            {i18n?.sign_in?.link_text}
+          </Anchor>
+        )}
+        {message && <Message appearance={appearance}>{message}</Message>}
+        {error && (
+          <Message color="danger" appearance={appearance}>
+            {error}
+          </Message>
+        )}
+      </Container>
+    </form>
+  )
+}
+
+export { MagicLink }

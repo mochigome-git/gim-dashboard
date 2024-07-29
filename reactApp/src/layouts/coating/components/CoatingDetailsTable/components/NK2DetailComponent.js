@@ -34,7 +34,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-            field={nk2.detail}
+            field={nk2?.detail}
             chartProps={{
               fieldNames: ["Unwinding", "Out-Feed", "1u", "2U", "3U", "4U", "Winding"],
               fields: ["d608", "d609", "d610", "d611", "d612", "d613", "d614"],
@@ -50,7 +50,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-            field={nk2.detail}
+            field={nk2?.detail}
             chartProps={{
               fieldNames: ["1D1Z", "1D2Z", "2D1Z", "2D2Z", "3D1Z", "3D2Z", "4D1Z", "4D2Z", "4D3Z"],
               fields: ["d800", "d802", "d804", "d806", "d808", "d810", "d812", "d814", "d816"],
@@ -66,7 +66,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-            field={nk2.detail}
+            field={nk2?.detail}
             chartProps={{
               fieldNames: ["Unwinding", "Out-Feed", "1u G", "2U G-r", "3U G-r", "4U G-r", "Winding"],
               fields: ["d534", "d536", "d538", "d540", "d542", "d544", "d546"],
@@ -81,7 +81,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-            field={nk2.fibre_sensor_2u}
+            field={nk2?.fibre_sensor_2u}
             chartProps={{
               fieldNames: ["Sensor1"],
               fields: ["sensor1"],
@@ -96,7 +96,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-               field={nk2.fibre_sensor_4u}
+               field={nk2?.fibre_sensor_4u}
             chartProps={{
               fieldNames: ["Sensor1", "Sensor2", "Sensor3"],
               fields: ["sensor1", "sensor2", "sensor3"],
@@ -112,7 +112,7 @@ const NK2DetailComponent = (data) => {
       <Grid item xs={12} md={12} lg={4}>
         <MDBox mb={3}>
           <Nk2ChartData
-            field={nk2.main_pressure_sensor}
+            field={nk2?.main_pressure_sensor}
             chartProps={{
               fieldNames: ["mpa"],
               fields: ["mpa"],

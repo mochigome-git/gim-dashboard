@@ -364,10 +364,6 @@ function SelectableDataTable({
                   width={column.width ? column.width : "auto"}
                   align={column.align ? column.align : "left"}
                   sorted={setSortedValue(column)}
-                  fontColor={(theme) => darkMode
-                    ? theme.palette.white.main
-                    : theme.palette.dark.main
-                  }
                 >
                   {column.render("Header")}
                 </SelectableDataTableHeadCell>
@@ -426,10 +422,6 @@ function SelectableDataTable({
                     align={cell.column.align ? cell.column.align : "left"}
                     isSelected={isItemSelected}
                     {...cell.getCellProps()}
-                    fontColor={(theme) => darkMode
-                      ? theme.palette.white.main
-                      : theme.palette.dark.main
-                    }
                   >
                     {cell.render("Cell")}
                   </SelectableDataTableBodyCell>

@@ -14,7 +14,7 @@ export const Machine_t_degas_Data = () => {
       { Header: "Average Flow", accessor: "pica1_average", width: "1%", align: "left" },
     ],
 
-    rows: machineT.degas
+    rows: machineT?.degas
   };
 }
 

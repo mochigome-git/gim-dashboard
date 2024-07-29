@@ -86,6 +86,7 @@ const NK2Component = () => {
             divide: 10,
             title: "濃度 4U Density",
             reverse: true,
+            ymax: 1000,
           }}
           renderDetailsChart={renderDetailsChart}
         />

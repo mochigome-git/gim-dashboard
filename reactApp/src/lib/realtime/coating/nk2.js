@@ -38,10 +38,10 @@ const NK2Provider = ({ children }) => {
   const fetchData = async () => {
     fetchNk2Index(setState, state);
     fetchNk2Details(setState, state);
-    fetchTableData('nk2_log_data_storage', 'nk2Data', setState);
-    fetchTableData('nk2_2u_fibre_sensor', 'nk2_2u_fibre_sensor', setState, -8);
-    fetchTableData('nk2_main_pressure_sensor', 'nk2PressureSensor', setState, -8);
-    fetchTableData('nk2_4u_fibre_sensor', 'nk2_4u_fibre_sensor', setState, -8);
+    fetchTableData('ct_nk2_log_data_storage', 'nk2Data', setState, -8);
+    fetchTableData('ct_nk2_2u_fibre_sensor', 'nk2_2u_fibre_sensor', setState, -7);
+    fetchTableData('ct_nk2_main_pressure_sensor', 'nk2PressureSensor', setState, -7);
+    fetchTableData('ct_nk2_4u_fibre_sensor', 'nk2_4u_fibre_sensor', setState, -7);
     // Add more data-fetching functions as needed
   };
 
@@ -50,8 +50,8 @@ const NK2Provider = ({ children }) => {
       fetchData();
 
       const subscriptions = [
-        setupSubscription("nk2_log_data_storage", "nk2_log_data_storage", fetchData),
-        setupSubscription("coating_model", "coating_model", fetchData),
+        setupSubscription("ct_nk2_log_data_storage", "nk2_log_data_storage", fetchData),
+        setupSubscription("ct_coating_model", "coating_model", fetchData),
         // Add more subscriptions as needed
       ];
 

@@ -37,7 +37,7 @@ const AssemblyProvider = ({ children }) => {
     };
 
     const subscriptions = [
-      setupSubscription("assembly_line_count", "assembly_line_count", fetchAssemblyData),
+      setupSubscription("as_line1_count", "as_line1_count", fetchAssemblyData),
     ];
     return () => {
         if(state.subscription){

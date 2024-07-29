@@ -13,7 +13,7 @@ export const Machine_h_daily_Data = () => {
       { Header: "quantity", accessor: "total", width: "1%", align: "left" },
     ],
 
-    rows: machineH.records
+    rows: machineH?.records
   };
 }
 

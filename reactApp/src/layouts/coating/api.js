@@ -125,16 +125,16 @@ export const dataCSVmultiTable = async (
         selectedData !== undefined
       ) {
         switch (currentTableName) {
-          case "nk2_log_data_storage":
+          case "ct_nk2_log_data_storage":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements);
             break;
-          case "nk2_4u_fibre_sensor":
+          case "ct_nk2_4u_fibre_sensor":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
             break;
-          case "nk2_main_pressure_sensor":
+          case "ct_nk2_main_pressure_sensor":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
             break;
-          case "nk3_log_data_storage":
+          case "ct_nk3_log_data_storage":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements);
             break;
           default:
@@ -232,16 +232,16 @@ export const multipleDataCSVmultiTable = async (
       // Check if a valid table name is provided and data is not null
       if (currentTableName && allData !== null && allData !== undefined) {
         switch (currentTableName) {
-          case "nk2_log_data_storage":
+          case "ct_nk2_log_data_storage":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements);
             break;
-          case "nk2_4u_fibre_sensor":
+          case "ct_nk2_4u_fibre_sensor":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements2);
             break;
-          case "nk2_main_pressure_sensor":
+          case "ct_nk2_main_pressure_sensor":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements3);
             break;
-          case "nk3_log_data_storage":
+          case "ct_nk3_log_data_storage":
             newHeader = replaceHeaderColumnNames(columns, columnReplacements);
             break;
           default:

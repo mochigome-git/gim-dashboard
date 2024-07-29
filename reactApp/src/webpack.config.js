@@ -22,22 +22,22 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
-      { 
-        test: /\.tsx?$/, 
-        use: ['ts-loader', 'babel-loader', 'html-loader'], 
-        exclude: /node_modules/ 
+      {
+        test: /\.tsx?$/,
+        use: ['ts-loader', 'babel-loader', 'html-loader'],
+        exclude: /node_modules/
       },
-      { 
-        test: /\.jsx?$/, 
+      {
+        test: /\.jsx?$/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
-        }, 
-        exclude: /node_modules/ 
+        },
+        exclude: /node_modules/
       },
-      { 
+      {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
@@ -45,10 +45,27 @@ module.exports = {
           },
         ],
       },
-      { 
+      {
+        test: /\.mp3$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-    ]    
+      {
+        test: /\.html$/,
+        use: 'html-loader',
+      },
+    ]
   }
 };

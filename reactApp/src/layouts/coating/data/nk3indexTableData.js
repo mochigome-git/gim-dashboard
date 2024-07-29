@@ -14,7 +14,7 @@ export default function Nk3IndexTableData() {
       { Header: "widing length", accessor: "d676", align: "left" },
     ],
 
-    rows: nk3.index
+    rows: nk3?.index
   };
 }
 

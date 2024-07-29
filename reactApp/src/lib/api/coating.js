@@ -5,13 +5,13 @@ export const fetchNk2Index = async (setState) => {
   const today = new Date().toISOString().split("T")[0];
 
   try {
-    const { data: data1, error: error1 } = await supabase.rpc("get_nk2_index");
+    const { data: data1, error: error1 } = await supabase.rpc("get_ct_nk2_index");
     const { data: data2, error: error2 } = await supabase
-      .rpc("get_nk2_index")
+      .rpc("get_ct_nk2_index")
       .select("*")
       .gte("created_at", today);
     const { data: data3, error: error3 } = await supabase
-      .rpc("get_nk2_index")
+      .rpc("get_ct_nk2_index")
       .select("d676, created_at");
 
     if (error1 || error2 || error3) {
@@ -40,7 +40,7 @@ export const fetchNk2Details = async (setState, date, seq) => {
     //  seq: seq, date_at: date,
     //});
     const { data: data1, error: error1 } = await supabase
-      .from("nk2_log_data_storage")
+      .from("ct_nk2_log_data_storage")
       .select(
         "d608, d609, d610, d611, d612, d613, d614,d800, d802, d804, d806, d808, d810, d812, d814, d816,d534, d536, d538, d540, d542, d544, d546,created_at, i_h_seq"
       )
@@ -50,28 +50,28 @@ export const fetchNk2Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data2, error: error2 } = await supabase.rpc(
-      "get_nk2_2u_fibre_sensor",
+      "get_ct_nk2_2u_fibre_sensor_bydate",
       {
         seq: seq,
         date_at: date,
       }
     );
     const { data: data3, error: error3 } = await supabase.rpc(
-      "get_nk2_4u_fibre_sensor",
+      "get_ct_nk2_4u_fibre_sensor_bydate",
       {
         seq: seq,
         date_at: date,
       }
     );
     const { data: data5, error: error5 } = await supabase.rpc(
-      "get_nk2_main_pressure_sensor",
+      "get_ct_nk2_main_pressure_sensor",
       {
         seq: seq,
         date_at: date,
       }
     );
     const { data: data6, error: error6 } = await supabase
-      .from("nk2_log_data_storage")
+      .from("ct_nk2_log_data_storage")
       .select("c_lot_no, d614, created_at, i_h_seq")
       .gt("d614", 190)
       .gte("created_at", `${date}T00:00:00.000Z`)
@@ -80,7 +80,7 @@ export const fetchNk2Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data7, error: error7 } = await supabase
-      .from("nk2_log_data_storage")
+      .from("ct_nk2_log_data_storage")
       .select("c_lot_no, d650, created_at, d676")
       .gte("created_at", `${date}T00:00:00.000Z`)
       .lt("created_at", `${nextDay(date)}T00:00:00.000Z`)
@@ -91,6 +91,7 @@ export const fetchNk2Details = async (setState, date, seq) => {
     if (error1 || error2 || error3 || error5 || error6 || error7) {
       throw error1 || error2 || error3 || error5 || error6 || error7;
     }
+
     setState((prevState) => ({
       ...prevState,
       nk2: {
@@ -130,7 +131,7 @@ function nextDay(currentDate) {
 // Fetch Coating-NK 3 Index list Data
 export const fetchNk3Index = async (setState) => {
   try {
-    const { data: data1, error: error1 } = await supabase.rpc("get_nk3_index");
+    const { data: data1, error: error1 } = await supabase.rpc("get_ct_nk3_index");
     if (error1) {
       throw error1;
     }
@@ -152,7 +153,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
     //  seq: seq, date_at: date,
     //});
     const { data: data1, error: error1 } = await supabase
-      .from("nk3_log_data_storage")
+      .from("ct_nk3_log_data_storage")
       .select(
         "d608, d609, d610, d611, d612, d613, d614,d800, d802, d804, d806, d808, d810, d812, d814, d816,d534, d536, d538, d540, d542, d544, d546,created_at, i_h_seq"
       )
@@ -162,7 +163,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data2, error: error2 } = await supabase.rpc(
-      "get_nk3_2u_fibre_sensor",
+      "get_ct_nk3_2u_fibre_sensor_bydate",
       {
         seq: seq,
         date_at: date,
@@ -170,7 +171,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
     );
 
     const { data: data3, error: error3 } = await supabase
-      .from("nk3_4u_fibre_sensor")
+      .from("ct_nk3_4u_fibre_sensor")
       .select("*")
       .gte("created_at", `${date}T00:00:00.000Z`)
       .lt("created_at", `${nextDay(date)}T00:00:00.000Z`)
@@ -178,7 +179,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data4, error: error4 } = await supabase
-      .from("nk3_main_pressure_sensor")
+      .from("ct_nk3_main_pressure_sensor")
       .select("*")
       .gte("created_at", `${date}T00:00:00.000Z`)
       .lt("created_at", `${nextDay(date)}T00:00:00.000Z`)
@@ -186,7 +187,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data5, error: error5 } = await supabase
-      .from("nk3_log_data_storage")
+      .from("ct_nk3_log_data_storage")
       .select("d614, created_at, i_h_seq")
       .gt("d614", 190)
       .gte("created_at", `${date}T00:00:00.000Z`)
@@ -195,7 +196,7 @@ export const fetchNk3Details = async (setState, date, seq) => {
       .order("created_at");
 
     const { data: data6, error: error6 } = await supabase
-      .from("nk3_log_data_storage")
+      .from("ct_nk3_log_data_storage")
       .select("i_h_seq, d650, created_at, d676")
       .gte("created_at", `${date}T00:00:00.000Z`)
       .lt("created_at", `${nextDay(date)}T00:00:00.000Z`)
@@ -238,50 +239,50 @@ export const fetchNk3Details = async (setState, date, seq) => {
 };
 
 // Fetch Multiple Coating-NK 3 Production Data
-export const fetchNK3MultipleDetails = async (setState, state) => {
-  const { multipledetailsData } = state;
-  const { date, seq1, seq2 } = multipledetailsData || {};
-
-  if (!date || !seq1 || !seq2) {
-    return;
-  }
-
-  try {
-    const { data: data14, error: error14 } = await supabase.rpc(
-      "get_nk3_multipledetails",
-      {
-        seq1: seq1,
-        seq2: seq2,
-        date_at: date,
-      }
-    );
-    const { data: data15, error: error15 } = await supabase.rpc(
-      "get_nk3_multipledetails_5min",
-      {
-        seq1: seq1,
-        seq2: seq2,
-        date_at: date,
-      }
-    );
-    if (error14 || error15) {
-      throw error14 || error15;
-    }
-
-    setState((prevState) => ({
-      ...prevState,
-      nk3_multipledetail: data14,
-      nk3_multipledetail_5min: data15,
-    }));
-  } catch (error) {
-    alert(error.message);
-  }
-};
+//export const fetchNK3MultipleDetails = async (setState, state) => {
+//  const { multipledetailsData } = state;
+//  const { date, seq1, seq2 } = multipledetailsData || {};
+//
+//  if (!date || !seq1 || !seq2) {
+//    return;
+//  }
+//
+//  try {
+//    const { data: data14, error: error14 } = await supabase.rpc(
+//      "get_nk3_multipledetails",
+//      {
+//        seq1: seq1,
+//        seq2: seq2,
+//        date_at: date,
+//      }
+//    );
+//    const { data: data15, error: error15 } = await supabase.rpc(
+//      "get_nk3_multipledetails_5min",
+//      {
+//        seq1: seq1,
+//        seq2: seq2,
+//        date_at: date,
+//      }
+//    );
+//    if (error14 || error15) {
+//      throw error14 || error15;
+//    }
+//
+//    setState((prevState) => ({
+//      ...prevState,
+//      nk3_multipledetail: data14,
+//      nk3_multipledetail_5min: data15,
+//    }));
+//  } catch (error) {
+//    alert(error.message);
+//  }
+//};
 
 export const fetchTableData = async (
   table,
   stateName,
   setState,
-  hoursOffset = 0
+  hoursOffset = 0,
 ) => {
   try {
     // Calculate the datetime with the specified hours offset from now
@@ -335,7 +336,9 @@ export const checkRange = async (settingFields) => {
           // Fetch the key column value from the main table
           const { data: mainTableData, error: mainTableError } = await supabase
             .from(setting.tableName)
-            .select(`${setting.p_key_column}, d392`);
+            .select(`${setting.p_key_column}, d392`)
+            .order('created_at', { ascending: false })
+            .limit(1);
 
           if (mainTableError) {
             throw mainTableError;
@@ -347,7 +350,7 @@ export const checkRange = async (settingFields) => {
           // Fetch the coating model data
           const { data: coatingModelData, error: coatingModelError } =
             await supabase
-              .from("coating_model")
+              .from("ct_coating_model")
               .select(setting.p_column)
               .eq("id", setting.p_id);
 
@@ -382,7 +385,7 @@ export const checkRange = async (settingFields) => {
 export const modelMenu = async (setState) => {
   try {
     const { data, error } = await supabase
-      .from("coating_model")
+      .from("ct_coating_model")
       .select("id, model_name");
 
     if (error) {

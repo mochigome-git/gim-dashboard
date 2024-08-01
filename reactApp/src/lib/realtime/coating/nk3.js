@@ -14,7 +14,7 @@ const NK3Provider = ({ children }) => {
 
   const setupSubscription = (channel, table, callback) => {
     return subscribeToChannel(channel, table, (payload) => {
-      if (channel === "nk3_log_data_storage") {
+      if (channel === "ct_nk3_log_data_storage") {
         callback(setState);
         //console.log(payload);
       }
@@ -43,7 +43,8 @@ const NK3Provider = ({ children }) => {
       fetchData();
 
       const subscriptions = [
-        setupSubscription("ct_nk3_log_data_storage", "nk3_log_data_storage", fetchData),
+        setupSubscription("ct_nk3_log_data_storage", "ct_nk3_log_data_storage", fetchData),
+        setupSubscription("ct_coating_model", "ct_coating_model", fetchData),
         // Add more subscriptions as needed
       ];
 

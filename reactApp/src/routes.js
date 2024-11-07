@@ -27,6 +27,7 @@ import Resetpassword from "./layouts/authentication/reset-password/cover/index"
 import InkjetIndex from "./layouts/inkjet/"
 import InkjetWeighing from "./layouts/inkjet/Weighing";
 import InkjetFilling from "./layouts/inkjet/Filling";
+import InkjetCoding from "./layouts/inkjet/Coding";
 //import ProcurementIndex from "./layouts/procurement"
 //import ProcurementAddressbook from "./layouts/procurement/addressbook"
 //import ProcurementCreatepo from "./layouts/procurement/createpo"
@@ -119,6 +120,14 @@ const routes = [
     icon: <ReceiptLongIcon fontSize="small" />,
     route: "/inkjet/filling",
     component: <InkjetFilling />,
+  },
+  {
+    type: "",
+    name: "Inkjet Coding",
+    key: "inkjet/coding",
+    icon: <ReceiptLongIcon fontSize="small" />,
+    route: "/inkjet/coding",
+    component: <InkjetCoding />,
   },
 
 //Rewinding block

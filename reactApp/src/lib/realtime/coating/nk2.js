@@ -1,5 +1,5 @@
 import { supabase } from "../../supabase";
-import { createContext, useEffect, useState, useMemo } from "react";
+import { createContext, useEffect, useState } from "react";
 import { initialState } from "../../reducer";
 import {
   fetchNk2Index,

@@ -53,6 +53,7 @@ export const initialState = {
   ij_latest_detail_no1: [],
   ij_index_no1: [],
   codingLatestData: [],
+  ij_coding_log: [],
   //..Machine T
   machine_t: [],
   machine_tRecords: [],

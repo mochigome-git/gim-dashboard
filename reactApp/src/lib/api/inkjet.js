@@ -220,3 +220,25 @@ export const fetchIJWeightDetail = async (setState, state) => {
     alert(error.message);
   }
 };
+
+
+// Fetch Inkjet Coding Log
+export const fetchIJCodingRecord = async (setState) => {
+  try {
+    const { data: data1, error: error1 } = await supabase
+    .from("ij_coding_log_ver1")
+    .select("*")
+    .order("created_at", { ascending: false});
+
+    if (error1) {
+      throw error1;
+    }
+    //console.log(data1)
+    setState((prevState) => ({
+      ...prevState,
+      ij_coding_log: data1,
+    }));
+  } catch (error) {
+    alert(error.message);
+  }
+};

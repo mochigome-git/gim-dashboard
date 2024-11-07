@@ -3,6 +3,12 @@ import React, { useEffect, useContext, useState } from "react";
 import TemperatureCard from "../../../../examples/Cards/StatisticsCards/TemperatureCard";
 import { TempContext } from "../../../../lib/realtime/temp/temp_realtime";
 
+import rainGif from "../../../../assets/images/gif/calm-5979_256.gif";
+import cloudGif from "../../../../assets/images/gif/tenor.gif"
+import clearGif from "../../../../assets/images/gif/clear.gif"
+import thunderstormGif from "../../../../assets/images/gif/thunderstorm.gif"
+import sunnyGif from "../../../../assets/images/gif/sunny.gif"
+
 function TemperatureStaticCard() {
     const { tempData, setArea } = useContext(TempContext);
 
@@ -53,25 +59,24 @@ function TemperatureStaticCard() {
                 break;
             case "Clouds":
             case "Partly cloudy":
-                setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/clouds.gif')");
-                break;
+                setBGGif(`url(${cloudGif})`);
             case "Fog":
             case "Mist":
                 setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/fog.gif')");
                 break;
             case "Moderate or heavy rain with thunder": 
             case "Rain":
-                setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/rain.gif')");
+                setBGGif(`url(${rainGif})`);
                 break;
             case "Clear":
-                setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')");
+                setBGGif(`url(${clearGif})`);
                 break;
             case "Thunderstorm":
             case "Patchy light rain with thunder":
-                setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/thunderstorm.gif')");
+                setBGGif(`url(${thunderstormGif})`);
                 break;
             default:
-                setBGGif("url('https://mdbgo.io/ascensus/mdb-advanced/img/clear.gif')");
+                setBGGif(`url(${sunnyGif})`);
                 break;
         }
     }, [data]);

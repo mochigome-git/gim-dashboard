@@ -34,6 +34,10 @@ function InkjetHome() {
     navigate("/inkjet/filling");
   };
 
+  const handlecodingTabClick = () => {
+    navigate("/inkjet/coding");
+  };
+
   return (
     <Card id="home">
       <MDBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
@@ -143,6 +147,7 @@ function InkjetHome() {
                       padding: 3
                     }}
                     icon={<TerminalIcon fontSize="large" />}
+                    onClick={handlecodingTabClick}
                   />
                 </Tabs>
               </AppBar>

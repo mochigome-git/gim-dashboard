@@ -20,7 +20,7 @@ function PoDetailCards({ color, title, icon, value }) {
       alignItems="center"
       justifyContent="space-around"
       pt={3}
-      px={5}
+      px={1}
       pb={3}
       md={8}
     >

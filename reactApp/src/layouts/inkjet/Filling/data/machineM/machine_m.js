@@ -60,6 +60,36 @@ export const Machine_MData = () => {
         },
       },
       {
+        Header: "ch1 filing weight(g)",
+        accessor: "ch1_weighing",
+        width: "1%",
+        align: "left",
+        Cell: ({ value }) => {
+          const formattedValue = (Number(value) / 100).toFixed(2);
+          return formattedValue;
+        },
+      },
+      {
+        Header: "ch2 filing weight(g)",
+        accessor: "ch2_weighing",
+        width: "1%",
+        align: "left",
+        Cell: ({ value }) => {
+          const formattedValue = (Number(value) / 100).toFixed(2);
+          return formattedValue;
+        },
+      },
+      {
+        Header: "ch3 filing weight(g)",
+        accessor: "ch3_weighing",
+        width: "1%",
+        align: "left",
+        Cell: ({ value }) => {
+          const formattedValue = (Number(value) / 100).toFixed(2);
+          return formattedValue;
+        },
+      },
+      {
         Header: "quantity",
         accessor: ({ counter }) => {
           const formattedCounter = (counter - counter + 3);
